@@ -9,7 +9,7 @@ import {
   Drawer,
   Hidden,
   List,
-  Typography
+  Typography,
 } from '@material-ui/core';
 import {
   AlertCircle as AlertCircleIcon,
@@ -19,61 +19,87 @@ import {
   ShoppingBag as ShoppingBagIcon,
   User as UserIcon,
   UserPlus as UserPlusIcon,
-  Users as UsersIcon
+  Users as UsersIcon,
 } from 'react-feather';
+import { makeStyles } from '@material-ui/styles';
+
 import NavItem from './NavItem';
+
+const useStyles = makeStyles((theme) => ({
+  Drawer: {
+    '& .MuiDrawer-paper': {
+      top: 0,
+    },
+  },
+}));
 
 const user = {
   avatar: '/static/images/avatars/avatar_6.png',
   jobTitle: 'Senior Developer',
-  name: 'Katarina Smith'
+  name: 'Katarina Smith',
 };
 
 const items = [
   {
-    href: '/app/dashboard',
+    href: '/app/Accueil',
     icon: BarChartIcon,
-    title: 'Dashboard'
+    title: 'Accueil',
   },
   {
-    href: '/app/customers',
+    href: '/app/profile',
     icon: UsersIcon,
-    title: 'Customers'
+    title: 'Mon proﬁl',
   },
   {
-    href: '/app/products',
+    href: '/app/clients',
     icon: ShoppingBagIcon,
-    title: 'Products'
+    title: 'Gestion des clients',
   },
   {
-    href: '/app/account',
+    href: '/app/Offres',
     icon: UserIcon,
-    title: 'Account'
+    title: 'Offres',
   },
   {
-    href: '/app/settings',
+    href: '/app/Inscriptions',
     icon: SettingsIcon,
-    title: 'Settings'
+    title: 'Inscriptions',
   },
   {
-    href: '/login',
+    href: '/Catégories',
     icon: LockIcon,
-    title: 'Login'
+    title: 'Catégories',
   },
   {
-    href: '/register',
+    href: '/Boutique',
     icon: UserPlusIcon,
-    title: 'Register'
+    title: 'Boutique',
   },
   {
-    href: '/404',
+    href: '/Paiements',
     icon: AlertCircleIcon,
-    title: 'Error'
-  }
+    title: 'Paiements',
+  },
+  {
+    href: '/blog',
+    icon: AlertCircleIcon,
+    title: 'Gestion du blog',
+  },
+  {
+    href: '/reviews',
+    icon: AlertCircleIcon,
+    title: 'Avis & commentaires',
+  },
+  {
+    href: '/staffer',
+    icon: AlertCircleIcon,
+    title: 'Gestion des staffers',
+  },
 ];
 
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
+  const classes = useStyles();
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
@@ -86,7 +112,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        height: '100%'
+        height: '100%',
       }}
     >
       <Box
@@ -94,27 +120,36 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           alignItems: 'center',
           display: 'flex',
           flexDirection: 'column',
-          p: 2
+          p: 2,
+          mb: 2,
+          mt: 2,
         }}
       >
-        <Avatar
-          component={RouterLink}
-          src={user.avatar}
-          sx={{
-            cursor: 'pointer',
-            width: 64,
-            height: 64
-          }}
-          to="/app/account"
-        />
-        <Typography color="textPrimary" variant="h5">
-          {user.name}
+        <Typography
+          color='textPrimary'
+          variant='h5'
+          style={{ marginBottom: '2rem' }}
+        >
+          Interface d’administration
         </Typography>
-        <Typography color="textSecondary" variant="body2">
+        <Typography color='textSecondary' variant='body2'>
           {user.jobTitle}
         </Typography>
       </Box>
-      <Divider />
+      {/* <Divider /> */}
+      <Typography
+        variant='h5'
+        style={{
+          width: '100%',
+          backgroundColor: 'rgb(77, 77, 77)',
+          color: '#fff',
+          padding: 20,
+          textAlign: 'center',
+        }}
+      >
+        Tableau de bord
+      </Typography>
+
       <Box sx={{ p: 2 }}>
         <List>
           {items.map((item) => (
@@ -132,27 +167,27 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         sx={{
           backgroundColor: 'background.default',
           m: 2,
-          p: 2
+          p: 2,
         }}
       >
-        <Typography align="center" gutterBottom variant="h4">
+        <Typography align='center' gutterBottom variant='h4'>
           Need more?
         </Typography>
-        <Typography align="center" variant="body2">
+        <Typography align='center' variant='body2'>
           Upgrade to PRO version and access 20 more screens
         </Typography>
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'center',
-            pt: 2
+            pt: 2,
           }}
         >
           <Button
-            color="primary"
-            component="a"
-            href="https://react-material-kit.devias.io"
-            variant="contained"
+            color='primary'
+            component='a'
+            href='https://react-material-kit.devias.io'
+            variant='contained'
           >
             See PRO version
           </Button>
@@ -165,14 +200,14 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
     <>
       <Hidden mdUp>
         <Drawer
-          anchor="left"
+          anchor='left'
           onClose={onMobileClose}
           open={openMobile}
-          variant="temporary"
+          variant='temporary'
           PaperProps={{
             sx: {
-              width: 256
-            }
+              width: 256,
+            },
           }}
         >
           {content}
@@ -180,16 +215,17 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
       </Hidden>
       <Hidden mdDown>
         <Drawer
-          anchor="left"
+          anchor='left'
           open
-          variant="persistent"
+          variant='persistent'
           PaperProps={{
             sx: {
               width: 256,
               top: 64,
-              height: 'calc(100% - 64px)'
-            }
+              height: 'calc(100% - 64px)',
+            },
           }}
+          className={classes.Drawer}
         >
           {content}
         </Drawer>
@@ -200,12 +236,12 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
 
 DashboardSidebar.propTypes = {
   onMobileClose: PropTypes.func,
-  openMobile: PropTypes.bool
+  openMobile: PropTypes.bool,
 };
 
 DashboardSidebar.defaultProps = {
   onMobileClose: () => {},
-  openMobile: true
+  openMobile: true,
 };
 
 export default DashboardSidebar;
