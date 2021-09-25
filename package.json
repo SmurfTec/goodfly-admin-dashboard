@@ -1,9 +1,10 @@
 {
-  "name": "react-material-dashboard",
-  "author": "DeviasIO",
+  "name": "goodfly-admin-dashboard",
+  "author": "UAhmadSoft , MuhammadZain8",
   "licence": "MIT",
   "version": "1.0.0",
-  "private": false,
+  "private": true,
+  "repository": "https://github.com/SmurfTec/goodfly-admin-dashboard",
   "scripts": {
     "eslint": "eslint ./src",
     "eslint-fix": "eslint --fix ./src",
