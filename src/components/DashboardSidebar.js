@@ -20,8 +20,18 @@ import {
   User as UserIcon,
   UserPlus as UserPlusIcon,
   Users as UsersIcon,
+  LogOut as LogoutIcon,
+  Bell as BellIcon,
+  Edit2 as Edit2Icon,
+  Columns as ColumnsIcon,
+  CreditCard as CreditCardIcon,
+  Briefcase as BriefCaseIcon,
+  Bold as BoldIcon,
+  Home as HomeIcon,
+  AlignJustify as AlignJustifyIcon,
 } from 'react-feather';
 import { makeStyles } from '@material-ui/styles';
+import logo from 'Assets/img/airplane.svg';
 
 import NavItem from './NavItem';
 
@@ -42,22 +52,28 @@ const user = {
 const items = [
   {
     href: '/app/Accueil',
-    icon: BarChartIcon,
+    icon: HomeIcon,
     title: 'Accueil',
   },
   {
     href: '/app/profile',
-    icon: UsersIcon,
+    icon: UserIcon,
     title: 'Mon proﬁl',
   },
   {
+    href: '/app/notifications',
+    icon: BellIcon,
+    title: 'Notifications',
+  },
+
+  {
     href: '/app/clients',
-    icon: ShoppingBagIcon,
+    icon: UsersIcon,
     title: 'Gestion des clients',
   },
   {
     href: '/app/Offres',
-    icon: UserIcon,
+    icon: Edit2Icon,
     title: 'Offres',
   },
   {
@@ -67,32 +83,32 @@ const items = [
   },
   {
     href: '/Catégories',
-    icon: LockIcon,
+    icon: ColumnsIcon,
     title: 'Catégories',
   },
   {
     href: '/Boutique',
-    icon: UserPlusIcon,
+    icon: ShoppingBagIcon,
     title: 'Boutique',
   },
   {
     href: '/Paiements',
-    icon: AlertCircleIcon,
+    icon: CreditCardIcon,
     title: 'Paiements',
   },
   {
     href: '/blog',
-    icon: AlertCircleIcon,
+    icon: BoldIcon,
     title: 'Gestion du blog',
   },
   {
     href: '/reviews',
-    icon: AlertCircleIcon,
+    icon: AlignJustifyIcon,
     title: 'Avis & commentaires',
   },
   {
     href: '/staffer',
-    icon: AlertCircleIcon,
+    icon: UserIcon,
     title: 'Gestion des staffers',
   },
 ];
@@ -132,8 +148,26 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         >
           Interface d’administration
         </Typography>
-        <Typography color='textSecondary' variant='body2'>
-          {user.jobTitle}
+        <Typography
+          variant='h2'
+          noWrap
+          style={{
+            cursor: 'pointer',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            minWidth: 160,
+            fontWeight:1000,
+          }}
+          color='primary'
+          // onClick={() => history.push('/')}
+        >
+          GOODFLY
+          <img
+            src={logo}
+            style={{ width: 40, height: 50}}
+            alt='logo'
+          />
         </Typography>
       </Box>
       {/* <Divider /> */}
@@ -167,30 +201,20 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         sx={{
           backgroundColor: 'background.default',
           m: 2,
-          p: 2,
         }}
       >
-        <Typography align='center' gutterBottom variant='h4'>
-          Need more?
-        </Typography>
-        <Typography align='center' variant='body2'>
-          Upgrade to PRO version and access 20 more screens
-        </Typography>
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'center',
-            pt: 2,
           }}
         >
-          <Button
-            color='primary'
-            component='a'
-            href='https://react-material-kit.devias.io'
-            variant='contained'
-          >
-            See PRO version
-          </Button>
+          <NavItem
+            href='/logout'
+            key='Logout'
+            title='Logout'
+            icon={LogoutIcon}
+          />
         </Box>
       </Box>
     </Box>
@@ -199,6 +223,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   return (
     <>
       <Hidden mdUp>
+        
         <Drawer
           anchor='left'
           onClose={onMobileClose}

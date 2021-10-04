@@ -35,32 +35,32 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
         >
           <PersonIcon />
           <Typography variant='h5'>
-            Admin Name - GoodFly.French
+            Admin Name - GoodFly.fr
           </Typography>
         </Box>
-        <Hidden xlDown>
-          <IconButton color='inherit' size='large'>
-            <Badge
-              badgeContent={notifications.length}
-              color='primary'
-              variant='dot'
+        <Box style={{ marginLeft: 'auto',display:'flex',alignItems: 'center'}}>
+          <Hidden mdDown>
+            <IconButton color='inherit' size='large'>
+              <Badge
+                badgeContent={notifications.length}
+                color='primary'
+                variant='dot'
+              >
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <Typography>4 sep 2021</Typography>
+          </Hidden>
+          <Hidden mdUp>
+            <IconButton
+              color='inherit'
+              onClick={onMobileNavOpen}
+              size='large'
             >
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <IconButton color='inherit' size='large'>
-            <InputIcon />
-          </IconButton>
-        </Hidden>
-        <Hidden mdUp>
-          <IconButton
-            color='inherit'
-            onClick={onMobileNavOpen}
-            size='large'
-          >
-            <MenuIcon />
-          </IconButton>
-        </Hidden>
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
+        </Box>
       </Toolbar>
     </AppBar>
   );
