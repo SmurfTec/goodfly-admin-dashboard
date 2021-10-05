@@ -28,6 +28,8 @@ const styles = makeStyles((theme) => ({
     padding: 20,
   },
   inputBox: {
+    border:0,
+    outline: 0,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',

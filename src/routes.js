@@ -20,7 +20,7 @@ const routes = [
     children: [
       { path: 'profile', element: <Profile /> },
       { path: 'blog', element: <CreateBlog /> },
-      { path: 'allblog', element: <Blogs /> },
+      { path: 'blogs', element: <Blogs /> },
       { path: 'account', element: <Account /> },
       { path: 'customers', element: <CustomerList /> },
       { path: 'dashboard', element: <Dashboard /> },

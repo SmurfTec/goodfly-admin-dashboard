@@ -29,6 +29,7 @@ import {
   Bold as BoldIcon,
   Home as HomeIcon,
   AlignJustify as AlignJustifyIcon,
+  Search as SearchIcon,
 } from 'react-feather';
 import { makeStyles } from '@material-ui/styles';
 import logo from 'Assets/img/airplane.svg';
