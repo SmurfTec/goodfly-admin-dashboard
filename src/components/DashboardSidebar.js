@@ -206,7 +206,6 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
             alt='Cindy Baker'
             src='/static/images/avatar/3.jpg'
             sx={{ width: 100, height: 100 }}
-            style={{ marginTop: 15 }}
           />
           <NavItem
             href='/logout'
