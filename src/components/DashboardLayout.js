@@ -5,7 +5,7 @@ import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from './DashboardSidebar';
 
 const DashboardLayoutRoot = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.background.default,
+  backgroundColor:'#fff',
   display: 'flex',
   height: '100%',
   overflow: 'hidden',

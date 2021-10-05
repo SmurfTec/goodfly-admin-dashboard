@@ -51,33 +51,33 @@ const user = {
 
 const items = [
   {
-    href: '/app/Accueil',
+    href: '/Accueil',
     icon: HomeIcon,
     title: 'Accueil',
   },
   {
-    href: '/app/profile',
+    href: '/profile',
     icon: UserIcon,
     title: 'Mon proﬁl',
   },
   {
-    href: '/app/notifications',
+    href: '/notifications',
     icon: BellIcon,
     title: 'Notifications',
   },
 
   {
-    href: '/app/clients',
+    href: '/clients',
     icon: UsersIcon,
     title: 'Gestion des clients',
   },
   {
-    href: '/app/Offres',
+    href: '/Offres',
     icon: Edit2Icon,
     title: 'Offres',
   },
   {
-    href: '/app/Inscriptions',
+    href: '/  Inscriptions',
     icon: SettingsIcon,
     title: 'Inscriptions',
   },
@@ -136,15 +136,14 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           alignItems: 'center',
           display: 'flex',
           flexDirection: 'column',
-          p: 2,
-          mb: 2,
-          mt: 2,
+          p: 1,
+          mb: 1,
         }}
       >
         <Typography
           color='textPrimary'
           variant='h5'
-          style={{ marginBottom: '2rem' }}
+          style={{ marginBottom: '1rem' }}
         >
           Interface d’administration
         </Typography>
@@ -157,7 +156,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
             justifyContent: 'space-between',
             alignItems: 'center',
             minWidth: 160,
-            fontWeight:1000,
+            fontWeight: 1000,
           }}
           color='primary'
           // onClick={() => history.push('/')}
@@ -165,7 +164,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           GOODFLY
           <img
             src={logo}
-            style={{ width: 40, height: 50}}
+            style={{ width: 40, height: 50 }}
             alt='logo'
           />
         </Typography>
@@ -177,7 +176,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           width: '100%',
           backgroundColor: 'rgb(77, 77, 77)',
           color: '#fff',
-          padding: 20,
+          padding: 15,
           textAlign: 'center',
         }}
       >
@@ -195,20 +194,20 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
             />
           ))}
         </List>
-      </Box>
-      <Box sx={{ flexGrow: 1 }} />
-      <Box
-        sx={{
-          backgroundColor: 'background.default',
-          m: 2,
-        }}
-      >
         <Box
           sx={{
             display: 'flex',
+            flexDirection: 'column',
             justifyContent: 'center',
+            mt: 3,
           }}
         >
+          <Avatar
+            alt='Cindy Baker'
+            src='/static/images/avatar/3.jpg'
+            sx={{ width: 100, height: 100 }}
+            style={{ marginTop: 15 }}
+          />
           <NavItem
             href='/logout'
             key='Logout'
@@ -223,7 +222,6 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   return (
     <>
       <Hidden mdUp>
-        
         <Drawer
           anchor='left'
           onClose={onMobileClose}
