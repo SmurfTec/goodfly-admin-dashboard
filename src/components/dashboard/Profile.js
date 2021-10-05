@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
   Grid,
-  Paper,
   Box,
   TextField,
   Button,
@@ -11,9 +10,6 @@ import {
 } from '@material-ui/core';
 
 const styles = makeStyles((theme) => ({
-  profile: {
-    minHeight: 400,
-  },
   account: {
     minHeight: 200,
     marginTop: 10,
@@ -49,7 +45,7 @@ const Profile = () => {
   const classes = styles();
 
   return (
-    <div style={{ backgroundColor: '#fff',overflow: 'hidden' }}>
+    <div style={{ backgroundColor: '#fff', overflow: 'hidden' }}>
       <Box>
         <Box>
           <Typography
@@ -66,7 +62,7 @@ const Profile = () => {
             xs={12}
             sm={7}
             md={7}
-            className={classes.profile}
+            style={{ minHeight: 400 }}
           >
             <Box className={classes.mainBox}>
               <Box className={classes.inputBox}>

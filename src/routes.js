@@ -10,7 +10,8 @@ import ProductList from './pages/ProductList';
 import Register from './pages/Register';
 import Settings from './pages/Settings';
 import Profile from './components/dashboard/Profile';
-import Blog from './components/dashboard/Blog';
+import CreateBlog from './components/dashboard/CreateBlog';
+import Blogs from './components/dashboard/Blogs.js';
 
 const routes = [
   {
@@ -18,7 +19,8 @@ const routes = [
     element: <DashboardLayout />,
     children: [
       { path: 'profile', element: <Profile /> },
-      { path: 'blog', element: <Blog /> },
+      { path: 'blog', element: <CreateBlog /> },
+      { path: 'allblog', element: <Blogs /> },
       { path: 'account', element: <Account /> },
       { path: 'customers', element: <CustomerList /> },
       { path: 'dashboard', element: <Dashboard /> },

@@ -3,13 +3,12 @@ import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
   Grid,
-  Paper,
   Box,
-  TextField,
   Button,
-  Avatar,
+  TextField,
   Switch,
 } from '@material-ui/core';
+
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
@@ -35,7 +34,7 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const Blog = () => {
+const CreateBlog = () => {
   const classes = styles();
   const [checked, setChecked] = React.useState(true);
   const [editorState, setEditorState] = React.useState({});
@@ -146,8 +145,32 @@ const Blog = () => {
           // onEditorStateChange={handleEditor}
         />
       </Box>
+      <Box
+        style={{
+          display: 'flex',
+          justifyContent: 'space-evenly',
+          alignItems: 'center',
+          width: '100%',
+          marginBottom:20
+        }}
+      >
+        <Button
+          variant='contained'
+          size='medium'
+          style={{ backgroundColor: 'red', width: 150 }}
+        >
+          Cancel
+        </Button>
+        <Button
+          variant='contained'
+          size='medium'
+          style={{ width: 150 }}
+        >
+          Create
+        </Button>
+      </Box>
     </div>
   );
 };
 
-export default Blog;
+export default CreateBlog;
