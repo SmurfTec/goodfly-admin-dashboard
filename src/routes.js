@@ -12,6 +12,7 @@ import Settings from './pages/Settings';
 import Profile from './components/dashboard/Profile';
 import CreateBlog from './components/dashboard/CreateBlog';
 import Blogs from './components/dashboard/Blogs.js';
+import VisitorProfile from './components/dashboard/VisitorProfile.js';
 
 const routes = [
   {
@@ -21,6 +22,7 @@ const routes = [
       { path: 'profile', element: <Profile /> },
       { path: 'blog', element: <CreateBlog /> },
       { path: 'blogs', element: <Blogs /> },
+      { path: 'visitorProfile', element: <VisitorProfile /> },
       { path: 'account', element: <Account /> },
       { path: 'customers', element: <CustomerList /> },
       { path: 'dashboard', element: <Dashboard /> },

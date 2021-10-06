@@ -36,6 +36,7 @@ const styles = makeStyles((theme) => ({
 
 const CreateBlog = () => {
   const classes = styles();
+
   const [checked, setChecked] = React.useState(true);
   const [editorState, setEditorState] = React.useState({});
   const [state, setState] = useState({
@@ -151,7 +152,7 @@ const CreateBlog = () => {
           justifyContent: 'space-evenly',
           alignItems: 'center',
           width: '100%',
-          marginBottom:20
+          marginBottom: 20,
         }}
       >
         <Button

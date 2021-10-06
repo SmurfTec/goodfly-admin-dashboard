@@ -31,10 +31,10 @@ const styles = makeStyles((theme) => ({
   },
   root: {
     marginTop: 10,
-    maxWidth: 345,
+    maxWidth: 230,
   },
   media: {
-    height: 120,
+    height: 130,
   },
 }));
 
@@ -44,7 +44,7 @@ const Blogs = () => {
   const handleClick = () => {};
   return (
     <div>
-      <Typography variant='h5' style={{ margin: '40px 20px 40px ' }}>
+      <Typography variant='h5' style={{ margin: '60px 20px 40px ' }}>
         Blog post management
       </Typography>
       <Box className={classes.main}>
@@ -86,7 +86,7 @@ const Blogs = () => {
           </Box>
         </Box>
         <Grid container>
-          <Grid item mg={10}>
+          <Grid item md={10}>
             <Card className={classes.root}>
               <CardActionArea>
                 <CardMedia
