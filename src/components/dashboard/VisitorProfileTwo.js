@@ -67,7 +67,7 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const VisitorProfile = () => {
+const VisitorProfileTwo = () => {
   const classes = styles();
 
   return (
@@ -78,8 +78,75 @@ const VisitorProfile = () => {
             variant='h4'
             style={{ width: '100%', margin: '60px 20px 0px' }}
           >
-            New Customer
+            Client Area
           </Typography>
+          <Button
+            variant='outlined'
+            size='medium'
+            style={{
+              color: 'red',
+              border: '1px solid rec',
+              colorwidth: 150,
+            }}
+          >
+            To Detelte
+          </Button>
+          <Button
+            variant='outlined'
+            size='medium'
+            style={{ width: 150 }}
+          >
+            To Modify
+          </Button>
+          <Box>
+            <Typography variant='h5'>
+              {' '}
+              Contact to Client Area
+            </Typography>
+            <Button
+              variant='outlined'
+              size='medium'
+              style={{
+                color: 'black',
+                border: '1px solid #11111',
+                backgroundColor: '#c6c6c6',
+                width: 180,
+              }}
+            >
+              +31231231231
+            </Button>{' '}
+          </Box>
+          <Box>
+            <Typography variant='h5'>
+              {' '}
+              N Fidelite{' '}
+              <bold
+                style={{
+                  fontSize: 28,
+                  fontWeight: 'bold ',
+                  fontStyle: 'italic',
+                  margin: 2,
+                }}
+              >
+                827
+              </bold>{' '}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant='h5'>
+              <bold
+                style={{
+                  fontSize: 28,
+                  fontWeight: 'bold ',
+                  fontStyle: 'italic',
+                  margin: 5,
+                }}
+              >
+                1725
+              </bold>
+              Points
+            </Typography>
+          </Box>
         </Box>
 
         <Grid container>
@@ -470,4 +537,4 @@ const VisitorProfile = () => {
   );
 };
 
-export default VisitorProfile;
+export default VisitorProfileTwo;

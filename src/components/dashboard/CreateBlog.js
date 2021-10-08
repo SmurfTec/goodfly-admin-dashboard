@@ -12,6 +12,7 @@ import {
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
+
 const styles = makeStyles((theme) => ({
   image: {
     minHeight: 130,
@@ -19,7 +20,7 @@ const styles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    border: `3px dotted #808080`,
+    border: `3px dashed #808080`,
     maxWidth: 190,
   },
   keywords: {
@@ -29,7 +30,7 @@ const styles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    border: `3px dotted #808080`,
+    border: `3px dashed #808080`,
     maxWidth: 185,
   },
 }));

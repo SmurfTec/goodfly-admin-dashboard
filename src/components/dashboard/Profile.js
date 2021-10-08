@@ -28,7 +28,7 @@ const styles = makeStyles((theme) => ({
     padding: 20,
   },
   inputBox: {
-    border:0,
+    border: 0,
     outline: 0,
     display: 'flex',
     flexDirection: 'row',
@@ -59,13 +59,7 @@ const Profile = () => {
         </Box>
 
         <Grid container>
-          <Grid
-            item
-            xs={12}
-            sm={7}
-            md={7}
-            style={{ minHeight: 400 }}
-          >
+          <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
             <Box className={classes.mainBox}>
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
@@ -135,8 +129,7 @@ const Profile = () => {
               </Box>
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  {' '}
-                  Instagram{' '}
+                  Instagram
                 </Typography>
                 <TextField
                   hiddenLabel
