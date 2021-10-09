@@ -32,7 +32,7 @@ const styles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 25,
+    margin: 10,
     padding: 20,
   },
   inputBox: {
