@@ -226,16 +226,19 @@ const Visitors = () => {
             className={classes.textInput}
           />
         </Box>
+
+        {/*  TABLE  */}
+
         <TableContainer component={Paper} className={classes.table}>
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
                 <TableCell>Clients</TableCell>
-                <TableCell align='center'>Emails</TableCell>
-                <TableCell align='center'>Telephone</TableCell>
-                <TableCell align='center'>Customer Ref</TableCell>
-                <TableCell align='center'>date of creation</TableCell>
-                <TableCell align='center'>Actions</TableCell>
+                <TableCell align='right'>Emails</TableCell>
+                <TableCell align='right'>Telephone</TableCell>
+                <TableCell align='right'>Customer Ref</TableCell>
+                <TableCell align='right'>date of creation</TableCell>
+                <TableCell align='right'>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

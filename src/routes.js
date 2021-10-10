@@ -15,6 +15,7 @@ import Blogs from './components/dashboard/Blogs.js';
 import Visitors from './components/dashboard/Visitors.js';
 import VisitorProfile from './components/dashboard/VisitorProfile.js';
 import VisitorProfileTwo from './components/dashboard/VisitorProfileTwo.js';
+import AddStaffer from './components/dashboard/AddStaffer.js';
 
 const routes = [
   {
@@ -23,11 +24,15 @@ const routes = [
     children: [
       //-----------------   MY PAGES ------------------------------
       { path: 'profile', element: <Profile /> },
+
       { path: 'blog', element: <CreateBlog /> },
       { path: 'blogs', element: <Blogs /> },
+
       { path: 'visitorProfile', element: <VisitorProfile /> },
       { path: 'visitorProfileTwo', element: <VisitorProfileTwo /> },
-      { path: 'AllVisitors', element: <Visitors /> },
+      { path: 'allVisitors', element: <Visitors /> },
+
+      { path: 'addStaffer', element: <AddStaffer /> },
 
       { path: 'account', element: <Account /> },
       { path: 'customers', element: <CustomerList /> },
