@@ -166,8 +166,8 @@ const styles = makeStyles((theme) => ({
     margin: '2rem 1.5rem 2rem',
   },
   table: {
-    margin: ' 3rem 1rem 3rem',
-    padding: '2rem',
+    margin: ' 2rem 1rem 2rem',
+    padding: '1rem',
     width: 'inherit',
   },
   textInput: {
@@ -179,11 +179,26 @@ const styles = makeStyles((theme) => ({
 
 const Visitors = () => {
   const classes = styles();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    rowsPerPage -
+    Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
-    <div style={{ marginTop: '5rem' }}>
+    <div style={{ marginTop: '3rem' }}>
       <Typography variant='h4' m={2}>
-        {' '}
         Customer management
       </Typography>
       <Box className={classes.main}>
@@ -205,7 +220,7 @@ const Visitors = () => {
           <TextField
             hiddenLabel
             id='filled-hidden-label-small'
-            defaultValue='search'
+            defaultValue='client name'
             size='small'
             style={{ margin: '0px 5px 0px', width: '30%' }}
             className={classes.textInput}
@@ -224,30 +239,44 @@ const Visitors = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{
-                    '&:last-child td, &:last-child th': {
-                      border: 0,
-                    },
-                  }}
-                >
-                  <TableCell component='th' scope='row'>
-                    {row.name}
-                  </TableCell>
-                  <TableCell align='right'>{row.calories}</TableCell>
-                  <TableCell align='right'>{row.fat}</TableCell>
-                  <TableCell align='right'>{row.carbs}</TableCell>
-                  <TableCell align='right'>{row.protein}</TableCell>
-                  <TableCell align='right'>
-                    <Button>Editor</Button>
-                    <Button style={{color:'red'}}>Delete</Button>
-                  </TableCell>
+              {rows
+                .slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
+                .map((row, index) => (
+                  <TableRow key={row.name}>
+                    <TableCell component='th' scope='row'>
+                      {row.name}
+                    </TableCell>
+                    <TableCell align='right'>
+                      {row.calories}
+                    </TableCell>
+                    <TableCell align='right'>{row.fat}</TableCell>
+                    <TableCell align='right'>{row.carbs}</TableCell>
+                    <TableCell align='right'>{row.protein}</TableCell>
+                    <TableCell align='right'>
+                      <Button>Edit</Button>
+                      <Button style={{ color: 'red' }}>Delete</Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableCell colSpan={6} />
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 20]}
+            component='div'
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </TableContainer>
       </Box>
     </div>
