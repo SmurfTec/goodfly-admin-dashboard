@@ -9,13 +9,19 @@ import NotFound from './pages/NotFound';
 import ProductList from './pages/ProductList';
 import Register from './pages/Register';
 import Settings from './pages/Settings';
+
 import Profile from './components/dashboard/Profile';
+
 import CreateBlog from './components/dashboard/CreateBlog';
 import Blogs from './components/dashboard/Blogs.js';
+
 import Visitors from './components/dashboard/Visitors.js';
 import VisitorProfile from './components/dashboard/VisitorProfile.js';
 import VisitorProfileTwo from './components/dashboard/VisitorProfileTwo.js';
+
 import AddStaffer from './components/dashboard/AddStaffer.js';
+import ViewStaffer from './components/dashboard/ViewStaffer.js';
+import Staffers from './components/dashboard/Staffers.js';
 
 const routes = [
   {
@@ -33,6 +39,8 @@ const routes = [
       { path: 'allVisitors', element: <Visitors /> },
 
       { path: 'addStaffer', element: <AddStaffer /> },
+      { path: 'viewStaffer', element: <ViewStaffer /> },
+      { path: 'allStaffers', element: <Staffers /> },
 
       { path: 'account', element: <Account /> },
       { path: 'customers', element: <CustomerList /> },

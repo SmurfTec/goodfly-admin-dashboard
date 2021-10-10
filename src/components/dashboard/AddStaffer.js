@@ -3,16 +3,8 @@ import { makeStyles } from '@material-ui/styles';
 
 import {
   Typography,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableContainer,
-  TableCell,
-  TableBody,
   Box,
   Button,
-  TablePagination,
   TextField,
 } from '@material-ui/core';
 
