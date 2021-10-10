@@ -163,7 +163,7 @@ const styles = makeStyles((theme) => ({
     minHeight: '20rem',
     borderRadius: '0.8rem',
     padding: '1rem',
-    margin: '2.5rem 1.5rem 2.5rem',
+    margin: '2rem 1.5rem 2rem',
   },
   table: {
     margin: ' 3rem 1rem 3rem',
@@ -181,7 +181,7 @@ const Visitors = () => {
   const classes = styles();
 
   return (
-    <div style={{marginTop:'5rem'}}>
+    <div style={{ marginTop: '5rem' }}>
       <Typography variant='h4' m={2}>
         {' '}
         Customer management
@@ -216,11 +216,11 @@ const Visitors = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Clients</TableCell>
-                <TableCell align='right'>Emails</TableCell>
-                <TableCell align='right'>Telephone</TableCell>
-                <TableCell align='right'>Customer Ref</TableCell>
-                <TableCell align='right'>date of creation</TableCell>
-                <TableCell align='right'>Actions</TableCell>
+                <TableCell align='center'>Emails</TableCell>
+                <TableCell align='center'>Telephone</TableCell>
+                <TableCell align='center'>Customer Ref</TableCell>
+                <TableCell align='center'>date of creation</TableCell>
+                <TableCell align='center'>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -240,6 +240,10 @@ const Visitors = () => {
                   <TableCell align='right'>{row.fat}</TableCell>
                   <TableCell align='right'>{row.carbs}</TableCell>
                   <TableCell align='right'>{row.protein}</TableCell>
+                  <TableCell align='right'>
+                    <Button>Editor</Button>
+                    <Button style={{color:'red'}}>Delete</Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
