@@ -23,6 +23,8 @@ import AddStaffer from './components/dashboard/AddStaffer.js';
 import ViewStaffer from './components/dashboard/ViewStaffer.js';
 import Staffers from './components/dashboard/Staffers.js';
 
+import TourCategories from './components/dashboard/TourCategories.js';
+
 const routes = [
   {
     path: 'app',
@@ -41,6 +43,10 @@ const routes = [
       { path: 'addStaffer', element: <AddStaffer /> },
       { path: 'viewStaffer', element: <ViewStaffer /> },
       { path: 'allStaffers', element: <Staffers /> },
+      
+      { path: 'tourcategories', element: <TourCategories /> },
+
+
 
       { path: 'account', element: <Account /> },
       { path: 'customers', element: <CustomerList /> },
