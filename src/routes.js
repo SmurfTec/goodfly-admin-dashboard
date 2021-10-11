@@ -28,6 +28,8 @@ import TourCategories from './components/dashboard/TourCategories.js';
 import CustomTrips from './components/dashboard/CustomTrips.js';
 import CustomTrip from './components/dashboard/CustomTrip.js';
 
+import CreateProduct from './components/dashboard/CreateProduct.js';
+
 const routes = [
   {
     path: 'app',
@@ -51,6 +53,17 @@ const routes = [
 
       { path: 'customtrips', element: <CustomTrips /> },
       { path: 'customtrip', element: <CustomTrip /> },
+
+
+      { path: 'createProduct', element: <CreateProduct /> },
+
+
+
+
+
+
+
+
 
       { path: 'account', element: <Account /> },
       { path: 'customers', element: <CustomerList /> },
