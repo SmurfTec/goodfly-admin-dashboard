@@ -7,7 +7,13 @@ import {
   TextField,
   Button,
   Avatar,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormControl,
+  Switch,
 } from '@material-ui/core';
+import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
 
 const styles = makeStyles((theme) => ({
   account: {
@@ -41,10 +47,32 @@ const styles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     marginBottom: 7,
   },
+  image: {
+    minHeight: '8rem',
+    margin: '1rem',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    border: `3px dashed #fff`,
+    borderRadius: '10px',
+    width: '10rem',
+  },
 }));
 
 const CreateProduct = () => {
   const classes = styles();
+
+  const [category, setCategory] = React.useState('');
+  const [checked, setChecked] = React.useState(true);
+
+  const handleChange = (event) => {
+    setCategory(event.target.value);
+  };
+
+  const toggle = (event) => {
+    setChecked(event.target.checked);
+  };
 
   return (
     <div style={{ backgroundColor: '#fff', overflow: 'hidden' }}>
@@ -61,10 +89,25 @@ const CreateProduct = () => {
         <Grid container>
           <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
             <Box className={classes.mainBox}>
+              <Box
+                style={{
+                  display: 'flex',
+                  justifyContent: 'right',
+                  width: '100%',
+                }}
+              >
+                <Typography variant='h5'>
+                  Online
+                  <Switch
+                    checked={checked}
+                    onChange={toggle}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                  />
+                </Typography>
+              </Box>
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  {' '}
-                  Name{' '}
+                  Name
                 </Typography>
                 <TextField
                   hiddenLabel
@@ -76,34 +119,50 @@ const CreateProduct = () => {
               </Box>
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  {' '}
-                  fullName{' '}
+                  Price
                 </Typography>
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  defaultValue='m.zain'
+                  defaultValue='price'
                   size='small'
                   className={classes.textInput}
                 />
-              </Box>{' '}
+              </Box>
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  {' '}
-                  Email{' '}
+                  Category
                 </Typography>
-                <TextField
-                  hiddenLabel
-                  id='filled-hidden-label-small'
-                  defaultValue='muhammadzain8@gmail.com'
+                <FormControl
+                  fullWidth
                   size='small'
-                  className={classes.textInput}
-                />
+                  style={{
+                    width: '80%',
+                    backgroundColor: '#fff',
+                    marginBottom: 7,
+                  }}
+                >
+                  <InputLabel id='demo-simple-select-label'>
+                    Category
+                  </InputLabel>
+
+                  <Select
+                    labelId='demo-simple-select-label'
+                    id='demo-simple-select'
+                    value={category}
+                    label='Category'
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={10}>One</MenuItem>
+                    <MenuItem value={20}>Two</MenuItem>
+                    <MenuItem value={30}>Three</MenuItem>
+                  </Select>
+                </FormControl>
               </Box>{' '}
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
                   {' '}
-                  Telephone{' '}
+                  Weight{' '}
                 </Typography>
                 <TextField
                   hiddenLabel
@@ -113,11 +172,9 @@ const CreateProduct = () => {
                   className={classes.textInput}
                 />
               </Box>{' '}
-              <Box sx={{ pt: 5 }} />
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  {' '}
-                  Facebook{' '}
+                  Price Per Kilo
                 </Typography>
                 <TextField
                   hiddenLabel
@@ -127,43 +184,91 @@ const CreateProduct = () => {
                   className={classes.textInput}
                 />
               </Box>
-              <Box className={classes.inputBox}>
-                <Typography variant='h5' className={classes.typo}>
-                  Instagram
+              <Box
+                className={classes.inputBox}
+                style={{ margin: '1rem' }}
+              >
+                <Typography variant='h5'>Dimensions</Typography>
+                <Box
+                  style={{
+                    textAlign: 'center',
+                    width: '82%',
+                    display: 'flex',
+                    justifyContent: 'space-around',
+                  }}
+                >
+                  <TextField
+                    hiddenLabel
+                    id='filled-hidden-label-small'
+                    defaultValue='cm'
+                    size='small'
+                    // className={classes.textInput}
+                    style={{
+                      width: '18%',
+                      backgroundColor: '#fff',
+                    }}
+                  />
+                  <TextField
+                    hiddenLabel
+                    id='filled-hidden-label-small'
+                    defaultValue='cm'
+                    size='small'
+                    style={{
+                      width: '18%',
+                      backgroundColor: '#fff',
+                    }}
+                  />
+                  <TextField
+                    hiddenLabel
+                    id='filled-hidden-label-small'
+                    defaultValue='cm'
+                    size='small'
+                    style={{
+                      width: '18%',
+                      backgroundColor: '#fff',
+                    }}
+                  />
+                </Box>
+              </Box>{' '}
+              <Box
+                className={classes.inputBox}
+                style={{ display: 'inline-block' }}
+              >
+                <Typography variant='h5'>
+                  Description of Product
                 </Typography>
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  defaultValue='www.instagram.com'
+                  defaultValue='add product description'
                   size='small'
-                  className={classes.textInput}
+                  multiline
+                  rows={7}
+                  style={{
+                    backgroundColor: '#fff',
+                    width: '100%',
+                    margin: '1rem 0rem  1rem',
+                  }}
                 />
               </Box>{' '}
-              <Box className={classes.inputBox}>
+              <Box
+                className={classes.inputBox}
+                style={{ display: 'inline-block' }}
+              >
                 <Typography variant='h5' className={classes.typo}>
-                  {' '}
-                  Twitter{' '}
+                  Labels
                 </Typography>
-                <TextField
-                  hiddenLabel
-                  id='filled-hidden-label-small'
-                  defaultValue='www.twitter.com'
-                  size='small'
-                  className={classes.textInput}
-                />
-              </Box>{' '}
-              <Box className={classes.inputBox}>
-                <Typography variant='h5' className={classes.typo}>
-                  {' '}
-                  Snapchat{' '}
-                </Typography>
-                <TextField
-                  hiddenLabel
-                  id='filled-hidden-label-small'
-                  defaultValue='www.Snapchat.com'
-                  size='small'
-                  className={classes.textInput}
-                />
+                <Box
+                  style={{
+                    backgroundColor: '#fff',
+                    width: '50%',
+                    margin: '1rem 0rem  1rem',
+                    padding: '1rem',
+                    minHeight: '7rem',
+                  }}
+                >
+                  list of labels <Box />
+                </Box>
               </Box>
             </Box>
           </Grid>
@@ -189,25 +294,34 @@ const CreateProduct = () => {
                   margin: 15,
                 }}
               >
-                <Box>
-                  <Typography variant='h5'> Profile Photo</Typography>
+                <Box
+                  style={{
+                    backgroundColor: '#fff',
+                    minHeight: '8rem',
+                  }}
+                >
                   <Avatar
                     alt='Cindy Baker'
                     src='/static/images/avatar/3.jpg'
                     sx={{ width: 100, height: 100 }}
-                    style={{ marginTop: 15 }}
+                    style={{ marginTop: 15, margin: '1.5rem' }}
                   />
                 </Box>
-                <Box style={{ marginBottom: 65 }}>
-                  <Typography variant='h5' style={{ width: '100%' }}>
-                    New Password
-                  </Typography>
-                  <Button
-                    variant='contained'
-                    style={{ marginTop: 15, width: 150 }}
-                  >
-                    Set New Pass
-                  </Button>
+                <Box
+                  style={{
+                    backgroundColor: '#808080',
+                    borderRadius: '10px',
+                  }}
+                >
+                  <Box className={classes.image}>
+                    <Box>
+                      <PlusIcon size={35} style={{ color: '#fff' }} />
+                      <FileIcon size={35} style={{ color: '#fff' }} />
+                    </Box>
+                    <Typography style={{ color: '#fff' }}>
+                      Upload Document
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
             </Box>
@@ -222,16 +336,9 @@ const CreateProduct = () => {
               <Button
                 variant='contained'
                 size='medium'
-                style={{ backgroundColor: 'red', width: 150 }}
-              >
-                Delete
-              </Button>
-              <Button
-                variant='contained'
-                size='medium'
                 style={{ width: 150 }}
               >
-                Update
+                Create
               </Button>
             </Box>
           </Grid>
