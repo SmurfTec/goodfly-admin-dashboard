@@ -29,6 +29,7 @@ import CustomTrips from './components/dashboard/CustomTrips.js';
 import CustomTrip from './components/dashboard/CustomTrip.js';
 
 import CreateProduct from './components/dashboard/CreateProduct.js';
+import Products from './components/dashboard/Products.js';
 
 const routes = [
   {
@@ -54,16 +55,8 @@ const routes = [
       { path: 'customtrips', element: <CustomTrips /> },
       { path: 'customtrip', element: <CustomTrip /> },
 
-
       { path: 'createProduct', element: <CreateProduct /> },
-
-
-
-
-
-
-
-
+      { path: 'allProducts', element: <Products /> },
 
       { path: 'account', element: <Account /> },
       { path: 'customers', element: <CustomerList /> },
