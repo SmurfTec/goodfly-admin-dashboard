@@ -25,6 +25,9 @@ import Staffers from './components/dashboard/Staffers.js';
 
 import TourCategories from './components/dashboard/TourCategories.js';
 
+import CustomTrips from './components/dashboard/CustomTrips.js';
+import CustomTrip from './components/dashboard/CustomTrip.js';
+
 const routes = [
   {
     path: 'app',
@@ -43,10 +46,11 @@ const routes = [
       { path: 'addStaffer', element: <AddStaffer /> },
       { path: 'viewStaffer', element: <ViewStaffer /> },
       { path: 'allStaffers', element: <Staffers /> },
-      
+
       { path: 'tourcategories', element: <TourCategories /> },
 
-
+      { path: 'customtrips', element: <CustomTrips /> },
+      { path: 'customtrip', element: <CustomTrip /> },
 
       { path: 'account', element: <Account /> },
       { path: 'customers', element: <CustomerList /> },
