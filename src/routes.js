@@ -31,6 +31,8 @@ import CustomTrip from './components/dashboard/CustomTrip.js';
 import CreateProduct from './components/dashboard/CreateProduct.js';
 import Products from './components/dashboard/Products.js';
 
+import Reservations from './components/dashboard/Reservations.js';
+
 const routes = [
   {
     path: 'app',
@@ -44,11 +46,11 @@ const routes = [
 
       { path: 'visitorProfile', element: <VisitorProfile /> },
       { path: 'visitorProfileTwo', element: <VisitorProfileTwo /> },
-      { path: 'allVisitors', element: <Visitors /> },
+      { path: 'visitors', element: <Visitors /> },
 
       { path: 'addStaffer', element: <AddStaffer /> },
       { path: 'viewStaffer', element: <ViewStaffer /> },
-      { path: 'allStaffers', element: <Staffers /> },
+      { path: 'staffers', element: <Staffers /> },
 
       { path: 'tourcategories', element: <TourCategories /> },
 
@@ -57,6 +59,9 @@ const routes = [
 
       { path: 'createProduct', element: <CreateProduct /> },
       { path: 'allProducts', element: <Products /> },
+      
+      { path: 'reservations', element: <Reservations /> },
+
 
       { path: 'account', element: <Account /> },
       { path: 'customers', element: <CustomerList /> },

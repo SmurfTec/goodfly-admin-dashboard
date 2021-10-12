@@ -14,7 +14,6 @@ import {
   Button,
   TablePagination,
   TextField,
-  Avatar,
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 
@@ -164,7 +163,7 @@ const styles = makeStyles((theme) => ({
     minHeight: '20rem',
     borderRadius: '0.8rem',
     padding: '1rem',
-    margin: '2rem 1.5rem 2rem',
+    margin: '0.7rem 1.5rem 2rem',
   },
   table: {
     margin: ' 2rem 1rem 1rem',
@@ -178,7 +177,7 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const Products = () => {
+const Reservations = () => {
   const classes = styles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -199,19 +198,77 @@ const Products = () => {
 
   return (
     <div style={{ marginTop: '3rem' }}>
+      <Typography variant='h4' m={2}>
+        Reservation Management
+      </Typography>
       <Box
+        mt={3}
+        mb={0}
         style={{
           display: 'flex',
+          justifyContent: 'space-evenly',
           alignItems: 'center',
-          justifyContent: 'space-between',
-          margin: '0rem 2rem 0.5rem  0rem',
         }}
       >
-        <Typography variant='h4' m={2}>
-          Product Management
-        </Typography>
-        <Button variant='contained' style={{ width: '12rem' }}>
-          Add a Product
+        <Button
+          variant='outlined'
+          style={{
+            color: 'green',
+            border: '1px solid green',
+            minWidth: '9rem',
+          }}
+        >
+          InProgress
+        </Button>
+        <Button
+          variant='outlined'
+          style={{
+            color: 'orange',
+            border: '1px solid orange',
+            minWidth: '9rem',
+          }}
+        >
+          To be Verified
+        </Button>
+        <Button
+          variant='outlined'
+          style={{
+            color: 'blue',
+            border: '1px solid blue',
+            minWidth: '9rem',
+          }}
+        >
+          Archived
+        </Button>
+        <Button
+          variant='outlined'
+          style={{
+            color: 'gray',
+            border: '1px solid gray',
+            minWidth: '9rem',
+          }}
+        >
+          Before deletion
+        </Button>
+        <Button
+          variant='outlined'
+          style={{
+            color: 'purple',
+            border: '1px solid purple',
+            minWidth: '9rem',
+          }}
+        >
+          Finalized
+        </Button>
+        <Button
+          variant='outlined'
+          style={{
+            color: 'red',
+            border: '1px solid red',
+            minWidth: '9rem',
+          }}
+        >
+          Deleted
         </Button>
       </Box>
       <Box className={classes.main}>
@@ -227,13 +284,13 @@ const Products = () => {
             variant='text'
             style={{ margin: '0px 3px 0px' }}
           >
-            Search Product
+            Search Reservation
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
           <TextField
             hiddenLabel
             id='filled-hidden-label-small'
-            defaultValue='product name'
+            defaultValue='reservation name'
             size='small'
             style={{ margin: '0px 5px 0px', width: '30%' }}
             className={classes.textInput}
@@ -246,11 +303,12 @@ const Products = () => {
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
-                <TableCell>Product</TableCell>
-                <TableCell align='right'>State</TableCell>
-                <TableCell align='right'>Category</TableCell>
-                <TableCell align='right'>Reference</TableCell>
-                <TableCell align='right'>Date of Creation</TableCell>
+                <TableCell>Ref Reservation</TableCell>
+                <TableCell align='right'>reservation date</TableCell>
+                <TableCell align='right'>Status</TableCell>
+                <TableCell align='right'>Clients</TableCell>
+                <TableCell align='right'>Emails</TableCell>
+                <TableCell align='right'>Telephone</TableCell>
                 <TableCell align='right'>Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -263,15 +321,7 @@ const Products = () => {
                 .map((row, index) => (
                   <TableRow key={row.name}>
                     <TableCell component='th' scope='row'>
-                      <Box style={{display: 'flex',alignItems: 'center',justifyContent:'space-around'}}>
-
-                      <Avatar
-                        alt='Cindy Baker'
-                        src='/static/images/avatar/3.jpg'
-                        sx={{ width: 100, height: 100 }}
-                        />{' '}
                       {row.name}
-                        </Box>
                     </TableCell>
                     <TableCell align='right'>
                       {row.calories}
@@ -279,9 +329,9 @@ const Products = () => {
                     <TableCell align='right'>{row.fat}</TableCell>
                     <TableCell align='right'>{row.carbs}</TableCell>
                     <TableCell align='right'>{row.protein}</TableCell>
+                    <TableCell align='right'>{row.protein}</TableCell>
                     <TableCell align='right'>
                       <Button>Edit</Button>
-                      <Button style={{ color: 'red' }}>Delete</Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -307,4 +357,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Reservations;

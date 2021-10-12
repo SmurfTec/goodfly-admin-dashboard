@@ -166,7 +166,7 @@ const styles = makeStyles((theme) => ({
     margin: '2rem 1.5rem 2rem',
   },
   table: {
-    margin: ' 2rem 1rem 2rem',
+    margin: ' 2rem 1rem 1rem',
     padding: '1rem',
     width: 'inherit',
   },
