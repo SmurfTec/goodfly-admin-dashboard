@@ -14,7 +14,22 @@ import {
   Switch,
   alpha,
   TextField,
+  Table,
+  TableHead,
+  TableRow,
+  Paper,
+  TableContainer,
+  TableCell,
+  TableBody,
   Button,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
 } from '@material-ui/core';
 
 import {
@@ -25,6 +40,34 @@ import {
   ArrowLeft as ArrowLeftIcon,
 } from 'react-feather';
 
+function createData(name, calories, fat, carbs, protein) {
+  return { name, calories, fat, carbs, protein };
+}
+
+const rows = [
+  createData(
+    'Muhammadzain',
+    ' zain@gmail.com',
+    '+2233123312334',
+    'GF12333',
+    '11/07/2021'
+  ),
+  createData(
+    'Muhammadali',
+    ' ali@gmail.com',
+    '+2233123312334',
+    'GF12333',
+    '11/07/2021'
+  ),
+
+  createData(
+    'Muhammadumer',
+    ' umer@gmail.com',
+    '+2233123312334',
+    'GF12333',
+    '11/07/2021'
+  ),
+];
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -67,11 +110,16 @@ const styles = makeStyles((theme) => ({
     margin: '2rem 1.5rem 2rem',
   },
   form: {
-    margin: '1.4rem 0rem  3rem',
+    margin: '1rem 0rem  2rem',
     // marginBottom: '1rem',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-evenly',
+  },
+  table: {
+    margin: ' 2rem 1rem 1rem',
+    padding: '1rem',
+    width: 'inherit',
   },
   icons: {
     backgroundColor: '#46B9F6',
@@ -130,6 +178,7 @@ const Order = () => {
   const [orderStatus, setOrderStatus] = React.useState('');
   const [deliveryMethod, setDeliveryMethod] = React.useState('');
   const [relayPoints, setRelayPoints] = React.useState('');
+  const [manualPayment, setManualPayment] = React.useState(false);
 
   const handleOrderStatus = (event) => {
     setOrderStatus(event.target.value);
@@ -145,6 +194,14 @@ const Order = () => {
   };
   const toggle = (event) => {
     setStatusSwitch(event.target.checked);
+  };
+
+  const openManulPayment = () => {
+    setManualPayment(true);
+  };
+
+  const closeManualPayment = () => {
+    setManualPayment(false);
   };
 
   return (
@@ -531,11 +588,186 @@ const Order = () => {
               </Box>
             </TabPanel>
             <TabPanel value={value} index={3}>
-              Item Four
+              <TableContainer
+                component={Paper}
+                className={classes.table}
+              >
+                <Table
+                  sx={{ minWidth: 650 }}
+                  aria-label='simple table'
+                >
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Payment</TableCell>
+                      <TableCell align='right'>Type</TableCell>
+                      <TableCell align='right'>
+                        Transaction Date
+                      </TableCell>
+                      <TableCell align='right'>
+                        Transaction Amount
+                      </TableCell>
+                      <TableCell align='right'>
+                        Transaction Status
+                      </TableCell>
+                      <TableCell align='right'>Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {rows.map((row, index) => (
+                      <TableRow key={row.name}>
+                        <TableCell component='th' scope='row'>
+                          {row.name}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.calories}
+                        </TableCell>
+                        <TableCell align='right'>{row.fat}</TableCell>
+                        <TableCell align='right'>
+                          {row.carbs}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.protein}
+                        </TableCell>
+                        <TableCell align='right'>
+                          <Button>Detail</Button>{' '}
+                        </TableCell>
+                        <TableCell align='right'>
+                          <Button>Edit</Button>{' '}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <Box
+                style={{
+                  display: 'flex',
+                  justifyContent: 'right',
+                  margin: '1rem',
+                }}
+              >
+                <Button
+                  variant='contained'
+                  onClick={openManulPayment}
+                >
+                  Add a Manual Payment
+                </Button>
+              </Box>
             </TabPanel>
           </Box>
         </Box>
       </Box>
+
+      {/*  Dialog  */}
+
+      <div>
+        <Dialog open={manualPayment} onClose={closeManualPayment}>
+          <DialogTitle style={{ width: '100rem' }}>
+            <Typography variant='h4'>Manual Payment</Typography>
+          </DialogTitle>
+          <DialogContent>
+            <Box
+              style={{
+                margin: '1rem',
+                padding: 'o.2rem',
+                height: '15rem',
+              }}
+            >
+              <Box
+                className={classes.form}
+                style={{ justifyContent: 'space-between' }}
+              >
+                <FormControl component='fieldset'>
+                  <FormLabel component='legend'>
+                    Payment Method
+                  </FormLabel>
+                  <RadioGroup
+                    row
+                    aria-label='gender'
+                    name='row-radio-buttons-group'
+                  >
+                    <FormControlLabel
+                      value='Bank Check'
+                      control={<Radio />}
+                      label='Bank check'
+                    />
+                    <FormControlLabel
+                      value='Bank Transfer'
+                      control={<Radio />}
+                      label='Bank Transfer'
+                    />
+                  </RadioGroup>
+                </FormControl>
+                <FormControl
+                  fullWidth
+                  size='small'
+                  style={{
+                    width: '40%',
+                    backgroundColor: '#fff',
+                    marginBottom: 7,
+                  }}
+                >
+                  <InputLabel id='demo-simple-select-label'>
+                    Status
+                  </InputLabel>
+
+                  <Select
+                    labelId='demo-simple-select-label'
+                    id='demo-simple-select'
+                    value={orderStatus}
+                    label='RelayPoints'
+                    onChange={handleRelayPoints}
+                  >
+                    <MenuItem value={10}>One</MenuItem>
+                    <MenuItem value={20}>Two</MenuItem>
+                    <MenuItem value={30}>Three</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+              <Box className={classes.form}>
+                <TextField
+                  autoFocus
+                  margin='dense'
+                  id='name'
+                  label='Transaction number'
+                  type='text'
+                  fullWidth
+                  style={{ marginRight: '2rem' }}
+                />
+                <TextField
+                  autoFocus
+                  margin='dense'
+                  id='name'
+                  label='Date of Transaction'
+                  type='text'
+                  fullWidth
+                  style={{ marginRight: '2rem' }}
+                />
+                <TextField
+                  autoFocus
+                  margin='dense'
+                  id='name'
+                  label='Amount of Transaction'
+                  type='email'
+                  fullWidth
+                  style={{ marginRight: '2rem' }}
+                />
+              </Box>
+            </Box>
+          </DialogContent>
+          <DialogActions
+            className={classes.form}
+            style={{ margin: '1rem', justifyContent: 'right' }}
+          >
+            <Button variant='outlined' onClick={closeManualPayment}>
+              Cancel
+            </Button>
+            <Button variant='contained' onClick={closeManualPayment}>
+              Validate
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     </div>
   );
 };

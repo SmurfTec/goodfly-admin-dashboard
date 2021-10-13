@@ -239,7 +239,7 @@ const ViewStaffer = () => {
               Cancel
             </Button>
             <Button variant='contained' onClick={handleClosePass}>
-              Subscribe
+              Submit
             </Button>
           </DialogActions>
         </Dialog>
