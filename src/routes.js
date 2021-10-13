@@ -36,6 +36,8 @@ import Reservations from './components/dashboard/Reservations.js';
 import Orders from './components/dashboard/Orders.js';
 import Order from './components/dashboard/Order.js';
 
+import Payments from './components/dashboard/Payments.js';
+
 const routes = [
   {
     path: 'app',
@@ -67,6 +69,9 @@ const routes = [
 
       { path: 'orders', element: <Orders /> },
       { path: 'order', element: <Order /> },
+      
+      { path: 'payments', element: <Payments /> },
+
 
 
 
