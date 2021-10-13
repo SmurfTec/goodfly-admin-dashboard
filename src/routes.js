@@ -34,6 +34,7 @@ import Products from './components/dashboard/Products.js';
 import Reservations from './components/dashboard/Reservations.js';
 
 import Orders from './components/dashboard/Orders.js';
+import Order from './components/dashboard/Order.js';
 
 const routes = [
   {
@@ -65,6 +66,11 @@ const routes = [
       { path: 'reservations', element: <Reservations /> },
 
       { path: 'orders', element: <Orders /> },
+      { path: 'order', element: <Order /> },
+
+
+
+      //  Other 
 
       { path: 'account', element: <Account /> },
       { path: 'customers', element: <CustomerList /> },
