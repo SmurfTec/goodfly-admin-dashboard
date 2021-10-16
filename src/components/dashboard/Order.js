@@ -37,7 +37,6 @@ import {
   Trash2 as Trash2Icon,
   Download as DownloadIcon,
   Play as PlayIcon,
-  ArrowLeft as ArrowLeftIcon,
 } from 'react-feather';
 
 function createData(name, calories, fat, carbs, protein) {
