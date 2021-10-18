@@ -41,6 +41,8 @@ import DetailReservation from './components/dashboard/DetailReservation.js';
 
 import Comments from './components/dashboard/Comments.js';
 
+import OrganizedTrips from './components/dashboard/OrganizedTrips.js';
+
 const routes = [
   {
     path: 'app',
@@ -78,6 +80,8 @@ const routes = [
       { path: 'detailReservation', element: <DetailReservation /> },
 
       { path: 'comments', element: <Comments /> },
+      
+      { path: 'organizedTrips', element: <OrganizedTrips /> },
 
 
 

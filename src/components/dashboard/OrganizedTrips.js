@@ -3,18 +3,19 @@ import { makeStyles } from '@material-ui/styles';
 
 import {
   Typography,
-  Paper,
+  Box,
   Table,
   TableHead,
   TableRow,
   TableContainer,
   TableCell,
   TableBody,
-  Box,
   Button,
   TablePagination,
   TextField,
+  Paper,
 } from '@material-ui/core';
+
 import { Search as SearchIcon } from 'react-feather';
 
 function createData(name, calories, fat, carbs, protein) {
@@ -57,113 +58,25 @@ const rows = [
     'GF12333',
     '11/07/2021'
   ),
-  createData(
-    'Muhammadabc',
-    ' abc@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsonu',
-    ' sonu@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsaqib',
-    ' saqib@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsohil',
-    ' sohail@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
 ];
-
 const styles = makeStyles((theme) => ({
   main: {
     backgroundColor: '#f2f2f2',
-    minHeight: '20rem',
+    minHeight: '15rem',
     borderRadius: '0.8rem',
     padding: '1rem',
     margin: '2rem 1.5rem 2rem',
+  },
+  form: {
+    margin: '1rem 0rem  3rem',
+    // marginBottom: '1rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
+  topButtons: {
+    color: '#8c8c8c',
+    width: '12rem',
   },
   table: {
     margin: ' 2rem 1rem 1rem',
@@ -175,9 +88,12 @@ const styles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     marginBottom: 7,
   },
+  '.MuiDialogContent-root': {
+    backgroundColor: '#f2f2f2',
+  },
 }));
 
-const Visitors = () => {
+const OrganizedTrips = () => {
   const classes = styles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -195,36 +111,47 @@ const Visitors = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
   return (
     <div style={{ marginTop: '3rem' }}>
-      <Typography variant='h4' m={2}>
-        Customer management
+      <Typography variant='h5' m={2}>
+        {' '}
+        Organized trips
       </Typography>
-      <Box className={classes.main}>
+      <Box className={classes.main}></Box>
+      <Box className={classes.main} style={{ minHeight: '25rem' }}>
         <Box
           style={{
             display: 'flex',
-            justifyContent: 'right',
+            justifyContent: 'space-between',
             alignItems: 'center',
             width: '100%',
+            margin:'1rem'
           }}
         >
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
+          <Typography variant='h5'> List of Registrants</Typography>
+          <Box
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
           >
-            Search Client
-          </Typography>
-          <SearchIcon style={{ margin: '0px 3px 0px' }} />
-          <TextField
-            hiddenLabel
-            id='filled-hidden-label-small'
-            placeholder='client name'
-            size='small'
-            style={{ margin: '0px 5px 0px', width: '30%' }}
-            className={classes.textInput}
-          />
+            <Typography
+              variant='text'
+              style={{ margin: '0px 3px 0px' }}
+            >
+              Search Client
+            </Typography>
+            <SearchIcon style={{ margin: '0px 3px 0px' }} />
+            <TextField
+              hiddenLabel
+              id='filled-hidden-label-small'
+              placeholder='client name'
+              size='small'
+              style={{ width: '50%' }}
+              className={classes.textInput}
+            />
+          </Box>
         </Box>
 
         {/*  TABLE  */}
@@ -233,8 +160,8 @@ const Visitors = () => {
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
-                <TableCell>Clients</TableCell>
-                <TableCell align='right'>Emails</TableCell>
+                <TableCell>Number</TableCell>
+                <TableCell align='right'>Clients</TableCell>
                 <TableCell align='right'>Telephone</TableCell>
                 <TableCell align='right'>Customer Ref</TableCell>
                 <TableCell align='right'>date of creation</TableCell>
@@ -286,4 +213,4 @@ const Visitors = () => {
   );
 };
 
-export default Visitors;
+export default OrganizedTrips;
