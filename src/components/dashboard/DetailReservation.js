@@ -22,9 +22,15 @@ import {
   TableBody,
   Button,
   Radio,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   RadioGroup,
   FormControlLabel,
+  FormLabel,
 } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
 
 import {
   Trash2 as Trash2Icon,
@@ -147,6 +153,11 @@ const styles = makeStyles((theme) => ({
     alignItems: 'center',
     margin: '1rem',
   },
+  flexLeft: {
+    display: 'flex',
+    justifyContent: 'left',
+    alignItems: 'center',
+  },
   Tabs: {
     '& .MuiTab-root': {
       backgroundColor: '#e6e6e6',
@@ -209,6 +220,7 @@ const DetailReservation = () => {
   const [tabValue, setTabValue] = React.useState(0);
   const [reservationStatus, setReservationStatus] =
     React.useState('');
+  const [payment, setPayment] = React.useState(false);
 
   const handleReservationStatus = (event) => {
     setReservationStatus(event.target.value);
@@ -221,8 +233,16 @@ const DetailReservation = () => {
     setTabValue(newValue);
   };
 
+  const openPayment = () => {
+    setPayment(true);
+  };
+
+  const closePayment = () => {
+    setPayment(false);
+  };
+
   return (
-    <div style={{ marginTop: '3rem' }}>
+    <div style={{ margin: '3rem 0rem 1rem' }}>
       <Typography variant='h4' m={2}>
         Reservation Reference : GF125487
       </Typography>
@@ -927,6 +947,218 @@ const DetailReservation = () => {
           </Box>
         </Box>
       </Box>
+
+      {/*  Dialog */}
+
+      <Button onClick={openPayment}> Dialog ????</Button>
+
+      <div>
+        <Dialog open={payment} maxWidth='lg' onClose={closePayment}>
+          <DialogTitle>
+            <Typography variant='h4'>
+              Payment of the due date Ref : GF125487
+            </Typography>
+          </DialogTitle>
+          <DialogContent>
+            <Box
+              className={classes.flexBetween}
+              style={{ margin: 0 }}
+            >
+              <Typography variant='h5'>
+                Amount of the due date : 2100.00$
+              </Typography>
+              <Box className={classes.flexAround}>
+                <Typography variant='text'>
+                  Add a payment method
+                </Typography>
+                <Box>
+                  <PlusIcon
+                    style={{
+                      borderRadius: '1.2rem',
+                      width: '2.1rem',
+                      marginLeft: '0.5rem',
+                    }}
+                    className={classes.icons}
+                  />
+                </Box>
+              </Box>
+            </Box>
+            <Divider />
+
+            <Box
+              style={{
+                display: 'flex',
+                justifyContent: 'right',
+                alignItems: 'center',
+              }}
+            >
+              <Typography variant='h5' mr={1}>
+                Payment Method :{' '}
+              </Typography>
+              <FormControl component='fieldset'>
+                <RadioGroup
+                  row
+                  aria-label='gender'
+                  name='row-radio-buttons-group'
+                >
+                  <FormControlLabel
+                    value='Bank card'
+                    control={<Radio />}
+                    label='Bank card'
+                  />
+                  <FormControlLabel
+                    value='Bank Transfer'
+                    control={<Radio />}
+                    label='Bank Transfer'
+                  />
+                  <FormControlLabel
+                    value='Bank check'
+                    control={<Radio />}
+                    label='Bank check'
+                  />
+                  <FormControlLabel
+                    value='Espece'
+                    control={<Radio />}
+                    label='Espece'
+                  />
+                  <FormControlLabel
+                    value='Loyalty points'
+                    control={<Radio />}
+                    label='Loyalty points'
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Box>
+            <Box className={classes.flexLeft}>
+              <Box className={classes.form}>
+                <TextField
+                  autoFocus
+                  margin='dense'
+                  id='name'
+                  label='Espece'
+                  type='text'
+                  fullWidth
+                  style={{ marginRight: '2rem' }}
+                />
+              </Box>
+              <Box className={classes.form}>
+                <TextField
+                  autoFocus
+                  margin='dense'
+                  id='date'
+                  label='20/12/21'
+                  type='date'
+                  fullWidth
+                  style={{ marginRight: '2rem' }}
+                />
+              </Box>
+              <Box className={classes.form}>
+                <TextField
+                  autoFocus
+                  margin='dense'
+                  id='payment'
+                  label='1000.00'
+                  type='text'
+                  fullWidth
+                  style={{ marginRight: '2rem' }}
+                />
+              </Box>
+            </Box>
+            <Divider />
+
+            <Box
+              style={{
+                display: 'flex',
+                justifyContent: 'right',
+                alignItems: 'center',
+              }}
+            >
+              <Typography variant='h5' mr={1}>
+                Payment Method :{' '}
+              </Typography>
+              <FormControl component='fieldset'>
+                <RadioGroup
+                  row
+                  aria-label='gender'
+                  name='row-radio-buttons-group'
+                >
+                  <FormControlLabel
+                    value='Bank card'
+                    control={<Radio />}
+                    label='Bank card'
+                  />
+                  <FormControlLabel
+                    value='Bank Transfer'
+                    control={<Radio />}
+                    label='Bank Transfer'
+                  />
+                  <FormControlLabel
+                    value='Bank check'
+                    control={<Radio />}
+                    label='Bank check'
+                  />
+                  <FormControlLabel
+                    value='Espece'
+                    control={<Radio />}
+                    label='Espece'
+                  />
+                  <FormControlLabel
+                    value='Loyalty points'
+                    control={<Radio />}
+                    label='Loyalty points'
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Box>
+            <Box className={classes.flexLeft}>
+              <Box className={classes.form}>
+                <TextField
+                  autoFocus
+                  margin='dense'
+                  id='name'
+                  label='Transaction number'
+                  type='text'
+                  fullWidth
+                  style={{ marginRight: '2rem' }}
+                />
+              </Box>
+              <Box className={classes.form}>
+                <TextField
+                  autoFocus
+                  margin='dense'
+                  id='transication'
+                  label='Transaction  Date'
+                  type='text'
+                  fullWidth
+                  style={{ marginRight: '2rem' }}
+                />
+              </Box>
+              <Box className={classes.form}>
+                <TextField
+                  autoFocus
+                  margin='dense'
+                  id='Transaction Amount'
+                  label='Transaction Amount'
+                  type='text'
+                  fullWidth
+                  style={{ marginRight: '2rem' }}
+                />
+              </Box>
+            </Box>
+          </DialogContent>
+          <DialogActions
+            className={classes.form}
+            style={{ margin: '1rem', justifyContent: 'right' }}
+          >
+            <Button variant='outlined' onClick={closePayment}>
+              Cancel
+            </Button>
+            <Button variant='contained' onClick={closePayment}>
+              Validate
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     </div>
   );
 };

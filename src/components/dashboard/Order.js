@@ -661,7 +661,7 @@ const Order = () => {
 
       <div>
         <Dialog open={manualPayment} onClose={closeManualPayment}>
-          <DialogTitle style={{ width: '100rem' }}>
+          <DialogTitle >
             <Typography variant='h4'>Manual Payment</Typography>
           </DialogTitle>
           <DialogContent>
