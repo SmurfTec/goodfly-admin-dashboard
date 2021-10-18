@@ -13,6 +13,7 @@ import {
   DialogTitle,
   TableRow,
   TableHead,
+  Avatar,
   Table,
   TableContainer,
   TableCell,
@@ -138,12 +139,6 @@ const styles = makeStyles((theme) => ({
     justifyContent: 'left',
     alignItems: 'center',
   },
-  // cell:{
-  //   '& .MuiTableCell-body':{
-  //     border:'1px solid green',
-  //     minHeight:'100px',
-  //   }
-  // }
   root: {
     '& .css-cnltht-MuiTableCell-root': {
       padding: '8px',
@@ -207,21 +202,11 @@ const Comments = () => {
           <Box className={classes.options}>
             <TabPanel value={value} index={0}>
               <Box className={classes.flexLeft}>
-                <Typography variant='h5' m={1}>
-                  Tours(14)
-                </Typography>
-                <Typography variant='h5' m={1}>
-                  Waiting(3)
-                </Typography>
-                <Typography variant='h5' m={1}>
-                  Approved(11)
-                </Typography>
-                <Typography variant='h5' m={1}>
-                  Undesirable(0)
-                </Typography>
-                <Typography variant='h5' m={1}>
-                  Basket(2)
-                </Typography>
+                <Button m={1}>Tours(14)</Button>
+                <Button m={1}>Waiting(3)</Button>
+                <Button m={1}>Approved(11)</Button>
+                <Button m={1}>Undesirable(0)</Button>
+                <Button m={1}>Basket(2)</Button>
               </Box>
               <Box mt={3}></Box>
 
@@ -263,21 +248,15 @@ const Comments = () => {
                         <TableCell align='left'>
                           {row.calories}
                           <Box className={classes.flexLeft} m={2}>
-                            <Typography variant='h5' mr={1} style={{color:'green'}}>
+                            <Button mr={1} style={{ color: 'green' }}>
                               Approve
-                            </Typography>
-                            <Typography variant='h5' mr={1}>
-                              Reply
-                            </Typography>
-                            <Typography variant='h5' mr={1}>
-                              Modify
-                            </Typography>
-                            <Typography variant='h5' mr={1}>
-                              Undesirable
-                            </Typography>
-                            <Typography variant='h5' mr={1} style={{color:'red'}}>
+                            </Button>
+                            <Button mr={1}>Reply</Button>
+                            <Button mr={1}>Modify</Button>
+                            <Button mr={1}>Undesirable</Button>
+                            <Button mr={1} style={{ color: 'red' }}>
                               Basket
-                            </Typography>
+                            </Button>
                           </Box>
                         </TableCell>
                         <TableCell
@@ -314,20 +293,93 @@ const Comments = () => {
       <Button onClick={openPayment}> Dialog ????</Button>
 
       <div>
-        <Dialog open={payment} maxWidth='lg' onClose={closePayment}>
+        <Dialog
+          open={payment}
+          fullWidth
+          onClose={closePayment}
+          className
+        >
           <DialogTitle>
-            <Typography variant='h4'>
-              Payment of the due date Ref : GF125487
-            </Typography>
+            <Typography variant='h5'>Comment 04/06/2021</Typography>
           </DialogTitle>
-          <DialogContent>content</DialogContent>
-          <DialogActions>
-            <Button variant='outlined' onClick={closePayment}>
-              Cancel
-            </Button>
-            <Button variant='contained' onClick={closePayment}>
-              Validate
-            </Button>
+          <DialogContent>
+            <Box className={classes.flexBetween}>
+              <Box
+                className={classes.flexBetween}
+                style={{ margin: 0 }}
+              >
+                <Avatar
+                  alt='Cindy Baker'
+                  src='/static/images/avatar/3.jpg'
+                  sx={{ width: 70, height: 70 }}
+                  style={{ margin: '1rem 0.5rem 1rem 0rem' }}
+                />
+                <Box style={{ display: 'inline-grid' }}>
+                  <Typography variant='h5'> Muhammad Zain</Typography>
+                  <Typography variant='text'>Client 31312</Typography>
+                  <Typography varaint='text' color='primary'>
+                    Show customer
+                  </Typography>
+                </Box>
+              </Box>
+              <Box
+                className={classes.flexBetween}
+                style={{ margin: 0 }}
+              >
+                <Box
+                  style={{
+                    display: 'inline-grid',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Typography variant='h5'> Muhammad Zain</Typography>
+                  <Typography variant='text'>Client 31312</Typography>
+                  <Typography varaint='text' color='primary'>
+                    Show page
+                  </Typography>
+                </Box>
+                <Avatar
+                  alt='Cindy Baker'
+                  src='/static/images/avatar/3.jpg'
+                  sx={{ width: 70, height: 70 }}
+                  style={{ margin: '1rem 1rem 1rem 0.5rem' }}
+                />
+              </Box>
+            </Box>
+            <Box style={{ display: 'inline-grid' }}>
+              <Typography variant='text'>
+                {' '}
+                4 jun 2021 a 23H52
+              </Typography>
+              <Typography
+                variant='text'
+                mt={2}
+                style={{ minHeight: '5rem' }}
+              >
+                Set applied to the cell. The prop defaults to the
+                value in the p The prop defaults to the value in the p
+                adding appli
+              </Typography>
+            </Box>
+          </DialogContent>
+          <Divider />
+          <DialogActions className={classes.flexBetween}>
+              <Box>
+                <Button mr={1} style={{ color: 'green' }}>
+                  Approve
+                </Button>
+                <Button mr={1}>Reply</Button>
+                <Button mr={1}>Modify</Button>
+                <Button mr={1}>Undesirable</Button>
+                <Button mr={1} style={{ color: 'red' }}>
+                  Basket
+                </Button>
+              </Box>
+              <Box>
+                <Button variant='outlined' onClick={closePayment}>
+                  Cancel
+                </Button>
+              </Box>
           </DialogActions>
         </Dialog>
       </div>
