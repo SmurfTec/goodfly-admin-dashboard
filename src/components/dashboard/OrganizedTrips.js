@@ -9,14 +9,22 @@ import {
   TableRow,
   TableContainer,
   TableCell,
+  Avatar,
   TableBody,
   Button,
   TablePagination,
   TextField,
   Paper,
+  Grid,
 } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
+import Rating from '@material-ui/core/Rating';
 
-import { Search as SearchIcon } from 'react-feather';
+import {
+  Search as SearchIcon,
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+} from 'react-feather';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -64,8 +72,8 @@ const styles = makeStyles((theme) => ({
     backgroundColor: '#f2f2f2',
     minHeight: '15rem',
     borderRadius: '0.8rem',
-    padding: '1rem',
-    margin: '2rem 1.5rem 2rem',
+    padding: '0.1rem',
+    margin: '2rem 1rem 2rem',
   },
   form: {
     margin: '1rem 0rem  3rem',
@@ -91,12 +99,31 @@ const styles = makeStyles((theme) => ({
   '.MuiDialogContent-root': {
     backgroundColor: '#f2f2f2',
   },
+  flexLeft: {
+    display: 'flex',
+    justifyContent: 'left',
+    alignItems: 'center',
+    margin: '0.5rem',
+  },
+  flexBetween: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: '0.5rem',
+  },
+  flexAround: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    margin: '0.5rem',
+  },
 }));
 
 const OrganizedTrips = () => {
   const classes = styles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rating, setRating] = React.useState(2);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -117,7 +144,156 @@ const OrganizedTrips = () => {
         {' '}
         Organized trips
       </Typography>
-      <Box className={classes.main}></Box>
+      <Box className={classes.main}>
+        <Box className={classes.flexBetween}>
+          <Box className={classes.flexLeft}>
+            <Typography variant='h5' mr={5}>
+              Trip Name
+            </Typography>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Typography
+                variant='h5'
+                style={{ margin: '0px 10px 0px' }}
+              >
+                Reference
+              </Typography>
+              <Paper
+                style={{
+                  width: 70,
+                  height: 25,
+                  textAlign: 'right',
+                  padding: 4,
+                }}
+              >
+                {' '}
+                0001
+              </Paper>
+            </div>
+          </Box>
+          <Box
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              margin: '1rem',
+            }}
+          >
+            <ChevronLeftIcon />
+            <Divider
+              style={{ margin: '0rem 0.4rem 0rem 0.4rem' }}
+              orientation='vertical'
+              flexItem
+            />
+            <ChevronRightIcon />
+          </Box>
+        </Box>
+        <Box
+          style={{
+            backgroundColor: '#ffffff',
+            margin: '0rem 1rem 1rem 1rem',
+            borderRadius: '0.4rem',
+            minHeight: '10rem',
+          }}
+        >
+          <Grid
+            container
+            style={{
+              padding: '0.5rem',
+              minHeight: '10rem',
+              margin: '0.5rem 0.5rem  1rem',
+            }}
+          >
+            <Grid item xs={6} sm={3}>
+              <Typography variant='h5' mt={1}>
+                April 5 to 29, 2020
+              </Typography>
+              <Typography variant='h2' mt={1}>
+                5100$
+              </Typography>
+              <Typography variant='text' mt={1}>
+                Popular: Spanish to English, French to English, and
+                Popular: Spanish to English, French to English, and
+                Japanese to English. Other languages:
+              </Typography>
+            </Grid>
+            <Grid item xs={6} sm={2}>
+              <Typography variant='h5' mt={1}>
+                April 5 to 29, 2020
+              </Typography>
+              <Typography variant='text' mt={1}>
+                Popular: Spanish to English, French to English, and
+                Popular: Spanish to English, French to English, and
+                Japanese to English. Other languages:
+              </Typography>{' '}
+            </Grid>
+            <Grid item xs={6} sm={2}>
+              <Box style={{ margin: '1rem' }}>
+                {' '}
+                <Avatar
+                  alt='Cindy Baker'
+                  src='/static/images/avatar/3.jpg'
+                  sx={{ width: 100, height: 100 }}
+                  style={{ marginRight: '1rem' }}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={6} sm={5}>
+              <Box
+                style={{
+                  backgroundColor: '#f2f2f2',
+                  margin: '0.5rem',
+                }}
+              >
+                <Box className={classes.flexLeft}>
+                  <Typography variant='h5'> hotal name</Typography>
+                  <Rating
+                    name='simple-controlled'
+                    value={rating}
+                    onChange={(event, newValue) => {
+                      setRating(newValue);
+                    }}
+                  />
+                </Box>
+                <Box className={classes.flexBetween}>
+                  <Avatar
+                    alt='Cindy Baker'
+                    src='/static/images/avatar/3.jpg'
+                    sx={{ width: 100, height: 100 }}
+                    style={{ marginRight: '1rem' }}
+                  />
+                  <Typography variant='text' mt={1}>
+                    Popular: Spanish to English, French to English,
+                    and Popular: Spanish to English, French to
+                    English, and Japanese to English. Other languages:
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+        <Box
+          style={{
+            display: 'flex',
+            justifyContent: 'right',
+            alignItems: 'center',
+            margin: '1rem',
+          }}
+        >
+          <Button
+            variant='outlined'
+            style={{ marginRight: '0.5rem', minWidth: '7rem' }}
+          >
+            {' '}
+            Modify
+          </Button>
+          <Button
+            variant='outlined'
+            style={{ color: 'red', minWidth: '7rem' }}
+          >
+            {' '}
+            Delete
+          </Button>
+        </Box>
+      </Box>
       <Box className={classes.main} style={{ minHeight: '25rem' }}>
         <Box
           style={{
@@ -125,7 +301,7 @@ const OrganizedTrips = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
             width: '100%',
-            margin:'1rem'
+            margin: '1rem',
           }}
         >
           <Typography variant='h5'> List of Registrants</Typography>
