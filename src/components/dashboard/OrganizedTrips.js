@@ -240,7 +240,8 @@ const OrganizedTrips = () => {
               <Box
                 style={{
                   backgroundColor: '#f2f2f2',
-                  margin: '0.5rem',
+                  padding:'0.5rem',
+                  margin:'0.5rem'
                 }}
               >
                 <Box className={classes.flexLeft}>
