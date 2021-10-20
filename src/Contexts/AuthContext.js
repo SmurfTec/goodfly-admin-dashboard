@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { makeReq } from 'utils/constants';
+import { makeReq } from 'Utils/constants';
 
 export const AuthContext = React.createContext();
 

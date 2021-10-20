@@ -1,68 +1,65 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import styles from 'Styles/Offer';
+import useStyles from 'Styles/Offer';
 import { useNavigate } from 'react-router-dom';
+import { Box } from '@material-ui/system';
+
+const styles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    border: '1px solid green',
+  },
+  details: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  content: {
+    flex: '1 0 auto',
+  },
+  cover: {
+    width: '14rem',
+    height: '6rem',
+    margin: '0.5rem',
+  },
+}));
 
 const TripCard = ({ trip }) => {
   const navigate = useNavigate();
 
   const classes = styles();
-  const { _id, images, date, services, price } = trip;
+  const { _id, name, category, images, date, services, price } = trip;
 
   const handleClick = () => {
-    navigate(`/app/dashboard/${_id}`);
+    // navigate(`/app/dashboard/${_id}`);
+    window.alert(' clicked ');
   };
 
   return (
-    <Card className={classes.card}>
-      <CardActionArea onClick={handleClick}>
+    <>
+    <Typography variant='h5'>name</Typography>
+      <Card className={classes.root}>
         <CardMedia
-          sx={{ height: 250, position: 'relative' }}
-          image={images[0]}
+          className={classes.cover}
+          image='https://picsum.photos/200/300?random=2'
+          title='Live from space album cover'
         />
-        <CardContent
-          sx={{
-            display: 'flex',
-            flexWrap: 'nowrap',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            '& h3,h4,h5,h6': {
-              textTransform: 'capitalize',
-            },
-          }}
-        >
-          <Typography
-            gutterBottom
-            variant='h5'
-            color='text.secondary'
-          >
-            {date}
-          </Typography>
-          {services &&
-            services.map((service, idx) => (
-              <Typography
-                key={idx}
-                variant='subtitle1'
-                color='text.secondary'
-              >
-                {service}
-              </Typography>
-            ))}
-          <Typography
-            gutterBottom
-            variant='subtitle1'
-            sx={{ fontWeight: 900 }}
-          >
-            {price}€
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+        <div className={classes.details}>
+          <CardContent className={classes.content}>
+            <Typography component='h5' variant='h5'>
+              Live From Space
+            </Typography>
+            <Typography variant='subtitle1' color='textSecondary'>
+              Mac Miller
+            </Typography>
+          </CardContent>
+        </div>
+      </Card>
+    </>
   );
 };
 

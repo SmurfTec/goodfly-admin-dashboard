@@ -7,6 +7,9 @@ const useStyles = makeStyles((theme) => ({
     borderBottomRightRadius: 8,
     borderTopRightRadius: 8,
     boxShadow: 'none',
+    margin: '1rem',
+    padding: '1rem',
+    border: '1px solid black',
   },
   title: {
     position: 'absolute',
@@ -82,6 +85,7 @@ const useStyles = makeStyles((theme) => ({
   carouselCard: {
     display: 'block',
     padding: 10,
+    margin: '1rem',
     height: '100%',
     '& .MuiPaper-root': {
       boxShadow: 'rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px',

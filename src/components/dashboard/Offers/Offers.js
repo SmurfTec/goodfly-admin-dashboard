@@ -14,6 +14,8 @@ import {
 const trips = [
   {
     _id: 1,
+    title: 'paksitan',
+    category: 'ethical',
     images: [
       'https://picsum.photos/200/300?random=2',
       'https://picsum.photos/200/300?random=2',
@@ -28,6 +30,8 @@ const trips = [
   },
   {
     _id: 2,
+    title: 'paksitan',
+    category: 'ethical',
     images: [
       'https://picsum.photos/200/300?random=2',
       'https://picsum.photos/200/300?random=2',
@@ -42,6 +46,8 @@ const trips = [
   },
   {
     _id: 3,
+    title: 'paksitan',
+    category: 'ethical',
     images: [
       'https://picsum.photos/200/300?random=2',
       'https://picsum.photos/200/300?random=2',
@@ -56,6 +62,56 @@ const trips = [
   },
   {
     _id: 4,
+    title: 'paksitan',
+    category: 'ethical',
+    images: [
+      'https://picsum.photos/200/300?random=2',
+      'https://picsum.photos/200/300?random=2',
+    ],
+    date: '12-12-12',
+    services: [
+      'Formalités administratives',
+      'Transferts internes',
+      'Guide',
+    ],
+    price: 15000,
+  },
+  {
+    _id: 5,
+    title: 'paksitan',
+    category: 'ethical',
+    images: [
+      'https://picsum.photos/200/300?random=2',
+      'https://picsum.photos/200/300?random=2',
+    ],
+    date: '12-12-12',
+    services: [
+      'Formalités administratives',
+      'Transferts internes',
+      'Guide',
+    ],
+    price: 15000,
+  },
+  {
+    _id: 6,
+    title: 'paksitan',
+    category: 'ethical',
+    images: [
+      'https://picsum.photos/200/300?random=2',
+      'https://picsum.photos/200/300?random=2',
+    ],
+    date: '12-12-12',
+    services: [
+      'Formalités administratives',
+      'Transferts internes',
+      'Guide',
+    ],
+    price: 15000,
+  },
+  {
+    _id: 7,
+    title: 'paksitan',
+    category: 'ethical',
     images: [
       'https://picsum.photos/200/300?random=2',
       'https://picsum.photos/200/300?random=2',
@@ -69,6 +125,7 @@ const trips = [
     price: 15000,
   },
 ];
+
 const styles = makeStyles((theme) => ({
   main: {
     backgroundColor: '#f2f2f2',
@@ -92,6 +149,16 @@ const styles = makeStyles((theme) => ({
     alignItems: 'center',
     border: `2px dashed #fff`,
     borderRadius: '10px',
+  },
+  carouselCard: {
+    display: 'block',
+    // border: '1px solid red',
+    height: '100%',
+    boxSizing: 'border-box',
+    // width: '15rem',
+    '& .MuiPaper-root': {
+      boxShadow: 'rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px',
+    },
   },
 }));
 
