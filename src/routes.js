@@ -43,7 +43,8 @@ import Comments from './components/dashboard/Comments.js';
 
 import OrganizedTrips from './components/dashboard/OrganizedTrips.js';
 
-import CreateOffer from './components/dashboard/CreateOffer.js';
+import CreateOffer from './components/dashboard/Offers/CreateOffer.js';
+import Offers from './components/dashboard/Offers/Offers.js';
 
 
 const routes = [
@@ -87,6 +88,7 @@ const routes = [
       { path: 'organizedTrips', element: <OrganizedTrips /> },
 
       { path: 'createOffer', element: <CreateOffer /> },
+      { path: 'offers', element: <Offers /> },
 
 
 

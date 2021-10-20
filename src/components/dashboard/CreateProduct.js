@@ -49,14 +49,13 @@ const styles = makeStyles((theme) => ({
   },
   image: {
     minHeight: '8rem',
-    margin: '1rem',
+    margin: '0.5rem',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    border: `3px dashed #fff`,
+    border: `2px dashed #fff`,
     borderRadius: '10px',
-    width: '10rem',
   },
 }));
 

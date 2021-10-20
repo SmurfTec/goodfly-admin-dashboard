@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from 'Contexts/AuthContext';
+import 'react-multi-carousel/lib/styles.css';
 
 ReactDOM.render(
   <BrowserRouter>
