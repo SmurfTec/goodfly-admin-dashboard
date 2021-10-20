@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { makeReq } from 'Utils/constants';  
+import { makeReq } from 'utils/constants';
 
 export const AuthContext = React.createContext();
 
@@ -32,7 +32,6 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem('user');
 
       // if (history.location !== '/') history.push('/');
-
     }
   };
 
@@ -58,7 +57,6 @@ export const AuthProvider = ({ children }) => {
     // setTimeout(() => {
     //   window.location.href = '/';
     // }, 1000);
-
   };
 
   return (
@@ -77,4 +75,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export default AuthProvider
+export default AuthProvider;

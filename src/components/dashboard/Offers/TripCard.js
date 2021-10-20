@@ -7,9 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import styles from 'Styles/Offer';
 import { useNavigate } from 'react-router-dom';
 
-
-
-const TripCard = ({trip}) => {
+const TripCard = ({ trip }) => {
   const navigate = useNavigate();
 
   const classes = styles();
@@ -45,10 +43,15 @@ const TripCard = ({trip}) => {
           >
             {date}
           </Typography>
-          {services && services.map((service)=>(
-            <Typography variant='subtitle1' color='text.secondary' >
-            {service}
-          </Typography>
+          {services &&
+            services.map((service, idx) => (
+              <Typography
+                key={idx}
+                variant='subtitle1'
+                color='text.secondary'
+              >
+                {service}
+              </Typography>
             ))}
           <Typography
             gutterBottom

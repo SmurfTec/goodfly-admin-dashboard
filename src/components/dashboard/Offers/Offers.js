@@ -109,7 +109,7 @@ const Offers = () => {
             <Box style={{ padding: '1rem' }}>
               <Typography variant='h5'>HAJJ</Typography>
               <CarouselLayout>
-                {trips.map((trip) => (
+                {trips.map((trip, i) => (
                   <div
                     key={trip._id}
                     className={classes.carouselCard}
@@ -117,7 +117,7 @@ const Offers = () => {
                     <TripCard trip={trip} />
                   </div>
                 ))}
-                one
+                {/* one */}
               </CarouselLayout>
             </Box>
           </Box>
