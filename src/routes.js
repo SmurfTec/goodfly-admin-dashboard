@@ -43,6 +43,9 @@ import Comments from './components/dashboard/Comments.js';
 
 import OrganizedTrips from './components/dashboard/OrganizedTrips.js';
 
+import CreateOffer from './components/dashboard/CreateOffer.js';
+
+
 const routes = [
   {
     path: 'app',
@@ -82,6 +85,8 @@ const routes = [
       { path: 'comments', element: <Comments /> },
       
       { path: 'organizedTrips', element: <OrganizedTrips /> },
+
+      { path: 'createOffer', element: <CreateOffer /> },
 
 
 

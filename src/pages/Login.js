@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 
 import useStyles from './Styles';
 import img1 from 'Assets/img/authbg.png';
-import { Box } from '@material-ui/system';
+import { Box } from '@material-ui/core';
 import { Button, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
