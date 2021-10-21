@@ -7,18 +7,17 @@ import {
   Tabs,
   Typography,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TableRow,
-  TableHead,
-  Avatar,
-  Table,
-  TableContainer,
-  TableCell,
-  TableBody,
-  Paper,
+  Grid,
+  CardMedia,
+  Card,
+  Select,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  TextField,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
 } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 
@@ -113,20 +112,17 @@ const rows = [
 const styles = makeStyles((theme) => ({
   options: {
     backgroundColor: '#f2f2f2',
-    minHeight: '25rem',
-    padding: '1rem',
-    minHeight: '20rem',
+    height: '75vh',
   },
-  options2: {
-    backgroundColor: '#fff',
-    minHeight: '20rem',
+  rootContainer: {
+    '& .css-19kzrtu': {
+      pading: '20px',
+    },
   },
-
   flexBetween: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    margin: '1rem',
   },
   flexAround: {
     display: 'flex',
@@ -144,31 +140,51 @@ const styles = makeStyles((theme) => ({
       padding: '8px',
     },
   },
+  tabRoot: {
+    '&.MuiTab-root': {
+      // color: 'white',
+      // backgroundColor: '#46B9F6',
+    },
+  },
+  image: {
+    height: '8rem',
+    width: '10rem',
+    [theme.breakpoints.up('lg')]: {
+      width: '15rem',
+      height: '10rem',
+    },
+  },
+  inputBox: {
+    border: 0,
+    outline: 0,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: '100%',
+    marginTop: '1rem',
+  },
+  textInput: {
+    width: '100%',
+    backgroundColor: '#fff',
+    marginBottom: 7,
+  },
 }));
 
 const CreateOffer = () => {
   const classes = styles();
 
   const [value, setValue] = React.useState(0);
-
-  const [payment, setPayment] = React.useState(false);
-
+  const [chooseOffer, setChooseOffer] = React.useState('');
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const openPayment = () => {
-    setPayment(true);
-  };
-
-  const closePayment = () => {
-    setPayment(false);
+  const handleReservationStatus = (event) => {
+    setChooseOffer(event.target.value);
   };
 
   return (
     <div style={{ margin: '3rem 0rem 1rem' }}>
-      <Typography variant='h4' m={2}>
-        Opinions & Comments
-      </Typography>
       <Box
         style={{
           minHeight: '25rem',
@@ -187,13 +203,16 @@ const CreateOffer = () => {
               value={value}
               onChange={handleChange}
               aria-label='basic tabs example'
+              indicatorColor='primary'
               centered
-              style={{
-                backgroundColor: 'white',
-              }}
             >
-              <Tab label='Avis' {...a11yProps(0)} />
-              <Tab label='Comments' {...a11yProps(1)} />
+              <Tab
+                label='Offer'
+                {...a11yProps(0)}
+                className={classes.tabRoot}
+              />
+              <Tab label='Stages' {...a11yProps(1)} />
+              <Tab label='Formalities' {...a11yProps(2)} />
             </Tabs>
           </Box>
 
@@ -201,201 +220,259 @@ const CreateOffer = () => {
 
           <Box className={classes.options}>
             <TabPanel value={value} index={0}>
-              <Box className={classes.flexLeft}>
-                <Button m={1}>Tours(14)</Button>
-                <Button m={1}>Waiting(3)</Button>
-                <Button m={1}>Approved(11)</Button>
-                <Button m={1}>Undesirable(0)</Button>
-                <Button m={1}>Basket(2)</Button>
-              </Box>
-              <Box mt={3}></Box>
-
-              <TableContainer
-                component={Paper}
-                className={classes.root}
-              >
-                <Table
-                  sx={{ minWidth: 650 }}
-                  aria-label='simple table'
-                >
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align='center'>Author</TableCell>
-                      <TableCell align='center'>Comments</TableCell>
-                      <TableCell align='center'>Response</TableCell>
-                      <TableCell align='center'>Date</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {rows.map((row) => (
-                      <TableRow
-                        key={row.name}
-                        sx={{
-                          '&:last-child td, &:last-child th': {
-                            border: 0,
-                          },
+              <Grid container className={classes.rootContainer}>
+                <Grid item sm={12} md={5}>
+                  <Box
+                    className={classes.flexBetween}
+                    style={{ margin: '1rem' }}
+                  >
+                    <Box
+                      style={{
+                        display: 'inline-grid',
+                        paddingRight: '1rem',
+                      }}
+                    >
+                      <Typography variant='h5'>
+                        Gallery of the offer
+                      </Typography>
+                      <Button
+                        variant='outlined'
+                        style={{ marginTop: '1rem' }}
+                      >
+                        Add{' '}
+                      </Button>
+                      <Button
+                        variant='outlined'
+                        style={{
+                          color: 'red',
+                          border: '1px solid red',
+                          marginTop: '0.5rem',
                         }}
                       >
-                        <TableCell
-                          component='th'
-                          scope='row'
-                          style={{
-                            minWidth: '10rem',
-                          }}
-                        >
-                          {row.name}
-                        </TableCell>
-                        <TableCell align='left'>
-                          {row.calories}
-                          <Box className={classes.flexLeft} m={2}>
-                            <Button mr={1} style={{ color: 'green' }}>
-                              Approve
-                            </Button>
-                            <Button mr={1}>Reply</Button>
-                            <Button mr={1}>Modify</Button>
-                            <Button mr={1}>Undesirable</Button>
-                            <Button mr={1} style={{ color: 'red' }}>
-                              Basket
-                            </Button>
-                          </Box>
-                        </TableCell>
-                        <TableCell
-                          align='center'
-                          style={{
-                            minWidth: '10rem',
-                          }}
-                        >
-                          {row.fat}
-                        </TableCell>
-                        <TableCell
-                          align='center'
-                          style={{
-                            minWidth: '10rem',
-                          }}
-                        >
-                          {row.carbs}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                        Delete
+                      </Button>
+                    </Box>
+                    <Box>
+                      <Card>
+                        <CardMedia
+                          className={classes.image}
+                          image='https://picsum.photos/200/300?random=2'
+                          title='Contemplative Reptile'
+                        />
+                      </Card>
+                    </Box>
+                  </Box>
+                  <Box
+                    style={{
+                      maxWidth: '100%',
+                      margin: '3rem 1rem 1rem',
+                    }}
+                  >
+                    <FormControl
+                      size='small'
+                      style={{
+                        width: '100%',
+                        backgroundColor: '#fff',
+                      }}
+                    >
+                      <InputLabel id='demo-simple-select-label'>
+                        Reservation Status
+                      </InputLabel>
+
+                      <Select
+                        labelId='demo-simple-select-label'
+                        id='demo-simple-select'
+                        value={chooseOffer}
+                        label='Reservation Status'
+                        onChange={handleReservationStatus}
+                      >
+                        <MenuItem value={10}>One</MenuItem>
+                        <MenuItem value={20}>Two</MenuItem>
+                        <MenuItem value={30}>Three</MenuItem>
+                      </Select>
+                    </FormControl>
+
+                    <Box className={classes.inputBox}>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        placeholder='Title'
+                        size='small'
+                        className={classes.textInput}
+                      />
+                    </Box>
+
+                    <Box className={classes.inputBox}>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        placeholder='Description'
+                        size='small'
+                        className={classes.textInput}
+                      />
+                    </Box>
+                    <Box className={classes.inputBox}>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        placeholder='Description'
+                        size='small'
+                        className={classes.textInput}
+                        multiline
+                        rows={8}
+                      />
+                    </Box>
+                  </Box>
+                </Grid>
+                <Grid item sm={12} md={7}>
+                  <Box
+                    style={{
+                      width: '100%',
+                      margin: '1rem',
+                      display: 'flex',
+                      justifyContent: 'left',
+                      alignItems: 'center',
+                    }}
+                  >
+                    {' '}
+                    <Typography
+                      variant='h5'
+                      style={{ marginRight: '1rem' }}
+                    >
+                      Date
+                    </Typography>
+                    <FormControl component='fieldset'>
+                      <RadioGroup
+                        row
+                        aria-label='Date'
+                        name='row-radio-buttons-group'
+                      >
+                        <FormControlLabel
+                          value='yes'
+                          control={<Radio />}
+                          label='yes'
+                        />
+                        <FormControlLabel
+                          value='no'
+                          control={<Radio />}
+                          label='no'
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </Box>
+                  <Box
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      margin: '1rem',
+                    }}
+                  >
+                    {' '}
+                    <TextField
+                      type='date'
+                      name='Departure Date'
+                      placeholder='Departure Date'
+                      size='small'
+                      style={{
+                        backgroundColor: '#fff',
+                        width: '40%',
+                      }}
+                    />
+                    <TextField
+                      type='date'
+                      placeholder='Arrival date'
+                      name='Arrival Date'
+                      size='small'
+                      style={{
+                        backgroundColor: '#fff',
+                        width: '40%',
+                      }}
+                    />
+                  </Box>
+                  <Box
+                    style={{
+                      width: '100%',
+                      margin: '2rem 1rem 1rem',
+                      display: 'flex',
+                      justifyContent: 'left',
+                      alignItems: 'center',
+                    }}
+                  >
+                    {' '}
+                    <Typography
+                      variant='h5'
+                      style={{ marginRight: '1rem' }}
+                    >
+                      Place of departure
+                    </Typography>
+                    <FormControl component='fieldset'>
+                      <RadioGroup
+                        row
+                        aria-label='Place'
+                        name='row-radio-buttons-group'
+                      >
+                        <FormControlLabel
+                          value='yes'
+                          control={<Radio />}
+                          label='yes'
+                        />
+                        <FormControlLabel
+                          value='no'
+                          control={<Radio />}
+                          label='no'
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </Box>
+                  <Box
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      margin: '1rem',
+                    }}
+                  >
+                    {' '}
+                    <TextField
+                      type='text'
+                      name='Departure'
+                      placeholder='Departure'
+                      size='small'
+                      style={{
+                        backgroundColor: '#fff',
+                        width: '40%',
+                      }}
+                    />
+                    <TextField
+                      type='text'
+                      placeholder='Arrival'
+                      name='Arrival'
+                      size='small'
+                      style={{
+                        backgroundColor: '#fff',
+                        width: '40%',
+                      }}
+                    />
+                  </Box>
+                  <Box>
+                    Services includes
+                  </Box>
+                </Grid>
+              </Grid>
             </TabPanel>
             <TabPanel value={value} index={1}>
-              comments
+              stages
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+              formalities
             </TabPanel>
           </Box>
         </Box>
       </Box>
-
-      {/*  Dialog */}
-
-      <Button onClick={openPayment}> Dialog ????</Button>
-
-      <div>
-        <Dialog
-          open={payment}
-          fullWidth
-          onClose={closePayment}
-          className
-        >
-          <DialogTitle>
-            <Typography variant='h5'>Comment 04/06/2021</Typography>
-          </DialogTitle>
-          <DialogContent>
-            <Box className={classes.flexBetween}>
-              <Box
-                className={classes.flexBetween}
-                style={{ margin: 0 }}
-              >
-                <Avatar
-                  alt='Cindy Baker'
-                  src='/static/images/avatar/3.jpg'
-                  sx={{ width: 70, height: 70 }}
-                  style={{ margin: '1rem 0.5rem 1rem 0rem' }}
-                />
-                <Box style={{ display: 'inline-grid' }}>
-                  <Typography variant='h5'> Muhammad Zain</Typography>
-                  <Typography variant='text'>Client 31312</Typography>
-                  <Typography varaint='text' color='primary'>
-                    Show customer
-                  </Typography>
-                </Box>
-              </Box>
-              <Box
-                className={classes.flexBetween}
-                style={{ margin: 0 }}
-              >
-                <Box
-                  style={{
-                    display: 'inline-grid',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Typography variant='h5'> Muhammad Zain</Typography>
-                  <Typography variant='text'>Client 31312</Typography>
-                  <Typography varaint='text' color='primary'>
-                    Show page
-                  </Typography>
-                </Box>
-                <Avatar
-                  alt='Cindy Baker'
-                  src='/static/images/avatar/3.jpg'
-                  sx={{ width: 70, height: 70 }}
-                  style={{ margin: '1rem 1rem 1rem 0.5rem' }}
-                />
-              </Box>
-            </Box>
-            <Box style={{ display: 'inline-grid' }}>
-              <Typography variant='text'>
-                {' '}
-                4 jun 2021 a 23H52
-              </Typography>
-              <Typography
-                variant='text'
-                mt={2}
-                style={{ minHeight: '5rem' }}
-              >
-                Set applied to the cell. The prop defaults to the
-                value in the p The prop defaults to the value in the p
-                adding appli
-              </Typography>
-            </Box>
-          </DialogContent>
-          <Divider />
-          <DialogActions className={classes.flexBetween}>
-            <Box>
-              <Button mr={1} style={{ color: 'green' }}>
-                Approve
-              </Button>
-              <Button mr={1}>Reply</Button>
-              <Button mr={1}>Modify</Button>
-              <Button mr={1}>Undesirable</Button>
-              <Button mr={1} style={{ color: 'red' }}>
-                Basket
-              </Button>
-            </Box>
-            <Box>
-              <Button variant='outlined' onClick={closePayment}>
-                Cancel
-              </Button>
-            </Box>
-          </DialogActions>
-        </Dialog>
-      </div>
     </div>
   );
 };
 
 export default CreateOffer;
-
-
-
-
-
-
-
-
 
 // import React from 'react';
 // import { makeStyles } from '@material-ui/styles';
@@ -485,7 +562,6 @@ export default CreateOffer;
 // import ParallaxSlide from '@mui-treasury/components/slide/parallax';
 // // import DotIndicator from '@mui-treasury/components/indicator/dot';
 // import { useArrowDarkButtonStyles } from '@mui-treasury/styles/button/arrowDark';
-
 
 // const data = [
 //   {

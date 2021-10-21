@@ -89,9 +89,7 @@ const routes = [
       { path: 'organizedTrips', element: <OrganizedTrips /> },
 
       { path: 'createOffer', element: <CreateOffer /> },
-
       { path: 'offers', element: <Offers /> },
-      
       { path: 'offer', element: <Offer /> },
 
 
