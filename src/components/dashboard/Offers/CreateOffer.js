@@ -18,7 +18,9 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
+  Checkbox,
 } from '@material-ui/core';
+
 import Divider from '@material-ui/core/Divider';
 
 function TabPanel(props) {
@@ -112,7 +114,10 @@ const rows = [
 const styles = makeStyles((theme) => ({
   options: {
     backgroundColor: '#f2f2f2',
-    height: '75vh',
+    height: '80vh',
+    [theme.breakpoints.down('md')]: {
+      height: '100vh',
+    },
   },
   rootContainer: {
     '& .css-19kzrtu': {
@@ -176,11 +181,24 @@ const CreateOffer = () => {
 
   const [value, setValue] = React.useState(0);
   const [chooseOffer, setChooseOffer] = React.useState('');
+  const [state, setState] = React.useState({
+    checkedA: true,
+    checkedB: true,
+    checkedC: true,
+    checkedD: true,
+    checkedE: true,
+    checkedF: true,
+    checkedG: true,
+  });
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   const handleReservationStatus = (event) => {
     setChooseOffer(event.target.value);
+  };
+
+  const handleCheckBoxes = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
   };
 
   return (
@@ -328,7 +346,7 @@ const CreateOffer = () => {
                   <Box
                     style={{
                       width: '100%',
-                      margin: '1rem',
+                      margin: '1rem 1rem 0rem',
                       display: 'flex',
                       justifyContent: 'left',
                       alignItems: 'center',
@@ -364,7 +382,7 @@ const CreateOffer = () => {
                     style={{
                       display: 'flex',
                       justifyContent: 'space-between',
-                      margin: '1rem',
+                      margin: '0rem 1rem 0rem',
                     }}
                   >
                     {' '}
@@ -392,7 +410,7 @@ const CreateOffer = () => {
                   <Box
                     style={{
                       width: '100%',
-                      margin: '2rem 1rem 1rem',
+                      margin: '1rem 1rem 0rem',
                       display: 'flex',
                       justifyContent: 'left',
                       alignItems: 'center',
@@ -428,7 +446,7 @@ const CreateOffer = () => {
                     style={{
                       display: 'flex',
                       justifyContent: 'space-between',
-                      margin: '1rem',
+                      margin: '0rem 1rem 1rem',
                     }}
                   >
                     {' '}
@@ -453,11 +471,90 @@ const CreateOffer = () => {
                       }}
                     />
                   </Box>
-                  <Box>
-                    Services includes
+                  <Box
+                    style={{ margin: '3rem 1rem 0rem', display: 'inline-grid' }}
+                  >
+                    <Typography variant='h5'>
+                      {' '}
+                      Services Includes
+                    </Typography>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedA}
+                          onChange={handleCheckBoxes}
+                          name='checkedA'
+                        />
+                      }
+                      label='Guide'
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedB}
+                          onChange={handleCheckBoxes}
+                          name='checkedB'
+                        />
+                      }
+                      label='Airport transport'
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedC}
+                          onChange={handleCheckBoxes}
+                          name='checkedC'
+                        />
+                      }
+                      label='Religious courses'
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedD}
+                          onChange={handleCheckBoxes}
+                          name='checkedD'
+                        />
+                      }
+                      label='Legitimate visit(Mount uhud,Quba mosque)'
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedE}
+                          onChange={handleCheckBoxes}
+                          name='checkedE'
+                        />
+                      }
+                      label='Internal transfer
+'
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedF}
+                          onChange={handleCheckBoxes}
+                          name='checkedF'
+                        />
+                      }
+                      label='Formalities'
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedG}
+                          onChange={handleCheckBoxes}
+                          name='checkedG'
+                        />
+                      }
+                      label='sitting next to the scholars'
+                    />
                   </Box>
                 </Grid>
               </Grid>
+              <Box style={{display: 'flex',alignItems: 'center',justifyContent: 'right',marginRight:'1rem'}}>
+                <Button variant='contained' style={{width:'8rem'}}> Next </Button>
+              </Box>
             </TabPanel>
             <TabPanel value={value} index={1}>
               stages
