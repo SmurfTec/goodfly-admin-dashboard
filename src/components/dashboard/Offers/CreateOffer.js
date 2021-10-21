@@ -174,6 +174,9 @@ const styles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     marginBottom: 7,
   },
+  stageContainer: {
+    backgroundColor: '#ffffff',
+  },
 }));
 
 const CreateOffer = () => {
@@ -214,7 +217,6 @@ const CreateOffer = () => {
             sx={{
               borderBottom: 1,
               borderColor: 'divider',
-              borderRadius: '1rem',
             }}
           >
             <Tabs
@@ -236,8 +238,12 @@ const CreateOffer = () => {
 
           {/*  map the Product */}
 
-          <Box className={classes.options}>
-            <TabPanel value={value} index={0}>
+          <Box>
+            <TabPanel
+              value={value}
+              index={0}
+              className={classes.options}
+            >
               <Grid container className={classes.rootContainer}>
                 <Grid item sm={12} md={5}>
                   <Box
@@ -472,7 +478,10 @@ const CreateOffer = () => {
                     />
                   </Box>
                   <Box
-                    style={{ margin: '3rem 1rem 0rem', display: 'inline-grid' }}
+                    style={{
+                      margin: '3rem 1rem 0rem',
+                      display: 'inline-grid',
+                    }}
                   >
                     <Typography variant='h5'>
                       {' '}
@@ -552,12 +561,88 @@ const CreateOffer = () => {
                   </Box>
                 </Grid>
               </Grid>
-              <Box style={{display: 'flex',alignItems: 'center',justifyContent: 'right',marginRight:'1rem'}}>
-                <Button variant='contained' style={{width:'8rem'}}> Next </Button>
+              <Box
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'right',
+                  marginRight: '1rem',
+                }}
+              >
+                <Button variant='contained' style={{ width: '8rem' }}>
+                  {' '}
+                  Next{' '}
+                </Button>
               </Box>
             </TabPanel>
-            <TabPanel value={value} index={1}>
-              stages
+            <TabPanel
+              value={value}
+              index={1}
+              className={classes.options}
+              style={{ height: '70vh' }}
+            >
+              <Box
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Button
+                  variant='contained'
+                  style={{ width: '10rem', marginRight: '1rem' }}
+                >
+                  Add a Step
+                </Button>
+                <Button
+                  variant='contained'
+                  style={{ width: '10rem' }}
+                >
+                  Next
+                </Button>
+              </Box>
+              <Box m={5}>
+                <Grid container className={classes.stageContainer}>
+                  <Grid
+                    item
+                    sm={12}
+                    md={6}
+                    style={{
+                      border: '1px solid red',
+                      padding: '2rem',
+                    }}
+                  >
+                    <Box
+                      className={classes.flexBetween}
+                      style={{ margin: '2rem' }}
+                    >
+                      <Typography variant='h5'>
+                        Visit of Mount Uhud
+                      </Typography>
+                      <Typography variant='text'> 554 km</Typography>
+                    </Box>
+                    <Box style={{ margin: '0rem 2rem 2rem' }}>
+                      <CardMedia
+                        className={classes.image}
+                        style={{ width: '15rem' }}
+                        image='https://picsum.photos/200/300?random=2'
+                        title='Contemplative Reptile'
+                      />
+                      <Typography variant='text'>
+                        dfsafdsadfs fdsf a
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid
+                    item
+                    sm={12}
+                    md={6}
+                    style={{ border: '1px solid red' }}
+                  >
+                    2
+                  </Grid>
+                </Grid>
+              </Box>
             </TabPanel>
             <TabPanel value={value} index={2}>
               formalities
