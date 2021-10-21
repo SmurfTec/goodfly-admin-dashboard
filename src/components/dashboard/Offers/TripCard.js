@@ -22,9 +22,9 @@ const styles = makeStyles((theme) => ({
     flex: '1 0 auto',
   },
   cover: {
-    width: '14rem',
+    width: '12rem',
     height: '6rem',
-    margin: '0.5rem',
+    margin: '0.2rem',
   },
 }));
 

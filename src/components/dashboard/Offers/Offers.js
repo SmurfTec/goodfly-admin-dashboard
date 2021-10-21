@@ -171,7 +171,7 @@ const Offers = () => {
         Offer Mangment
       </Typography>
       <Grid container>
-        <Grid item sm={9}>
+        <Grid item sm={10}>
           <Box className={classes.boxBack}>
             <Box style={{ padding: '1rem' }}>
               <Typography variant='h5'>HAJJ</Typography>
@@ -201,7 +201,7 @@ const Offers = () => {
             </Box>
           </Box>
         </Grid>
-        <Grid item sm={3}>
+        <Grid item sm={2}>
           <Box
             className={classes.boxBack}
             style={{
@@ -216,7 +216,7 @@ const Offers = () => {
               style={{
                 backgroundColor: '#808080',
                 borderRadius: '10px',
-                width: '12rem',
+                width: '9rem',
                 marginBottom: '1rem',
               }}
             >
@@ -234,7 +234,7 @@ const Offers = () => {
               style={{
                 backgroundColor: '#808080',
                 borderRadius: '10px',
-                width: '12rem',
+                width: '9rem',
               }}
             >
               <Box className={classes.image}>

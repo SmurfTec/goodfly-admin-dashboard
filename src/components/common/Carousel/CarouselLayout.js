@@ -6,12 +6,12 @@ import { styles } from './CarouselProp';
 export const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
-    breakpoint: { max: 4000, min: 1400 },
+    breakpoint: { max: 4000, min: 1500 },
     items: 4,
     slidesToSlide: 3,
   },
   Largedesktop: {
-    breakpoint: { max: 1400, min: 1200 },
+    breakpoint: { max: 1499, min: 1201 },
     items: 3,
     slidesToSlide: 1,
   },

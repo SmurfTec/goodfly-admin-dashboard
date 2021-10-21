@@ -91,6 +91,7 @@ const routes = [
       { path: 'createOffer', element: <CreateOffer /> },
 
       { path: 'offers', element: <Offers /> },
+      
       { path: 'offer', element: <Offer /> },
 
 

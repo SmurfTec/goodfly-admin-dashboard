@@ -389,6 +389,14 @@ const CreateOffer = () => {
 
 export default CreateOffer;
 
+
+
+
+
+
+
+
+
 // import React from 'react';
 // import { makeStyles } from '@material-ui/styles';
 // import Box from '@material-ui/core/Box';
@@ -475,18 +483,9 @@ export default CreateOffer;
 // import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 // import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 // import ParallaxSlide from '@mui-treasury/components/slide/parallax';
-// import DotIndicator from '@mui-treasury/components/indicator/dot';
+// // import DotIndicator from '@mui-treasury/components/indicator/dot';
 // import { useArrowDarkButtonStyles } from '@mui-treasury/styles/button/arrowDark';
 
-// const CreateOffer = () => {
-//   return (
-//     <div>
-
-//     </div>
-//   )
-// }
-
-// export default CreateOffer
 
 // const data = [
 //   {
@@ -631,7 +630,7 @@ export default CreateOffer;
 
 // const CreateOffer = () => {
 //   const classes = useStyles();
-//   const arrowStyles = useArrowDarkButtonStyles();
+//   // const arrowStyles = useArrowDarkButtonStyles();
 //   const createStyle = (slideIndex, fineIndex) => {
 //     const diff = slideIndex - fineIndex;
 //     if (Math.abs(diff) > 1) return {};
@@ -644,7 +643,7 @@ export default CreateOffer;
 //     <>
 //       <Button
 //         className={cx(classes.arrow, classes.arrowLeft)}
-//         classes={arrowStyles}
+//         // classes={arrowStyles}
 //         disabled={index === 0}
 //         onClick={() => onChangeIndex(index - 1)}
 //       >
@@ -652,13 +651,13 @@ export default CreateOffer;
 //       </Button>
 //       <Button
 //         className={cx(classes.arrow, classes.arrowRight)}
-//         classes={arrowStyles}
+//         // classes={arrowStyles}
 //         disabled={index === data.length - 1}
 //         onClick={() => onChangeIndex(index + 1)}
 //       >
 //         <KeyboardArrowRight />
 //       </Button>
-//       <div className={classes.indicatorContainer}>
+//       {/* <div className={classes.indicatorContainer}>
 //         {data.map(({ id }, i) => (
 //           <DotIndicator
 // key={id}
@@ -666,7 +665,7 @@ export default CreateOffer;
 //             onClick={() => onChangeIndex(i)}
 //           />
 //         ))}
-//       </div>
+//       </div> */}
 //     </>
 //   );
 //   const renderChildren = ({ injectStyle, fineIndex }) =>

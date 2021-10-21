@@ -4,6 +4,11 @@ import { makeStyles } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
+import StagesTab from './StagesTab';
+import stageImg1 from 'Assets/img/stage1.png';
+import stageImg2 from 'Assets/img/stage12.png';
+import stageImg3 from 'Assets/img/stage2.png';
+import stageImg4 from 'Assets/img/stage23.png';
 
 // import Carousel from 'react-material-ui-carousel';
 
@@ -50,7 +55,92 @@ function a11yProps(index) {
   };
 }
 
-const images = [
+const stages = [
+  {
+    _id: '12312',
+    date: '05/04/2020 - Jour #01 : ',
+    locatation: 'Départ Aéroport Paris CDG',
+    description: `Ut mi turpis, sagittis quis eleifend non, faucibus eget velit. Proin ullamcorper 
+      pulvinar velit, vitae egestas mauris mattis in. Nam dapibus facilisis nisi, non mollis
+      magna. Pellentesque at tincidunt tortor. Quisque imperdiet condimentum. 
+      `,
+    accommodations: [
+      {
+        _id: '12312312',
+        location:
+          'Etape : Aéroport internationnal Paris Charles de Gaulle',
+        description:
+          'Aliquam vel purus molestie, bibendum quam ac, tempor tortor.',
+      },
+      {
+        _id: '12312',
+        location: 'Repas : Demi-pension',
+        description:
+          'Urna quis sodales luctus, leo diam porttitor ante, sit amet venenatis sapien nisi in lacus.',
+      },
+    ],
+    images: [stageImg1],
+  },
+  {
+    _id: '12122',
+    date: '05/04/2020 - Jour #01 : ',
+    locatation: 'Départ Aéroport Paris CDG',
+    description: `Ut mi turpis, sagittis quis eleifend non, faucibus eget velit. Proin ullamcorper 
+      pulvinar velit, vitae egestas mauris mattis in. Nam dapibus facilisis nisi, non mollis
+      magna. Pellentesque at tincidunt tortor. Quisque imperdiet condimentum. 
+      `,
+    accommodations: [
+      {
+        _id: '12312312',
+        location:
+          'Etape : Aéroport internationnal Paris Charles de Gaulle',
+        description:
+          'Aliquam vel purus molestie, bibendum quam ac, tempor tortor.',
+      },
+      {
+        _id: '12312',
+        location: 'Repas : Demi-pension',
+        description:
+          'Urna quis sodales luctus, leo diam porttitor ante, sit amet venenatis sapien nisi in lacus.',
+      },
+    ],
+    images: [stageImg1, stageImg2, stageImg3, stageImg3, stageImg3],
+  },
+  {
+    _id: '121dasdad2',
+    date: '05/04/2020 - Jour #01 : ',
+    locatation: 'Départ Aéroport Paris CDG',
+    description: `Ut mi turpis, sagittis quis eleifend non, faucibus eget velit. Proin ullamcorper 
+      pulvinar velit, vitae egestas mauris mattis in. Nam dapibus facilisis nisi, non mollis
+      magna. Pellentesque at tincidunt tortor. Quisque imperdiet condimentum. 
+      `,
+    accommodations: [
+      {
+        _id: '12312312',
+        location:
+          'Etape : Aéroport internationnal Paris Charles de Gaulle',
+        description:
+          'Aliquam vel purus molestie, bibendum quam ac, tempor tortor.',
+      },
+      {
+        _id: '12312',
+        location: 'Repas : Demi-pension',
+        description:
+          'Urna quis sodales luctus, leo diam porttitor ante, sit amet venenatis sapien nisi in lacus.',
+      },
+    ],
+    images: [
+      stageImg3,
+      stageImg4,
+      // stageImg3,
+      // stageImg4,
+      // stageImg3,
+      // stageImg4,
+    ],
+  },
+];
+
+const Images = [
   {
     id: 1,
     image:
@@ -78,7 +168,7 @@ const useStyles = makeStyles(() => ({
     minHeight: '75vh',
     borderRadius: '0.5rem',
     padding: '0.1rem',
-    margin: '0.7rem 2rem 2rem',
+    margin: '0.7rem 1rem 2rem',
   },
   button: {
     minWidth: '8rem',
@@ -142,13 +232,10 @@ const Offer = () => {
       </Box>
       <Box className={classes.main}>
         <Grid container style={{ padding: '1rem 2rem 1rem' }}>
-          <Grid
-            sm={3}
-            style={{ padding: '3rem', border: '1px solid black' }}
-          >
-            {/* <Carousel>
+          <Grid sm={3} style={{ padding: '1.5rem' }}>
+            {/* <CarouselLayout>
               {images.map((image, i) => (
-                <Card style={{ maxWidth: '10rem' }}>
+                <Card style={{ minWidth: '5rem' }} key={image.id}>
                   <CardMedia
                     style={{ height: '8rem' }}
                     image={image}
@@ -156,7 +243,7 @@ const Offer = () => {
                   />
                 </Card>
               ))}
-            </Carousel> */}
+            </CarouselLayout> */}
             <Avatar
               alt='Cindy Baker'
               src='/static/images/avatar/3.jpg'
@@ -164,10 +251,7 @@ const Offer = () => {
               style={{ marginTop: 15, margin: '1.5rem' }}
             />{' '}
           </Grid>
-          <Grid
-            sm={7}
-            style={{ padding: '3rem', border: '1px solid black' }}
-          >
+          <Grid sm={9} style={{ padding: '1.5rem' }}>
             <Box className={classes.flexBetween}>
               <Typography variant='h3'>
                 #01 Formule hajj 2020
@@ -204,7 +288,7 @@ const Offer = () => {
           </Box>
           <Box className={classes.options2}>
             <TabPanel value={tabValue} index={0}>
-              Item One
+              <StagesTab stages={stages ? stages : []} />
             </TabPanel>
             <TabPanel value={tabValue} index={1}>
               Item Two
