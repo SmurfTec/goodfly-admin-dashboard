@@ -4,11 +4,13 @@ import { makeStyles } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
-import StagesTab from './StagesTab';
 import stageImg1 from 'Assets/img/stage1.png';
 import stageImg2 from 'Assets/img/stage12.png';
 import stageImg3 from 'Assets/img/stage2.png';
 import stageImg4 from 'Assets/img/stage23.png';
+
+import StagesTab from './StagesTab';
+import FormalitiesTab from './FormalitiesTab';
 
 // import Carousel from 'react-material-ui-carousel';
 
@@ -291,7 +293,7 @@ const Offer = () => {
               <StagesTab stages={stages ? stages : []} />
             </TabPanel>
             <TabPanel value={tabValue} index={1}>
-              Item Two
+              <FormalitiesTab />
             </TabPanel>
           </Box>
         </Box>
