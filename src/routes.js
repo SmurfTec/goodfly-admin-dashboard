@@ -45,6 +45,7 @@ import OrganizedTrips from './components/dashboard/OrganizedTrips.js';
 
 import CreateOffer from './components/dashboard/Offers/CreateOffer.js';
 import Offers from './components/dashboard/Offers/Offers.js';
+import Offer from './components/dashboard/Offers/Offer.js';
 
 
 const routes = [
@@ -88,7 +89,9 @@ const routes = [
       { path: 'organizedTrips', element: <OrganizedTrips /> },
 
       { path: 'createOffer', element: <CreateOffer /> },
+
       { path: 'offers', element: <Offers /> },
+      { path: 'offer', element: <Offer /> },
 
 
 

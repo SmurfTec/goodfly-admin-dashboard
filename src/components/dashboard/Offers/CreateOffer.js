@@ -1,24 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
@@ -410,50 +389,6 @@ const CreateOffer = () => {
 
 export default CreateOffer;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // import React from 'react';
 // import { makeStyles } from '@material-ui/styles';
 // import Box from '@material-ui/core/Box';
@@ -543,11 +478,10 @@ export default CreateOffer;
 // import DotIndicator from '@mui-treasury/components/indicator/dot';
 // import { useArrowDarkButtonStyles } from '@mui-treasury/styles/button/arrowDark';
 
-
 // const CreateOffer = () => {
 //   return (
 //     <div>
-      
+
 //     </div>
 //   )
 // }
@@ -727,7 +661,7 @@ export default CreateOffer;
 //       <div className={classes.indicatorContainer}>
 //         {data.map(({ id }, i) => (
 //           <DotIndicator
-            // key={id}
+// key={id}
 //             active={i === index}
 //             onClick={() => onChangeIndex(i)}
 //           />
