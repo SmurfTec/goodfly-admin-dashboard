@@ -297,7 +297,6 @@ const Comments = () => {
           open={payment}
           fullWidth
           onClose={closePayment}
-          className
         >
           <DialogTitle>
             <Typography variant='h5'>Comment 04/06/2021</Typography>

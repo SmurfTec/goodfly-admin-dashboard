@@ -19,6 +19,10 @@ import {
   Radio,
   RadioGroup,
   Checkbox,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
 } from '@material-ui/core';
 import { render } from 'react-dom';
 import Gallery from 'react-grid-gallery';
@@ -244,6 +248,7 @@ const CreateOffer = () => {
   const [value, setValue] = React.useState(0);
   const [chooseOffer, setChooseOffer] = React.useState('');
   const [formality, setFormality] = React.useState('');
+  const [formalityDialog, setFormalityDialog] = React.useState(false);
 
   const [state, setState] = React.useState({
     checkedA: true,
@@ -266,6 +271,14 @@ const CreateOffer = () => {
   };
   const handleFormality = (event) => {
     setFormality(event.target.value);
+  };
+
+  const openFormalityDialog = () => {
+    setFormalityDialog(true);
+  };
+
+  const closeFormalityDialog = () => {
+    setFormalityDialog(false);
   };
 
   return (
@@ -811,6 +824,7 @@ const CreateOffer = () => {
                 <Button
                   variant='contained'
                   style={{ width: '12rem' }}
+                  onClick={openFormalityDialog}
                 >
                   {' '}
                   Add a Formality
@@ -907,6 +921,73 @@ const CreateOffer = () => {
           </Box>
         </Box>
       </Box>
+
+      {/*  Formality Dialog  */}
+      <div>
+        <Dialog
+          open={formalityDialog}
+          fullWidth
+          onClose={closeFormalityDialog}
+        >
+          <DialogTitle>Add a Formality</DialogTitle>
+          <DialogContent>
+            <TextField
+              type='text'
+              placeholder='Title of Formality '
+              name='title'
+              size='small'
+              style={{
+                backgroundColor: '#fff',
+                width: '100%',
+              }}
+            />
+            <TextField
+              type='text'
+              placeholder='Subtitle '
+              name='subtitle'
+              size='small'
+              style={{
+                backgroundColor: '#fff',
+                width: '100%',
+                marginTop: '0.5rem 0rem 1rem',
+              }}
+            />
+            <TextField
+              type='text'
+              placeholder='Title of Formality '
+              name='title'
+              multiline
+              rows={10}
+              style={{
+                backgroundColor: '#fff',
+                width: '100%',
+                margin: '1rem 0rem 1rem',
+              }}
+            />
+          </DialogContent>
+          <Divider />
+          <DialogActions>
+            <Box
+              style={{
+                display: 'flex',
+                alignitems: 'center',
+                justifyContent: 'right',
+                margin: '1rem',
+              }}
+            >
+              <Button
+                variant='outlined'
+                style={{ width: '8rem', marginRight: '1rem' }}
+              >
+                Cancel
+              </Button>
+              <Button variant='contained' style={{ width: '8rem' }}>
+                Validate
+              </Button>
+            </Box>
+          </DialogActions>
+        </Dialog>
+      </div>
     </div>
   );
 };
