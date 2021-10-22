@@ -20,6 +20,8 @@ import {
   RadioGroup,
   Checkbox,
 } from '@material-ui/core';
+import { render } from 'react-dom';
+import Gallery from 'react-grid-gallery';
 
 import Divider from '@material-ui/core/Divider';
 
@@ -59,6 +61,42 @@ function a11yProps(index) {
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
+
+const IMAGES = [
+  {
+    src: 'https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg',
+    thumbnail:
+      'https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_n.jpg',
+    thumbnailWidth: 500,
+    thumbnailHeight: 250,
+    caption: 'After Rain (Jeshu John - designerspics.com)',
+  },
+  {
+    src: 'https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_b.jpg',
+    thumbnail:
+      'https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_n.jpg',
+    thumbnailWidth: 400,
+    thumbnailHeight: 250,
+    border: '1px solid red',
+    caption: 'Boats (Jeshu John - designerspics.com)',
+  },
+
+  {
+    src: 'https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg',
+    thumbnail:
+      'https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg',
+    thumbnailWidth: 500,
+    thumbnailHeight: 250,
+  },
+  {
+    src: 'https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_b.jpg',
+    thumbnail:
+      'https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_n.jpg',
+    thumbnailWidth: 400,
+    thumbnailHeight: 250,
+    caption: 'Boats (Jeshu John - designerspics.com)',
+  },
+];
 
 const rows = [
   createData(
@@ -114,10 +152,7 @@ const rows = [
 const styles = makeStyles((theme) => ({
   options: {
     backgroundColor: '#f2f2f2',
-    height: '80vh',
-    [theme.breakpoints.down('md')]: {
-      height: '100vh',
-    },
+    height: '100%',
   },
   rootContainer: {
     '& .css-19kzrtu': {
@@ -173,9 +208,6 @@ const styles = makeStyles((theme) => ({
     width: '100%',
     backgroundColor: '#fff',
     marginBottom: 7,
-  },
-  stageContainer: {
-    backgroundColor: '#ffffff',
   },
 }));
 
@@ -579,7 +611,7 @@ const CreateOffer = () => {
               value={value}
               index={1}
               className={classes.options}
-              style={{ height: '70vh' }}
+              // style={{ height: '80vh' }}
             >
               <Box
                 style={{
@@ -601,47 +633,111 @@ const CreateOffer = () => {
                   Next
                 </Button>
               </Box>
-              <Box m={5}>
-                <Grid container className={classes.stageContainer}>
+              <Box m={3} style={{ backgroundColor: '#ffffff' }}>
+                <Grid container>
                   <Grid
                     item
                     sm={12}
-                    md={6}
+                    md={5}
                     style={{
-                      border: '1px solid red',
                       padding: '2rem',
                     }}
                   >
                     <Box
-                      className={classes.flexBetween}
-                      style={{ margin: '2rem' }}
+                      className={classes.flexLeft}
+                      style={{ margin: '0rem 1rem 0.5rem' }}
                     >
-                      <Typography variant='h5'>
+                      <Typography variant='h5' mr={10}>
                         Visit of Mount Uhud
                       </Typography>
                       <Typography variant='text'> 554 km</Typography>
                     </Box>
-                    <Box style={{ margin: '0rem 2rem 2rem' }}>
+                    <Box style={{ margin: '0rem 1rem 1rem' }}>
                       <CardMedia
-                        className={classes.image}
-                        style={{ width: '15rem' }}
+                        style={{ width: '25rem', height: '18rem' }}
                         image='https://picsum.photos/200/300?random=2'
                         title='Contemplative Reptile'
                       />
+                      <Box mt={2}>
+                        <Typography variant='text'>
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  <Grid item sm={12} md={7}>
+                    <Box style={{ margin: '2rem 0rem 0.5rem' }}>
+                      <Typography variant='h5'>
+                        Medina-Hotel foulane
+                      </Typography>
+                    </Box>
+                    <Box
+                      style={{
+                        minHeight: '25rem',
+                      }}
+                    >
+                      <Gallery images={IMAGES} margin={5} />
+                    </Box>
+                    <Typography variant='h5' mt={3}>
+                      Service Includes
+                    </Typography>
+
+                    {/*  map the Services */}
+                    <Box
+                      style={{
+                        display: 'flex',
+                        alignItems: 'self-end',
+                        justifyContent: 'left',
+                        marginTop:0
+                      }}
+                    >
+                      <Typography
+                        variant='h1'
+                        style={{ fontSize: '3rem' }}
+                      >
+                        .
+                      </Typography>
                       <Typography variant='text'>
-                        dfsafdsadfs fdsf a
+                        Half pension
                       </Typography>
                     </Box>
                   </Grid>
-                  <Grid
-                    item
-                    sm={12}
-                    md={6}
-                    style={{ border: '1px solid red' }}
-                  >
-                    2
-                  </Grid>
                 </Grid>
+                <Box
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '1rem',
+                  }}
+                >
+                  <Button
+                    variant='outlined'
+                    style={{
+                      color: 'red',
+                      border: '1px solid red',
+                      width: '8rem',
+                      marginRight: '1rem',
+                    }}
+                  >
+                    Delete
+                  </Button>
+                  <Button
+                    variant='outlined'
+                    style={{ width: '8rem' }}
+                  >
+                    Update
+                  </Button>
+                </Box>
               </Box>
             </TabPanel>
             <TabPanel value={value} index={2}>

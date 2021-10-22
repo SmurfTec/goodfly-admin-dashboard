@@ -43,9 +43,9 @@ import Comments from './components/dashboard/Comments.js';
 
 import OrganizedTrips from './components/dashboard/OrganizedTrips.js';
 
-import CreateOffer from './components/dashboard/Offers/CreateOffer.js';
-import Offers from './components/dashboard/Offers/Offers.js';
-import Offer from './components/dashboard/Offers/Offer.js';
+import CreateOffer from './components/dashboard/Offer/CreateOffer.js';
+import Offers from './components/dashboard/Offer/Offers.js';
+import Offer from './components/dashboard/Offer/Offer.js';
 
 
 const routes = [
