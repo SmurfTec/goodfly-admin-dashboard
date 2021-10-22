@@ -149,6 +149,33 @@ const rows = [
     '04/06/2019'
   ),
 ];
+
+const Formalities = [
+  {
+    id: 1,
+    title: 'Formalities administratives',
+    subtitle: 'Prise en charge du dossier et de enregistment',
+    description: 'Notre dsadas occupe de tout bla bla bla bla',
+  },
+  {
+    id: 2,
+    title: 'Formalities administratives',
+    subtitle: 'Prise en charge du dossier et de enregistment',
+    description: 'Notre dsadas occupe de tout bla bla bla bla',
+  },
+  {
+    id: 3,
+    title: 'Formalities administratives',
+    subtitle: 'Prise en charge du dossier et de enregistment',
+    description: 'Notre dsadas occupe de tout bla bla bla bla',
+  },
+  {
+    id: 4,
+    title: 'Formalities administratives',
+    subtitle: 'Prise en charge du dossier et de enregistment',
+    description: 'Notre dsadas occupe de tout bla bla bla bla',
+  },
+];
 const styles = makeStyles((theme) => ({
   options: {
     backgroundColor: '#f2f2f2',
@@ -216,6 +243,8 @@ const CreateOffer = () => {
 
   const [value, setValue] = React.useState(0);
   const [chooseOffer, setChooseOffer] = React.useState('');
+  const [formality, setFormality] = React.useState('');
+
   const [state, setState] = React.useState({
     checkedA: true,
     checkedB: true,
@@ -234,6 +263,9 @@ const CreateOffer = () => {
 
   const handleCheckBoxes = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
+  };
+  const handleFormality = (event) => {
+    setFormality(event.target.value);
   };
 
   return (
@@ -611,7 +643,6 @@ const CreateOffer = () => {
               value={value}
               index={1}
               className={classes.options}
-              // style={{ height: '80vh' }}
             >
               <Box
                 style={{
@@ -697,7 +728,7 @@ const CreateOffer = () => {
                         display: 'flex',
                         alignItems: 'self-end',
                         justifyContent: 'left',
-                        marginTop:0
+                        marginTop: 0,
                       }}
                     >
                       <Typography
@@ -717,7 +748,7 @@ const CreateOffer = () => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginBottom: '1rem',
+                    paddingBottom: '1rem',
                   }}
                 >
                   <Button
@@ -740,8 +771,138 @@ const CreateOffer = () => {
                 </Box>
               </Box>
             </TabPanel>
-            <TabPanel value={value} index={2}>
-              formalities
+            <TabPanel
+              value={value}
+              index={2}
+              className={classes.options}
+            >
+              <Box
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <FormControl
+                  size='small'
+                  style={{
+                    width: '30%',
+                    backgroundColor: '#fff',
+                    margin: '1rem',
+                  }}
+                >
+                  <InputLabel id='demo-simple-select-label'>
+                    Choose an existing formality
+                  </InputLabel>
+
+                  <Select
+                    labelId='demo-simple-select-label'
+                    id='formality'
+                    value={formality}
+                    label='Choose an existing formality'
+                    onChange={handleFormality}
+                  >
+                    <MenuItem value={10}>Formality Omra</MenuItem>
+                    <MenuItem value={20}>Formality Malasia</MenuItem>
+                    <MenuItem value={30}>Formality Riyad</MenuItem>
+                    <MenuItem value={30}>Formality Desert</MenuItem>
+                  </Select>
+                </FormControl>
+                <Button
+                  variant='contained'
+                  style={{ width: '12rem' }}
+                >
+                  {' '}
+                  Add a Formality
+                </Button>
+              </Box>
+              <Box
+                style={{
+                  display: 'flex',
+                  justifyContent: 'left',
+                  alignItems: 'center',
+                  margin: '2rem 5rem 0rem 21rem',
+                }}
+              >
+                <Box
+                  style={{
+                    display: 'grid',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Typography variant='h3'>
+                    {' '}
+                    Formality Omra
+                  </Typography>
+                  {/*  map the Formalities */}
+                  {Formalities &&
+                    Formalities.map((formality) => (
+                      <>
+                        <Box
+                          style={{
+                            display: 'flex',
+                            alignItems: 'self-end',
+                            justifyContent: 'left',
+                          }}
+                        >
+                          <Typography
+                            variant='h1'
+                            style={{ fontSize: '3rem' }}
+                          >
+                            {' '}
+                            .{' '}
+                          </Typography>
+                          <Typography variant='h4'>
+                            {formality.title}
+                          </Typography>
+                        </Box>
+                        <Box style={{ paddingLeft: '1.5rem' }}>
+                          <Typography variant='h5'>
+                            {formality.subtitle}
+                          </Typography>
+                          <Typography
+                            variant='text'
+                            style={{ fontSize: '0.8rem' }}
+                          >
+                            {formality.description}
+                          </Typography>
+                        </Box>
+                      </>
+                    ))}
+                </Box>
+              </Box>
+              <Box
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '4rem 0rem 0.5rem',
+                }}
+              >
+                <Button
+                  variant='outlined'
+                  style={{
+                    width: '8rem',
+                    color: 'red',
+                    border: '1px solid red',
+                    marginRight: '1rem',
+                  }}
+                >
+                  Delete
+                </Button>
+                <Button
+                  variant='outlined'
+                  style={{ width: '8rem', marginRight: '1rem' }}
+                >
+                  {' '}
+                  Update
+                </Button>
+                <Button variant='contained' style={{ width: '8rem' }}>
+                  {' '}
+                  Validate
+                </Button>
+              </Box>
             </TabPanel>
           </Box>
         </Box>
