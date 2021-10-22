@@ -24,8 +24,9 @@ import {
   DialogTitle,
   DialogContent,
 } from '@material-ui/core';
-import { render } from 'react-dom';
 import Gallery from 'react-grid-gallery';
+import CarouselLayout from 'components/common/Carousel/CarouselLayout';
+import TripCard from './TripCard';
 
 import Divider from '@material-ui/core/Divider';
 
@@ -180,6 +181,121 @@ const Formalities = [
     description: 'Notre dsadas occupe de tout bla bla bla bla',
   },
 ];
+const trips = [
+  {
+    _id: 1,
+    title: 'paksitan',
+    category: 'ethical',
+    images: [
+      'https://picsum.photos/200/300?random=2',
+      'https://picsum.photos/200/300?random=2',
+    ],
+    date: '12-12-12',
+    services: [
+      'Formalités administratives',
+      'Transferts internes',
+      'Guide',
+    ],
+    price: 15000,
+  },
+  {
+    _id: 2,
+    title: 'paksitan',
+    category: 'ethical',
+    images: [
+      'https://picsum.photos/200/300?random=2',
+      'https://picsum.photos/200/300?random=2',
+    ],
+    date: '12-12-12',
+    services: [
+      'Formalités administratives',
+      'Transferts internes',
+      'Guide',
+    ],
+    price: 15000,
+  },
+  {
+    _id: 3,
+    title: 'paksitan',
+    category: 'ethical',
+    images: [
+      'https://picsum.photos/200/300?random=2',
+      'https://picsum.photos/200/300?random=2',
+    ],
+    date: '12-12-12',
+    services: [
+      'Formalités administratives',
+      'Transferts internes',
+      'Guide',
+    ],
+    price: 15000,
+  },
+  {
+    _id: 4,
+    title: 'paksitan',
+    category: 'ethical',
+    images: [
+      'https://picsum.photos/200/300?random=2',
+      'https://picsum.photos/200/300?random=2',
+    ],
+    date: '12-12-12',
+    services: [
+      'Formalités administratives',
+      'Transferts internes',
+      'Guide',
+    ],
+    price: 15000,
+  },
+  {
+    _id: 5,
+    title: 'paksitan',
+    category: 'ethical',
+    images: [
+      'https://picsum.photos/200/300?random=2',
+      'https://picsum.photos/200/300?random=2',
+    ],
+    date: '12-12-12',
+    services: [
+      'Formalités administratives',
+      'Transferts internes',
+      'Guide',
+    ],
+    price: 15000,
+  },
+  {
+    _id: 6,
+    title: 'paksitan',
+    category: 'ethical',
+    images: [
+      'https://picsum.photos/200/300?random=2',
+      'https://picsum.photos/200/300?random=2',
+    ],
+    date: '12-12-12',
+    services: [
+      'Formalités administratives',
+      'Transferts internes',
+      'Guide',
+    ],
+    price: 15000,
+  },
+  {
+    _id: 7,
+    title: 'paksitan',
+    category: 'ethical',
+    images: [
+      'https://picsum.photos/200/300?random=2',
+      'https://picsum.photos/200/300?random=2',
+    ],
+    date: '12-12-12',
+    services: [
+      'Formalités administratives',
+      'Transferts internes',
+      'Guide',
+    ],
+    price: 15000,
+  },
+];
+
 const styles = makeStyles((theme) => ({
   options: {
     backgroundColor: '#f2f2f2',
@@ -240,6 +356,12 @@ const styles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     marginBottom: 7,
   },
+  // dialogStyle:{
+  //   '& .MuiDialog-paperFullWidth':{
+  //     border:'3px solid red',
+  //     width:'2000px'
+  //   }
+  // }
 }));
 
 const CreateOffer = () => {
@@ -249,6 +371,7 @@ const CreateOffer = () => {
   const [chooseOffer, setChooseOffer] = React.useState('');
   const [formality, setFormality] = React.useState('');
   const [formalityDialog, setFormalityDialog] = React.useState(false);
+  const [stageDialog, setStageDialog] = React.useState(false);
 
   const [state, setState] = React.useState({
     checkedA: true,
@@ -279,6 +402,13 @@ const CreateOffer = () => {
 
   const closeFormalityDialog = () => {
     setFormalityDialog(false);
+  };
+  const openStageDialog = () => {
+    setStageDialog(true);
+  };
+
+  const closeStageDialog = () => {
+    setStageDialog(false);
   };
 
   return (
@@ -667,6 +797,7 @@ const CreateOffer = () => {
                 <Button
                   variant='contained'
                   style={{ width: '10rem', marginRight: '1rem' }}
+                  onClick={openStageDialog}
                 >
                   Add a Step
                 </Button>
@@ -922,6 +1053,83 @@ const CreateOffer = () => {
         </Box>
       </Box>
 
+      {/*  Stages Dialog */}
+      <div>
+        <Dialog
+          open={stageDialog}
+          fullWidth
+          onClose={closeStageDialog}
+        >
+          <DialogTitle>Add Steps</DialogTitle>
+          <DialogContent>
+            <Grid container>
+              <Grid item md={3} style={{ padding: '1rem' }}>
+                <TextField
+                  type='text'
+                  placeholder='Stage Title'
+                  name='title'
+                  size='small'
+                  style={{
+                    backgroundColor: '#fff',
+                    width: '100%',
+                  }}
+                />
+                <TextField
+                  type='text'
+                  placeholder='City '
+                  name='city'
+                  size='small'
+                  style={{
+                    backgroundColor: '#fff',
+                    width: '100%',
+                    margin: '0.5rem 0rem 1rem',
+                  }}
+                />
+                <TextField
+                  type='text'
+                  placeholder='Description'
+                  name='description'
+                  multiline
+                  rows={10}
+                  style={{
+                    backgroundColor: '#fff',
+                    width: '100%',
+                    marginTop: '1rem',
+                  }}
+                />
+                <Box className={classes.flexBetween}>
+                  <Typography variant='text'>Distance</Typography>
+                  <TextField
+                    type='text'
+                    placeholder='km'
+                    name='km'
+                    size='small'
+                    style={{
+                      backgroundColor: '#fff',
+                      width: '50%',
+                      margin: '1rem 0rem 1rem',
+                    }}
+                  />
+                </Box>
+              </Grid>
+              <Grid item md={9} style={{ border: '1px solid black' }}>
+                <CarouselLayout>
+                  {trips.map((trip, i) => (
+                    <div
+                      key={trip._id}
+                      className={classes.carouselCard}
+                    >
+                      <TripCard trip={trip} />
+                    </div>
+                  ))}
+                  {/* one */}
+                </CarouselLayout>
+              </Grid>
+            </Grid>
+          </DialogContent>
+        </Dialog>
+      </div>
+
       {/*  Formality Dialog  */}
       <div>
         <Dialog
@@ -949,23 +1157,22 @@ const CreateOffer = () => {
               style={{
                 backgroundColor: '#fff',
                 width: '100%',
-                marginTop: '0.5rem 0rem 1rem',
+                margin: '0.5rem 0rem 1rem',
               }}
             />
             <TextField
               type='text'
               placeholder='Title of Formality '
-              name='title'
+              name='description'
               multiline
               rows={10}
               style={{
                 backgroundColor: '#fff',
                 width: '100%',
-                margin: '1rem 0rem 1rem',
+                marginTop: '1rem',
               }}
             />
           </DialogContent>
-          <Divider />
           <DialogActions>
             <Box
               style={{
