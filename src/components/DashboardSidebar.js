@@ -52,7 +52,7 @@ const user = {
 
 const items = [
   {
-    href: '/Accueil',
+    href: '/app/offers',
     icon: HomeIcon,
     title: 'Accueil',
   },

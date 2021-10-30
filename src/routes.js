@@ -47,7 +47,6 @@ import CreateOffer from './components/dashboard/Offer/CreateOffer.js';
 import Offers from './components/dashboard/Offer/Offers.js';
 import Offer from './components/dashboard/Offer/Offer.js';
 
-
 const routes = [
   {
     path: 'app',
@@ -79,23 +78,25 @@ const routes = [
 
       { path: 'orders', element: <Orders /> },
       { path: 'order', element: <Order /> },
-      
+
       { path: 'payments', element: <Payments /> },
 
       { path: 'detailReservation', element: <DetailReservation /> },
 
       { path: 'comments', element: <Comments /> },
-      
+
       { path: 'organizedTrips', element: <OrganizedTrips /> },
 
-      { path: 'createOffer', element: <CreateOffer /> },
-      { path: 'offers', element: <Offers /> },
-      { path: 'offer', element: <Offer /> },
+      {
+        path: 'offers',
+        children: [
+          { path: '/', element: <Offers /> },
+          { path: 'createOffer', element: <CreateOffer /> },
+          { path: 'offer', element: <Offer /> },
+        ],
+      },
 
-
-
-
-      //  Other 
+      //  Other
 
       { path: 'account', element: <Account /> },
       { path: 'customers', element: <CustomerList /> },

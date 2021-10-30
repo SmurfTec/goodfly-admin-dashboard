@@ -34,7 +34,7 @@ import Divider from '@material-ui/core/Divider';
 
 import {
   Trash2 as Trash2Icon,
-  Download as DownloadIcon,
+  Printer as PrinterIcon,
   Play as PlayIcon,
 } from 'react-feather';
 import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
@@ -360,7 +360,7 @@ const DetailReservation = () => {
                 }}
               >
                 <Box>
-                  <DownloadIcon className={classes.icons} />
+                  <PrinterIcon className={classes.icons} />
                   <Trash2Icon className={classes.icons} />
                   <PlayIcon className={classes.icons} />
                 </Box>
