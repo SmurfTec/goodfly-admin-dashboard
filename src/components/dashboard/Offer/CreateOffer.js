@@ -356,12 +356,11 @@ const styles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     marginBottom: 7,
   },
-  // dialogStyle:{
-  //   '& .MuiDialog-paperFullWidth':{
-  //     border:'3px solid red',
-  //     width:'2000px'
-  //   }
-  // }
+  stageDialog: {
+    '& .MuiPaper-root': {
+      maxWidth: '90%',
+    },
+  },
 }));
 
 const CreateOffer = () => {
@@ -1059,6 +1058,7 @@ const CreateOffer = () => {
           open={stageDialog}
           fullWidth
           onClose={closeStageDialog}
+          className={classes.stageDialog}
         >
           <DialogTitle>Add Steps</DialogTitle>
           <DialogContent>
@@ -1117,7 +1117,8 @@ const CreateOffer = () => {
                   {trips.map((trip, i) => (
                     <div
                       key={trip._id}
-                      className={classes.carouselCard}
+                      // className={classes.carouselCard}
+                      style={{border:'1px solid red',width:'10rem'}}
                     >
                       <TripCard trip={trip} />
                     </div>
