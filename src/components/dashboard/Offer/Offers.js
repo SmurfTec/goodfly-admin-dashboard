@@ -152,7 +152,6 @@ const styles = makeStyles((theme) => ({
   },
   carouselCard: {
     display: 'block',
-    // border: '1px solid red',
     height: '100%',
     boxSizing: 'border-box',
     // width: '15rem',
@@ -173,7 +172,7 @@ const Offers = () => {
       <Grid container>
         <Grid item sm={10}>
           <Box className={classes.boxBack}>
-            <Box style={{ padding: '1rem' }}>
+            <Box p={3}>
               <Typography variant='h5'>HAJJ</Typography>
               <CarouselLayout>
                 {trips.map((trip, i) => (
@@ -189,8 +188,7 @@ const Offers = () => {
             </Box>
           </Box>
           <Box className={classes.boxBack}>
-            {' '}
-            <Box style={{ padding: '1rem' }}>
+            <Box p={3}>
               <Typography variant='h5'>OMRA</Typography>
             </Box>
           </Box>

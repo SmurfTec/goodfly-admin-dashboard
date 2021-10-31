@@ -235,23 +235,11 @@ const Offer = () => {
       <Box className={classes.main}>
         <Grid container style={{ padding: '1rem 2rem 1rem' }}>
           <Grid sm={3} style={{ padding: '1.5rem' }}>
-            {/* <CarouselLayout>
-              {images.map((image, i) => (
-                <Card style={{ minWidth: '5rem' }} key={image.id}>
-                  <CardMedia
-                    style={{ height: '8rem' }}
-                    image={image}
-                    title='Contemplative Reptile'
-                  />
-                </Card>
-              ))}
-            </CarouselLayout> */}
-            <Avatar
-              alt='Cindy Baker'
-              src='/static/images/avatar/3.jpg'
-              sx={{ width: 100, height: 100 }}
-              style={{ marginTop: 15, margin: '1.5rem' }}
-            />{' '}
+            <CardMedia
+              style={{ height: '8rem' }}
+              image='https://picsum.photos/200/300?random=2'
+              title='trip'
+            />
           </Grid>
           <Grid sm={9} style={{ padding: '1.5rem' }}>
             <Box className={classes.flexBetween}>

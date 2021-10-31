@@ -18,16 +18,14 @@ export const styles = makeStyles((theme) => ({
       },
     },
     '& .react-multiple-carousel__arrow--right ': {
-      height: 80,
       right: 0,
-      borderBottomLeftRadius: 25,
-      borderTopLeftRadius: 25,
+      borderBottomLeftRadius: 10,
+      borderTopLeftRadius: 10,
     },
     '& .react-multiple-carousel__arrow--left': {
-      height: 80,
       left: 0,
-      borderBottomRightRadius: 25,
-      borderTopRightRadius: 25,
+      borderBottomRightRadius: 10,
+      borderTopRightRadius: 10,
     },
     '& .carousel-container': {
       //  margin: '0 1rem',
