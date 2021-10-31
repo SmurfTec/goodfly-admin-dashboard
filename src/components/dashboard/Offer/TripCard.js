@@ -13,13 +13,21 @@ import { Switch } from '@material-ui/core';
 const styles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   details: {
     display: 'flex',
     flexDirection: 'column',
+    [theme.breakpoints.down('lg')]: {
+      width: '6rem',
+    },
   },
   content: {
     flex: '1 0 auto',
+    [theme.breakpoints.down('lg')]: {
+      padding: '0.3rem',
+    },
   },
   cover: {
     width: '12rem',

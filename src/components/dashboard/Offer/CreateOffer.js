@@ -26,7 +26,11 @@ import {
 } from '@material-ui/core';
 import Gallery from 'react-grid-gallery';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
-import TripCard from './TripCard';
+import {
+  Plus as PlusIcon,
+  Archive as ArchiveIcon,
+  Image as ImageIcon,
+} from 'react-feather';
 
 import Divider from '@material-ui/core/Divider';
 
@@ -360,6 +364,29 @@ const styles = makeStyles((theme) => ({
     '& .MuiPaper-root': {
       maxWidth: '90%',
     },
+  },
+  cover: {
+    width: '12rem',
+    height: '7rem',
+    margin: '0.5rem',
+    borderRadius: '5px',
+  },
+  imgBackground: {
+    backgroundColor: '#808080',
+    borderRadius: '10px',
+    width: '10rem',
+  },
+  dashes: {
+    border: `2px dashed #fff`,
+    borderRadius: '10px',
+  },
+  image: {
+    minHeight: '5.5rem',
+    margin: '0.5rem',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 }));
 
@@ -1112,19 +1139,189 @@ const CreateOffer = () => {
                   />
                 </Box>
               </Grid>
-              <Grid item md={9} style={{ border: '1px solid black' }}>
-                <CarouselLayout>
-                  {trips.map((trip, i) => (
-                    <div
-                      key={trip._id}
-                      // className={classes.carouselCard}
-                      style={{border:'1px solid red',width:'10rem'}}
+              <Grid item md={9}>
+                <Grid container>
+                  <Grid item md={4}>
+                    <Box
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'right',
+                        alignItems: 'center',
+                        marginRight: '1rem',
+                      }}
                     >
-                      <TripCard trip={trip} />
-                    </div>
-                  ))}
-                  {/* one */}
-                </CarouselLayout>
+                      <Box>
+                        <Typography variant='h5'>
+                          gallery of the stage
+                        </Typography>
+                        <Box className={classes.imgBackground} mt={1}>
+                          <Box className={classes.dashes}>
+                            <Box className={classes.image}>
+                              <Box>
+                                <PlusIcon
+                                  size={35}
+                                  style={{ color: '#fff' }}
+                                />
+                                <ImageIcon
+                                  size={35}
+                                  style={{ color: '#fff' }}
+                                />
+                              </Box>
+                              <Typography style={{ color: '#fff' }}>
+                                New Image
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  <Grid item md={8}>
+                    <CarouselLayout>
+                      {trips.map((trip, i) => (
+                        <>
+                          <div
+                            key={trip._id}
+                            // className={classes.carouselCard}
+                            style={{
+                              width: '10rem',
+                            }}
+                          >
+                            <CardMedia
+                              className={classes.cover}
+                              image='https://picsum.photos/200/300?random=2'
+                              title='Live from space album cover'
+                            />
+                          </div>
+                          <Box style={{ textAlign: 'right' }}>
+                            <Button style={{ color: 'red' }}>
+                              {' '}
+                              delete{' '}
+                            </Button>
+                          </Box>
+                        </>
+                      ))}
+                    </CarouselLayout>
+                  </Grid>
+                  <Grid item md={4} mt={5}>
+                    <Box
+                      style={{
+                        textAlign: 'right',
+                        marginRight: '1rem',
+                      }}
+                    >
+                      <Typography variant='h5'>
+                        Accommodation
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item md={8} mt={4}>
+                    <Box>
+                      <Box ml={2} style={{ width: '60%' }}>
+                        <TextField
+                          hiddenLabel
+                          id='filled-hidden-label-small'
+                          placeholder='Name of accommodation'
+                          size='small'
+                          className={classes.textInput}
+                        />
+                      </Box>
+                      <Box ml={2}>
+                        <FormControl component='fieldset'>
+                          <RadioGroup
+                            row
+                            aria-label='gender'
+                            name='row-radio-buttons-group'
+                          >
+                            <FormControlLabel
+                              value='breakfast'
+                              control={<Radio />}
+                              label='breakfast'
+                            />
+                            <FormControlLabel
+                              value='Half board'
+                              control={<Radio />}
+                              label='Half board'
+                            />
+                            <FormControlLabel
+                              value='complete board'
+                              control={<Radio />}
+                              label='complete board'
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  <Grid item md={4} mt={4}>
+                    <Box
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'right',
+                        alignItems: 'center',
+                        marginRight: '1rem',
+                      }}
+                    >
+                      <Box>
+                        <Box className={classes.imgBackground}>
+                          <Box className={classes.dashes}>
+                            <Box className={classes.image}>
+                              <Box>
+                                <PlusIcon
+                                  size={35}
+                                  style={{ color: '#fff' }}
+                                />
+                                <ImageIcon
+                                  size={35}
+                                  style={{ color: '#fff' }}
+                                />
+                              </Box>
+                              <Typography style={{ color: '#fff' }}>
+                                New Image
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  <Grid item md={8} mt={2}>
+                    <CarouselLayout>
+                      {trips.map((trip, i) => (
+                        <div
+                          key={trip._id}
+                          // className={classes.carouselCard}
+                          style={{
+                            width: '10rem',
+                          }}
+                        >
+                          <CardMedia
+                            className={classes.cover}
+                            image='https://picsum.photos/200/300?random=2'
+                            title='Live from space album cover'
+                          />
+                        </div>
+                      ))}
+                      {/* one */}
+                    </CarouselLayout>
+                  </Grid>
+                  <Grid item md={12} mt={3}>
+                    <Box
+                      display='flex'
+                      justifyContent='right'
+                      alignItems='center'
+                      style={{ gap: '20px' }}
+                    >
+                      <Button
+                        variant='outlined'
+                        style={{ color: 'red' }}
+                      >
+                        Cancel{' '}
+                      </Button>
+                      <Button variant='contained'>Validate </Button>
+                    </Box>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </DialogContent>

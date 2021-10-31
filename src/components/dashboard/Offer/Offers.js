@@ -140,6 +140,15 @@ const styles = makeStyles((theme) => ({
     borderRadius: '0.5rem',
     margin: '0.8rem',
   },
+  imgBackground: {
+    backgroundColor: '#808080',
+    borderRadius: '10px',
+    width: '9rem',
+    marginBottom: '1rem',
+    [theme.breakpoints.down('lg')]: {
+      width: '7rem',
+    },
+  },
   image: {
     minHeight: '8rem',
     margin: '0.5rem',
@@ -210,14 +219,7 @@ const Offers = () => {
               justifyContent: 'center',
             }}
           >
-            <Box
-              style={{
-                backgroundColor: '#808080',
-                borderRadius: '10px',
-                width: '9rem',
-                marginBottom: '1rem',
-              }}
-            >
+            <Box className={classes.imgBackground}>
               <Box className={classes.image}>
                 <Box>
                   <PlusIcon size={35} style={{ color: '#fff' }} />
@@ -228,18 +230,14 @@ const Offers = () => {
                 </Typography>
               </Box>
             </Box>
-            <Box
-              style={{
-                backgroundColor: '#808080',
-                borderRadius: '10px',
-                width: '9rem',
-              }}
-            >
+            <Box className={classes.imgBackground}>
               <Box className={classes.image}>
                 <Box>
                   <ArchiveIcon size={35} style={{ color: '#fff' }} />
                 </Box>
-                <Typography style={{ color: '#fff' }}>
+                <Typography
+                  style={{ color: '#fff', margin: '0.5rem' }}
+                >
                   Offer archives
                 </Typography>
               </Box>
