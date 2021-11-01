@@ -17,7 +17,7 @@ import Blogs from './components/dashboard/Blogs.js';
 
 import Visitors from './components/dashboard/Visitors.js';
 import VisitorProfile from './components/dashboard/VisitorProfile.js';
-import VisitorProfileTwo from './components/dashboard/VisitorProfileTwo.js';
+import ViewVisitor from './components/dashboard/VisitorProfileTwo.js';
 
 import AddStaffer from './components/dashboard/AddStaffer.js';
 import ViewStaffer from './components/dashboard/ViewStaffer.js';
@@ -55,37 +55,89 @@ const routes = [
       //-----------------   MY PAGES ------------------------------
       { path: 'profile', element: <Profile /> },
 
-      { path: 'blog', element: <CreateBlog /> },
-      { path: 'blogs', element: <Blogs /> },
+      {
+        path: 'blogs',
+        children: [
+          {
+            path: '/',
+            element: <Blogs />,
+          },
+          { path: 'create', element: <CreateBlog /> },
+        ],
+      },
 
-      { path: 'visitorProfile', element: <VisitorProfile /> },
-      { path: 'visitorProfileTwo', element: <VisitorProfileTwo /> },
-      { path: 'visitors', element: <Visitors /> },
+      {
+        path: 'visitors',
+        children: [
+          {
+            path: '/',
+            element: <Visitors />,
+          },
+          { path: '/:id/edit', element: <VisitorProfile /> },
+          { path: '/:id', element: <ViewVisitor /> },
+        ],
+      },
 
-      { path: 'addStaffer', element: <AddStaffer /> },
-      { path: 'viewStaffer', element: <ViewStaffer /> },
-      { path: 'staffers', element: <Staffers /> },
+      {
+        path: 'staffers',
+        children: [
+          {
+            path: '/',
+            element: <Staffers />,
+          },
+          {
+            path: '/:id',
+            element: <ViewStaffer />,
+          },
+          {
+            path: '/create',
+            element: <AddStaffer />,
+          },
+        ],
+      },
 
-      { path: 'tourcategories', element: <TourCategories /> },
+      {
+        path: 'tours',
+        children: [
+          { path: '/organizedTrips', element: <OrganizedTrips /> },
+          { path: '/customtrips', element: <CustomTrips /> },
+          { path: '/customtrips/:id', element: <CustomTrip /> },
+          { path: '/categories', element: <TourCategories /> },
+        ],
+      },
 
-      { path: 'customtrips', element: <CustomTrips /> },
-      { path: 'customtrip', element: <CustomTrip /> },
-
-      { path: 'createProduct', element: <CreateProduct /> },
-      { path: 'allProducts', element: <Products /> },
+      {
+        path: 'products',
+        children: [
+          {
+            path: '/',
+            element: <Products />,
+          },
+          { path: '/create', element: <CreateProduct /> },
+        ],
+      },
 
       { path: 'reservations', element: <Reservations /> },
 
-      { path: 'orders', element: <Orders /> },
-      { path: 'order', element: <Order /> },
+      {
+        path: 'order',
+        children: [
+          {
+            path: '/',
+            element: <Orders />,
+          },
+          {
+            path: '/:id',
+            element: <Order />,
+          },
+        ],
+      },
 
       { path: 'payments', element: <Payments /> },
 
       { path: 'detailReservation', element: <DetailReservation /> },
 
       { path: 'comments', element: <Comments /> },
-
-      { path: 'organizedTrips', element: <OrganizedTrips /> },
 
       {
         path: 'offers',
@@ -98,10 +150,10 @@ const routes = [
 
       //  Other
 
-      { path: 'account', element: <Account /> },
-      { path: 'customers', element: <CustomerList /> },
-      { path: 'dashboard', element: <Dashboard /> },
-      { path: 'products', element: <ProductList /> },
+      // { path: 'account', element: <Account /> },
+      // { path: 'customers', element: <CustomerList /> },
+      // { path: 'dashboard', element: <Dashboard /> },
+      // { path: 'products', element: <ProductList /> },
       { path: 'settings', element: <Settings /> },
       { path: '*', element: <Navigate to='/404' /> },
     ],
