@@ -7,10 +7,12 @@ import {
   Button,
   TextField,
   Switch,
+  IconButton,
 } from '@material-ui/core';
 
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import ConfirmDialog from './Dialogs/ConfirmDialogBox';
 
 const styles = makeStyles((theme) => ({
   image: {
@@ -42,6 +44,10 @@ const CreateBlog = () => {
   const [state, setState] = useState({
     dateOfPublish: '2021-10-04',
   });
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleIsOpen = () => {
+    setIsOpen(!isOpen);
+  };
 
   const toggle = (event) => {
     setChecked(event.target.checked);
@@ -53,6 +59,9 @@ const CreateBlog = () => {
 
   const handleEditor = () => {
     console.log('setEditor');
+  };
+  const handleBlogCancel = () => {
+    toggleIsOpen();
   };
 
   return (
@@ -170,6 +179,7 @@ const CreateBlog = () => {
           variant='contained'
           size='medium'
           style={{ backgroundColor: 'red', width: 150 }}
+          onClick={toggleIsOpen}
         >
           Cancel
         </Button>
@@ -181,6 +191,13 @@ const CreateBlog = () => {
           Create
         </Button>
       </Box>
+
+      <ConfirmDialog
+        open={isOpen}
+        Success={handleBlogCancel}
+        toggleDialog={toggleIsOpen}
+        dialogTitle=' Are you Sure you want to cancel ?'
+      ></ConfirmDialog>
     </div>
   );
 };
