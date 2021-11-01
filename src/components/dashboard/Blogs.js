@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
@@ -15,6 +15,58 @@ import {
 } from '@material-ui/core';
 
 import { Search as SearchIcon } from 'react-feather';
+import { Link } from 'react-router-dom';
+
+let blogs = [
+  {
+    id: 1,
+    title: 'zaincl',
+    image: 'https://picsum.photos/200/300?random=2',
+    date: '12/12/12',
+    theme: ' type theme ',
+    description: ' description description',
+  },
+  {
+    id: 2,
+    title: 'zainal',
+    image: 'https://picsum.photos/200/300?random=2',
+    date: '12/12/12',
+    theme: ' type theme ',
+    description: ' description description',
+  },
+  {
+    id: 3,
+    title: 'zainbl',
+    image: 'https://picsum.photos/200/300?random=2',
+    date: '12/12/12',
+    theme: ' type theme ',
+    description: ' description description',
+  },
+  {
+    id: 4,
+    title: 'sohail',
+    image: 'https://picsum.photos/200/300?random=2',
+    date: '12/12/12',
+    theme: ' type theme ',
+    description: ' description description',
+  },
+  {
+    id: 5,
+    title: 'umar',
+    image: 'https://picsum.photos/200/300?random=2',
+    date: '12/12/12',
+    theme: ' type theme ',
+    description: ' description description',
+  },
+  {
+    id: 6,
+    title: 'ali',
+    image: 'https://picsum.photos/200/300?random=2',
+    date: '12/12/12',
+    theme: ' type theme ',
+    description: ' description description',
+  },
+];
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -30,8 +82,8 @@ const styles = makeStyles((theme) => ({
     marginBottom: 7,
   },
   root: {
-    marginTop: 10,
-    maxWidth: 230,
+    marginTop: 15,
+    maxWidth: 220,
   },
   media: {
     height: 130,
@@ -40,8 +92,33 @@ const styles = makeStyles((theme) => ({
 
 const Blogs = () => {
   const classes = styles();
+  const [filter, setFilter] = useState('');
+  const [filteredItems, setFilteredItems] = useState([]);
 
   const handleClick = () => {};
+  const handleSearch = (e) => {
+    const data = e.target.value;
+    setFilter(data);
+    console.log(filter);
+  };
+
+  //  filtered the blogs
+  useEffect(() => {
+    setFilteredItems(
+      blogs.filter(
+        (blog) =>
+          blog.title.toLowerCase().indexOf(filter.toLowerCase()) !==
+          -1
+      )
+    );
+  }, [filter]);
+
+  // data must be updated
+
+  useEffect(() => {
+    setFilteredItems(blogs);
+  }, [blogs]);
+
   return (
     <div>
       <Typography variant='h5' style={{ margin: '60px 20px 40px ' }}>
@@ -56,7 +133,12 @@ const Blogs = () => {
             width: '100%',
           }}
         >
-          <Button variant='contained' style={{ width: 200 }}>
+          <Button
+            variant='contained'
+            style={{ width: 200 }}
+            component={Link}
+            to='/app/blog'
+          >
             {' '}
             Add New Blog{' '}
           </Button>
@@ -78,62 +160,66 @@ const Blogs = () => {
             <TextField
               hiddenLabel
               id='filled-hidden-label-small'
-              defaultValue='search'
+              placeholder='search'
               size='small'
               style={{ margin: '0px 5px 0px', width: '30%' }}
               className={classes.textInput}
+              value={filter}
+              onChange={handleSearch}
             />
           </Box>
         </Box>
-        <Grid container>
-          <Grid item md={10}>
-            <Card className={classes.root}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  image='https://images.unsplash.com/photo-1583499882110-688e720b025e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8ZHViYWl8ZW58MHwyfDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
-                  title='Contemplative Reptile'
-                  onClick={handleClick}
-                />
-                <CardContent>
-                  <Box onClick={handleClick}>
-                    <Box
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Typography
-                        gutterBottom
-                        variant='h5'
-                        component='h2'
-                        align='center'
-                        style={{ marginRight: 20, color: '#828282' }}
-                      >
-                        4/10/2021
-                      </Typography>
-                    </Box>
-                    <Typography
-                      color='textSecondary'
-                      align='center'
-                      variant='subtitle2'
-                    >
-                      theme
-                    </Typography>
-                    <Typography
-                      color='textSecondary'
-                      variant='subtitle2'
-                      gutterBottom
-                      align='center'
-                    >
-                      the great blog related to trips
-                    </Typography>
-                  </Box>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
+        <Grid container spacing={3}>
+          {filteredItems &&
+            filteredItems.map((blog) => (
+              <Grid item lg={3}>
+                <Card className={classes.root} key={blog.id}>
+                  <CardActionArea>
+                    <CardMedia
+                      className={classes.media}
+                      image={blog.image}
+                      title={blog.title}
+                      onClick={handleClick}
+                    />
+                    <CardContent>
+                      <Box onClick={handleClick}>
+                        <Box
+                          style={{
+                            display: 'grid',
+                            justifyContent: 'left',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <Typography
+                            gutterBottom
+                            variant='h5'
+                            component='h2'
+                            style={{
+                              color: '#c6c6c6',
+                            }}
+                          >
+                            {blog.date}
+                          </Typography>
+                          <Typography
+                            color='textSecondary'
+                            variant='subtitle2'
+                          >
+                            {blog.theme}
+                          </Typography>
+                          <Typography
+                            color='textSecondary'
+                            variant='subtitle2'
+                            gutterBottom
+                          >
+                            {blog.description}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            ))}
         </Grid>
       </Box>
     </div>
