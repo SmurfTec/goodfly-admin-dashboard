@@ -7,6 +7,7 @@ import {
   TextField,
   Button,
   Avatar,
+  CardMedia,
 } from '@material-ui/core';
 
 const styles = makeStyles((theme) => ({
@@ -189,14 +190,43 @@ const Profile = () => {
                   margin: 15,
                 }}
               >
-                <Box>
-                  <Typography variant='h5'> Profile Photo</Typography>
-                  <Avatar
-                    alt='Cindy Baker'
-                    src='/static/images/avatar/3.jpg'
-                    sx={{ width: 100, height: 100 }}
-                    style={{ marginTop: 15 }}
+                <Box
+                  display='flex'
+                  flexDirection='column'
+                  justifyContent='center'
+                  alignItems='center'
+                >
+                  <Typography variant='h5' mb={1}>
+                    {' '}
+                    Profile Photo
+                  </Typography>
+                  <CardMedia
+                    style={{
+                      width: '10rem',
+                      height: '8rem',
+                      borderRadius: '50%',
+                    }}
+                    image='https://picsum.photos/200/300?random=2'
+                    title='Live from space album cover'
                   />
+                  <Box mt={1}>
+                    <input
+                      accept='image/*'
+                      style={{ display: 'none' }}
+                      id='contained-button-file'
+                      multiple
+                      type='file'
+                    />
+                    <label htmlFor='contained-button-file'>
+                      <Button
+                        variant='outlined'
+                        color='primary'
+                        component='span'
+                      >
+                        Upload
+                      </Button>
+                    </label>
+                  </Box>
                 </Box>
                 <Box style={{ marginBottom: 65 }}>
                   <Typography variant='h5' style={{ width: '100%' }}>

@@ -12,7 +12,6 @@ import {
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
-
 const styles = makeStyles((theme) => ({
   image: {
     minHeight: 130,
@@ -63,9 +62,20 @@ const CreateBlog = () => {
           <Box style={{ margin: 20 }}>
             <Typography variant='h5'>New Article</Typography>
             <Box className={classes.image}>
-              <Typography style={{ color: '#808080' }}>
-                Upload Image
-              </Typography>
+              <Box mt={1}>
+                <input
+                  accept='image/*'
+                  style={{ display: 'none' }}
+                  id='contained-button-file'
+                  multiple
+                  type='file'
+                />
+                <label htmlFor='contained-button-file'>
+                  <Typography style={{ color: '#808080' }}>
+                    Upload Image
+                  </Typography>
+                </label>
+              </Box>
             </Box>
           </Box>
         </Grid>

@@ -366,9 +366,8 @@ const styles = makeStyles((theme) => ({
     },
   },
   cover: {
-    width: '12rem',
-    height: '7rem',
-    margin: '0.5rem',
+    width: '10rem',
+    height: '6rem',
     borderRadius: '5px',
   },
   imgBackground: {
@@ -502,7 +501,6 @@ const CreateOffer = () => {
                         variant='outlined'
                         style={{
                           color: 'red',
-                          border: '1px solid red',
                           marginTop: '0.5rem',
                         }}
                       >
@@ -512,7 +510,7 @@ const CreateOffer = () => {
                     <Box>
                       <Card>
                         <CardMedia
-                          className={classes.image}
+                          style={{ height: '10rem', width: '15rem' }}
                           image='https://picsum.photos/200/300?random=2'
                           title='Contemplative Reptile'
                         />
@@ -768,8 +766,7 @@ const CreateOffer = () => {
                           name='checkedE'
                         />
                       }
-                      label='Internal transfer
-'
+                      label='Internal transfer'
                     />
                     <FormControlLabel
                       control={
@@ -886,7 +883,7 @@ const CreateOffer = () => {
                         minHeight: '25rem',
                       }}
                     >
-                      <Gallery images={IMAGES} margin={5} />
+                      <Gallery images={IMAGES} margin={1} />
                     </Box>
                     <Typography variant='h5' mt={3}>
                       Service Includes
