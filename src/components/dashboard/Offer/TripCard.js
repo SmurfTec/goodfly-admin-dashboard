@@ -1,12 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import useStyles from 'Styles/Offer';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { Box } from '@material-ui/system';
 import { Switch } from '@material-ui/core';
 
@@ -37,19 +35,19 @@ const styles = makeStyles((theme) => ({
 }));
 
 const TripCard = ({ trip }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const classes = styles();
-  const { _id, name, category, images, date, services, price } = trip;
+  // const { _id, name, category, images, date, services, price } = trip;
   const [status, setStatus] = React.useState(true);
 
   const toggle = (event) => {
     setStatus(event.target.status);
   };
-  const handleClick = () => {
-    // navigate(`/app/dashboard/${_id}`);
-    window.alert(' clicked ');
-  };
+  // const handleClick = () => {
+  //   // navigate(`/app/dashboard/${_id}`);
+  //   window.alert(' clicked ');
+  // };
 
   return (
     <>

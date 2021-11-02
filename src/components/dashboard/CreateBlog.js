@@ -7,7 +7,6 @@ import {
   Button,
   TextField,
   Switch,
-  IconButton,
 } from '@material-ui/core';
 
 import { Editor } from 'react-draft-wysiwyg';
@@ -40,7 +39,7 @@ const CreateBlog = () => {
   const classes = styles();
 
   const [checked, setChecked] = React.useState(true);
-  const [editorState, setEditorState] = React.useState({});
+  // const [editorState, setEditorState] = React.useState({});
   const [state, setState] = useState({
     dateOfPublish: '2021-10-04',
   });
@@ -53,13 +52,13 @@ const CreateBlog = () => {
     setChecked(event.target.checked);
   };
 
-  const handleChange = (e) => {
-    setState((st) => ({ ...st, [e.target.name]: e.target.value }));
-  };
+  // const handleChange = (e) => {
+  //   setState((st) => ({ ...st, [e.target.name]: e.target.value }));
+  // };
 
-  const handleEditor = () => {
-    console.log('setEditor');
-  };
+  // const handleEditor = () => {
+  //   console.log('setEditor');
+  // };
   const handleBlogCancel = () => {
     toggleIsOpen();
   };

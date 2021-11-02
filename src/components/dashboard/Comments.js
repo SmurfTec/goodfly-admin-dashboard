@@ -113,7 +113,6 @@ const rows = [
 const styles = makeStyles((theme) => ({
   options: {
     backgroundColor: '#f2f2f2',
-    minHeight: '25rem',
     padding: '1rem',
     minHeight: '20rem',
   },

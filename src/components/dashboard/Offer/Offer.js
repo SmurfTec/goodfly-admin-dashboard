@@ -15,8 +15,7 @@ import FormalitiesTab from './FormalitiesTab';
 // import Carousel from 'react-material-ui-carousel';
 
 import {
-  Avatar,
-  Card,
+
   CardMedia,
   Grid,
   Tab,
@@ -139,22 +138,6 @@ const stages = [
       // stageImg3,
       // stageImg4,
     ],
-  },
-];
-
-const Images = [
-  {
-    id: 1,
-    image:
-      'https://source.unsplash.com/random/300x200?sig=${Math.random()}',
-  },
-  {
-    id: 2,
-    image: 'https://picsum.photos/200/300?random=2',
-  },
-  {
-    id: 3,
-    image: 'https://picsum.photos/200/300?random=2',
   },
 ];
 

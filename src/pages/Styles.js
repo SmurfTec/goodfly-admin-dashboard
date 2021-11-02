@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/styles';
-import img1 from 'Assets/img/authbg.png';
 
 const styles = makeStyles((theme) => ({
   Wrapper: {
@@ -13,7 +12,6 @@ const styles = makeStyles((theme) => ({
     width: '100%',
     height: '100%',
     objectFit: 'cover',
-    display: 'absolute',
   },
   Main: {
     backgroundColor: '#f2f2f2',

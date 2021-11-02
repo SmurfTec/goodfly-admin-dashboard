@@ -6,7 +6,6 @@ import {
   Box,
   TextField,
   Button,
-  Avatar,
   CardMedia,
 } from '@material-ui/core';
 

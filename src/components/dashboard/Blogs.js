@@ -6,10 +6,8 @@ import {
   Box,
   Button,
   TextField,
-  Switch,
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
   CardMedia,
 } from '@material-ui/core';
@@ -117,7 +115,7 @@ const Blogs = () => {
 
   useEffect(() => {
     setFilteredItems(blogs);
-  }, [blogs]);
+  }, []);
 
   return (
     <div>

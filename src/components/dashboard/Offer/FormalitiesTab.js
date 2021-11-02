@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/styles';
+// import { makeStyles } from '@material-ui/styles';
 import { Grid, Typography } from '@material-ui/core';
 import { Box } from '@material-ui/system';
 
@@ -42,10 +42,10 @@ const Formalities = [
   },
 ];
 
-const useStyles = makeStyles((theme) => ({}));
+// const useStyles = makeStyles((theme) => ({}));
 
 const FormalitiesTab = () => {
-  const classes = useStyles();
+  // const classes = useStyles();
 
   return (
     <div>

@@ -1,35 +1,27 @@
 import { useEffect } from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   Avatar,
   Box,
-  Button,
-  Divider,
   Drawer,
   Hidden,
   List,
   Typography,
 } from '@material-ui/core';
 import {
-  AlertCircle as AlertCircleIcon,
-  BarChart as BarChartIcon,
-  Lock as LockIcon,
   Settings as SettingsIcon,
   ShoppingBag as ShoppingBagIcon,
   User as UserIcon,
-  UserPlus as UserPlusIcon,
   Users as UsersIcon,
   LogOut as LogoutIcon,
   Bell as BellIcon,
   Edit2 as Edit2Icon,
   Columns as ColumnsIcon,
   CreditCard as CreditCardIcon,
-  Briefcase as BriefCaseIcon,
   Bold as BoldIcon,
   Home as HomeIcon,
   AlignJustify as AlignJustifyIcon,
-  Search as SearchIcon,
 } from 'react-feather';
 import { makeStyles } from '@material-ui/styles';
 import logo from 'Assets/img/airplane.svg';
@@ -43,12 +35,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith',
-};
 
 const items = [
   {
@@ -122,7 +108,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
-  }, [location.pathname]);
+  }, [location.pathname, openMobile, onMobileClose]);
 
   const content = (
     <Box

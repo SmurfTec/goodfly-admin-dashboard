@@ -7,10 +7,8 @@ import {
   TextField,
   Button,
   Paper,
-  Avatar,
   FormControl,
   FormControlLabel,
-  FormLabel,
   RadioGroup,
   Radio,
 } from '@material-ui/core';

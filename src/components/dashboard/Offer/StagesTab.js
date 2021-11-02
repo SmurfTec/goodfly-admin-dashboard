@@ -12,17 +12,13 @@ import {
   Avatar,
   Typography,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+// import { makeStyles } from '@material-ui/styles';
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
-import LocalDiningIcon from '@material-ui/icons/LocalDining';
 
-// $ ------------------ //
-import Lightbox from 'react-image-lightbox';
-
-const useStyles = makeStyles((theme) => ({}));
+// const useStyles = makeStyles((theme) => ({}));
 
 const StagesTab = ({ stages }) => {
-  const classes = useStyles();
+  // const classes = useStyles();
 
   return (
     <>
@@ -32,7 +28,7 @@ const StagesTab = ({ stages }) => {
             <Grid item sm={3} md={2}>
               <img
                 src={stage?.images[0]}
-                alt=''
+                alt='data'
                 style={{ width: 200 }}
               />
               <Box
@@ -50,6 +46,7 @@ const StagesTab = ({ stages }) => {
                     <img
                       src={el}
                       style={{ marginBottom: 10, width: 88 }}
+                      alt='data'
                     />
                   ))}
               </Box>

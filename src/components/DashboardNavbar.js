@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   AppBar,
@@ -12,8 +11,6 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
-import InputIcon from '@material-ui/icons/Input';
-import Logo from './Logo';
 import PersonIcon from '@material-ui/icons/Person';
 
 const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {

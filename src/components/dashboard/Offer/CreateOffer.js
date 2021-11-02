@@ -26,13 +26,7 @@ import {
 } from '@material-ui/core';
 import Gallery from 'react-grid-gallery';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
-import {
-  Plus as PlusIcon,
-  Archive as ArchiveIcon,
-  Image as ImageIcon,
-} from 'react-feather';
-
-import Divider from '@material-ui/core/Divider';
+import { Plus as PlusIcon, Image as ImageIcon } from 'react-feather';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -65,10 +59,6 @@ function a11yProps(index) {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   };
-}
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
 }
 
 const IMAGES = [
@@ -105,58 +95,6 @@ const IMAGES = [
     thumbnailHeight: 250,
     caption: 'Boats (Jeshu John - designerspics.com)',
   },
-];
-
-const rows = [
-  createData(
-    'muhammadzain8@gmail.com',
-    'aa Set applied to the cell. The prop defaults to the value  in the p  The prop defaults to the value  in the p adding applied to the cell. The prop defaults to the value  in the padding applied to the cell. The prop defaults to the value  in inherited from the parent Table component.',
-
-    'Formule Maroc 2020',
-    '04/06/2019'
-  ),
-  createData(
-    'muhammadzain8@gmail.com',
-    'aa Set applied to the cell. The prop defaults to the value  in the p  The prop defaults to the value  in the p adding applied to the cell. The prop defaults to the value  in the padding applied to the cell. The prop defaults to the value  in inherited from the parent Table component.',
-
-    'Formule Maroc 2020',
-    '04/06/2019'
-  ),
-  createData(
-    'muhammadzain8@gmail.com',
-    'aa Set applied to the cell. The prop defaults to the value  in the p  The prop defaults to the value  in the p adding applied to the cell. The prop defaults to the value  in the padding applied to the cell. The prop defaults to the value  in inherited from the parent Table component.',
-
-    'Formule Maroc 2020',
-    '04/06/2019'
-  ),
-  createData(
-    'muhammadzain8@gmail.com',
-    'aa Set applied to the cell. The prop defaults to the value  in the p  The prop defaults to the value  in the p adding applied to the cell. The prop defaults to the value  in the padding applied to the cell. The prop defaults to the value  in inherited from the parent Table component.',
-
-    'Formule Maroc 2020',
-    '04/06/2019'
-  ),
-  createData(
-    'muhammadzain8@gmail.com',
-    'aa Set applied to the cell. The prop defaults to the value  in the p  The prop defaults to the value  in the p adding applied to the cell. The prop defaults to the value  in the padding applied to the cell. The prop defaults to the value  in inherited from the parent Table component.',
-
-    'Formule Maroc 2020',
-    '04/06/2019'
-  ),
-  createData(
-    'muhammadzain8@gmail.com',
-    'aa Set applied to the cell. The prop defaults to the value  in the p  The prop defaults to the value  in the p adding applied to the cell. The prop defaults to the value  in the padding applied to the cell. The prop defaults to the value  in inherited from the parent Table component.',
-
-    'Formule Maroc 2020',
-    '04/06/2019'
-  ),
-  createData(
-    'muhammadzain8@gmail.com',
-    'aa Set applied to the cell. The prop defaults to the value  in the p  The prop defaults to the value  in the p adding applied to the cell. The prop defaults to the value  in the padding applied to the cell. The prop defaults to the value  in inherited from the parent Table component.',
-
-    'Formule Maroc 2020',
-    '04/06/2019'
-  ),
 ];
 
 const Formalities = [
@@ -337,14 +275,6 @@ const styles = makeStyles((theme) => ({
       // backgroundColor: '#46B9F6',
     },
   },
-  image: {
-    height: '8rem',
-    width: '10rem',
-    [theme.breakpoints.up('lg')]: {
-      width: '15rem',
-      height: '10rem',
-    },
-  },
   inputBox: {
     border: 0,
     outline: 0,
@@ -380,12 +310,12 @@ const styles = makeStyles((theme) => ({
     borderRadius: '10px',
   },
   image: {
-    minHeight: '5.5rem',
-    margin: '0.5rem',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: '8rem',
+    width: '10rem',
+    [theme.breakpoints.up('lg')]: {
+      width: '15rem',
+      height: '10rem',
+    },
   },
 }));
 
