@@ -27,6 +27,8 @@ import { makeStyles } from '@material-ui/styles';
 import logo from 'Assets/img/airplane.svg';
 
 import NavItem from './NavItem';
+import SidebarContent from './SidebarContent';
+// import SidebarContent2 from './SidebarContent2';
 
 const useStyles = makeStyles((theme) => ({
   Drawer: {
@@ -149,11 +151,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           // onClick={() => history.push('/')}
         >
           GOODFLY
-          <img
-            src={logo}
-            style={{ width: 40, height: 50 }}
-            alt='logo'
-          />
+          <img src={logo} style={{ width: 40, height: 50 }} alt='logo' />
         </Typography>
       </Box>
       {/* <Divider /> */}
@@ -171,21 +169,14 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
       </Typography>
 
       <Box sx={{ p: 2 }}>
-        <List>
-          {items.map((item) => (
-            <NavItem
-              href={item.href}
-              key={item.title}
-              title={item.title}
-              icon={item.icon}
-            />
-          ))}
-        </List>
+        <SidebarContent />
+
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
+            alignItems: 'center',
             mt: 3,
           }}
         >
@@ -215,7 +206,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           variant='temporary'
           PaperProps={{
             sx: {
-              width: 256,
+              width: 300,
             },
           }}
         >

@@ -12,7 +12,7 @@ import Profile from './components/dashboard/Profile';
 import CreateBlog from './components/dashboard/CreateBlog';
 import Blogs from './components/dashboard/Blogs.js';
 
-import Visitors from './components/dashboard/Visitors.js';
+import Customers from './components/dashboard/Visitors.js';
 import VisitorProfile from './components/dashboard/VisitorProfile.js';
 import ViewVisitor from './components/dashboard/VisitorProfileTwo.js';
 
@@ -64,11 +64,11 @@ const routes = [
       },
 
       {
-        path: 'visitors',
+        path: 'customers',
         children: [
           {
             path: '/',
-            element: <Visitors />,
+            element: <Customers />,
           },
           { path: '/:id/edit', element: <VisitorProfile /> },
           { path: '/:id', element: <ViewVisitor /> },
@@ -92,14 +92,14 @@ const routes = [
           },
         ],
       },
+      { path: '/categories', element: <TourCategories /> },
 
       {
-        path: 'tours',
+        path: 'trips',
         children: [
           { path: '/organizedTrips', element: <OrganizedTrips /> },
           { path: '/customtrips', element: <CustomTrips /> },
           { path: '/customtrips/:id', element: <CustomTrip /> },
-          { path: '/categories', element: <TourCategories /> },
         ],
       },
 
@@ -117,7 +117,7 @@ const routes = [
       { path: 'reservations', element: <Reservations /> },
 
       {
-        path: 'order',
+        path: 'orders',
         children: [
           {
             path: '/',
@@ -152,7 +152,7 @@ const routes = [
       // { path: 'dashboard', element: <Dashboard /> },
       // { path: 'products', element: <ProductList /> },
       { path: 'settings', element: <Settings /> },
-      { path: '*', element: <Navigate to='/404' /> },
+      { path: '*', element: <NotFound /> },
     ],
   },
 
