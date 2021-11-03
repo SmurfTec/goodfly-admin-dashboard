@@ -43,6 +43,7 @@ import OrganizedTrips from './components/dashboard/OrganizedTrips.js';
 import CreateOffer from './components/dashboard/Offer/CreateOffer.js';
 import Offers from './components/dashboard/Offer/Offers.js';
 import Offer from './components/dashboard/Offer/Offer.js';
+import DashboardHome from 'components/dashboard/DashboardHome';
 
 const routes = [
   {
@@ -50,6 +51,7 @@ const routes = [
     element: <DashboardLayout />,
     children: [
       //-----------------   MY PAGES ------------------------------
+      { path: '/', element: <DashboardHome /> },
       { path: 'profile', element: <Profile /> },
 
       {

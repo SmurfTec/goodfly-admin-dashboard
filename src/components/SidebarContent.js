@@ -177,6 +177,9 @@ const useTreeItemStyles = makeStyles((theme) => ({
   selected: {
     backgroundColor: 'dodgerblue !important',
     color: '#fff !important',
+    '& svg': {
+      stroke: '#fff',
+    },
   },
   label: {
     fontWeight: 'inherit',
@@ -254,7 +257,7 @@ StyledTreeItem.propTypes = {
 
 const useStyles = makeStyles({
   root: {
-    height: 660,
+    height: 600,
     flexGrow: 1,
     maxWidth: 400,
   },
