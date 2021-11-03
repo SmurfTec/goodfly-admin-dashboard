@@ -7,38 +7,38 @@ import NotFound from './pages/NotFound';
 import Register from './pages/Register';
 import Settings from './pages/Settings';
 
-import Profile from './components/dashboard/Profile';
+import Profile from './components/dashboard/profile/Profile';
 
-import CreateBlog from './components/dashboard/CreateBlog';
-import Blogs from './components/dashboard/Blogs.js';
+import CreateBlog from './components/dashboard/Blog/CreateBlog';
+import Blogs from './components/dashboard/Blog/Blogs.js';
 
-import Customers from './components/dashboard/Visitors.js';
-import VisitorProfile from './components/dashboard/VisitorProfile.js';
-import ViewVisitor from './components/dashboard/VisitorProfileTwo.js';
+import Customers from './components/dashboard/Visitor/Visitors.js';
+import VisitorProfile from './components/dashboard/Visitor/VisitorProfile.js';
+import ViewVisitor from './components/dashboard/Visitor/VisitorProfileTwo.js';
 
-import AddStaffer from './components/dashboard/AddStaffer.js';
-import ViewStaffer from './components/dashboard/ViewStaffer.js';
-import Staffers from './components/dashboard/Staffers.js';
+import AddStaffer from './components/dashboard/Staffer/AddStaffer.js';
+import ViewStaffer from './components/dashboard/Staffer/ViewStaffer.js';
+import Staffers from './components/dashboard/Staffer/Staffers.js';
 
-import TourCategories from './components/dashboard/TourCategories.js';
+import TourCategories from './components/dashboard/categories/TourCategories.js';
 
-import CustomTrips from './components/dashboard/CustomTrips.js';
-import CustomTrip from './components/dashboard/CustomTrip.js';
+import CustomTrips from './components/dashboard/Trip/CustomTrips.js';
+import CustomTrip from './components/dashboard/Trip/CustomTrip.js';
 
-import CreateProduct from './components/dashboard/CreateProduct.js';
-import Products from './components/dashboard/Products.js';
+import CreateProduct from './components/dashboard/product/CreateProduct.js';
+import Products from './components/dashboard/product/Products.js';
 
-import Reservations from './components/dashboard/Reservations.js';
+import Reservations from './components/dashboard/Reservation/Reservations.js';
 
-import Orders from './components/dashboard/Orders.js';
-import Order from './components/dashboard/Order.js';
+import Orders from './components/dashboard/Order/Orders.js';
+import Order from './components/dashboard/Order/Order.js';
 
 import Payments from './components/dashboard/Payments.js';
-import DetailReservation from './components/dashboard/DetailReservation.js';
+import DetailReservation from './components/dashboard/Reservation/DetailReservation.js';
 
-import Comments from './components/dashboard/Comments.js';
+import Comments from './components/dashboard/comments/Comments.js';
 
-import OrganizedTrips from './components/dashboard/OrganizedTrips.js';
+import OrganizedTrips from './components/dashboard/Trip/OrganizedTrips.js';
 
 import CreateOffer from './components/dashboard/Offer/CreateOffer.js';
 import Offers from './components/dashboard/Offer/Offers.js';

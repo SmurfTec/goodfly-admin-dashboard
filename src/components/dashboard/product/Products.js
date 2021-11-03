@@ -14,9 +14,10 @@ import {
   Button,
   TablePagination,
   TextField,
-  Avatar,
+  CardMedia,
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
+import { Link } from 'react-router-dom';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -210,7 +211,7 @@ const Products = () => {
         <Typography variant='h4' m={2}>
           Product Management
         </Typography>
-        <Button variant='contained' style={{ width: '12rem' }}>
+        <Button variant='contained' style={{ width: '12rem' }} component={Link} to='/app/products/create'>
           Add a Product
         </Button>
       </Box>
@@ -263,15 +264,23 @@ const Products = () => {
                 .map((row, index) => (
                   <TableRow key={row.name}>
                     <TableCell component='th' scope='row'>
-                      <Box style={{display: 'flex',alignItems: 'center',justifyContent:'space-around'}}>
-
-                      <Avatar
-                        alt='Cindy Baker'
-                        src='/static/images/avatar/3.jpg'
-                        sx={{ width: 100, height: 100 }}
-                        />{' '}
-                      {row.name}
-                        </Box>
+                      <Box
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-around',
+                        }}
+                      >
+                        <CardMedia
+                          style={{
+                            width: '2.5rem',
+                            height: '2.5rem',
+                          }}
+                          image='https://picsum.photos/200/300?random=2'
+                          title='product name'
+                        />
+                        {row.name}
+                      </Box>
                     </TableCell>
                     <TableCell align='right'>
                       {row.calories}

@@ -12,6 +12,7 @@ import {
   MenuItem,
   FormControl,
   Switch,
+  CardMedia,
 } from '@material-ui/core';
 import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
 
@@ -299,11 +300,13 @@ const CreateProduct = () => {
                     minHeight: '8rem',
                   }}
                 >
-                  <Avatar
-                    alt='Cindy Baker'
-                    src='/static/images/avatar/3.jpg'
-                    sx={{ width: 100, height: 100 }}
-                    style={{ marginTop: 15, margin: '1.5rem' }}
+                  <CardMedia
+                    style={{
+                      width: '5rem',
+                      height: '5rem',
+                    }}
+                    image='https://picsum.photos/200/300?random=2'
+                    title='product name'
                   />
                 </Box>
                 <Box
