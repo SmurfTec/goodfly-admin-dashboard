@@ -66,7 +66,7 @@ const IMAGES = [
     src: 'https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg',
     thumbnail:
       'https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_n.jpg',
-    thumbnailWidth: 500,
+    thumbnailWidth: 450,
     thumbnailHeight: 250,
     caption: 'After Rain (Jeshu John - designerspics.com)',
   },
@@ -74,7 +74,7 @@ const IMAGES = [
     src: 'https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_b.jpg',
     thumbnail:
       'https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_n.jpg',
-    thumbnailWidth: 400,
+    thumbnailWidth: 450,
     thumbnailHeight: 250,
     border: '1px solid red',
     caption: 'Boats (Jeshu John - designerspics.com)',
@@ -84,14 +84,14 @@ const IMAGES = [
     src: 'https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg',
     thumbnail:
       'https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg',
-    thumbnailWidth: 500,
+    thumbnailWidth: 450,
     thumbnailHeight: 250,
   },
   {
     src: 'https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_b.jpg',
     thumbnail:
       'https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_n.jpg',
-    thumbnailWidth: 400,
+    thumbnailWidth: 450,
     thumbnailHeight: 250,
     caption: 'Boats (Jeshu John - designerspics.com)',
   },
@@ -317,6 +317,11 @@ const styles = makeStyles((theme) => ({
       height: '10rem',
     },
   },
+  carouselImages:{
+      width: '10rem',
+    height: '10rem',
+    borderRadius: '5px',
+  }
 }));
 
 const CreateOffer = () => {
@@ -440,7 +445,7 @@ const CreateOffer = () => {
                     <Box>
                       <Card>
                         <CardMedia
-                          style={{ height: '10rem', width: '15rem' }}
+                          className={classes.carouselImages}
                           image='https://picsum.photos/200/300?random=2'
                           title='Contemplative Reptile'
                         />
@@ -768,7 +773,7 @@ const CreateOffer = () => {
                     sm={12}
                     md={5}
                     style={{
-                      padding: '2rem',
+                      padding: '1rem',
                     }}
                   >
                     <Box
@@ -780,42 +785,47 @@ const CreateOffer = () => {
                       </Typography>
                       <Typography variant='text'> 554 km</Typography>
                     </Box>
-                    <Box style={{ margin: '0rem 1rem 1rem' }}>
+                    <Box style={{ margin: '0rem 0.5rem 1rem' }}>
                       <CardMedia
-                        style={{ width: '25rem', height: '18rem' }}
+                        style={{ width: '24rem', height: '18rem' }}
                         image='https://picsum.photos/200/300?random=2'
                         title='Contemplative Reptile'
                       />
                       <Box mt={2}>
                         <Typography variant='text'>
-                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
-                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
-                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
-                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
-                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
-                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
-                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
-                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
-                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
-                          dfsafdsadfs fdsf a dfsafdsadfs fdsf a
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf adsadsad
+                          da sdas dfsafdsadfs fdsf a dfsafdsadfs fdsf
+                          adasdasdadasdas dfsafdsadfs fdsf a
+                          dfsafdsadfs fdsf adsadasdas dfsafdsadfs fdsf
+                          a dfsafdsadfs fdsf adasdasdasdasdas
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf
+                          adasdasdas dfsafdsadfs fdsf a dfsafdsadfs
+                          fdsf adasdasdasdas dfsafdsadfs fdsf a
+                          dfsafdsadfs fdsf adasdasda dfsafdsadfs fdsf
+                          a dfsafdsadfs fdsf adasdas dfsafdsadfs fdsf
+                          a dfsafdsadfs fdsf aasd dfsafdsadfs fdsf a
+                          dfsafdsadfs fdsf asdasdas
                         </Typography>
                       </Box>
                     </Box>
                   </Grid>
                   <Grid item sm={12} md={7}>
-                    <Box style={{ margin: '2rem 0rem 0.5rem' }}>
-                      <Typography variant='h5'>
-                        Medina-Hotel foulane
-                      </Typography>
+                    <Typography variant='h5' mt={4}>
+                      Medina-Hotel foulane
+                    </Typography>
+                    <Box>
+                      <Gallery
+                        images={IMAGES}
+                        style={{ width: '10rem' }}
+                      />
+                      <CardMedia
+                        className={classes.cover}
+                        image='https://picsum.photos/200/300?random=2'
+                        title='Live from space album cover'
+                      />
                     </Box>
-                    <Box
-                      style={{
-                        minHeight: '25rem',
-                      }}
-                    >
-                      <Gallery images={IMAGES} margin={1} />
-                    </Box>
-                    <Typography variant='h5' mt={3}>
+                    <Typography variant='h5'> </Typography>
+                    <Typography variant='h5'>
                       Service Includes
                     </Typography>
 
@@ -1109,13 +1119,12 @@ const CreateOffer = () => {
                         <>
                           <div
                             key={trip._id}
-                            // className={classes.carouselCard}
                             style={{
                               width: '10rem',
                             }}
                           >
                             <CardMedia
-                              className={classes.cover}
+                              className={classes.carouselImages}
                               image='https://picsum.photos/200/300?random=2'
                               title='Live from space album cover'
                             />
@@ -1223,7 +1232,7 @@ const CreateOffer = () => {
                           }}
                         >
                           <CardMedia
-                            className={classes.cover}
+                            className={classes.carouselImages}
                             image='https://picsum.photos/200/300?random=2'
                             title='Live from space album cover'
                           />
