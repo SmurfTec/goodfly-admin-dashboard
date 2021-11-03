@@ -7,11 +7,12 @@ import {
   Button,
   TextField,
   Switch,
+  CardMedia,
 } from '@material-ui/core';
 
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import ConfirmDialog from './Dialogs/ConfirmDialogBox';
+import ConfirmDialog from '../Dialogs/ConfirmDialogBox';
 
 const styles = makeStyles((theme) => ({
   image: {

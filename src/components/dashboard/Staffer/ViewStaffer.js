@@ -180,7 +180,7 @@ const ViewStaffer = () => {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id='alert-dialog-description'>
-              Are you Sure you want to Delete User.
+              Are you Sure you want to Delete Staffer.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -191,6 +191,7 @@ const ViewStaffer = () => {
           </DialogActions>
         </Dialog>
       </div>
+
       {/*  DIALOG FOR PASSWORD UPDATE */}
       <div>
         <Dialog
@@ -200,7 +201,7 @@ const ViewStaffer = () => {
             border: '1px solid red',
           }}
         >
-          <DialogTitle style={{ width: '100rem' }}>
+          <DialogTitle>
             <Typography variant='h4'>
               Changing the Paaseword
             </Typography>

@@ -6,7 +6,6 @@ import {
   Box,
   Drawer,
   Hidden,
-  List,
   Typography,
 } from '@material-ui/core';
 import {
