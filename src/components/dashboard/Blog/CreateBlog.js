@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
@@ -9,6 +9,8 @@ import {
   Switch,
   CardMedia,
 } from '@material-ui/core';
+
+import { Camera as CameraIcon } from 'react-feather';
 
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -39,6 +41,13 @@ const styles = makeStyles((theme) => ({
 const CreateBlog = () => {
   const classes = styles();
 
+  const editorRef = useRef(null);
+  const log = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+    }
+  };
+
   const [checked, setChecked] = React.useState(true);
   // const [editorState, setEditorState] = React.useState({});
   const [state, setState] = useState({
@@ -67,28 +76,33 @@ const CreateBlog = () => {
   return (
     <div>
       <Grid container style={{ marginTop: 50 }}>
-        <Grid item sm={3} md={2}>
+        <Grid item sm={3} md={3}>
           <Box style={{ margin: 20 }}>
             <Typography variant='h5'>New Article</Typography>
             <Box className={classes.image}>
-              <Box mt={1}>
-                <input
-                  accept='image/*'
-                  style={{ display: 'none' }}
-                  id='contained-button-file'
-                  multiple
-                  type='file'
-                />
-                <label htmlFor='contained-button-file'>
-                  <Typography style={{ color: '#808080' }}>
-                    Upload Image
-                  </Typography>
-                </label>
+              <Box>
+                <Box style={{ textAlign: 'center' }}>
+                  <CameraIcon style={{ color: '#808080' }} />
+                </Box>
+                <Box mt={1}>
+                  <input
+                    accept='image/*'
+                    style={{ display: 'none' }}
+                    id='contained-button-file'
+                    multiple
+                    type='file'
+                  />
+                  <label htmlFor='contained-button-file'>
+                    <Typography style={{ color: '#808080' }}>
+                      Upload Image
+                    </Typography>
+                  </label>
+                </Box>
               </Box>
             </Box>
           </Box>
         </Grid>
-        <Grid item sm={6} md={5}>
+        <Grid item sm={6} md={6}>
           <Typography
             variant='h5'
             style={{
@@ -135,8 +149,8 @@ const CreateBlog = () => {
             </Box>
           </Box>
         </Grid>
-        <Grid item sm={3} md={2}>
-          <Box style={{ marginLeft: 10 }}>
+        <Grid item sm={3} md={3}>
+          <Box>
             <TextField
               name='Keywords'
               // value={state.Title}
@@ -155,7 +169,7 @@ const CreateBlog = () => {
         style={{
           border: '1px solid #cccccc',
           minHeight: 500,
-          margin: 20,
+          margin: 10,
         }}
       >
         <Editor

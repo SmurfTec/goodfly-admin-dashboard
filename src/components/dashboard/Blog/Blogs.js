@@ -135,7 +135,7 @@ const Blogs = () => {
             variant='contained'
             style={{ width: 200 }}
             component={Link}
-            to='/app/blog'
+            to='/app/blogs/create'
           >
             {' '}
             Add New Blog{' '}

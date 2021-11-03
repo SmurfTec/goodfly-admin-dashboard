@@ -6,7 +6,6 @@ import {
   Box,
   TextField,
   Button,
-  Avatar,
   InputLabel,
   Select,
   MenuItem,

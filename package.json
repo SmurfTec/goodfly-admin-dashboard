@@ -41,6 +41,7 @@
     "@mui/lab": "^5.0.0-alpha.53",
     "@mui/material": "^5.0.6",
     "@mui/x-data-grid": "^4.0.1",
+    "@tinymce/tinymce-react": "^3.13.0",
     "apexcharts": "^3.29.0",
     "axios": "^0.22.0",
     "chart.js": "^3.5.1",
