@@ -12,8 +12,13 @@ import {
   FormControl,
   Switch,
   CardMedia,
+  Paper,
 } from '@material-ui/core';
-import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
+import {
+  Plus as PlusIcon,
+  File as FileIcon,
+  X as XIcon,
+} from 'react-feather';
 
 const styles = makeStyles((theme) => ({
   account: {
@@ -71,6 +76,8 @@ const CreateProduct = () => {
 
   const [category, setCategory] = React.useState('');
   const [checked, setChecked] = React.useState(true);
+  const [labelValue, setLabelValue] = React.useState('');
+  const [label, setLabel] = React.useState([]);
 
   const handleChange = (event) => {
     setCategory(event.target.value);
@@ -78,6 +85,17 @@ const CreateProduct = () => {
 
   const toggle = (event) => {
     setChecked(event.target.checked);
+  };
+
+  const handleLabelChange = (e) => {
+    setLabelValue(e.target.value);
+  };
+
+  const handleLabel = (e) => {
+    e.preventDefault();
+    setLabel((value) => [...value, labelValue]);
+    setLabelValue('');
+    console.log(label);
   };
 
   return (
@@ -271,28 +289,58 @@ const CreateProduct = () => {
                   <Typography variant='h5' mr={12}>
                     Labels
                   </Typography>
-                  <TextField
-                    hiddenLabel
-                    id='filled-hidden-label-small'
-                    placeholder='Labels'
-                    size='small'
-                    style={{
-                      width: '50%',
-                      backgroundColor: '#fff',
-                      marginBottom: 7,
-                    }}
-                  />
+                  <form onSubmit={handleLabel}>
+                    <TextField
+                      hiddenLabel
+                      required
+                      id='filled-hidden-label-small'
+                      placeholder='Add Five Labels'
+                      size='small'
+                      value={labelValue}
+                      onChange={handleLabelChange}
+                      style={{
+                        width: '50%',
+                        backgroundColor: '#fff',
+                      }}
+                    />
+                    <Button
+                      variant='contained'
+                      type='submit'
+                      size='large'
+                      disabled={label.length >= 5}
+                      style={{ marginLeft: '0.5rem' }}
+                    >
+                      Add
+                    </Button>
+                  </form>
                 </Box>
                 <Box
                   style={{
                     backgroundColor: '#fff',
-                    width: '50%',
-                    margin: '1rem 0rem  1rem',
+                    width: '60%',
+                    margin: '1rem 1rem  1rem',
                     padding: '1rem',
                     minHeight: '7rem',
                   }}
                 >
-                  list of labels <Box />
+                  {label &&
+                    label.map((l, index) => (
+                      <Box
+                        style={{
+                          width: '100%',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <Typography variant='h5' key={l.index}>
+                          {l}
+                        </Typography>
+                        <Typography>X</Typography>
+                        {/* <XIcon  /> */}
+                      </Box>
+                    ))}
+                  <Box />
                 </Box>
               </Box>
             </Box>

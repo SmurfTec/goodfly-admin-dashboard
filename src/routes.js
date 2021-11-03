@@ -33,7 +33,7 @@ import Reservations from './components/dashboard/Reservation/Reservations.js';
 import Orders from './components/dashboard/Order/Orders.js';
 import Order from './components/dashboard/Order/Order.js';
 
-import Payments from './components/dashboard/Payments.js';
+import Payments from './components/dashboard/payment/Payments.js';
 import DetailReservation from './components/dashboard/Reservation/DetailReservation.js';
 
 import Comments from './components/dashboard/comments/Comments.js';
