@@ -9,13 +9,13 @@ import {
   TableRow,
   TableContainer,
   TableCell,
-  Avatar,
   TableBody,
   Button,
   TablePagination,
   TextField,
   Paper,
   Grid,
+  CardMedia,
 } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import Rating from '@material-ui/core/Rating';
@@ -228,11 +228,10 @@ const OrganizedTrips = () => {
             <Grid item xs={6} sm={2}>
               <Box style={{ margin: '1rem' }}>
                 {' '}
-                <Avatar
-                  alt='Cindy Baker'
-                  src='/static/images/avatar/3.jpg'
-                  sx={{ width: 100, height: 100 }}
-                  style={{ marginRight: '1rem' }}
+                <CardMedia
+                  style={{ height: '8rem' }}
+                  image='https://picsum.photos/200/300?random=2'
+                  title='trip'
                 />
               </Box>
             </Grid>
@@ -240,8 +239,8 @@ const OrganizedTrips = () => {
               <Box
                 style={{
                   backgroundColor: '#f2f2f2',
-                  padding:'0.5rem',
-                  margin:'0.5rem'
+                  padding: '0.5rem',
+                  margin: '0.5rem',
                 }}
               >
                 <Box className={classes.flexLeft}>
@@ -252,16 +251,19 @@ const OrganizedTrips = () => {
                     onChange={(event, newValue) => {
                       setRating(newValue);
                     }}
+                    disabled
                   />
                 </Box>
                 <Box className={classes.flexBetween}>
-                  <Avatar
-                    alt='Cindy Baker'
-                    src='/static/images/avatar/3.jpg'
-                    sx={{ width: 100, height: 100 }}
-                    style={{ marginRight: '1rem' }}
+                  <CardMedia
+                    style={{ height: '5rem', width: '5rem' }}
+                    image='https://picsum.photos/200/300?random=2'
+                    title='trip'
                   />
-                  <Typography variant='text' mt={1}>
+                  <Typography
+                    variant='text'
+                    style={{ width: '20rem' }}
+                  >
                     Popular: Spanish to English, French to English,
                     and Popular: Spanish to English, French to
                     English, and Japanese to English. Other languages:

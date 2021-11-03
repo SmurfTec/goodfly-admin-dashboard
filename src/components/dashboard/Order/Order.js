@@ -10,7 +10,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Avatar,
+  CardMedia,
   Switch,
   alpha,
   TextField,
@@ -67,6 +67,7 @@ const rows = [
     '11/07/2021'
   ),
 ];
+const products=[1,2,3,4,5]
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -277,91 +278,100 @@ const Order = () => {
 
           <Box className={classes.options}>
             <TabPanel value={value} index={0}>
-              <Box
-                style={{
-                  display: 'flex',
-                  justifyContent: 'left',
-                }}
-              >
-                <Box
-                  style={{
-                    border: '1px solid #c6c6c6',
-                    display: 'flex',
-                  }}
-                >
-                  <Avatar
-                    alt='Cindy Baker'
-                    src='/static/images/avatar/3.jpg'
-                    sx={{ width: 100, height: 100 }}
-                    style={{ marginTop: 15, margin: '1.5rem' }}
-                  />
+              {products &&
+                products.map((p,index) => (
                   <Box
                     style={{
-                      width: '25rem',
-                      border: '1px solid #c6c6c6',
+                      display: 'flex',
+                      justifyContent: 'left',
+                      marginTop:'1.5rem'
                     }}
+                    key={p.index}
                   >
                     <Box
                       style={{
+                        border: '1px solid #c6c6c6',
                         display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
                       }}
                     >
-                      <Typography variant='h5' m={1}>
-                        productname - ref code
-                      </Typography>
-
+                      <CardMedia
+                        style={{ height: '9.5rem', width: '8rem' }}
+                        image='https://picsum.photos/200/300?random=2'
+                        title='product'
+                      />
                       <Box
                         style={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
+                          width: '25rem',
+                          border: '1px solid #c6c6c6',
                         }}
                       >
-                        <Typography variant='text'>Status</Typography>
-                        <Switch
-                          checked={statusSwitch}
-                          onChange={toggle}
-                          inputProps={{ 'aria-label': 'controlled' }}
-                          className={classes.greenSwitch}
-                        />
+                        <Box
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <Typography variant='h5' m={1}>
+                            productname - ref code
+                          </Typography>
+
+                          <Box
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <Typography variant='text'>
+                              Status
+                            </Typography>
+                            <Switch
+                              checked={statusSwitch}
+                              onChange={toggle}
+                              inputProps={{
+                                'aria-label': 'controlled',
+                              }}
+                              className={classes.greenSwitch}
+                            />
+                          </Box>
+                        </Box>
+                        <Box
+                          style={{
+                            backgroundColor: '#f2f2f2',
+                            height: '7rem',
+                            display: 'inline-block',
+                            padding: '3%',
+                          }}
+                        >
+                          <Typography variant='text'>
+                            The variant="fullWidth" prop should be
+                            used for smaller views. This demo also
+                            uses
+                          </Typography>
+                        </Box>
                       </Box>
                     </Box>
                     <Box
                       style={{
-                        backgroundColor: '#f2f2f2',
-                        height: '7rem',
-                        display: 'inline-block',
-                        padding: '3%',
+                        border: '1px solid #c6c6c6',
                       }}
+                      ml={5}
                     >
-                      <Typography variant='text'>
-                        The variant="fullWidth" prop should be used
-                        for smaller views. This demo also uses
+                      <Typography variant='h5' m={2}>
+                        {' '}
+                        Order Quantity:{' '}
+                      </Typography>
+                      <Typography
+                        variant='h1'
+                        m={2}
+                        style={{ textAlign: 'center' }}
+                      >
+                        1
                       </Typography>
                     </Box>
                   </Box>
-                </Box>
-                <Box
-                  style={{
-                    border: '1px solid #c6c6c6',
-                  }}
-                  ml={5}
-                >
-                  <Typography variant='h5' m={2}>
-                    {' '}
-                    Order Quantity:{' '}
-                  </Typography>
-                  <Typography
-                    variant='h1'
-                    m={2}
-                    style={{ textAlign: 'center' }}
-                  >
-                    1
-                  </Typography>
-                </Box>
-              </Box>
+                ))}
             </TabPanel>
             <TabPanel value={value} index={1}>
               <Typography variant='h5'>
@@ -661,7 +671,7 @@ const Order = () => {
 
       <div>
         <Dialog open={manualPayment} onClose={closeManualPayment}>
-          <DialogTitle >
+          <DialogTitle>
             <Typography variant='h4'>Manual Payment</Typography>
           </DialogTitle>
           <DialogContent>

@@ -242,6 +242,7 @@ const Comments = () => {
                             minWidth: '10rem',
                           }}
                         >
+                          {/* {row.name} */}
                           {row.name}
                         </TableCell>
                         <TableCell align='left'>

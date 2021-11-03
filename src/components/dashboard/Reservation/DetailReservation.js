@@ -28,6 +28,7 @@ import {
   RadioGroup,
   FormControlLabel,
   CardMedia,
+  Switch,
 } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import stageImg1 from 'Assets/img/stage1.png';
@@ -313,7 +314,11 @@ const DetailReservation = () => {
   const [reservationStatus, setReservationStatus] =
     React.useState('');
   const [payment, setPayment] = React.useState(false);
+  const [ok, setOk] = React.useState(true);
 
+  const toggle = (event) => {
+    setOk(event.target.ok);
+  };
   const handleReservationStatus = (event) => {
     setReservationStatus(event.target.value);
   };
@@ -894,6 +899,25 @@ const DetailReservation = () => {
                           image='https://picsum.photos/200/300?random=2'
                           title='Live from space album cover'
                         />
+                        <Box
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <Button>modify</Button>
+                          <Button style={{ color: 'red' }}>
+                            Delete
+                          </Button>
+                          <Switch
+                            status={ok}
+                            onChange={toggle}
+                            inputProps={{
+                              'aria-label': 'controlled',
+                            }}
+                          />
+                        </Box>
                       </div>
                     ))}
                     {/* one */}
