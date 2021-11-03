@@ -274,7 +274,7 @@ const CreateProduct = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    placeholder='www.facebook.com'
+                    placeholder='Labels'
                     size='small'
                     style={{
                       width: '50%',
@@ -366,7 +366,7 @@ const CreateProduct = () => {
                             />
                           </Box>
                           <Typography style={{ color: '#fff' }}>
-                            Upload Document
+                            Upload Image
                           </Typography>
                         </label>
                       </Box>
