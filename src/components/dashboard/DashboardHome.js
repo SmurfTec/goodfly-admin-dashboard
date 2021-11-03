@@ -69,6 +69,10 @@ const DashboardHome = () => {
         alignItems='center'
         gap='20px'
         flexWrap='wrap'
+        sx={{
+          padding: '19px 20px',
+          background: '#f2f2f2f2',
+        }}
       >
         <Box className={classes.Card}>
           <Typography variant='h5' gutterBottom>
@@ -112,60 +116,83 @@ const DashboardHome = () => {
         />
       </Box>
       <Grid container sx={{ mt: 5 }} spacing={4}>
-        <Grid item xs={12} sm={8}>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          sx={{
+            backgroundColor: '#f2f2f2',
+          }}
+        >
           <LineChart />
         </Grid>
         <Grid
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            rowGap: '20px',
+            paddingTop: '0px !important',
+            paddingBottom: '0px !important',
+            minHeight: '380px',
           }}
           item
           xs={12}
           sm={4}
         >
-          <Box className={classes.InfoItem}>
-            <Typography variant='h5' color='InfoText'>
-              Reservations
-            </Typography>
-            <Badge badgeContent={42} color='primary' />
-          </Box>
-          <Box className={classes.InfoItem}>
-            <Typography variant='h5' color='InfoText'>
-              Tailor-Made Trips
-            </Typography>
-            <Badge badgeContent={12} color='primary' />
-          </Box>
-          <Box className={classes.InfoItem}>
-            <Typography variant='h5' color='InfoText'>
-              Store Orders
-            </Typography>
-            <Badge badgeContent={23} color='primary' />
-          </Box>
-          <Box className={classes.InfoItem}>
-            <Typography variant='h5' color='InfoText'>
-              Opinions
-            </Typography>
-            <Badge badgeContent={45} color='primary' />
-          </Box>
-          <Box className={classes.InfoItem}>
-            <Typography variant='h5' color='InfoText'>
-              Messages
-            </Typography>
-            <Badge badgeContent={122} color='primary' />
-          </Box>
-          <Box className={classes.InfoItem}>
-            <Typography variant='h5' color='InfoText'>
-              Comments
-            </Typography>
-            <Badge badgeContent={112} color='primary' />
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              rowGap: '20px',
+              background: '#f2f2f2f2',
+              padding: '19px 20px',
+              height: '100%',
+            }}
+          >
+            <Box className={classes.InfoItem}>
+              <Typography variant='h5' color='InfoText'>
+                Reservations
+              </Typography>
+              <Badge badgeContent={42} color='primary' />
+            </Box>
+            <Box className={classes.InfoItem}>
+              <Typography variant='h5' color='InfoText'>
+                Tailor-Made Trips
+              </Typography>
+              <Badge badgeContent={12} color='primary' />
+            </Box>
+            <Box className={classes.InfoItem}>
+              <Typography variant='h5' color='InfoText'>
+                Store Orders
+              </Typography>
+              <Badge badgeContent={23} color='primary' />
+            </Box>
+            <Box className={classes.InfoItem}>
+              <Typography variant='h5' color='InfoText'>
+                Opinions
+              </Typography>
+              <Badge badgeContent={45} color='primary' />
+            </Box>
+            <Box className={classes.InfoItem}>
+              <Typography variant='h5' color='InfoText'>
+                Messages
+              </Typography>
+              <Badge badgeContent={122} color='primary' />
+            </Box>
+            <Box className={classes.InfoItem}>
+              <Typography variant='h5' color='InfoText'>
+                Comments
+              </Typography>
+              <Badge badgeContent={112} color='primary' />
+            </Box>
           </Box>
         </Grid>
       </Grid>
-      <Grid container sx={{ mt: 5 }} spacing={2}>
-        <Grid item xs={12} sm={7} sx={{ display: 'flex' }}>
+      <Grid container sx={{ mt: 5 }} spacing={4}>
+        <Grid
+          item
+          xs={12}
+          sm={7}
+          sx={{ display: 'flex', backgroundColor: '#f2f2f2' }}
+        >
           <Box className={classes.InfoButtonGrid}>
             <Box className={classes.InfoButton}>
               <Typography variant='h5'>Goodfly Clients</Typography>
@@ -226,88 +253,101 @@ const DashboardHome = () => {
             </Box>
           </Box>{' '}
         </Grid>
-        <Grid item xs={12} sm={5} className={classes.ActionsGrid}>
-          {' '}
-          <Box
-            sx={{
-              borderRight: '2px solid #ccc',
-              paddingRight: '13px',
-            }}
-          >
-            <TextField
-              variant='standard'
-              color='primary'
-              value={clientNumber}
-              onChange={handleTxtChange}
-              label='Find Client'
-            ></TextField>
+        <Grid item xs={12} sm={5} style={{ paddingTop: 0 }}>
+          <Box className={classes.ActionsGrid}>
+            <Box
+              sx={{
+                borderRight: '2px solid #ccc',
+                paddingRight: '13px',
+                paddingTop: '20px',
+              }}
+            >
+              <TextField
+                variant='standard'
+                color='primary'
+                value={clientNumber}
+                onChange={handleTxtChange}
+                label='Find Client'
+              ></TextField>
+            </Box>
+            <ToggleButtonGroup
+              orientation='vertical'
+              value={searchBy}
+              exclusive
+              onChange={handleChange}
+            >
+              <ToggleButton sx={{ border: 0 }} value='plane' aria-label='plane'>
+                <Button
+                  disableRipple
+                  fullWidth
+                  disableFocusRipple
+                  size={'small'}
+                  variant='outlined'
+                  sx={{
+                    color: searchBy === 'plane' ? '#46B9F6' : '#000',
+                    borderColor: searchBy === 'plane' ? '#46B9F6' : '#000',
+                  }}
+                >
+                  Search for a plane ticket
+                </Button>
+              </ToggleButton>
+              <ToggleButton sx={{ border: 0 }} value='boat' aria-label='boat'>
+                <Button
+                  disableRipple
+                  fullWidth
+                  disableFocusRipple
+                  size={'small'}
+                  variant='outlined'
+                  sx={{
+                    color: searchBy === 'boat' ? '#46B9F6' : '#000',
+                    borderColor: searchBy === 'boat' ? '#46B9F6' : '#000',
+                  }}
+                >
+                  Find a boat ticket
+                </Button>
+              </ToggleButton>
+              <ToggleButton
+                sx={{ border: 0 }}
+                value='reservation'
+                aria-label='reservation'
+              >
+                <Button
+                  disableRipple
+                  fullWidth
+                  disableFocusRipple
+                  size={'small'}
+                  variant='outlined'
+                  sx={{
+                    color: searchBy === 'reservation' ? '#46B9F6' : '#000',
+                    borderColor:
+                      searchBy === 'reservation' ? '#46B9F6' : '#000',
+                  }}
+                >
+                  Find A Reservation
+                </Button>
+              </ToggleButton>
+              <ToggleButton
+                sx={{ border: 0 }}
+                value='vehicle'
+                aria-label='vehicle'
+              >
+                <Button
+                  disableRipple
+                  fullWidth
+                  disableFocusRipple
+                  size={'small'}
+                  variant='outlined'
+                  sx={{
+                    color: searchBy === 'vehicle' ? '#46B9F6' : '#000',
+                    borderColor: searchBy === 'vehicle' ? '#46B9F6' : '#000',
+                  }}
+                >
+                  Find a vehicle rental
+                </Button>
+              </ToggleButton>
+            </ToggleButtonGroup>
           </Box>
-          <ToggleButtonGroup
-            orientation='vertical'
-            value={searchBy}
-            exclusive
-            onChange={handleChange}
-          >
-            <ToggleButton value='plane' aria-label='plane'>
-              <Button
-                disableRipple
-                disableFocusRipple
-                size={'small'}
-                variant='outlined'
-                sx={{
-                  color: searchBy === 'plane' ? '#46B9F6' : '#000',
-                  borderColor: searchBy === 'plane' ? '#46B9F6' : '#000',
-                }}
-              >
-                Search for a plane ticket
-              </Button>
-            </ToggleButton>
-            <ToggleButton value='boat' aria-label='boat'>
-              <Button
-                disableRipple
-                disableFocusRipple
-                size={'small'}
-                variant='outlined'
-                sx={{
-                  color: searchBy === 'boat' ? '#46B9F6' : '#000',
-                  borderColor: searchBy === 'boat' ? '#46B9F6' : '#000',
-                }}
-              >
-                Find a boat ticket
-              </Button>
-            </ToggleButton>
-            <ToggleButton value='reservation' aria-label='reservation'>
-              <Button
-                disableRipple
-                disableFocusRipple
-                size={'small'}
-                variant='outlined'
-                sx={{
-                  color: searchBy === 'reservation' ? '#46B9F6' : '#000',
-                  borderColor: searchBy === 'reservation' ? '#46B9F6' : '#000',
-                }}
-              >
-                Find A Reservation
-              </Button>
-            </ToggleButton>
-            <ToggleButton value='vehicle' aria-label='vehicle'>
-              <Button
-                disableRipple
-                disableFocusRipple
-                size={'small'}
-                variant='outlined'
-                sx={{
-                  color: searchBy === 'vehicle' ? '#46B9F6' : '#000',
-                  borderColor: searchBy === 'vehicle' ? '#46B9F6' : '#000',
-                }}
-              >
-                Find a vehicle rental
-              </Button>
-            </ToggleButton>
-          </ToggleButtonGroup>
         </Grid>
-
-        <Grid item sm={6} md={6} className={classes.ActionsGrid}></Grid>
       </Grid>
     </Container>
   );

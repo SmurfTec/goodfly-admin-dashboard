@@ -15,7 +15,7 @@ const LineChart = () => {
     ],
     options: {
       chart: {
-        height: 350,
+        height: 200,
         type: 'line',
         dropShadow: {
           enabled: true,
@@ -41,9 +41,9 @@ const LineChart = () => {
       //   align: 'left',
       // },
       grid: {
-        borderColor: '#e7e7e7',
+        borderColor: '#f2f2f2',
         row: {
-          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+          colors: ['#f2f2f2', 'transparent'], // takes an array which will be repeated on columns
           opacity: 0.5,
         },
       },

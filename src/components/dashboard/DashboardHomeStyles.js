@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
       height: 20,
       // stroke: '#fff',
     },
+    paddingInline: 20,
   },
   SocialIcons: {
     display: 'flex',
@@ -75,6 +76,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-end',
     columnGap: 10,
+    backgroundColor: '#f2f2f2',
+    paddingInline: 20,
   },
 }));
 
