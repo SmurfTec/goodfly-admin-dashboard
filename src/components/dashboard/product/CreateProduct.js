@@ -31,8 +31,13 @@ const styles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 25,
-    padding: 20,
+    margin: 12,
+    padding: 15,
+    cursor: 'pointer',
+    [theme.breakpoints.down('lg')]: {
+      margin: 25,
+      padding: 25,
+    },
   },
   inputBox: {
     border: 0,
@@ -49,8 +54,10 @@ const styles = makeStyles((theme) => ({
     marginBottom: 7,
   },
   image: {
-    minHeight: '8rem',
     margin: '0.5rem',
+    padding: '1rem',
+    minHeight: '10rem',
+    minWidth: '10rem',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -112,7 +119,7 @@ const CreateProduct = () => {
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  defaultValue='zain'
+                  placeholder='zain'
                   size='small'
                   className={classes.textInput}
                 />
@@ -124,7 +131,7 @@ const CreateProduct = () => {
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  defaultValue='price'
+                  placeholder='price'
                   size='small'
                   className={classes.textInput}
                 />
@@ -167,7 +174,7 @@ const CreateProduct = () => {
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  defaultValue='+2123123131'
+                  placeholder='+2123123131'
                   size='small'
                   className={classes.textInput}
                 />
@@ -179,7 +186,7 @@ const CreateProduct = () => {
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  defaultValue='www.facebook.com'
+                  placeholder='www.facebook.com'
                   size='small'
                   className={classes.textInput}
                 />
@@ -188,11 +195,13 @@ const CreateProduct = () => {
                 className={classes.inputBox}
                 style={{ margin: '1rem' }}
               >
-                <Typography variant='h5'>Dimensions</Typography>
+                <Typography variant='h5' className={classes.typo}>
+                  Dimensions
+                </Typography>
                 <Box
                   style={{
                     textAlign: 'center',
-                    width: '82%',
+                    width: '100%',
                     display: 'flex',
                     justifyContent: 'space-around',
                   }}
@@ -200,31 +209,31 @@ const CreateProduct = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='cm'
+                    placeholder='cm'
                     size='small'
                     // className={classes.textInput}
                     style={{
-                      width: '18%',
+                      width: '20%',
                       backgroundColor: '#fff',
                     }}
                   />
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='cm'
+                    placeholder='cm'
                     size='small'
                     style={{
-                      width: '18%',
+                      width: '20%',
                       backgroundColor: '#fff',
                     }}
                   />
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='cm'
+                    placeholder='cm'
                     size='small'
                     style={{
-                      width: '18%',
+                      width: '20%',
                       backgroundColor: '#fff',
                     }}
                   />
@@ -240,7 +249,7 @@ const CreateProduct = () => {
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  defaultValue='add product description'
+                  placeholder='add product description'
                   size='small'
                   multiline
                   rows={7}
@@ -255,9 +264,26 @@ const CreateProduct = () => {
                 className={classes.inputBox}
                 style={{ display: 'inline-block' }}
               >
-                <Typography variant='h5' className={classes.typo}>
-                  Labels
-                </Typography>
+                <Box
+                  display='flex'
+                  justifyContent='left'
+                  alignItems='center'
+                >
+                  <Typography variant='h5' mr={12}>
+                    Labels
+                  </Typography>
+                  <TextField
+                    hiddenLabel
+                    id='filled-hidden-label-small'
+                    placeholder='www.facebook.com'
+                    size='small'
+                    style={{
+                      width: '50%',
+                      backgroundColor: '#fff',
+                      marginBottom: 7,
+                    }}
+                  />
+                </Box>
                 <Box
                   style={{
                     backgroundColor: '#fff',
@@ -286,7 +312,7 @@ const CreateProduct = () => {
               <Box
                 style={{
                   display: 'flex',
-                  justifyContent: 'space-around',
+                  justifyContent: 'space-between',
                   alignItems: 'center',
                   width: '100%',
                   minHeight: 180,
@@ -294,37 +320,60 @@ const CreateProduct = () => {
                   margin: 15,
                 }}
               >
-                <Box
-                  style={{
-                    backgroundColor: '#fff',
-                    minHeight: '8rem',
-                  }}
-                >
-                  <CardMedia
-                    style={{
-                      width: '5rem',
-                      height: '5rem',
-                    }}
-                    image='https://picsum.photos/200/300?random=2'
-                    title='product name'
-                  />
-                </Box>
-                <Box
-                  style={{
-                    backgroundColor: '#808080',
-                    borderRadius: '10px',
-                  }}
-                >
-                  <Box className={classes.image}>
-                    <Box>
-                      <PlusIcon size={35} style={{ color: '#fff' }} />
-                      <FileIcon size={35} style={{ color: '#fff' }} />
+                <Grid container>
+                  <Grid item lg={6}>
+                    <Box mt={1}>
+                      <CardMedia
+                        style={{
+                          width: '12rem',
+                          height: '12rem',
+                        }}
+                        image='https://picsum.photos/200/300?random=2'
+                        title='product name'
+                      />
                     </Box>
-                    <Typography style={{ color: '#fff' }}>
-                      Upload Document
-                    </Typography>
-                  </Box>
-                </Box>
+                  </Grid>
+                  <Grid item lg={6}>
+                    {' '}
+                    <Box
+                      mt={1}
+                      p={1}
+                      style={{
+                        backgroundColor: '#808080',
+                        borderRadius: '10px',
+                      }}
+                    >
+                      <Box className={classes.image}>
+                        <input
+                          accept='image/*'
+                          style={{ display: 'none' }}
+                          id='contained-button-file'
+                          multiple
+                          type='file'
+                        />
+                        <label htmlFor='contained-button-file'>
+                          <Box
+                            display='flex'
+                            justifyContent='center'
+                            style={{ cursor: 'pointer' }}
+                          >
+                            <PlusIcon
+                              size={35}
+                              style={{ color: '#fff' }}
+                            />
+                            <FileIcon
+                              size={35}
+                              style={{ color: '#fff' }}
+                            />
+                          </Box>
+                          <Typography style={{ color: '#fff' }}>
+                            Upload Document
+                          </Typography>
+                        </label>
+                      </Box>
+                    </Box>
+                  </Grid>
+                </Grid>
               </Box>
             </Box>
             <Box
