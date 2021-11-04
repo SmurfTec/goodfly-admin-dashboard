@@ -16,6 +16,7 @@ import {
   TextField,
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
+import { Link } from 'react-router-dom';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -198,11 +199,25 @@ const Staffers = () => {
 
   return (
     <div style={{ marginTop: '3rem' }}>
-      <Box style={{ display: 'flex', alignItems: 'center' ,justifyContent: 'space-between',margin:'0rem 2rem 0.5rem  0rem' }}>
+      <Box
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          margin: '0rem 2rem 0.5rem  0rem',
+        }}
+      >
         <Typography variant='h4' m={2}>
           User Management
         </Typography>
-        <Button variant='contained' style={{width:'12rem'}}> Add a Staffer</Button>
+        <Button
+          variant='contained'
+          style={{ width: '12rem' }}
+          component={Link}
+          to='/app/staffers/create'
+        >
+          Add a Staffer
+        </Button>
       </Box>
       <Box className={classes.main}>
         <Box

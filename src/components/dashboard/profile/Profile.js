@@ -6,7 +6,6 @@ import {
   Box,
   TextField,
   Button,
-  CardMedia,
   Avatar,
 } from '@material-ui/core';
 import useManyInputs from 'hooks/useManyInputs';
