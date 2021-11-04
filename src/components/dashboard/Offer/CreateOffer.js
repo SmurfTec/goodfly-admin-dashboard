@@ -23,6 +23,9 @@ import {
   DialogActions,
   DialogTitle,
   DialogContent,
+  List,
+  ListItem,
+  ListItemText,
 } from '@material-ui/core';
 import Gallery from 'react-grid-gallery';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
@@ -238,14 +241,16 @@ const trips = [
   },
 ];
 
+const services = [1, 2, 3, 4, 5];
+
 const styles = makeStyles((theme) => ({
   options: {
     backgroundColor: '#f2f2f2',
     height: '100%',
   },
   rootContainer: {
-    '& .css-19kzrtu': {
-      pading: '20px',
+    '&.css-19kzrtu': {
+      padding: '10px',
     },
   },
   flexBetween: {
@@ -304,6 +309,10 @@ const styles = makeStyles((theme) => ({
     backgroundColor: '#808080',
     borderRadius: '10px',
     width: '10rem',
+    padding: '0.5rem',
+    [theme.breakpoints.down('lg')]: {
+      width: '8rem',
+    },
   },
   dashes: {
     border: `2px dashed #fff`,
@@ -317,11 +326,46 @@ const styles = makeStyles((theme) => ({
       height: '10rem',
     },
   },
-  carouselImages:{
-      width: '10rem',
-    height: '10rem',
+  carouselImages: {
+    width: '12rem',
+    height: '12rem',
     borderRadius: '5px',
-  }
+    [theme.breakpoints.down('lg')]: {
+      width: '8rem',
+      height: '8rem',
+    },
+  },
+  offerImage: {
+    width: '17rem',
+    height: '14rem',
+    borderRadius: '5px',
+    [theme.breakpoints.down('lg')]: {
+      width: '8rem',
+      height: '8rem',
+    },
+  },
+  stageImage: {
+    width: '24rem',
+    height: '18rem',
+    [theme.breakpoints.down('lg')]: {
+      width: '14rem',
+      height: '12rem',
+    },
+  },
+
+  demo: {
+    backgroundColor: theme.palette.background.paper,
+  },
+  title: {
+    margin: theme.spacing(4, 0, 2),
+  },
+  dateFields: {
+    backgroundColor: '#fff',
+    width: '40%',
+    [theme.breakpoints.down('lg')]: {
+      width: '48%',
+    },
+  },
 }));
 
 const CreateOffer = () => {
@@ -376,7 +420,7 @@ const CreateOffer = () => {
       <Box
         style={{
           minHeight: '25rem',
-          margin: '2rem 1.5rem 0rem',
+          margin: '2rem 1rem 0rem',
         }}
       >
         <Box sx={{ width: '100%' }}>
@@ -424,13 +468,14 @@ const CreateOffer = () => {
                       }}
                     >
                       <Typography variant='h5'>
-                        Gallery of the offer
+                        Offer Gallery
                       </Typography>
+
                       <Button
                         variant='outlined'
                         style={{ marginTop: '1rem' }}
                       >
-                        Add{' '}
+                        Add
                       </Button>
                       <Button
                         variant='outlined'
@@ -445,7 +490,7 @@ const CreateOffer = () => {
                     <Box>
                       <Card>
                         <CardMedia
-                          className={classes.carouselImages}
+                          className={classes.offerImage}
                           image='https://picsum.photos/200/300?random=2'
                           title='Contemplative Reptile'
                         />
@@ -563,20 +608,14 @@ const CreateOffer = () => {
                       name='Departure Date'
                       placeholder='Departure Date'
                       size='small'
-                      style={{
-                        backgroundColor: '#fff',
-                        width: '40%',
-                      }}
+                      className={classes.dateFields}
                     />
                     <TextField
                       type='date'
                       placeholder='Arrival date'
                       name='Arrival Date'
                       size='small'
-                      style={{
-                        backgroundColor: '#fff',
-                        width: '40%',
-                      }}
+                      className={classes.dateFields}
                     />
                   </Box>
                   <Box
@@ -627,20 +666,14 @@ const CreateOffer = () => {
                       name='Departure'
                       placeholder='Departure'
                       size='small'
-                      style={{
-                        backgroundColor: '#fff',
-                        width: '40%',
-                      }}
+                      className={classes.dateFields}
                     />
                     <TextField
                       type='text'
                       placeholder='Arrival'
                       name='Arrival'
                       size='small'
-                      style={{
-                        backgroundColor: '#fff',
-                        width: '40%',
-                      }}
+                      className={classes.dateFields}
                     />
                   </Box>
                   <Box
@@ -777,17 +810,17 @@ const CreateOffer = () => {
                     }}
                   >
                     <Box
-                      className={classes.flexLeft}
+                      className={classes.flexBetween}
                       style={{ margin: '0rem 1rem 0.5rem' }}
                     >
-                      <Typography variant='h5' mr={10}>
+                      <Typography variant='h5' mr={1}>
                         Visit of Mount Uhud
                       </Typography>
                       <Typography variant='text'> 554 km</Typography>
                     </Box>
                     <Box style={{ margin: '0rem 0.5rem 1rem' }}>
                       <CardMedia
-                        style={{ width: '24rem', height: '18rem' }}
+                        className={classes.stageImage}
                         image='https://picsum.photos/200/300?random=2'
                         title='Contemplative Reptile'
                       />
@@ -818,35 +851,58 @@ const CreateOffer = () => {
                         images={IMAGES}
                         style={{ width: '10rem' }}
                       />
-                      <CardMedia
+                      {/* <CardMedia
                         className={classes.cover}
                         image='https://picsum.photos/200/300?random=2'
                         title='Live from space album cover'
-                      />
+                      /> */}
                     </Box>
-                    <Typography variant='h5'> </Typography>
+                    {/* <Typography variant='h5'> </Typography>
                     <Typography variant='h5'>
                       Service Includes
                     </Typography>
 
                     {/*  map the Services */}
-                    <Box
-                      style={{
-                        display: 'flex',
-                        alignItems: 'self-end',
-                        justifyContent: 'left',
-                        marginTop: 0,
-                      }}
-                    >
+                    {/* {services &&
+                      services.map((s) => (
+                        <Box>
+                          <Box
+                            style={{
+                              display: 'flex',
+                              alignItems: 'self-end',
+                              justifyContent: 'left',
+                              marginTop: 0,
+                            }}
+                          >
+                            <Typography
+                              variant='h1'
+                              style={{ fontSize: '3rem' }}
+                            >
+                              .
+                            </Typography>
+                            <Typography variant='text'>
+                              <bold>.</bold>Half pension
+                            </Typography>
+                          </Box>
+                        </Box>
+                      ))} */}
+                    <Box>
                       <Typography
-                        variant='h1'
-                        style={{ fontSize: '3rem' }}
+                        variant='h4'
+                        className={classes.title}
                       >
-                        .
+                        Text only
                       </Typography>
-                      <Typography variant='text'>
-                        Half pension
-                      </Typography>
+                      <div className={classes.demo}>
+                        <List>
+                          {services &&
+                            services.map((service) => (
+                              <ListItem style={{ height: '2rem' }}>
+                                <ListItemText primary='--Single-line item' />
+                              </ListItem>
+                            ))}
+                        </List>
+                      </div>
                     </Box>
                   </Grid>
                 </Grid>
@@ -927,9 +983,8 @@ const CreateOffer = () => {
               <Box
                 style={{
                   display: 'flex',
-                  justifyContent: 'left',
+                  justifyContent: 'center',
                   alignItems: 'center',
-                  margin: '2rem 5rem 0rem 21rem',
                 }}
               >
                 <Box
@@ -1070,7 +1125,7 @@ const CreateOffer = () => {
                     size='small'
                     style={{
                       backgroundColor: '#fff',
-                      width: '50%',
+                      width: '45%',
                       margin: '1rem 0rem 1rem',
                     }}
                   />
@@ -1093,7 +1148,15 @@ const CreateOffer = () => {
                         </Typography>
                         <Box className={classes.imgBackground} mt={1}>
                           <Box className={classes.dashes}>
-                            <Box className={classes.image}>
+                            <Box
+                              className={classes.image}
+                              style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                marginLeft: '1rem',
+                              }}
+                            >
                               <Box>
                                 <PlusIcon
                                   size={35}
@@ -1198,24 +1261,30 @@ const CreateOffer = () => {
                         marginRight: '1rem',
                       }}
                     >
-                      <Box>
-                        <Box className={classes.imgBackground}>
-                          <Box className={classes.dashes}>
-                            <Box className={classes.image}>
-                              <Box>
-                                <PlusIcon
-                                  size={35}
-                                  style={{ color: '#fff' }}
-                                />
-                                <ImageIcon
-                                  size={35}
-                                  style={{ color: '#fff' }}
-                                />
-                              </Box>
-                              <Typography style={{ color: '#fff' }}>
-                                New Image
-                              </Typography>
+                      <Box className={classes.imgBackground}>
+                        <Box className={classes.dashes}>
+                          <Box
+                            className={classes.image}
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'center',
+                              marginLeft: '1rem',
+                            }}
+                          >
+                            <Box>
+                              <PlusIcon
+                                size={35}
+                                style={{ color: '#fff' }}
+                              />
+                              <ImageIcon
+                                size={35}
+                                style={{ color: '#fff' }}
+                              />
                             </Box>
+                            <Typography style={{ color: '#fff' }}>
+                              New Image
+                            </Typography>
                           </Box>
                         </Box>
                       </Box>
@@ -1224,19 +1293,27 @@ const CreateOffer = () => {
                   <Grid item md={8} mt={2}>
                     <CarouselLayout>
                       {trips.map((trip, i) => (
-                        <div
-                          key={trip._id}
-                          // className={classes.carouselCard}
-                          style={{
-                            width: '10rem',
-                          }}
-                        >
-                          <CardMedia
-                            className={classes.carouselImages}
-                            image='https://picsum.photos/200/300?random=2'
-                            title='Live from space album cover'
-                          />
-                        </div>
+                        <>
+                          <div
+                            key={trip._id}
+                            // className={classes.carouselCard}
+                            style={{
+                              width: '10rem',
+                            }}
+                          >
+                            <CardMedia
+                              className={classes.carouselImages}
+                              image='https://picsum.photos/200/300?random=2'
+                              title='Live from space album cover'
+                            />
+                          </div>
+                          <Box style={{ textAlign: 'right' }}>
+                            <Button style={{ color: 'red' }}>
+                              {' '}
+                              delete{' '}
+                            </Button>
+                          </Box>
+                        </>
                       ))}
                       {/* one */}
                     </CarouselLayout>
