@@ -288,6 +288,7 @@ const SidebarContent = () => {
             nodeId={item.id}
             labelText={item.labelText}
             labelIcon={item.icon}
+            key={item.id}
           >
             {item.children?.map((el) => (
               <StyledTreeItem
@@ -297,6 +298,7 @@ const SidebarContent = () => {
                 // labelInfo={'90'}
                 color='#1a73e8'
                 bgColor='#e8f0fe'
+                key={el.id}
               />
             ))}
           </StyledTreeItem>
