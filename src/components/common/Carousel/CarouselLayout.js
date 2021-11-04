@@ -17,12 +17,12 @@ export const responsive = {
   },
   desktop: {
     breakpoint: { max: 1200, min: 992 },
-    items: 3,
+    items: 2,
     slidesToSlide: 1, //
   },
   tablet: {
     breakpoint: { max: 992, min: 768 },
-    items: 3,
+    items: 2,
     slidesToSlide: 1, //
   },
   smTablet: {

@@ -18,19 +18,22 @@ const styles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     [theme.breakpoints.down('lg')]: {
-      width: '6rem',
+      width: '8rem',
     },
   },
   content: {
     flex: '1 0 auto',
     [theme.breakpoints.down('lg')]: {
-      padding: '0.3rem',
+      padding: '0.1rem',
     },
   },
   cover: {
     width: '12rem',
     height: '7rem',
     margin: '0.5rem',
+    [theme.breakpoints.down('lg')]: {
+      width: '8rem',
+    },
   },
 }));
 

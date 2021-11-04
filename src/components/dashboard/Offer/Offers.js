@@ -3,13 +3,15 @@ import { makeStyles } from '@material-ui/styles';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
 import TripCard from './TripCard';
 
-import { Typography, Box, Grid } from '@material-ui/core';
+import { Typography, Box, Grid, Button } from '@material-ui/core';
 
 import {
   Plus as PlusIcon,
   Archive as ArchiveIcon,
   Tag as TagIcon,
 } from 'react-feather';
+
+import { Link } from 'react-router-dom';
 
 const trips = [
   {
@@ -139,6 +141,9 @@ const styles = makeStyles((theme) => ({
     backgroundColor: '#f2f2f2',
     borderRadius: '0.5rem',
     margin: '0.8rem',
+    [theme.breakpoints.down('lg')]: {
+      margin: '0.2rem',
+    },
   },
   imgBackground: {
     backgroundColor: '#808080',
@@ -146,7 +151,7 @@ const styles = makeStyles((theme) => ({
     width: '9rem',
     marginBottom: '1rem',
     [theme.breakpoints.down('lg')]: {
-      width: '7rem',
+      width: '6.5rem',
     },
   },
   image: {
@@ -225,9 +230,13 @@ const Offers = () => {
                   <PlusIcon size={35} style={{ color: '#fff' }} />
                   <TagIcon size={35} style={{ color: '#fff' }} />
                 </Box>
-                <Typography style={{ color: '#fff' }}>
+                <Button
+                  style={{ color: '#fff' }}
+                  component={Link}
+                  to='/app/offers/createoffer'
+                >
                   New Offer
-                </Typography>
+                </Button>
               </Box>
             </Box>
             <Box className={classes.imgBackground}>
@@ -235,10 +244,8 @@ const Offers = () => {
                 <Box>
                   <ArchiveIcon size={35} style={{ color: '#fff' }} />
                 </Box>
-                <Typography
-                  style={{ color: '#fff', margin: '0.5rem' }}
-                >
-                  Offer archives
+                <Typography style={{ color: '#fff' }}>
+                  archives
                 </Typography>
               </Box>
             </Box>
