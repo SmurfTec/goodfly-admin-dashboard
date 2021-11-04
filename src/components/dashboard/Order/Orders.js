@@ -16,6 +16,7 @@ import {
   TextField,
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
+import v4 from 'uuid/dist/v4';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -184,8 +185,7 @@ const Orders = () => {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    rowsPerPage -
-    Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -210,10 +210,7 @@ const Orders = () => {
             width: '100%',
           }}
         >
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
-          >
+          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
             Search Order
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -244,18 +241,13 @@ const Orders = () => {
             </TableHead>
             <TableBody>
               {rows
-                .slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
-                  <TableRow key={row.name}>
+                  <TableRow key={v4()}>
                     <TableCell component='th' scope='row'>
                       {row.name}
                     </TableCell>
-                    <TableCell align='right'>
-                      {row.calories}
-                    </TableCell>
+                    <TableCell align='right'>{row.calories}</TableCell>
                     <TableCell align='right'>{row.fat}</TableCell>
                     <TableCell align='right'>{row.carbs}</TableCell>
                     <TableCell align='right'>{row.protein}</TableCell>
