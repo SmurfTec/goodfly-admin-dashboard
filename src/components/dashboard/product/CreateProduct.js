@@ -14,11 +14,10 @@ import {
   CardMedia,
   Paper,
 } from '@material-ui/core';
-import {
-  Plus as PlusIcon,
-  File as FileIcon,
-  X as XIcon,
-} from 'react-feather';
+import { Plus as PlusIcon, File as FileIcon, X as XIcon } from 'react-feather';
+
+import uuid from 'uuid/dist/v4';
+import useManyInputs from 'hooks/useManyInputs';
 
 const styles = makeStyles((theme) => ({
   account: {
@@ -37,7 +36,6 @@ const styles = makeStyles((theme) => ({
     alignItems: 'center',
     margin: 12,
     padding: 15,
-    cursor: 'pointer',
     [theme.breakpoints.down('lg')]: {
       margin: 25,
       padding: 25,
@@ -71,31 +69,91 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
+const productCategories = [
+  { id: uuid(), value: 'Miscellaneous accessories' },
+  { id: uuid(), value: 'Aromatics, Spices and Herbs' },
+  { id: uuid(), value: 'Wellness & Health Articles' },
+  { id: uuid(), value: 'Biscuits & Cakes' },
+  { id: uuid(), value: 'Sweets & Confectionery' },
+  { id: uuid(), value: 'Gifts & Boxes' },
+  { id: uuid(), value: 'Coffees & Cocoas' },
+  { id: uuid(), value: 'Cereals, Rice & Pasta' },
+  { id: uuid(), value: 'Chocolates' },
+  { id: uuid(), value: 'Home-made jams' },
+  { id: uuid(), value: 'Dates' },
+  { id: uuid(), value: 'Droguerie' },
+  { id: uuid(), value: 'Dried Fruits' },
+  { id: uuid(), value: 'Essential oils' },
+  { id: uuid(), value: 'Oils, Vinegars, & Seasonings' },
+  { id: uuid(), value: 'Juices, Lemonades & Syrups' },
+  { id: uuid(), value: 'Honey' },
+  { id: uuid(), value: 'Promotional offers' },
+  { id: uuid(), value: 'Spreads' },
+  { id: uuid(), value: 'Canned products' },
+  { id: uuid(), value: 'Exceptional Products' },
+  { id: uuid(), value: 'Sauces & Condiments' },
+  { id: uuid(), value: 'Sugars, Salts & Peppers' },
+  { id: uuid(), value: 'Teas & Infusions' },
+];
+
 const CreateProduct = () => {
   const classes = styles();
-
-  const [category, setCategory] = React.useState('');
-  const [checked, setChecked] = React.useState(true);
-  const [labelValue, setLabelValue] = React.useState('');
-  const [label, setLabel] = React.useState([]);
-
-  const handleChange = (event) => {
-    setCategory(event.target.value);
+  const initialState = {
+    name: '',
+    price: 100,
+    category: '',
+    weight: 5,
+    pricePerKilo: '',
+    length: '',
+    width: '',
+    height: '',
+    description: '',
+    labels: [],
+    label: '',
+    images: [],
+    isOnline: false,
   };
-
-  const toggle = (event) => {
-    setChecked(event.target.checked);
-  };
-
-  const handleLabelChange = (e) => {
-    setLabelValue(e.target.value);
-  };
+  const [state, handleTxtChange, handleToggleChange, changeInput, resetState] =
+    useManyInputs(initialState);
 
   const handleLabel = (e) => {
     e.preventDefault();
-    setLabel((value) => [...value, labelValue]);
-    setLabelValue('');
-    console.log(label);
+    changeInput('labels', [...state.labels, state.label]);
+    changeInput('label', '');
+  };
+
+  const removeLabel = (el) => {
+    changeInput(
+      'labels',
+      state.labels.filter((item) => item !== el)
+    );
+  };
+  const handleSubmit = () => {
+    console.log(`state`, state);
+    resetState();
+  };
+
+  const handleImage = async (e) => {
+    const files = e.target.files;
+    const convert64 = await convertTobase64(files[0]);
+
+    changeInput('images', [convert64]);
+    // changeInput('images', [files[0]]);
+  };
+
+  const convertTobase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        console.log(`fileReader.result`, fileReader.result);
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        console.log(`error`, error);
+        reject(error);
+      };
+    });
   };
 
   return (
@@ -123,8 +181,9 @@ const CreateProduct = () => {
                 <Typography variant='h5'>
                   Online
                   <Switch
-                    checked={checked}
-                    onChange={toggle}
+                    checked={state.isOnline}
+                    onChange={handleToggleChange}
+                    name='isOnline'
                     inputProps={{ 'aria-label': 'controlled' }}
                   />
                 </Typography>
@@ -139,6 +198,9 @@ const CreateProduct = () => {
                   placeholder='zain'
                   size='small'
                   className={classes.textInput}
+                  name='name'
+                  value={state.name}
+                  onChange={handleTxtChange}
                 />
               </Box>
               <Box className={classes.inputBox}>
@@ -148,9 +210,14 @@ const CreateProduct = () => {
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  placeholder='price'
+                  placeholder='price $'
                   size='small'
+                  type='number'
+                  InputProps={{ min: 5 }}
                   className={classes.textInput}
+                  name='price'
+                  value={state.price}
+                  onChange={handleTxtChange}
                 />
               </Box>
               <Box className={classes.inputBox}>
@@ -163,7 +230,7 @@ const CreateProduct = () => {
                   style={{
                     width: '80%',
                     backgroundColor: '#fff',
-                    marginBottom: 7,
+                    marginBottom: 15,
                   }}
                 >
                   <InputLabel id='demo-simple-select-label'>
@@ -173,13 +240,18 @@ const CreateProduct = () => {
                   <Select
                     labelId='demo-simple-select-label'
                     id='demo-simple-select'
-                    value={category}
                     label='Category'
-                    onChange={handleChange}
+                    name='category'
+                    value={state.category}
+                    onChange={handleTxtChange}
                   >
-                    <MenuItem value={10}>One</MenuItem>
-                    <MenuItem value={20}>Two</MenuItem>
-                    <MenuItem value={30}>Three</MenuItem>
+                    {/* <MenuItem value={10}>One</MenuItem>
+                    <MenuItem value={20}>Two</MenuItem> */}
+                    {productCategories.map((category) => (
+                      <MenuItem value={category.value} key={category.id}>
+                        {category.value}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Box>{' '}
@@ -194,6 +266,10 @@ const CreateProduct = () => {
                   placeholder='+2123123131'
                   size='small'
                   className={classes.textInput}
+                  name='weight'
+                  type='number'
+                  value={state.weight}
+                  onChange={handleTxtChange}
                 />
               </Box>{' '}
               <Box className={classes.inputBox}>
@@ -206,12 +282,12 @@ const CreateProduct = () => {
                   placeholder='www.facebook.com'
                   size='small'
                   className={classes.textInput}
+                  name='pricePerKilo'
+                  value={state.pricePerKilo}
+                  onChange={handleTxtChange}
                 />
               </Box>
-              <Box
-                className={classes.inputBox}
-                style={{ margin: '1rem' }}
-              >
+              <Box className={classes.inputBox} style={{ margin: '1rem' }}>
                 <Typography variant='h5' className={classes.typo}>
                   Dimensions
                 </Typography>
@@ -224,35 +300,50 @@ const CreateProduct = () => {
                   }}
                 >
                   <TextField
+                    type='number'
+                    InputProps={{ min: 1 }}
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    placeholder='cm'
+                    placeholder='Length (cm)'
                     size='small'
                     // className={classes.textInput}
                     style={{
                       width: '20%',
                       backgroundColor: '#fff',
                     }}
+                    name='length'
+                    value={state.length}
+                    onChange={handleTxtChange}
                   />
                   <TextField
+                    type='number'
+                    InputProps={{ min: 1 }}
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    placeholder='cm'
+                    placeholder='Width (cm)'
                     size='small'
                     style={{
                       width: '20%',
                       backgroundColor: '#fff',
                     }}
+                    name='width'
+                    value={state.width}
+                    onChange={handleTxtChange}
                   />
                   <TextField
+                    type='number'
+                    InputProps={{ min: 1 }}
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    placeholder='cm'
+                    placeholder='Height (cm)'
                     size='small'
                     style={{
                       width: '20%',
                       backgroundColor: '#fff',
                     }}
+                    name='height'
+                    value={state.height}
+                    onChange={handleTxtChange}
                   />
                 </Box>
               </Box>{' '}
@@ -260,9 +351,7 @@ const CreateProduct = () => {
                 className={classes.inputBox}
                 style={{ display: 'inline-block' }}
               >
-                <Typography variant='h5'>
-                  Description of Product
-                </Typography>
+                <Typography variant='h5'>Description of Product</Typography>
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
@@ -275,40 +364,41 @@ const CreateProduct = () => {
                     width: '100%',
                     margin: '1rem 0rem  1rem',
                   }}
+                  name='description'
+                  value={state.description}
+                  onChange={handleTxtChange}
                 />
               </Box>{' '}
               <Box
                 className={classes.inputBox}
                 style={{ display: 'inline-block' }}
               >
-                <Box
-                  display='flex'
-                  justifyContent='left'
-                  alignItems='center'
-                >
+                <Box display='flex' justifyContent='left' alignItems='center'>
                   <Typography variant='h5' mr={12}>
                     Labels
                   </Typography>
-                  <form onSubmit={handleLabel}>
+                  <form id='labelForm' onSubmit={handleLabel}>
                     <TextField
                       hiddenLabel
                       required
                       id='filled-hidden-label-small'
                       placeholder='Add Five Labels'
                       size='small'
-                      value={labelValue}
-                      onChange={handleLabelChange}
                       style={{
                         width: '50%',
                         backgroundColor: '#fff',
                       }}
+                      name='label'
+                      value={state.label}
+                      onChange={handleTxtChange}
                     />
                     <Button
+                      form='labelForm'
                       variant='contained'
-                      type='submit'
                       size='large'
-                      disabled={label.length >= 5}
+                      disabled={state.labels?.length >= 5}
                       style={{ marginLeft: '0.5rem' }}
+                      type='submit'
                     >
                       Add
                     </Button>
@@ -323,35 +413,38 @@ const CreateProduct = () => {
                     minHeight: '7rem',
                   }}
                 >
-                  {label &&
-                    label.map((l, index) => (
-                      <Box
-                        style={{
-                          width: '100%',
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <Typography variant='h5' key={l.index}>
-                          {l}
-                        </Typography>
-                        <Typography>X</Typography>
-                        {/* <XIcon  /> */}
-                      </Box>
-                    ))}
+                  {state.labels?.map((el) => (
+                    <Box
+                      sx={{
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        cursor: 'pointer',
+                        transition: '0.5s',
+                        paddingInline: 20,
+                        '&:hover': {
+                          backgroundColor: '#ff00003b',
+                          '& h5': {
+                            textDecoration: 'line-through',
+                          },
+                        },
+                      }}
+                      onClick={removeLabel.bind(this, el)}
+                    >
+                      <Typography variant='h5' key={uuid()}>
+                        {el}
+                      </Typography>
+                      <Typography component='p'>X</Typography>
+                      {/* <XIcon  /> */}
+                    </Box>
+                  ))}
                   <Box />
                 </Box>
               </Box>
             </Box>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={5}
-            md={5}
-            className={classes.account}
-          >
+          <Grid item xs={12} sm={5} md={5} className={classes.account}>
             <Box className={classes.mainBox}>
               <Typography variant='h5' style={{ width: '100%' }}>
                 Account managment
@@ -375,50 +468,48 @@ const CreateProduct = () => {
                           width: '12rem',
                           height: '12rem',
                         }}
-                        image='https://picsum.photos/200/300?random=2'
+                        image={state.images?.[0]}
                         title='product name'
                       />
                     </Box>
                   </Grid>
                   <Grid item lg={6}>
                     {' '}
-                    <Box
-                      mt={1}
-                      p={1}
-                      style={{
-                        backgroundColor: '#808080',
-                        borderRadius: '10px',
-                      }}
+                    <input
+                      accept='image/*'
+                      style={{ display: 'none' }}
+                      id='contained-button-file'
+                      multiple
+                      onChange={handleImage}
+                      type='file'
+                    />
+                    <label
+                      htmlFor='contained-button-file'
+                      style={{ cursor: 'pointer' }}
                     >
-                      <Box className={classes.image}>
-                        <input
-                          accept='image/*'
-                          style={{ display: 'none' }}
-                          id='contained-button-file'
-                          multiple
-                          type='file'
-                        />
-                        <label htmlFor='contained-button-file'>
+                      <Box
+                        mt={1}
+                        p={1}
+                        style={{
+                          backgroundColor: '#808080',
+                          borderRadius: '10px',
+                        }}
+                      >
+                        <Box className={classes.image}>
                           <Box
                             display='flex'
                             justifyContent='center'
                             style={{ cursor: 'pointer' }}
                           >
-                            <PlusIcon
-                              size={35}
-                              style={{ color: '#fff' }}
-                            />
-                            <FileIcon
-                              size={35}
-                              style={{ color: '#fff' }}
-                            />
+                            <PlusIcon size={35} style={{ color: '#fff' }} />
+                            <FileIcon size={35} style={{ color: '#fff' }} />
                           </Box>
                           <Typography style={{ color: '#fff' }}>
                             Upload Image
                           </Typography>
-                        </label>
+                        </Box>
                       </Box>
-                    </Box>
+                    </label>
                   </Grid>
                 </Grid>
               </Box>
@@ -432,9 +523,12 @@ const CreateProduct = () => {
               }}
             >
               <Button
+                form='newProductForm'
+                type='submit'
                 variant='contained'
                 size='medium'
                 style={{ width: 150 }}
+                onClick={handleSubmit}
               >
                 Create
               </Button>
