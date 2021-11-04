@@ -12,11 +12,10 @@ import {
 
 import { Camera as CameraIcon } from 'react-feather';
 
-import { Editor } from 'react-draft-wysiwyg';
 // import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import ConfirmDialog from '../Dialogs/ConfirmDialogBox';
-// import { Editor } from '@tinymce/tinymce-react';
+import { Editor } from '@tinymce/tinymce-react';
 
 const styles = makeStyles((theme) => ({
   image: {
@@ -42,10 +41,29 @@ const styles = makeStyles((theme) => ({
 
 const CreateBlog = () => {
   const classes = styles();
+
+  const [paragraphs, setParagraphs] = useState([]);
+
   const handleEditorChange = (e) => {
     console.clear();
     console.log(`e.target.value`, e.target.value);
     console.log(e.target.getContent());
+
+    let content = e.target.getContent();
+    // * Separate Paragraphs
+    let paras = content.split('</p>');
+
+    // * Remove "" para in the end
+    paras.pop();
+
+    // * remove "<p>" , "&nbsp" , "\n" etc from paras
+    paras = paras.map((para) => para.replace(/<p>|&nbsp;|\n/g, ''));
+
+    // * remove empty paragraphs ""
+    paras = paras.filter((el) => !!el);
+
+    console.log(`paras`, paras);
+    setParagraphs(paras);
   };
 
   const editorRef = useRef(null);
@@ -201,30 +219,30 @@ const CreateBlog = () => {
             automatic_uploads: true,
             // add custom filepicker only to Image dialog
             file_picker_types: 'image',
-            file_picker_callback: function (cb, value, meta) {
-              var input = document.createElement('input');
-              input.setAttribute('type', 'file');
-              input.setAttribute('accept', 'image/*');
+            // file_picker_callback: function (cb, value, meta) {
+            //   var input = document.createElement('input');
+            //   input.setAttribute('type', 'file');
+            //   input.setAttribute('accept', 'image/*');
 
-              input.onchange = function () {
-                var file = this.files[0];
-                var reader = new FileReader();
+            //   input.onchange = function () {
+            //     var file = this.files[0];
+            //     var reader = new FileReader();
 
-                reader.onload = function () {
-                  console.log(`reader.result`, reader.result);
-                  // var id = 'blobid' + new Date().getTime();
-                  // var blobCache = Editor.activeEditor.editorUpload.blobCache;
-                  // var base64 = reader.result.split(',')[1];
-                  // var blobInfo = blobCache.create(id, file, base64);
-                  // blobCache.add(blobInfo);
-                  // // call the callback and populate the Title field with the file name
-                  cb('', { title: file.name });
-                };
-                reader.readAsDataURL(file);
-              };
+            //     reader.onload = function () {
+            //       console.log(`reader.result`, reader.result);
+            //       // var id = 'blobid' + new Date().getTime();
+            //       // var blobCache = Editor.activeEditor.editorUpload.blobCache;
+            //       // var base64 = reader.result.split(',')[1];
+            //       // var blobInfo = blobCache.create(id, file, base64);
+            //       // blobCache.add(blobInfo);
+            //       // // call the callback and populate the Title field with the file name
+            //       cb('', { title: file.name });
+            //     };
+            //     reader.readAsDataURL(file);
+            //   };
 
-              input.click();
-            },
+            //   input.click();
+            // },
           }}
           apiKey='xof67rwsnw3lkcm0cgnxpki7y4onajon4fxcahqdpmog5qba'
           onChange={handleEditorChange}
