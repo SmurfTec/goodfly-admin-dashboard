@@ -19,6 +19,7 @@ import {
 } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import Rating from '@material-ui/core/Rating';
+import v4 from 'uuid/dist/v4';
 
 import {
   Search as SearchIcon,
@@ -354,7 +355,7 @@ const OrganizedTrips = () => {
                   page * rowsPerPage + rowsPerPage
                 )
                 .map((row, index) => (
-                  <TableRow key={row.name}>
+                  <TableRow key={v4()}>
                     <TableCell component='th' scope='row'>
                       {row.name}
                     </TableCell>

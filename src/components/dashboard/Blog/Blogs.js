@@ -10,10 +10,15 @@ import {
   CardActionArea,
   CardContent,
   CardMedia,
+  TablePagination,
 } from '@material-ui/core';
+import v4 from 'uuid/dist/v4';
 
 import { Search as SearchIcon } from 'react-feather';
 import { Link } from 'react-router-dom';
+
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 let blogs = [
   {
@@ -64,14 +69,86 @@ let blogs = [
     theme: ' type theme ',
     description: ' description description',
   },
+  {
+    id: 7,
+    title: 'ali',
+    image: 'https://picsum.photos/200/300?random=2',
+    date: '12/12/12',
+    theme: ' type theme ',
+    description: ' description description',
+  },
+  {
+    id: 8,
+    title: 'ali',
+    image: 'https://picsum.photos/200/300?random=2',
+    date: '12/12/12',
+    theme: ' type theme ',
+    description: ' description description',
+  },
+  {
+    id: 9,
+    title: 'ali',
+    image: 'https://picsum.photos/200/300?random=2',
+    date: '12/12/12',
+    theme: ' type theme ',
+    description: ' description description',
+  },
+  {
+    id: 10,
+    title: 'ali',
+    image: 'https://picsum.photos/200/300?random=2',
+    date: '12/12/12',
+    theme: ' type theme ',
+    description: ' description description',
+  },
+  {
+    id: 11,
+    title: 'ali',
+    image: 'https://picsum.photos/200/300?random=2',
+    date: '12/12/12',
+    theme: ' type theme ',
+    description: ' description description',
+  },
+  {
+    id: 12,
+    title: 'ali',
+    image: 'https://picsum.photos/200/300?random=2',
+    date: '12/12/12',
+    theme: ' type theme ',
+    description: ' description description',
+  },
+  {
+    id: 13,
+    title: 'ali',
+    image: 'https://picsum.photos/200/300?random=2',
+    date: '12/12/12',
+    theme: ' type theme ',
+    description: ' description description',
+  },
+  {
+    id: 14,
+    title: 'ali',
+    image: 'https://picsum.photos/200/300?random=2',
+    date: '12/12/12',
+    theme: ' type theme ',
+    description: ' description description',
+  },
+  {
+    id: 15,
+    title: 'ali',
+    image: 'https://picsum.photos/200/300?random=2',
+    date: '12/12/12',
+    theme: ' type theme ',
+    description: ' description description',
+  },
 ];
 
 const styles = makeStyles((theme) => ({
   main: {
     backgroundColor: '#f2f2f2',
     borderRadius: '10px',
-    margin: '10px 100px 20px 30px',
-    padding: 20,
+    margin: '2rem',
+    padding: '3rem',
     minHeight: 550,
   },
   textInput: {
@@ -90,8 +167,27 @@ const styles = makeStyles((theme) => ({
 
 const Blogs = () => {
   const classes = styles();
+  const theme = useTheme();
+  const lgDown = useMediaQuery(theme.breakpoints.down('sm'));
+
   const [filter, setFilter] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(12);
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    rowsPerPage -
+    Math.min(rowsPerPage, blogs.length - page * rowsPerPage);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const handleClick = () => {};
   const handleSearch = (e) => {
@@ -169,56 +265,74 @@ const Blogs = () => {
         </Box>
         <Grid container spacing={3}>
           {filteredItems &&
-            filteredItems.map((blog) => (
-              <Grid item lg={3}>
-                <Card className={classes.root} key={blog.id}>
-                  <CardActionArea>
-                    <CardMedia
-                      className={classes.media}
-                      image={blog.image}
-                      title={blog.title}
-                      onClick={handleClick}
-                    />
-                    <CardContent>
-                      <Box onClick={handleClick}>
-                        <Box
-                          style={{
-                            display: 'grid',
-                            justifyContent: 'left',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <Typography
-                            gutterBottom
-                            variant='h5'
-                            component='h2'
+            filteredItems
+              .slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+              )
+              .map((blog) => (
+                <Grid item lg={3}>
+                  <Card className={classes.root} key={blog.id}>
+                    <CardActionArea>
+                      <CardMedia
+                        className={classes.media}
+                        image={blog.image}
+                        title={blog.title}
+                        onClick={handleClick}
+                      />
+                      <CardContent>
+                        <Box onClick={handleClick}>
+                          <Box
                             style={{
-                              color: '#c6c6c6',
+                              display: 'grid',
+                              justifyContent: 'left',
+                              alignItems: 'center',
                             }}
                           >
-                            {blog.date}
-                          </Typography>
-                          <Typography
-                            color='textSecondary'
-                            variant='subtitle2'
-                          >
-                            {blog.theme}
-                          </Typography>
-                          <Typography
-                            color='textSecondary'
-                            variant='subtitle2'
-                            gutterBottom
-                          >
-                            {blog.description}
-                          </Typography>
+                            <Typography
+                              gutterBottom
+                              variant='h5'
+                              component='h2'
+                              style={{
+                                color: '#c6c6c6',
+                              }}
+                            >
+                              {blog.date}
+                            </Typography>
+                            <Typography
+                              color='textSecondary'
+                              variant='subtitle2'
+                            >
+                              {blog.theme}
+                            </Typography>
+                            <Typography
+                              color='textSecondary'
+                              variant='subtitle2'
+                              gutterBottom
+                            >
+                              {blog.description}
+                            </Typography>
+                          </Box>
                         </Box>
-                      </Box>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            ))}
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              ))}
+          {emptyRows > 0 && (
+            <Box style={{ height: 53 * emptyRows }}></Box>
+          )}
         </Grid>
+        <TablePagination
+          style={{ marginTop: '1rem' }}
+          rowsPerPageOptions={[8, 12, 16]}
+          component='div'
+          count={blogs.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Box>
     </div>
   );

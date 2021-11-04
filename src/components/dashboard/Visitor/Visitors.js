@@ -16,6 +16,7 @@ import {
   TextField,
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
+import v4 from 'uuid/dist/v4';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -248,7 +249,7 @@ const Visitors = () => {
                   page * rowsPerPage + rowsPerPage
                 )
                 .map((row, index) => (
-                  <TableRow key={row.name}>
+                  <TableRow key={v4()}>
                     <TableCell component='th' scope='row'>
                       {row.name}
                     </TableCell>
