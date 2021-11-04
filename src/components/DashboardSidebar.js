@@ -1,13 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {
-  Avatar,
-  Box,
-  Drawer,
-  Hidden,
-  Typography,
-} from '@material-ui/core';
+import { Avatar, Box, Drawer, Hidden, Typography } from '@material-ui/core';
 import {
   Settings as SettingsIcon,
   ShoppingBag as ShoppingBagIcon,
@@ -107,7 +101,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
-      onMobileClose();
+      // onMobileClose();
     }
   }, [location.pathname, openMobile, onMobileClose]);
 
