@@ -164,6 +164,10 @@ const styles = makeStyles((theme) => ({
     borderRadius: '0.8rem',
     padding: '1rem',
     margin: '2rem 1.5rem 2rem',
+    [theme.breakpoints.down('lg')]: {
+      padding: '0.5rem',
+      margin: '1rem 1rem 1rem',
+    },
   },
   table: {
     margin: ' 2rem 1rem 1rem',

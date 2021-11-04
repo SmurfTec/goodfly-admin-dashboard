@@ -358,6 +358,7 @@ const styles = makeStyles((theme) => ({
   },
   title: {
     margin: theme.spacing(4, 0, 2),
+    padding:'1rem'
   },
   dateFields: {
     backgroundColor: '#fff',
@@ -898,7 +899,7 @@ const CreateOffer = () => {
                           {services &&
                             services.map((service) => (
                               <ListItem style={{ height: '2rem' }}>
-                                <ListItemText primary='--Single-line item' />
+                                <ListItemText primary={`-Single-line item`} />
                               </ListItem>
                             ))}
                         </List>
