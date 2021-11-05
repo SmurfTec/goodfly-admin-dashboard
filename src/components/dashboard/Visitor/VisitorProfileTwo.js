@@ -103,6 +103,8 @@ const VisitorProfileTwo = () => {
     twitterProfile: '',
     snapChatProfile: '',
     attachments: [],
+    passportDateOfIssue: '',
+    passportPlaceOfIssue: '',
   };
 
   const [modifyImageId, setModifyImageId] = useState();
@@ -559,8 +561,8 @@ const VisitorProfileTwo = () => {
                     size='small'
                     type='date'
                     className={classes.textInput}
-                    name='dateOfDeliverence'
-                    value={state.dateOfDeliverence}
+                    name='passportDateOfIssue'
+                    value={state.passportDateOfIssue}
                     onChange={handleTxtChange}
                     required
                   />
@@ -576,8 +578,8 @@ const VisitorProfileTwo = () => {
                     defaultValue='pakistan'
                     size='small'
                     className={classes.textInput}
-                    name='placeOfDeliverence'
-                    value={state.placeOfDeliverence}
+                    name='passportPlaceOfIssue'
+                    value={state.passportPlaceOfIssue}
                     onChange={handleTxtChange}
                     required
                   />

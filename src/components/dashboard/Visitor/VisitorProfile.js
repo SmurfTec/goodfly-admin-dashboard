@@ -90,6 +90,8 @@ const VisitorProfile = () => {
     instagramProfile: '',
     twitterProfile: '',
     snapChatProfile: '',
+    passportDateOfIssue: '',
+    passportPlaceOfIssue: '',
   };
 
   const [state, handleTxtChange, handleToggleChange, changeInput, resetState] =
@@ -442,7 +444,7 @@ const VisitorProfile = () => {
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
                     {' '}
-                    Deliverance date{' '}
+                    Date of Issue
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -450,8 +452,8 @@ const VisitorProfile = () => {
                     // defaultValue='pakistan'
                     size='small'
                     className={classes.textInput}
-                    name='deliverenceDate'
-                    value={state.deliverenceDate}
+                    name='passportDateOfIssue'
+                    value={state.passportDateOfIssue}
                     onChange={handleTxtChange}
                     required
                   />
@@ -459,7 +461,7 @@ const VisitorProfile = () => {
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
                     {' '}
-                    place of delivery{' '}
+                    Place of Issue{' '}
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -467,8 +469,8 @@ const VisitorProfile = () => {
                     // defaultValue='pakistan'
                     size='small'
                     className={classes.textInput}
-                    name='placeOfDelivery'
-                    value={state.placeOfDelivery}
+                    name='passportPlaceOfIssue'
+                    value={state.passportPlaceOfIssue}
                     onChange={handleTxtChange}
                     required
                   />
