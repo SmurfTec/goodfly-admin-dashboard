@@ -38,6 +38,8 @@ import {
   Download as DownloadIcon,
   Play as PlayIcon,
 } from 'react-feather';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -67,7 +69,7 @@ const rows = [
     '11/07/2021'
   ),
 ];
-const products=[1,2,3,4,5]
+const products = [1, 2, 3, 4, 5];
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -171,6 +173,8 @@ const styles = makeStyles((theme) => ({
 
 const Order = () => {
   const classes = styles();
+  const theme = useTheme();
+  const lgDown = useMediaQuery(theme.breakpoints.down('lg'));
 
   const [value, setValue] = React.useState(0);
   const [statusSwitch, setStatusSwitch] = React.useState(true);
@@ -279,12 +283,12 @@ const Order = () => {
           <Box className={classes.options}>
             <TabPanel value={value} index={0}>
               {products &&
-                products.map((p,index) => (
+                products.map((p, index) => (
                   <Box
                     style={{
                       display: 'flex',
                       justifyContent: 'left',
-                      marginTop:'1.5rem'
+                      marginTop: '1.5rem',
                     }}
                     key={p.index}
                   >
@@ -295,13 +299,16 @@ const Order = () => {
                       }}
                     >
                       <CardMedia
-                        style={{ height: '9.5rem', width: '8rem' }}
+                        style={{
+                          height: '9.5rem',
+                          width: lgDown ? '7rem' : '8rem',
+                        }}
                         image='https://picsum.photos/200/300?random=2'
                         title='product'
                       />
                       <Box
                         style={{
-                          width: '25rem',
+                          width: lgDown ? '20rem' : '25rem',
                           border: '1px solid #c6c6c6',
                         }}
                       >

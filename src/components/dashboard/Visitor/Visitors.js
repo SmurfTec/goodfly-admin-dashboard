@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import {
@@ -16,6 +16,7 @@ import {
   TextField,
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
+import v4 from 'uuid/dist/v4';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -179,6 +180,8 @@ const styles = makeStyles((theme) => ({
 
 const Visitors = () => {
   const classes = styles();
+    const [filter, setFilter] = useState('');
+    const [filteredItems, setFilteredItems] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -195,6 +198,26 @@ const Visitors = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  const handleSearch = (e) => {
+    const data = e.target.value;
+    setFilter(data);
+    console.log(filter);
+  };
+  //  filtered
+  useEffect(() => {
+    setFilteredItems(
+      rows.filter(
+        (row) =>
+          row.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+      )
+    );
+  }, [filter]);
+
+  // data must be updated
+  useEffect(() => {
+    setFilteredItems(rows);
+  }, []);
 
   return (
     <div style={{ marginTop: '3rem' }}>
@@ -224,6 +247,8 @@ const Visitors = () => {
             size='small'
             style={{ margin: '0px 5px 0px', width: '30%' }}
             className={classes.textInput}
+            value={filter}
+            onChange={handleSearch}
           />
         </Box>
 
@@ -242,13 +267,13 @@ const Visitors = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {filteredItems
                 .slice(
                   page * rowsPerPage,
                   page * rowsPerPage + rowsPerPage
                 )
                 .map((row, index) => (
-                  <TableRow key={row.name}>
+                  <TableRow key={v4()}>
                     <TableCell component='th' scope='row'>
                       {row.name}
                     </TableCell>

@@ -18,9 +18,11 @@ import {
   TableContainer,
   TableCell,
   TableBody,
+  TablePagination,
   Paper,
 } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
+import v4 from 'uuid/dist/v4';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -162,6 +164,22 @@ const Comments = () => {
   const closePayment = () => {
     setPayment(false);
   };
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    rowsPerPage -
+    Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
     <div style={{ margin: '3rem 0rem 1rem' }}>
@@ -226,59 +244,82 @@ const Comments = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.map((row) => (
-                      <TableRow
-                        key={row.name}
-                        sx={{
-                          '&:last-child td, &:last-child th': {
-                            border: 0,
-                          },
-                        }}
-                      >
-                        <TableCell
-                          component='th'
-                          scope='row'
-                          style={{
-                            minWidth: '10rem',
+                    {rows
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row) => (
+                        <TableRow
+                          key={row.name}
+                          sx={{
+                            '&:last-child td, &:last-child th': {
+                              border: 0,
+                            },
                           }}
                         >
-                          {/* {row.name} */}
-                          {row.name}
-                        </TableCell>
-                        <TableCell align='left'>
-                          {row.calories}
-                          <Box className={classes.flexLeft} m={2}>
-                            <Button mr={1} style={{ color: 'green' }}>
-                              Approve
-                            </Button>
-                            <Button mr={1}>Reply</Button>
-                            <Button mr={1}>Modify</Button>
-                            <Button mr={1}>Undesirable</Button>
-                            <Button mr={1} style={{ color: 'red' }}>
-                              Basket
-                            </Button>
-                          </Box>
-                        </TableCell>
-                        <TableCell
-                          align='center'
-                          style={{
-                            minWidth: '10rem',
-                          }}
-                        >
-                          {row.fat}
-                        </TableCell>
-                        <TableCell
-                          align='center'
-                          style={{
-                            minWidth: '10rem',
-                          }}
-                        >
-                          {row.carbs}
-                        </TableCell>
+                          <TableCell
+                            component='th'
+                            scope='row'
+                            style={{
+                              minWidth: '10rem',
+                            }}
+                          >
+                            {/* {row.name} */}
+                            {row.name}
+                          </TableCell>
+                          <TableCell align='left'>
+                            {row.calories}
+                            <Box className={classes.flexLeft} m={2}>
+                              <Button
+                                mr={1}
+                                style={{ color: 'green' }}
+                              >
+                                Approve
+                              </Button>
+                              <Button mr={1}>Reply</Button>
+                              <Button mr={1}>Modify</Button>
+                              <Button mr={1}>Undesirable</Button>
+                              <Button mr={1} style={{ color: 'red' }}>
+                                Basket
+                              </Button>
+                            </Box>
+                          </TableCell>
+                          <TableCell
+                            align='center'
+                            style={{
+                              minWidth: '10rem',
+                            }}
+                          >
+                            {row.fat}
+                          </TableCell>
+                          <TableCell
+                            align='center'
+                            style={{
+                              minWidth: '10rem',
+                            }}
+                          >
+                            {row.carbs}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
                       </TableRow>
-                    ))}
+                    )}
                   </TableBody>
                 </Table>
+                <TablePagination
+                  style={{ marginTop: '1rem' }}
+                  rowsPerPageOptions={[5, 10, 15]}
+                  component='div'
+                  count={rows.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
               </TableContainer>
             </TabPanel>
             <TabPanel value={value} index={1}>
@@ -293,11 +334,7 @@ const Comments = () => {
       <Button onClick={openPayment}> Dialog ????</Button>
 
       <div>
-        <Dialog
-          open={payment}
-          fullWidth
-          onClose={closePayment}
-        >
+        <Dialog open={payment} fullWidth onClose={closePayment}>
           <DialogTitle>
             <Typography variant='h5'>Comment 04/06/2021</Typography>
           </DialogTitle>
@@ -363,22 +400,22 @@ const Comments = () => {
           </DialogContent>
           <Divider />
           <DialogActions className={classes.flexBetween}>
-              <Box>
-                <Button mr={1} style={{ color: 'green' }}>
-                  Approve
-                </Button>
-                <Button mr={1}>Reply</Button>
-                <Button mr={1}>Modify</Button>
-                <Button mr={1}>Undesirable</Button>
-                <Button mr={1} style={{ color: 'red' }}>
-                  Basket
-                </Button>
-              </Box>
-              <Box>
-                <Button variant='outlined' onClick={closePayment}>
-                  Cancel
-                </Button>
-              </Box>
+            <Box>
+              <Button mr={1} style={{ color: 'green' }}>
+                Approve
+              </Button>
+              <Button mr={1}>Reply</Button>
+              <Button mr={1}>Modify</Button>
+              <Button mr={1}>Undesirable</Button>
+              <Button mr={1} style={{ color: 'red' }}>
+                Basket
+              </Button>
+            </Box>
+            <Box>
+              <Button variant='outlined' onClick={closePayment}>
+                Cancel
+              </Button>
+            </Box>
           </DialogActions>
         </Dialog>
       </div>

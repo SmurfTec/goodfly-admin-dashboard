@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import {
@@ -16,143 +16,144 @@ import {
   TextField,
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
+import v4 from 'uuid/dist/v4';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(name, calories, clientName, client, protein) {
+  return { name, calories, clientName, client, protein };
 }
 
 const rows = [
   createData(
     'Muhammadzain',
     ' zain@gmail.com',
+    'zain',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadali',
     ' ali@gmail.com',
+    'sonu',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadusman',
     ' usman@gmail.com',
+    'ali',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadkashif',
     ' kashif@gmail.com',
+    'umer',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadumer',
     ' umer@gmail.com',
+    'kasi',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadabc',
     ' abc@gmail.com',
+    'qweew',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadsonu',
     ' sonu@gmail.com',
+    'gdasd',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadsaqib',
     ' saqib@gmail.com',
+    'fdasfs',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadsohil',
     ' sohail@gmail.com',
+    'eqwe',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadtayyab',
     ' tayyab@gmail.com',
+    'fasdf',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadgul',
     'gul@gmail.com',
+    'sdas',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadtayyab',
     ' tayyab@gmail.com',
+    'fsdfsa',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadgul',
     'gul@gmail.com',
+    'fasdfa',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadtayyab',
     ' tayyab@gmail.com',
+    'fasd',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadgul',
     'gul@gmail.com',
+    'fasdf',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadtayyab',
     ' tayyab@gmail.com',
+    'fsadf',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadgul',
     'gul@gmail.com',
+    'fdsa',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadtayyab',
     ' tayyab@gmail.com',
+    'fsdf',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
   createData(
     'Muhammadgul',
     'gul@gmail.com',
+    'adfsds',
     '+2233123312334',
-    'GF12333',
     '11/07/2021'
   ),
 ];
@@ -179,8 +180,11 @@ const styles = makeStyles((theme) => ({
 
 const Payments = () => {
   const classes = styles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [filter, setFilter] = useState('');
+    const [filteredItems, setFilteredItems] = useState([]);
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -195,6 +199,26 @@ const Payments = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+const handleSearch = (e) => {
+  const data = e.target.value;
+  setFilter(data);
+  console.log(filter);
+};
+//  filtered
+useEffect(() => {
+  setFilteredItems(
+    rows.filter(
+      (row) =>
+        row.clientName.toLowerCase().indexOf(filter.toLowerCase()) !==
+        -1
+    )
+  );
+}, [filter]);
+
+// data must be updated
+useEffect(() => {
+  setFilteredItems(rows);
+}, []);
 
   return (
     <div style={{ marginTop: '3rem' }}>
@@ -220,10 +244,12 @@ const Payments = () => {
           <TextField
             hiddenLabel
             id='filled-hidden-label-small'
-            defaultValue='client name'
+            placeholder='client name'
             size='small'
             style={{ margin: '0px 5px 0px', width: '30%' }}
             className={classes.textInput}
+            value={filter}
+            onChange={handleSearch}
           />
         </Box>
 
@@ -236,26 +262,28 @@ const Payments = () => {
                 <TableCell>Date of Creation</TableCell>
                 <TableCell align='right'>Operation</TableCell>
                 <TableCell align='right'>Client</TableCell>
-                <TableCell align='right'>Number of Transaction</TableCell>
+                <TableCell align='right'>
+                  Number of Transaction
+                </TableCell>
                 <TableCell align='right'>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {filteredItems
                 .slice(
                   page * rowsPerPage,
                   page * rowsPerPage + rowsPerPage
                 )
                 .map((row, index) => (
-                  <TableRow key={row.name}>
+                  <TableRow key={v4()}>
                     <TableCell component='th' scope='row'>
                       {row.name}
                     </TableCell>
                     <TableCell align='right'>
                       {row.calories}
                     </TableCell>
-                    <TableCell align='right'>{row.fat}</TableCell>
-                    <TableCell align='right'>{row.carbs}</TableCell>
+                    <TableCell align='right'>{row.clientName}</TableCell>
+                    <TableCell align='right'>{row.client}</TableCell>
                     <TableCell align='right'>
                       <Button>Details</Button>
                     </TableCell>

@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 const useManyInputs = (initialState) => {
   const [state, setState] = useState(initialState);
 
+  //* it will take all the inputs type='text'/'number'
   const handleTxtChange = (e) => {
     setState((st) => ({ ...st, [e.target.name]: e.target.value }));
   };
 
+  //* used for switch/button/dialog
   const handleToggleChange = (e) => {
     setState((st) => ({
       ...st,
@@ -14,6 +16,7 @@ const useManyInputs = (initialState) => {
     }));
   };
 
+  //* used for custom-change
   const changeInput = (key, value) => {
     setState((st) => ({ ...st, [key]: value }));
   };
@@ -22,7 +25,13 @@ const useManyInputs = (initialState) => {
     setState(initialState);
   };
 
-  return [state, handleTxtChange, handleToggleChange, changeInput, resetState];
+  return [
+    state,
+    handleTxtChange,
+    handleToggleChange,
+    changeInput,
+    resetState,
+  ];
 };
 
 export default useManyInputs;
