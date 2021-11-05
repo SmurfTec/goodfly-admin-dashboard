@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
@@ -19,129 +19,130 @@ import { Link } from 'react-router-dom';
 
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { BlogsContext } from 'Contexts/BlogsContext';
 
-let blogs = [
-  {
-    id: 1,
-    title: 'zaincl',
-    image: 'https://picsum.photos/200/300?random=2',
-    date: '12/12/12',
-    theme: ' type theme ',
-    description: ' description description',
-  },
-  {
-    id: 2,
-    title: 'zainal',
-    image: 'https://picsum.photos/200/300?random=2',
-    date: '12/12/12',
-    theme: ' type theme ',
-    description: ' description description',
-  },
-  {
-    id: 3,
-    title: 'zainbl',
-    image: 'https://picsum.photos/200/300?random=2',
-    date: '12/12/12',
-    theme: ' type theme ',
-    description: ' description description',
-  },
-  {
-    id: 4,
-    title: 'sohail',
-    image: 'https://picsum.photos/200/300?random=2',
-    date: '12/12/12',
-    theme: ' type theme ',
-    description: ' description description',
-  },
-  {
-    id: 5,
-    title: 'umar',
-    image: 'https://picsum.photos/200/300?random=2',
-    date: '12/12/12',
-    theme: ' type theme ',
-    description: ' description description',
-  },
-  {
-    id: 6,
-    title: 'ali',
-    image: 'https://picsum.photos/200/300?random=2',
-    date: '12/12/12',
-    theme: ' type theme ',
-    description: ' description description',
-  },
-  {
-    id: 7,
-    title: 'ali',
-    image: 'https://picsum.photos/200/300?random=2',
-    date: '12/12/12',
-    theme: ' type theme ',
-    description: ' description description',
-  },
-  {
-    id: 8,
-    title: 'ali',
-    image: 'https://picsum.photos/200/300?random=2',
-    date: '12/12/12',
-    theme: ' type theme ',
-    description: ' description description',
-  },
-  {
-    id: 9,
-    title: 'ali',
-    image: 'https://picsum.photos/200/300?random=2',
-    date: '12/12/12',
-    theme: ' type theme ',
-    description: ' description description',
-  },
-  {
-    id: 10,
-    title: 'ali',
-    image: 'https://picsum.photos/200/300?random=2',
-    date: '12/12/12',
-    theme: ' type theme ',
-    description: ' description description',
-  },
-  {
-    id: 11,
-    title: 'ali',
-    image: 'https://picsum.photos/200/300?random=2',
-    date: '12/12/12',
-    theme: ' type theme ',
-    description: ' description description',
-  },
-  {
-    id: 12,
-    title: 'ali',
-    image: 'https://picsum.photos/200/300?random=2',
-    date: '12/12/12',
-    theme: ' type theme ',
-    description: ' description description',
-  },
-  {
-    id: 13,
-    title: 'ali',
-    image: 'https://picsum.photos/200/300?random=2',
-    date: '12/12/12',
-    theme: ' type theme ',
-    description: ' description description',
-  },
-  {
-    id: 14,
-    title: 'ali',
-    image: 'https://picsum.photos/200/300?random=2',
-    date: '12/12/12',
-    theme: ' type theme ',
-    description: ' description description',
-  },
-  {
-    id: 15,
-    title: 'ali',
-    image: 'https://picsum.photos/200/300?random=2',
-    date: '12/12/12',
-    theme: ' type theme ',
-    description: ' description description',
-  },
-];
+// let blogs = [
+//   {
+//     id: 1,
+//     title: 'zaincl',
+//     image: 'https://picsum.photos/200/300?random=2',
+//     date: '12/12/12',
+//     theme: ' type theme ',
+//     description: ' description description',
+//   },
+//   {
+//     id: 2,
+//     title: 'zainal',
+//     image: 'https://picsum.photos/200/300?random=2',
+//     date: '12/12/12',
+//     theme: ' type theme ',
+//     description: ' description description',
+//   },
+//   {
+//     id: 3,
+//     title: 'zainbl',
+//     image: 'https://picsum.photos/200/300?random=2',
+//     date: '12/12/12',
+//     theme: ' type theme ',
+//     description: ' description description',
+//   },
+//   {
+//     id: 4,
+//     title: 'sohail',
+//     image: 'https://picsum.photos/200/300?random=2',
+//     date: '12/12/12',
+//     theme: ' type theme ',
+//     description: ' description description',
+//   },
+//   {
+//     id: 5,
+//     title: 'umar',
+//     image: 'https://picsum.photos/200/300?random=2',
+//     date: '12/12/12',
+//     theme: ' type theme ',
+//     description: ' description description',
+//   },
+//   {
+//     id: 6,
+//     title: 'ali',
+//     image: 'https://picsum.photos/200/300?random=2',
+//     date: '12/12/12',
+//     theme: ' type theme ',
+//     description: ' description description',
+//   },
+//   {
+//     id: 7,
+//     title: 'ali',
+//     image: 'https://picsum.photos/200/300?random=2',
+//     date: '12/12/12',
+//     theme: ' type theme ',
+//     description: ' description description',
+//   },
+//   {
+//     id: 8,
+//     title: 'ali',
+//     image: 'https://picsum.photos/200/300?random=2',
+//     date: '12/12/12',
+//     theme: ' type theme ',
+//     description: ' description description',
+//   },
+//   {
+//     id: 9,
+//     title: 'ali',
+//     image: 'https://picsum.photos/200/300?random=2',
+//     date: '12/12/12',
+//     theme: ' type theme ',
+//     description: ' description description',
+//   },
+//   {
+//     id: 10,
+//     title: 'ali',
+//     image: 'https://picsum.photos/200/300?random=2',
+//     date: '12/12/12',
+//     theme: ' type theme ',
+//     description: ' description description',
+//   },
+//   {
+//     id: 11,
+//     title: 'ali',
+//     image: 'https://picsum.photos/200/300?random=2',
+//     date: '12/12/12',
+//     theme: ' type theme ',
+//     description: ' description description',
+//   },
+//   {
+//     id: 12,
+//     title: 'ali',
+//     image: 'https://picsum.photos/200/300?random=2',
+//     date: '12/12/12',
+//     theme: ' type theme ',
+//     description: ' description description',
+//   },
+//   {
+//     id: 13,
+//     title: 'ali',
+//     image: 'https://picsum.photos/200/300?random=2',
+//     date: '12/12/12',
+//     theme: ' type theme ',
+//     description: ' description description',
+//   },
+//   {
+//     id: 14,
+//     title: 'ali',
+//     image: 'https://picsum.photos/200/300?random=2',
+//     date: '12/12/12',
+//     theme: ' type theme ',
+//     description: ' description description',
+//   },
+//   {
+//     id: 15,
+//     title: 'ali',
+//     image: 'https://picsum.photos/200/300?random=2',
+//     date: '12/12/12',
+//     theme: ' type theme ',
+//     description: ' description description',
+//   },
+// ];
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -167,18 +168,19 @@ const styles = makeStyles((theme) => ({
 
 const Blogs = () => {
   const classes = styles();
+  const { blogs } = useContext(BlogsContext);
   const theme = useTheme();
   const lgDown = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [filter, setFilter] = useState('');
-  const [filteredItems, setFilteredItems] = useState([]);
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(12);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     rowsPerPage -
-    Math.min(rowsPerPage, blogs.length - page * rowsPerPage);
+    Math.min(rowsPerPage, (blogs?.length ?? 0) - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -198,19 +200,19 @@ const Blogs = () => {
 
   //  filtered the blogs
   useEffect(() => {
-    setFilteredItems(
-      blogs.filter(
-        (blog) =>
-          blog.title.toLowerCase().indexOf(filter.toLowerCase()) !==
-          -1
+    console.clear();
+    console.log(`blogs`, blogs);
+    setFilteredBlogs(
+      blogs?.filter(
+        (blog) => blog.title.toLowerCase().indexOf(filter.toLowerCase()) !== -1
       )
     );
-  }, [filter]);
+  }, [filter, blogs]);
 
   // data must be updated
 
   useEffect(() => {
-    setFilteredItems(blogs);
+    setFilteredBlogs(blogs);
   }, []);
 
   return (
@@ -244,10 +246,7 @@ const Blogs = () => {
               width: '100%',
             }}
           >
-            <Typography
-              variant='text'
-              style={{ margin: '0px 3px 0px' }}
-            >
+            <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
               Search Article
             </Typography>
             <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -264,19 +263,16 @@ const Blogs = () => {
           </Box>
         </Box>
         <Grid container spacing={3}>
-          {filteredItems &&
-            filteredItems
-              .slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage
-              )
+          {filteredBlogs &&
+            filteredBlogs
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((blog) => (
                 <Grid item lg={3}>
                   <Card className={classes.root} key={blog.id}>
                     <CardActionArea>
                       <CardMedia
                         className={classes.media}
-                        image={blog.image}
+                        image={blog.images?.[0]}
                         title={blog.title}
                         onClick={handleClick}
                       />
@@ -297,7 +293,7 @@ const Blogs = () => {
                                 color: '#c6c6c6',
                               }}
                             >
-                              {blog.date}
+                              {new Date(blog.createdAt).toDateString()}
                             </Typography>
                             <Typography
                               color='textSecondary'
@@ -310,7 +306,7 @@ const Blogs = () => {
                               variant='subtitle2'
                               gutterBottom
                             >
-                              {blog.description}
+                              {blog.title}
                             </Typography>
                           </Box>
                         </Box>
@@ -319,15 +315,13 @@ const Blogs = () => {
                   </Card>
                 </Grid>
               ))}
-          {emptyRows > 0 && (
-            <Box style={{ height: 53 * emptyRows }}></Box>
-          )}
+          {emptyRows > 0 && <Box style={{ height: 53 * emptyRows }}></Box>}
         </Grid>
         <TablePagination
           style={{ marginTop: '1rem' }}
           rowsPerPageOptions={[8, 12, 16]}
           component='div'
-          count={blogs.length}
+          count={blogs?.length ?? 0}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

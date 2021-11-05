@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
@@ -11,11 +11,19 @@ import {
 } from '@material-ui/core';
 
 import { Camera as CameraIcon } from 'react-feather';
+import LoadingOverlay from 'react-loading-overlay';
 
 // import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import ConfirmDialog from '../Dialogs/ConfirmDialogBox';
 import { Editor } from '@tinymce/tinymce-react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import useToggleInput from 'hooks/useToggleInput';
+import v4 from 'uuid/dist/v4';
+import useTextInput from 'hooks/useTextInput';
+
+import { BlogsContext } from 'Contexts/BlogsContext';
 
 const styles = makeStyles((theme) => ({
   image: {
@@ -36,95 +44,160 @@ const styles = makeStyles((theme) => ({
     alignItems: 'center',
     border: `3px dashed #808080`,
     maxWidth: 185,
+    flexDirection: 'column',
   },
 }));
 
 const CreateBlog = () => {
   const classes = styles();
 
-  const [paragraphs, setParagraphs] = useState([]);
-
-  const handleEditorChange = (e) => {
-    console.clear();
-    console.log(`e.target.value`, e.target.value);
-    console.log(e.target.getContent());
-
-    let content = e.target.getContent();
-    // * Separate Paragraphs
-    let paras = content.split('</p>');
-
-    // * Remove "" para in the end
-    paras.pop();
-
-    // * remove "<p>" , "&nbsp" , "\n" etc from paras
-    paras = paras.map((para) => para.replace(/<p>|&nbsp;|\n/g, ''));
-
-    // * remove empty paragraphs ""
-    paras = paras.filter((el) => !!el);
-
-    console.log(`paras`, paras);
-    setParagraphs(paras);
+  const { createNewBlog } = useContext(BlogsContext);
+  const initialState = {
+    publishDate: new Date(),
+    title: '',
+    theme: '',
+    keywords: [],
+    content: '',
+    upload: false,
   };
 
-  const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
+  const [state, setState] = useState(initialState);
+
+  const handleEditorChange = (e, editor) => {
+    // console.clear();
+    console.log('content ', editor.getContent());
+    console.log('state.content ', state.content);
+
+    let newContent = editor.getContent();
+    // if (content !== state.content)
+    setState((st) => ({ ...st, content: newContent }));
   };
 
-  const [checked, setChecked] = React.useState(true);
   // const [editorState, setEditorState] = React.useState({});
-  const [state, setState] = useState({
-    dateOfPublish: '2021-10-04',
-  });
+  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState('Uploading Image...');
+  const [keyword, handleChangeKeyword, resetKeyword] = useTextInput('');
   const [isOpen, setIsOpen] = useState(false);
+
+  const [blogImages, setBlogImages] = useState([]);
   const toggleIsOpen = () => {
     setIsOpen(!isOpen);
   };
 
-  const toggle = (event) => {
-    setChecked(event.target.checked);
-  };
-
-  // const handleChange = (e) => {
-  //   setState((st) => ({ ...st, [e.target.name]: e.target.value }));
-  // };
-
-  // const handleEditor = () => {
-  //   console.log('setEditor');
-  // };
   const handleBlogCancel = () => {
     toggleIsOpen();
   };
 
+  const handleImage = async (e) => {
+    setUploadingText('Uploading Image ...');
+    toggleImageUploading();
+    const selectedFile = e.target.files[0];
+    const fileType = ['image/'];
+    try {
+      console.log(`selectedFile.type`, selectedFile.type);
+      if (selectedFile && selectedFile.type.includes(fileType)) {
+        let reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onloadend = async (e) => {
+          console.log(`result onLoadEnd`, e.target.result);
+          const file = e.target.result;
+
+          // TODO  Delete Image from cloudinary if it exists on this user
+
+          // // * 1 Upload Image on Cloudinary
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append(
+            'upload_preset',
+            process.env.REACT_APP_CLOUDINARY_PRESET
+          );
+
+          const res = await axios.post(
+            `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
+            formData
+          );
+          const uploadedImage = res.data.url;
+          console.log(`res`, res);
+
+          setUploadingText('Updating Image ...');
+
+          setState((st) => ({
+            ...st,
+            content:
+              st.content + `\n<img src="${uploadedImage}" alt='blog image' />`,
+          }));
+
+          setBlogImages((st) => [...st, uploadedImage]);
+          toggleImageUploading();
+        };
+      } else {
+        toast.error('Only Image files are acceptable !');
+      }
+    } catch (err) {
+      toast(
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
+      );
+      console.log(`err`, err);
+    }
+  };
+
+  const handleTxtChange = (e) => {
+    setState((st) => ({ ...st, [e.target.name]: e.target.value }));
+  };
+  const handleToggleChange = (e) => {
+    setState((st) => ({ ...st, [e.target.name]: !st[e.target.name] }));
+  };
+  const handleAddKeyword = (e) => {
+    e.preventDefault();
+    setState((st) => ({
+      ...st,
+      keywords: [...st.keywords, keyword],
+    }));
+    resetKeyword();
+  };
+
+  const resetState = () => {
+    setState(initialState);
+  };
+
+  const handleCreateBlog = () => {
+    console.log(`state`, state);
+    createNewBlog({ ...state, images: blogImages }, resetState);
+  };
   return (
     <div>
       <Grid container style={{ marginTop: 50 }}>
         <Grid item sm={3} md={3}>
           <Box style={{ margin: 20 }}>
             <Typography variant='h5'>New Article</Typography>
-            <Box className={classes.image}>
-              <Box>
-                <Box style={{ textAlign: 'center' }}>
-                  <CameraIcon style={{ color: '#808080' }} />
-                </Box>
-                <Box mt={1}>
-                  <input
-                    accept='image/*'
-                    style={{ display: 'none' }}
-                    id='contained-button-file'
-                    multiple
-                    type='file'
-                  />
-                  <label htmlFor='contained-button-file'>
-                    <Typography style={{ color: '#808080' }}>
-                      Upload Image
-                    </Typography>
-                  </label>
-                </Box>
+            <LoadingOverlay
+              active={isImageUploading}
+              spinner
+              text={uploadingText}
+            >
+              <Box className={classes.image}>
+                <label htmlFor='contained-button-file'>
+                  <Box>
+                    <Box style={{ textAlign: 'center' }}>
+                      <CameraIcon style={{ color: '#808080' }} />
+                    </Box>
+                    <Box mt={1}>
+                      <input
+                        accept='image/*'
+                        style={{ display: 'none' }}
+                        id='contained-button-file'
+                        multiple
+                        type='file'
+                        onChange={handleImage}
+                      />
+                      <Typography style={{ color: '#808080' }}>
+                        Upload Image
+                      </Typography>
+                    </Box>
+                  </Box>
+                </label>
               </Box>
-            </Box>
+            </LoadingOverlay>
           </Box>
         </Grid>
         <Grid item sm={6} md={6}>
@@ -137,17 +210,18 @@ const CreateBlog = () => {
           >
             Offline
             <Switch
-              checked={checked}
-              onChange={toggle}
+              checked={state.upload}
+              name='upload'
+              onChange={handleToggleChange}
               inputProps={{ 'aria-label': 'controlled' }}
             />
           </Typography>
           <Box style={{ margin: 20 }}>
             <Box>
               <TextField
-                name='dateOfPublish'
+                name='publishDate'
                 value={state.dateOfPublish}
-                // onChange={handleChange}
+                onChange={handleTxtChange}
                 id='standard-basic'
                 label='Date of Publish'
                 variant='standard'
@@ -156,16 +230,16 @@ const CreateBlog = () => {
               />
               <TextField
                 name='theme'
-                // value={state.theme}
-                // onChange={handleChange}
+                value={state.theme}
+                onChange={handleTxtChange}
                 id='standard-basic'
                 label='Theme of Article'
                 variant='standard'
               />
               <TextField
                 name='title'
-                // value={state.Title}
-                // onChange={handleChange}
+                value={state.Title}
+                onChange={handleTxtChange}
                 id='standard-basic'
                 label='Title of Article'
                 variant='standard'
@@ -175,19 +249,26 @@ const CreateBlog = () => {
           </Box>
         </Grid>
         <Grid item sm={3} md={3}>
-          <Box>
-            <TextField
-              name='Keywords'
-              // value={state.Title}
-              // onChange={handleChange}
-              id='standard-basic'
-              label='keywords'
-              variant='standard'
-            />
-            <Box className={classes.keywords}>
-              <Typography style={{ color: '#808080' }}></Typography>
+          <form onSubmit={handleAddKeyword}>
+            <Box>
+              <TextField
+                name='Keywords'
+                value={keyword}
+                onChange={handleChangeKeyword}
+                id='standard-basic'
+                label='keywords'
+                variant='standard'
+                name='keywords'
+              />
+              <Box className={classes.keywords}>
+                {state.keywords.map((el) => (
+                  <Typography key={v4()} style={{ color: '#808080' }}>
+                    {el}
+                  </Typography>
+                ))}
+              </Box>
             </Box>
-          </Box>
+          </form>
         </Grid>
       </Grid>
       <Box
@@ -197,13 +278,6 @@ const CreateBlog = () => {
           margin: 10,
         }}
       >
-        {/* <Editor
-          // editorState={setEditorState}
-          toolbarClassName='toolbarClassName'
-          wrapperClassName='wrapperClassName'
-          editorClassName='editorClassName'
-          // onEditorStateChange={handleEditor}
-        /> */}
         <Editor
           initialValue='<p>Your Blog Content Here</p>'
           init={{
@@ -215,7 +289,14 @@ const CreateBlog = () => {
               'searchreplace visualblocks code',
               'insertdatetime media table paste wordcount',
             ],
-            toolbar: 'undo redo | image ',
+            toolbar:
+              'undo redo | image | formatselect | ' +
+              'bold italic backcolor | alignleft aligncenter ' +
+              'alignright alignjustify | bullist numlist outdent indent | ' +
+              'removeformat | help',
+            content_style:
+              'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+            // toolbar: 'undo redo | image ',
             automatic_uploads: true,
             // add custom filepicker only to Image dialog
             file_picker_types: 'image',
@@ -245,7 +326,9 @@ const CreateBlog = () => {
             // },
           }}
           apiKey='xof67rwsnw3lkcm0cgnxpki7y4onajon4fxcahqdpmog5qba'
-          onChange={handleEditorChange}
+          // onChange={handleEditorChange}
+          onEditorChange={handleEditorChange}
+          value={state.content}
         />
       </Box>
       <Box
@@ -265,7 +348,12 @@ const CreateBlog = () => {
         >
           Cancel
         </Button>
-        <Button variant='contained' size='medium' style={{ width: 150 }}>
+        <Button
+          onClick={handleCreateBlog}
+          variant='contained'
+          size='medium'
+          style={{ width: 150 }}
+        >
           Create
         </Button>
       </Box>

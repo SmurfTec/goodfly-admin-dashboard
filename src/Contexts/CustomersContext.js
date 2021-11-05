@@ -88,7 +88,9 @@ export const CustomersProvider = ({ children }) => {
       setTimeout(() => {
         navigate('/app/customers');
       }, 2000);
-    } catch (err) {}
+    } catch (err) {
+      handleCatch(err);
+    }
   };
 
   return (
