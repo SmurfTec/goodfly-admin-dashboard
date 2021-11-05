@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { makeReq } from 'Utils/constants';
+import { makeReq } from 'Utils/makeReq';
+
+export const LOCALSTORAGE_TOKEN_KEY = 'admin-token';
 
 export const AuthContext = React.createContext();
 
@@ -8,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   let tokenLocal;
 
   try {
-    tokenLocal = window.localStorage.getItem('jwt');
+    tokenLocal = window.localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
   } catch (err) {
     tokenLocal = null;
   }
@@ -28,7 +30,7 @@ export const AuthProvider = ({ children }) => {
       setUser(res.user);
     } catch (err) {
       setToken(null);
-      localStorage.removeItem('jwt');
+      localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
       localStorage.removeItem('user');
 
       // if (history.location !== '/') history.push('/');
@@ -39,7 +41,7 @@ export const AuthProvider = ({ children }) => {
     console.log(`tk`, tk);
     console.log(`us`, us);
 
-    window.localStorage.setItem('jwt', tk);
+    window.localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, tk);
 
     setTimeout(() => {
       setToken(tk);
@@ -52,7 +54,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
 
     localStorage.removeItem('user');
-    localStorage.removeItem('jwt');
+    localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
 
     // setTimeout(() => {
     //   window.location.href = '/';

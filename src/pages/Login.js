@@ -9,7 +9,7 @@ import axios from 'axios';
 
 import { toast } from 'react-toastify';
 
-import { API_BASE_URL } from 'Utils/constants';
+import { API_BASE_URL } from 'Utils/makeReq';
 import { AuthContext } from 'Contexts/AuthContext';
 
 const Login = () => {
@@ -54,11 +54,7 @@ const Login = () => {
 
   return (
     <div className={classes.Wrapper}>
-      <img
-        src={img1}
-        alt='plane img'
-        className={classes.backgroundImg}
-      />
+      <img src={img1} alt='plane img' className={classes.backgroundImg} />
 
       <Box className={classes.Main}>
         <Box className={classes.Header}>
@@ -118,11 +114,7 @@ const Login = () => {
             Login
           </Button>
           <Link to='/auth/forgot-password'>
-            <Typography
-              variant='p'
-              color='textSecondary'
-              gutterBottom
-            >
+            <Typography variant='p' color='textSecondary' gutterBottom>
               forgot your password ?
             </Typography>
           </Link>

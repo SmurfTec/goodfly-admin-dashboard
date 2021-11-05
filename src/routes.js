@@ -44,8 +44,10 @@ import CreateOffer from './components/dashboard/Offer/CreateOffer.js';
 import Offers from './components/dashboard/Offer/Offers.js';
 import Offer from './components/dashboard/Offer/Offer.js';
 import DashboardHome from 'components/dashboard/DashboardHome';
+import Loading from 'pages/Loading';
+import Logout from 'components/common/Logout';
 
-const routes = [
+export const protechtedRoutes = [
   {
     path: 'app',
     element: <DashboardLayout />,
@@ -157,17 +159,14 @@ const routes = [
       { path: '*', element: <NotFound /> },
     ],
   },
+  { path: 'logout', element: <Logout /> },
 
-  {
-    path: '/',
-    element: <MainLayout />,
-    children: [
-      { path: 'login', element: <Login /> },
-      { path: 'register', element: <Register /> },
-      { path: '/', element: <Navigate to='/app' /> },
-      { path: '*', element: <NotFound /> },
-    ],
-  },
+  { path: '*', element: <Navigate to='/app' /> },
 ];
 
-export default routes;
+export const publicRoutes = [
+  { path: 'login', element: <Login /> },
+  { path: '*', element: <Navigate to='/login' /> },
+];
+
+export const loading = [{ path: '*', element: <Loading /> }];

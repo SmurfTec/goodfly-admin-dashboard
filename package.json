@@ -62,6 +62,7 @@
     "react-grid-gallery": "^0.5.5",
     "react-helmet": "^6.1.0",
     "react-image-lightbox": "^5.1.4",
+    "react-loadingg": "^1.7.2",
     "react-material-ui-carousel": "^2.3.5",
     "react-multi-carousel": "^2.6.5",
     "react-perfect-scrollbar": "^1.5.8",

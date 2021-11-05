@@ -65,7 +65,7 @@ const DashboardHome = () => {
       </Box>
       <Box
         display='flex'
-        justifyContent='space-between'
+        justifyContent='space-evenly'
         alignItems='center'
         gap='20px'
         flexWrap='wrap'
