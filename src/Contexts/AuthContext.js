@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { makeReq } from 'Utils/makeReq';
+import { toast } from 'react-toastify';
+import { makeReq, handleCatch } from 'Utils/makeReq';
 
 export const LOCALSTORAGE_TOKEN_KEY = 'admin-token';
 
@@ -37,6 +38,23 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateMe = async (newProfile, setState) => {
+    try {
+      const res = await makeReq(
+        `/users/me`,
+        { body: { ...newProfile } },
+        'PATCH'
+      );
+      console.log(`res`, res);
+
+      setUser(res.user);
+      toast.success('Profile Updates Successfully !');
+    } catch (err) {
+      setState(user);
+      handleCatch(err);
+    }
+  };
+
   const signInUser = (tk, us) => {
     console.log(`tk`, tk);
     console.log(`us`, us);
@@ -70,6 +88,7 @@ export const AuthProvider = ({ children }) => {
         user,
         setUser,
         signInUser,
+        updateMe,
       }}
     >
       {children}
