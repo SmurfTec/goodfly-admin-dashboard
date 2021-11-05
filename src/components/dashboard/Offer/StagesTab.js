@@ -25,11 +25,10 @@ const StagesTab = ({ stages }) => {
       {stages.map((stage, idx) => (
         <React.Fragment key={stage._id}>
           <Grid container>
-            <Grid item sm={3} md={2}>
+            <Grid item sm={3} lg={2}>
               <img
                 src={stage?.images[0]}
                 alt='data'
-                style={{ width: 200 }}
               />
               <Box
                 style={{
@@ -51,8 +50,8 @@ const StagesTab = ({ stages }) => {
                   ))}
               </Box>
             </Grid>
-            <Grid item sm={1} md={1}></Grid>
-            <Grid item sm={8} md={9}>
+            <Grid item sm={2} lg={1}></Grid>
+            <Grid item sm={7} lg={9}>
               <Typography variant='h5' textAlign='left' gutterBottom>
                 {`${stage.date} Day : ${idx} ${stage.locatation}`}
               </Typography>

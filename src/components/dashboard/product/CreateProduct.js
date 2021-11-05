@@ -14,10 +14,16 @@ import {
   CardMedia,
   Paper,
 } from '@material-ui/core';
-import { Plus as PlusIcon, File as FileIcon, X as XIcon } from 'react-feather';
+import {
+  Plus as PlusIcon,
+  File as FileIcon,
+  X as XIcon,
+} from 'react-feather';
 
 import uuid from 'uuid/dist/v4';
 import useManyInputs from 'hooks/useManyInputs';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const styles = makeStyles((theme) => ({
   account: {
@@ -37,8 +43,8 @@ const styles = makeStyles((theme) => ({
     margin: 12,
     padding: 15,
     [theme.breakpoints.down('lg')]: {
-      margin: 25,
-      padding: 25,
+      margin: 5,
+      padding: 20,
     },
   },
   inputBox: {
@@ -66,6 +72,13 @@ const styles = makeStyles((theme) => ({
     alignItems: 'center',
     border: `2px dashed #fff`,
     borderRadius: '10px',
+  },
+  dimensions: {
+    backgroundColor: '#fff',
+    width: '25%',
+    [theme.breakpoints.down('lg')]: {
+      width: '30%',
+    },
   },
 }));
 
@@ -98,6 +111,9 @@ const productCategories = [
 
 const CreateProduct = () => {
   const classes = styles();
+  const theme = useTheme();
+  const lgDown = useMediaQuery(theme.breakpoints.down('lg'));
+
   const initialState = {
     name: '',
     price: 100,
@@ -113,8 +129,13 @@ const CreateProduct = () => {
     images: [],
     isOnline: false,
   };
-  const [state, handleTxtChange, handleToggleChange, changeInput, resetState] =
-    useManyInputs(initialState);
+  const [
+    state,
+    handleTxtChange,
+    handleToggleChange,
+    changeInput,
+    resetState,
+  ] = useManyInputs(initialState);
 
   const handleLabel = (e) => {
     e.preventDefault();
@@ -248,7 +269,10 @@ const CreateProduct = () => {
                     {/* <MenuItem value={10}>One</MenuItem>
                     <MenuItem value={20}>Two</MenuItem> */}
                     {productCategories.map((category) => (
-                      <MenuItem value={category.value} key={category.id}>
+                      <MenuItem
+                        value={category.value}
+                        key={category.id}
+                      >
                         {category.value}
                       </MenuItem>
                     ))}
@@ -287,7 +311,7 @@ const CreateProduct = () => {
                   onChange={handleTxtChange}
                 />
               </Box>
-              <Box className={classes.inputBox} style={{ margin: '1rem' }}>
+              <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
                   Dimensions
                 </Typography>
@@ -306,11 +330,7 @@ const CreateProduct = () => {
                     id='filled-hidden-label-small'
                     placeholder='Length (cm)'
                     size='small'
-                    // className={classes.textInput}
-                    style={{
-                      width: '20%',
-                      backgroundColor: '#fff',
-                    }}
+                    className={classes.dimensions}
                     name='length'
                     value={state.length}
                     onChange={handleTxtChange}
@@ -322,10 +342,7 @@ const CreateProduct = () => {
                     id='filled-hidden-label-small'
                     placeholder='Width (cm)'
                     size='small'
-                    style={{
-                      width: '20%',
-                      backgroundColor: '#fff',
-                    }}
+                    className={classes.dimensions}
                     name='width'
                     value={state.width}
                     onChange={handleTxtChange}
@@ -337,10 +354,7 @@ const CreateProduct = () => {
                     id='filled-hidden-label-small'
                     placeholder='Height (cm)'
                     size='small'
-                    style={{
-                      width: '20%',
-                      backgroundColor: '#fff',
-                    }}
+                    className={classes.dimensions}
                     name='height'
                     value={state.height}
                     onChange={handleTxtChange}
@@ -351,7 +365,9 @@ const CreateProduct = () => {
                 className={classes.inputBox}
                 style={{ display: 'inline-block' }}
               >
-                <Typography variant='h5'>Description of Product</Typography>
+                <Typography variant='h5'>
+                  Description of Product
+                </Typography>
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
@@ -373,7 +389,11 @@ const CreateProduct = () => {
                 className={classes.inputBox}
                 style={{ display: 'inline-block' }}
               >
-                <Box display='flex' justifyContent='left' alignItems='center'>
+                <Box
+                  display='flex'
+                  justifyContent='left'
+                  alignItems='center'
+                >
                   <Typography variant='h5' mr={12}>
                     Labels
                   </Typography>
@@ -385,7 +405,7 @@ const CreateProduct = () => {
                       placeholder='Add Five Labels'
                       size='small'
                       style={{
-                        width: '50%',
+                        width: lgDown ? '60%' : '50%',
                         backgroundColor: '#fff',
                       }}
                       name='label'
@@ -444,7 +464,13 @@ const CreateProduct = () => {
               </Box>
             </Box>
           </Grid>
-          <Grid item xs={12} sm={5} md={5} className={classes.account}>
+          <Grid
+            item
+            xs={12}
+            sm={5}
+            md={5}
+            className={classes.account}
+          >
             <Box className={classes.mainBox}>
               <Typography variant='h5' style={{ width: '100%' }}>
                 Account managment
@@ -501,8 +527,14 @@ const CreateProduct = () => {
                             justifyContent='center'
                             style={{ cursor: 'pointer' }}
                           >
-                            <PlusIcon size={35} style={{ color: '#fff' }} />
-                            <FileIcon size={35} style={{ color: '#fff' }} />
+                            <PlusIcon
+                              size={35}
+                              style={{ color: '#fff' }}
+                            />
+                            <FileIcon
+                              size={35}
+                              style={{ color: '#fff' }}
+                            />
                           </Box>
                           <Typography style={{ color: '#fff' }}>
                             Upload Image
