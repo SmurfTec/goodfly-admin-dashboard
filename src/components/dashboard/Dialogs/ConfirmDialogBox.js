@@ -37,7 +37,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DeletePaletteConfirm(props) {
+export default function ConfirmDialog(props) {
   const { open, toggleDialog, dialogTitle, success } = props;
   const classes = useStyles();
 

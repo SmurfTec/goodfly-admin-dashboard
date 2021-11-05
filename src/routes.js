@@ -13,8 +13,8 @@ import CreateBlog from './components/dashboard/Blog/CreateBlog';
 import Blogs from './components/dashboard/Blog/Blogs.js';
 
 import Customers from './components/dashboard/Visitor/Visitors.js';
-import CreateVisitor from './components/dashboard/Visitor/VisitorProfile.js';
-import EditVisitor from './components/dashboard/Visitor/VisitorProfileTwo.js';
+import CreateVisitor from './components/dashboard/Visitor/CreateVisitor.js';
+import EditVisitor from './components/dashboard/Visitor/EditVisitor.js';
 
 import AddStaffer from './components/dashboard/Staffer/AddStaffer.js';
 import ViewStaffer from './components/dashboard/Staffer/ViewStaffer.js';
@@ -74,8 +74,8 @@ export const protechtedRoutes = [
             path: '/',
             element: <Customers />,
           },
-          { path: '/:id/new', element: <CreateVisitor /> },
-          { path: '/:id', element: <EditVisitor /> },
+          { path: '/new', element: <CreateVisitor /> },
+          { path: 'edit/:id', element: <EditVisitor /> },
         ],
       },
 

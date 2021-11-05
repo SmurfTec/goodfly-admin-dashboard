@@ -13,24 +13,28 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 // * ------ Contexts ----------
 import { AuthProvider } from 'Contexts/AuthContext';
 import { StoreProvider } from 'Contexts/StoreContext';
+import { CustomersProvider } from 'Contexts/CustomersContext';
+
 // * -------------------------------- * //
 
 ReactDOM.render(
   <BrowserRouter>
     <AuthProvider>
       <StoreProvider>
-        <ToastContainer
-          position='top-right'
-          autoClose={3500}
-          hideProgressBar
-          newestOnTop={true}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-        <App />
+        <CustomersProvider>
+          <ToastContainer
+            position='top-right'
+            autoClose={3500}
+            hideProgressBar
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+          <App />
+        </CustomersProvider>
       </StoreProvider>
     </AuthProvider>
   </BrowserRouter>,
