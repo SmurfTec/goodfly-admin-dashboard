@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import {
@@ -18,8 +18,8 @@ import {
 import { Search as SearchIcon } from 'react-feather';
 import v4 from 'uuid/dist/v4';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(name, calories, fat, client, protein) {
+  return { name, calories, fat, client, protein };
 }
 
 const rows = [
@@ -27,133 +27,133 @@ const rows = [
     'Muhammadzain',
     ' zain@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'zain',
     '11/07/2021'
   ),
   createData(
     'Muhammadali',
     ' ali@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'sonu',
     '11/07/2021'
   ),
   createData(
     'Muhammadusman',
     ' usman@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'ali',
     '11/07/2021'
   ),
   createData(
     'Muhammadkashif',
     ' kashif@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'umer',
     '11/07/2021'
   ),
   createData(
     'Muhammadumer',
     ' umer@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'kasi',
     '11/07/2021'
   ),
   createData(
     'Muhammadabc',
     ' abc@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'qweew',
     '11/07/2021'
   ),
   createData(
     'Muhammadsonu',
     ' sonu@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'gdasd',
     '11/07/2021'
   ),
   createData(
     'Muhammadsaqib',
     ' saqib@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'fdasfs',
     '11/07/2021'
   ),
   createData(
     'Muhammadsohil',
     ' sohail@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'eqwe',
     '11/07/2021'
   ),
   createData(
     'Muhammadtayyab',
     ' tayyab@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'fasdf',
     '11/07/2021'
   ),
   createData(
     'Muhammadgul',
     'gul@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'sdas',
     '11/07/2021'
   ),
   createData(
     'Muhammadtayyab',
     ' tayyab@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'fsdfsa',
     '11/07/2021'
   ),
   createData(
     'Muhammadgul',
     'gul@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'fasdfa',
     '11/07/2021'
   ),
   createData(
     'Muhammadtayyab',
     ' tayyab@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'fasd',
     '11/07/2021'
   ),
   createData(
     'Muhammadgul',
     'gul@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'fasdf',
     '11/07/2021'
   ),
   createData(
     'Muhammadtayyab',
     ' tayyab@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'fsadf',
     '11/07/2021'
   ),
   createData(
     'Muhammadgul',
     'gul@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'fdsa',
     '11/07/2021'
   ),
   createData(
     'Muhammadtayyab',
     ' tayyab@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'fsdf',
     '11/07/2021'
   ),
   createData(
     'Muhammadgul',
     'gul@gmail.com',
     '+2233123312334',
-    'GF12333',
+    'adfsds',
     '11/07/2021'
   ),
 ];
@@ -184,12 +184,15 @@ const styles = makeStyles((theme) => ({
 
 const Orders = () => {
   const classes = styles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [filter, setFilter] = useState('');
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    rowsPerPage -
+    Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -199,6 +202,27 @@ const Orders = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const handleSearch = (e) => {
+    const data = e.target.value;
+    setFilter(data);
+    console.log(filter);
+  };
+  //  filtered
+  useEffect(() => {
+    setFilteredItems(
+      rows.filter(
+        (row) =>
+          row.client.toLowerCase().indexOf(filter.toLowerCase()) !==
+          -1
+      )
+    );
+  }, [filter]);
+
+  // data must be updated
+  useEffect(() => {
+    setFilteredItems(rows);
+  }, []);
+
 
   return (
     <div style={{ marginTop: '3rem' }}>
@@ -214,17 +238,22 @@ const Orders = () => {
             width: '100%',
           }}
         >
-          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+          <Typography
+            variant='text'
+            style={{ margin: '0px 3px 0px' }}
+          >
             Search Order
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
           <TextField
             hiddenLabel
             id='filled-hidden-label-small'
-            defaultValue='order name'
+            placeholder='order name'
             size='small'
             style={{ margin: '0px 5px 0px', width: '30%' }}
             className={classes.textInput}
+            value={filter}
+            onChange={handleSearch}
           />
         </Box>
 
@@ -244,16 +273,21 @@ const Orders = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              {filteredItems
+                .slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 .map((row, index) => (
                   <TableRow key={v4()}>
                     <TableCell component='th' scope='row'>
                       {row.name}
                     </TableCell>
-                    <TableCell align='right'>{row.calories}</TableCell>
+                    <TableCell align='right'>
+                      {row.calories}
+                    </TableCell>
                     <TableCell align='right'>{row.fat}</TableCell>
-                    <TableCell align='right'>{row.carbs}</TableCell>
+                    <TableCell align='right'>{row.client}</TableCell>
                     <TableCell align='right'>{row.protein}</TableCell>
                     <TableCell align='right'>{row.protein}</TableCell>
                     <TableCell align='right'>

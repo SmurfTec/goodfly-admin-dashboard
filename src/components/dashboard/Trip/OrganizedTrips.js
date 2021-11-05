@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import {
@@ -42,6 +42,62 @@ const rows = [
   createData(
     'Muhammadali',
     ' ali@gmail.com',
+    '+2233123312334',
+    'GF12333',
+    '11/07/2021'
+  ),
+  createData(
+    'Muhammadusman',
+    ' usman@gmail.com',
+    '+2233123312334',
+    'GF12333',
+    '11/07/2021'
+  ),
+  createData(
+    'Muhammadkashif',
+    ' kashif@gmail.com',
+    '+2233123312334',
+    'GF12333',
+    '11/07/2021'
+  ),
+  createData(
+    'Muhammadumer',
+    ' umer@gmail.com',
+    '+2233123312334',
+    'GF12333',
+    '11/07/2021'
+  ),
+  createData(
+    'Muhammadzain',
+    ' zain@gmail.com',
+    '+2233123312334',
+    'GF12333',
+    '11/07/2021'
+  ),
+  createData(
+    'Muhammadali',
+    ' ali@gmail.com',
+    '+2233123312334',
+    'GF12333',
+    '11/07/2021'
+  ),
+  createData(
+    'Muhammadusman',
+    ' usman@gmail.com',
+    '+2233123312334',
+    'GF12333',
+    '11/07/2021'
+  ),
+  createData(
+    'Muhammadkashif',
+    ' kashif@gmail.com',
+    '+2233123312334',
+    'GF12333',
+    '11/07/2021'
+  ),
+  createData(
+    'Muhammadumer',
+    ' umer@gmail.com',
     '+2233123312334',
     'GF12333',
     '11/07/2021'
@@ -122,6 +178,8 @@ const styles = makeStyles((theme) => ({
 
 const OrganizedTrips = () => {
   const classes = styles();
+  const [filter, setFilter] = useState('');
+  const [filteredItems, setFilteredItems] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rating, setRating] = React.useState(2);
@@ -139,6 +197,26 @@ const OrganizedTrips = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const handleSearch = (e) => {
+    const data = e.target.value;
+    setFilter(data);
+    console.log(filter);
+  };
+  //  filtered
+  useEffect(() => {
+    setFilteredItems(
+      rows.filter(
+        (row) =>
+          row.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+      )
+    );
+  }, [filter]);
+
+  // data must be updated
+  useEffect(() => {
+    setFilteredItems(rows);
+  }, []);
+
   return (
     <div style={{ marginTop: '3rem' }}>
       <Typography variant='h5' m={2}>
@@ -330,6 +408,8 @@ const OrganizedTrips = () => {
               size='small'
               style={{ width: '50%' }}
               className={classes.textInput}
+              value={filter}
+              onChange={handleSearch}
             />
           </Box>
         </Box>
@@ -349,7 +429,7 @@ const OrganizedTrips = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {filteredItems
                 .slice(
                   page * rowsPerPage,
                   page * rowsPerPage + rowsPerPage

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import {
@@ -25,9 +25,10 @@ import {
   FormControl,
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
+import v4 from 'uuid/dist/v4';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(name, category, fat, carbs, protein) {
+  return { name, category, fat, carbs, protein };
 }
 
 const rows = [
@@ -81,16 +82,19 @@ const styles = makeStyles((theme) => ({
 
 const TourCategories = () => {
   const classes = styles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [status, setStatus] = React.useState('');
+  const [filter, setFilter] = useState('');
+  const [filteredItems, setFilteredItems] = useState([]);
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [status, setStatus] = useState('');
 
   const handleChange = (event) => {
     setStatus(event.target.value);
   };
 
   //confirmation
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -121,6 +125,26 @@ const TourCategories = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  const handleSearch = (e) => {
+    const data = e.target.value;
+    setFilter(data);
+    console.log(filter);
+  };
+  //  filtered
+  useEffect(() => {
+    setFilteredItems(
+      rows.filter(
+        (row) =>
+          row.category.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+      )
+    );
+  }, [filter]);
+
+  // data must be updated
+  useEffect(() => {
+    setFilteredItems(rows);
+  }, []);
 
   return (
     <div style={{ marginTop: '3rem' }}>
@@ -163,10 +187,12 @@ const TourCategories = () => {
           <TextField
             hiddenLabel
             id='filled-hidden-label-small'
-            defaultValue='category name'
+            placeholder='category name'
             size='small'
             style={{ margin: '0px 5px 0px', width: '30%' }}
             className={classes.textInput}
+            value={filter}
+            onChange={handleSearch}
           />
         </Box>
 
@@ -183,18 +209,18 @@ const TourCategories = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {filteredItems
                 .slice(
                   page * rowsPerPage,
                   page * rowsPerPage + rowsPerPage
                 )
                 .map((row, index) => (
-                  <TableRow key={row.name}>
+                  <TableRow key={v4()}>
                     <TableCell component='th' scope='row'>
                       {row.name}
                     </TableCell>
                     <TableCell align='right'>
-                      {row.calories}
+                      {row.category}
                     </TableCell>
                     <TableCell align='right'>{row.fat}</TableCell>
                     <TableCell align='right'>
@@ -226,7 +252,7 @@ const TourCategories = () => {
           />
         </TableContainer>
       </Box>
-      {/*  DOALOG FOR DELETING A USER */}
+      {/*  DOALOG FOR DELETING A Category*/}
       <div>
         <Dialog
           open={open}
@@ -259,9 +285,9 @@ const TourCategories = () => {
             border: '1px solid red',
           }}
         >
-          <DialogTitle style={{ width: '100rem' }}>
+          <Box p={3}>
             <Typography variant='h4'>Add New Category</Typography>
-          </DialogTitle>
+          </Box>
           <DialogContent>
             <Box
               className={classes.form}
@@ -277,9 +303,7 @@ const TourCategories = () => {
                 fullWidth
                 style={{ width: '40rem', marginRight: '2rem' }}
               />
-              <FormControl
-                fullWidth
-              >
+              <FormControl fullWidth>
                 <InputLabel id='demo-simple-select-label'>
                   Status
                 </InputLabel>
