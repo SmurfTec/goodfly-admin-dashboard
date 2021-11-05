@@ -13,8 +13,8 @@ import CreateBlog from './components/dashboard/Blog/CreateBlog';
 import Blogs from './components/dashboard/Blog/Blogs.js';
 
 import Customers from './components/dashboard/Visitor/Visitors.js';
-import VisitorProfile from './components/dashboard/Visitor/VisitorProfile.js';
-import ViewVisitor from './components/dashboard/Visitor/VisitorProfileTwo.js';
+import CreateVisitor from './components/dashboard/Visitor/CreateVisitor.js';
+import EditVisitor from './components/dashboard/Visitor/EditVisitor.js';
 
 import AddStaffer from './components/dashboard/Staffer/AddStaffer.js';
 import ViewStaffer from './components/dashboard/Staffer/ViewStaffer.js';
@@ -44,8 +44,10 @@ import CreateOffer from './components/dashboard/Offer/CreateOffer.js';
 import Offers from './components/dashboard/Offer/Offers.js';
 import Offer from './components/dashboard/Offer/Offer.js';
 import DashboardHome from 'components/dashboard/DashboardHome';
+import Loading from 'pages/Loading';
+import Logout from 'components/common/Logout';
 
-const routes = [
+export const protechtedRoutes = [
   {
     path: 'app',
     element: <DashboardLayout />,
@@ -72,8 +74,8 @@ const routes = [
             path: '/',
             element: <Customers />,
           },
-          { path: '/:id/edit', element: <VisitorProfile /> },
-          { path: '/:id', element: <ViewVisitor /> },
+          { path: '/new', element: <CreateVisitor /> },
+          { path: 'edit/:id', element: <EditVisitor /> },
         ],
       },
 
@@ -157,17 +159,14 @@ const routes = [
       { path: '*', element: <NotFound /> },
     ],
   },
+  { path: 'logout', element: <Logout /> },
 
-  {
-    path: '/',
-    element: <MainLayout />,
-    children: [
-      { path: 'login', element: <Login /> },
-      { path: 'register', element: <Register /> },
-      { path: '/', element: <Navigate to='/app' /> },
-      { path: '*', element: <NotFound /> },
-    ],
-  },
+  { path: '*', element: <Navigate to='/app' /> },
 ];
 
-export default routes;
+export const publicRoutes = [
+  { path: 'login', element: <Login /> },
+  { path: '*', element: <Navigate to='/login' /> },
+];
+
+export const loading = [{ path: '*', element: <Loading /> }];

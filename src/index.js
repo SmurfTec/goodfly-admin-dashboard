@@ -4,25 +4,41 @@ import App from './App';
 
 import { ToastContainer } from 'react-toastify';
 
+// * ------ Styles Sheets for modules ----------
 import 'react-toastify/dist/ReactToastify.css';
-import { AuthProvider } from 'Contexts/AuthContext';
 import 'react-multi-carousel/lib/styles.css';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+// * -------------------------------- * //
+
+// * ------ Contexts ----------
+import { AuthProvider } from 'Contexts/AuthContext';
+import { StoreProvider } from 'Contexts/StoreContext';
+import { CustomersProvider } from 'Contexts/CustomersContext';
+import { BlogsProvider } from 'Contexts/BlogsContext';
+
+// * -------------------------------- * //
 
 ReactDOM.render(
   <BrowserRouter>
     <AuthProvider>
-      <ToastContainer
-        position='top-right'
-        autoClose={3500}
-        hideProgressBar
-        newestOnTop={true}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <App />
+      <StoreProvider>
+        <CustomersProvider>
+          <BlogsProvider>
+            <ToastContainer
+              position='top-right'
+              autoClose={3500}
+              hideProgressBar
+              newestOnTop={true}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
+            <App />
+          </BlogsProvider>
+        </CustomersProvider>
+      </StoreProvider>
     </AuthProvider>
   </BrowserRouter>,
   document.getElementById('root')

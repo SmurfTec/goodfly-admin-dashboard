@@ -31,6 +31,7 @@ const useManyInputs = (initialState) => {
     handleToggleChange,
     changeInput,
     resetState,
+    setState,
   ];
 };
 

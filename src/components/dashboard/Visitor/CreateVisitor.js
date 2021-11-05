@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
@@ -11,24 +11,19 @@ import {
   FormControlLabel,
   RadioGroup,
   Radio,
-  CardMedia,
-  Switch,
+  Avatar,
 } from '@material-ui/core';
-import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
-import CarouselLayout from 'components/common/Carousel/CarouselLayout';
-import useManyInputs from 'hooks/useManyInputs';
-import uuid from 'uuid/dist/v4';
 
-// import Carousel from 'react-material-ui-carousel';
+import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
+import useManyInputs from 'hooks/useManyInputs';
+import { CustomersContext } from 'Contexts/CustomersContext';
+import { useParams } from 'react-router';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import useToggleInput from 'hooks/useToggleInput';
+import LoadingOverlay from 'react-loading-overlay';
 
 const styles = makeStyles((theme) => ({
-  header: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    width: '100%',
-    justifyContent: 'space-evenly',
-    marginTop: 25,
-  },
   account: {
     minHeight: 200,
     marginTop: 10,
@@ -61,7 +56,7 @@ const styles = makeStyles((theme) => ({
     width: '100%',
   },
   textInput: {
-    width: '80%',
+    width: '70%',
     backgroundColor: '#fff',
     marginBottom: 7,
   },
@@ -77,11 +72,11 @@ const styles = makeStyles((theme) => ({
     width: 200,
   },
 }));
-const trips = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const VisitorProfileTwo = () => {
+const VisitorProfile = () => {
   const classes = styles();
-  const [ok, setOk] = React.useState(true);
+
+  const { createNewCustomer } = useContext(CustomersContext);
 
   const initialState = {
     pronoun: 'Mr',
@@ -98,155 +93,93 @@ const VisitorProfileTwo = () => {
     country: '',
     nationality: '',
     passportNumber: '',
+    attachments: '',
     facebookProfile: '',
     instagramProfile: '',
     twitterProfile: '',
     snapChatProfile: '',
-    attachments: [],
+    passportDateOfIssue: '',
+    passportPlaceOfIssue: '',
   };
 
-  const [modifyImageId, setModifyImageId] = useState();
+  const [
+    state,
+    handleTxtChange,
+    handleToggleChange,
+    changeInput,
+    resetState,
+    setState,
+  ] = useManyInputs(initialState);
 
-  const [state, handleTxtChange, handleToggleChange, changeInput, resetState] =
-    useManyInputs(initialState);
+  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
-  const toggle = (event) => {
-    setOk(event.target.ok);
-  };
-
-  const modifyCustomer = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`state`, state);
-    resetState();
-  };
-
-  const deleteAttachment = (id) => {
-    changeInput(
-      'attachments',
-      state.attachments.filter((el) => el._id !== id)
-    );
-  };
-
-  const handleModify = (id) => {
-    setModifyImageId(id);
-  };
-
-  const modifyImage = async (e) => {
-    const file = e.target.files[0];
-    try {
-      const convert64 = await convertTobase64(file);
-
-      changeInput(
-        'attachments',
-        state.attachment.map((el) =>
-          el._id === modifyImageId ? { ...el, image: convert64 } : el
-        )
-      );
-    } catch (err) {}
+    createNewCustomer(state, resetState);
   };
 
   const handleImage = async (e) => {
-    const file = e.target.files[0];
-    const convert64 = await convertTobase64(file);
+    setUploadingText('Uploading Image ...');
+    toggleImageUploading();
+    const selectedFile = e.target.files[0];
+    const fileType = ['image/'];
+    try {
+      console.log(`selectedFile.type`, selectedFile.type);
+      if (selectedFile && selectedFile.type.includes(fileType)) {
+        let reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onloadend = async (e) => {
+          console.log(`result onLoadEnd`, e.target.result);
+          const file = e.target.result;
 
-    changeInput('attachments', [
-      ...state.attachments,
-      { image: convert64, _id: uuid() },
-    ]);
-  };
+          // TODO  Delete Image from cloudinary if it exists on this user
 
-  const convertTobase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        console.log(`fileReader.result`, fileReader.result);
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        console.log(`error`, error);
-        reject(error);
-      };
-    });
+          // // * 1 Upload Image on Cloudinary
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append(
+            'upload_preset',
+            process.env.REACT_APP_CLOUDINARY_PRESET
+          );
+
+          const res = await axios.post(
+            `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
+            formData
+          );
+          const uploadedImage = res.data.url;
+          console.log(`res`, res);
+
+          setUploadingText('Updating Image ...');
+
+          changeInput('photo', uploadedImage);
+
+          toggleImageUploading();
+        };
+      } else {
+        toast.error('Only Image files are acceptable !');
+      }
+    } catch (err) {
+      toast(
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
+      );
+      console.log(`err`, err);
+    }
   };
 
   return (
     <div style={{ backgroundColor: '#fff', overflow: 'hidden' }}>
       <Box>
-        <Box className={classes.header}>
-          <Typography variant='h4'>Client Area</Typography>
-          <Button
-            variant='outlined'
-            size='medium'
-            style={{
-              color: 'red',
-              border: '1px solid rec',
-              colorwidth: 150,
-            }}
+        <Box>
+          <Typography
+            variant='h4'
+            style={{ width: '100%', margin: '60px 20px 0px' }}
           >
-            To Detelte
-          </Button>
-          <Button
-            // onClick={modifyCustomer}
-            form='customerForm'
-            type='submit'
-            variant='outlined'
-            size='medium'
-            style={{ width: 150 }}
-          >
-            To Modify
-          </Button>
-          <Box mb={3}>
-            <Typography variant='h5' mb={1}>
-              {' '}
-              Contact to Client
-            </Typography>
-            <Button
-              variant='outlined'
-              size='medium'
-              style={{
-                color: 'black',
-                border: '1px solid #111111',
-                backgroundColor: '#c6c6c6',
-                width: 180,
-              }}
-            >
-              +31231231231
-            </Button>{' '}
-          </Box>
-          <Box style={{ width: 155 }}>
-            <Typography variant='h5'>
-              {' '}
-              N Fidelite{' '}
-              <bold
-                style={{
-                  fontSize: 28,
-                  fontWeight: 'bold ',
-                  fontStyle: 'italic',
-                  margin: 2,
-                }}
-              >
-                827
-              </bold>{' '}
-            </Typography>
-          </Box>
-          <Box>
-            <Typography variant='h5'>
-              <bold
-                style={{
-                  fontSize: 28,
-                  fontWeight: 'bold ',
-                  fontStyle: 'italic',
-                  margin: 5,
-                }}
-              >
-                1725
-              </bold>
-              Points
-            </Typography>
-          </Box>
+            New Customer
+          </Typography>
         </Box>
-        <form onSubmit={modifyCustomer} id='customerForm'>
+        <form onSubmit={handleSubmit}>
           <Grid container>
             <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
               <Box className={classes.mainBox}>
@@ -293,6 +226,9 @@ const VisitorProfileTwo = () => {
                       row
                       aria-label='gender'
                       name='row-radio-buttons-group'
+                      value={state.pronoun}
+                      name='pronoun'
+                      onChange={handleToggleChange}
                     >
                       <FormControlLabel
                         value='Mr'
@@ -319,7 +255,7 @@ const VisitorProfileTwo = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='Islamabad'
+                    // defaultValue='Islamabad'
                     size='small'
                     className={classes.textInput}
                     name='birthName'
@@ -335,7 +271,7 @@ const VisitorProfileTwo = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='She'
+                    // defaultValue='She'
                     size='small'
                     className={classes.textInput}
                     name='spouseName'
@@ -351,7 +287,7 @@ const VisitorProfileTwo = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='MuhammadZain'
+                    // defaultValue='MuhammadZain'
                     size='small'
                     className={classes.textInput}
                     name='name'
@@ -367,7 +303,7 @@ const VisitorProfileTwo = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='muhammadzain8@gmail.com'
+                    // defaultValue='muhammadzain8@gmail.com'
                     size='small'
                     className={classes.textInput}
                     name='email'
@@ -384,11 +320,11 @@ const VisitorProfileTwo = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='+2123123131'
+                    // defaultValue='+2123123131'
                     size='small'
                     className={classes.textInput}
-                    name='mobileNumber'
-                    value={state.mobileNumber}
+                    name='telephoneNumber'
+                    value={state.telephoneNumber}
                     onChange={handleTxtChange}
                     required
                   />
@@ -401,11 +337,11 @@ const VisitorProfileTwo = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='+2123123131'
+                    // defaultValue='+2123123131'
                     size='small'
                     className={classes.textInput}
-                    name='telephoneNumber'
-                    value={state.telephoneNumber}
+                    name='telephoneLineNumber'
+                    value={state.telephoneLineNumber}
                     onChange={handleTxtChange}
                     required
                   />
@@ -418,7 +354,7 @@ const VisitorProfileTwo = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='h6 islamabad'
+                    // defaultValue='h6 islamabad'
                     size='small'
                     className={classes.textInput}
                     name='address'
@@ -430,12 +366,12 @@ const VisitorProfileTwo = () => {
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
                     {' '}
-                    Additional Address
+                    Additional Address{' '}
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='www.instagram.com'
+                    // defaultValue='www.instagram.com'
                     size='small'
                     className={classes.textInput}
                     name='additionalAddress'
@@ -450,9 +386,10 @@ const VisitorProfileTwo = () => {
                     Postal Code{' '}
                   </Typography>
                   <TextField
+                    type='number'
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='46000'
+                    // defaultValue='46000'
                     size='small'
                     style={{ backgroundColor: '#fff', width: '30%' }}
                     name='postalCode'
@@ -471,7 +408,7 @@ const VisitorProfileTwo = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='Islamabad'
+                    // defaultValue='Islamabad'
                     size='small'
                     style={{ backgroundColor: '#fff', width: '40%' }}
                     name='city'
@@ -488,7 +425,7 @@ const VisitorProfileTwo = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='pakistan'
+                    // defaultValue='pakistan'
                     size='small'
                     className={classes.textInput}
                     name='country'
@@ -505,12 +442,15 @@ const VisitorProfileTwo = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
+                    // defaultValue='pakistan'
+                    type=''
                     size='small'
-                    className={classes.textInput}
                     type='date'
+                    className={classes.textInput}
+                    name='dateOfBirth'
                     value={state.dateOfBirth}
                     onChange={handleTxtChange}
-                    name='dateOfBirth'
+                    required
                   />
                 </Box>
                 <Box className={classes.inputBox}>
@@ -521,7 +461,7 @@ const VisitorProfileTwo = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='pakistan'
+                    // defaultValue='pakistan'
                     size='small'
                     className={classes.textInput}
                     name='nationality'
@@ -538,7 +478,7 @@ const VisitorProfileTwo = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='pakistan'
+                    // defaultValue='pakistan'
                     size='small'
                     className={classes.textInput}
                     name='passportNumber'
@@ -550,17 +490,16 @@ const VisitorProfileTwo = () => {
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
                     {' '}
-                    Deliverance date{' '}
+                    Date of Issue
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='pakistan'
+                    // defaultValue='pakistan'
                     size='small'
-                    type='date'
                     className={classes.textInput}
-                    name='dateOfDeliverence'
-                    value={state.dateOfDeliverence}
+                    name='passportDateOfIssue'
+                    value={state.passportDateOfIssue}
                     onChange={handleTxtChange}
                     required
                   />
@@ -568,16 +507,16 @@ const VisitorProfileTwo = () => {
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
                     {' '}
-                    place of delivery{' '}
+                    Place of Issue{' '}
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='pakistan'
+                    // defaultValue='pakistan'
                     size='small'
                     className={classes.textInput}
-                    name='placeOfDeliverence'
-                    value={state.placeOfDeliverence}
+                    name='passportPlaceOfIssue'
+                    value={state.passportPlaceOfIssue}
                     onChange={handleTxtChange}
                     required
                   />
@@ -585,10 +524,7 @@ const VisitorProfileTwo = () => {
               </Box>
             </Grid>
             <Grid item xs={12} sm={5} md={5} className={classes.account}>
-              <Box
-                className={classes.mainBox}
-                style={{ padding: 10, margin: '0px 10px 0px 0px ' }}
-              >
+              <Box className={classes.mainBox} style={{ padding: 10 }}>
                 <Box
                   style={{
                     display: 'flex',
@@ -596,8 +532,9 @@ const VisitorProfileTwo = () => {
                     justifyContent: 'start',
                     alignItems: 'center',
                     width: '100%',
-                    minHeight: 200,
-                    padding: 10,
+                    minHeight: 180,
+                    padding: 5,
+                    margin: 5,
                   }}
                 >
                   <Box className={classes.inputBox2}>
@@ -605,7 +542,7 @@ const VisitorProfileTwo = () => {
                     <TextField
                       hiddenLabel
                       id='filled-hidden-label-small'
-                      defaultValue='facebook'
+                      // defaultValue='facebook'
                       size='small'
                       className={classes.textInput}
                       name='facebookProfile'
@@ -618,7 +555,7 @@ const VisitorProfileTwo = () => {
                     <TextField
                       hiddenLabel
                       id='filled-hidden-label-small'
-                      defaultValue='instagram'
+                      // defaultValue='instagram'
                       size='small'
                       className={classes.textInput}
                       name='instagramProfile'
@@ -631,7 +568,7 @@ const VisitorProfileTwo = () => {
                     <TextField
                       hiddenLabel
                       id='filled-hidden-label-small'
-                      defaultValue='twitter'
+                      // defaultValue='twitter'
                       size='small'
                       className={classes.textInput}
                       name='twitterProfile'
@@ -644,7 +581,7 @@ const VisitorProfileTwo = () => {
                     <TextField
                       hiddenLabel
                       id='filled-hidden-label-small'
-                      defaultValue='snapchat'
+                      // defaultValue='snapchat'
                       size='small'
                       className={classes.textInput}
                       name='snapChatProfile'
@@ -654,188 +591,80 @@ const VisitorProfileTwo = () => {
                   </Box>
                 </Box>
               </Box>
-              <Box
-                className={classes.mainBox}
-                style={{
-                  padding: 10,
-                  minHeight: 200,
-                  margin: '40px 10px 0px 0px ',
-                }}
-              >
-                <Typography variant='h4' style={{ width: '90%', margin: 15 }}>
-                  Last customer order
+              <Box className={classes.mainBox} style={{ padding: 10 }}>
+                <Typography variant='h4' style={{ width: '100%', margin: 15 }}>
+                  Photo
                 </Typography>
-                <Box
+                <Avatar
                   style={{
-                    minHeight: 160,
-                    width: '90%',
-                    backgroundColor: '#fff',
-                    marginBottom: 20,
+                    width: '10rem',
+                    height: '8rem',
+                    borderRadius: '50%',
                   }}
+                  src={state.photo}
+                  title='Live from space album cover'
+                />
+                <LoadingOverlay
+                  active={isImageUploading}
+                  spinner
+                  text={uploadingText}
                 >
-                  <Typography
-                    variant='text'
-                    style={{ color: '#c6c6c6', margin: 10 }}
+                  <Box
+                    style={{
+                      backgroundColor: '#808080',
+                      borderRadius: '10px',
+                      padding: 1,
+                    }}
                   >
-                    {' '}
-                    Fake order details{' '}
-                  </Typography>
-                </Box>
+                    <input
+                      accept='image/*'
+                      style={{ display: 'none' }}
+                      id='contained-button-file'
+                      onChange={handleImage}
+                      type='file'
+                      name='photo'
+                    />
+                    <label
+                      htmlFor='contained-button-file'
+                      style={{ cursor: 'pointer' }}
+                    >
+                      {' '}
+                      <Box className={classes.image}>
+                        <Box>
+                          <PlusIcon size={35} style={{ color: '#fff' }} />
+                          <FileIcon size={35} style={{ color: '#fff' }} />
+                        </Box>
+                        <Typography style={{ color: '#fff' }}>
+                          Upload Photo
+                        </Typography>
+                      </Box>
+                    </label>{' '}
+                  </Box>
+                </LoadingOverlay>{' '}
               </Box>
               <Box
-                className={classes.mainBox}
-                style={{ padding: 10, margin: '40px 10px 0px 0px ' }}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-evenly',
+                  alignItems: 'center',
+                  width: '100%',
+                }}
               >
-                <Typography variant='h4' style={{ width: '90%', margin: 10 }}>
-                  Find a Client
-                </Typography>
-                <Box
-                  style={{
-                    marginBottom: 20,
-                    width: '80%',
-                    marginRight: 45,
-                  }}
+                <Button
+                  type='submit'
+                  variant='contained'
+                  size='medium'
+                  style={{ width: 150 }}
                 >
-                  <TextField
-                    hiddenLabel
-                    id='filled-hidden-label-small'
-                    defaultValue='name'
-                    size='small'
-                    style={{
-                      backgroundColor: '#fff',
-                    }}
-                  />
-                </Box>
-
-                <Box
-                  style={{
-                    minHeight: 155,
-                    width: '90%',
-                    backgroundColor: '#fff',
-                    marginBottom: 20,
-                  }}
-                >
-                  <Typography
-                    variant='text'
-                    style={{ color: '#c6c6c6', margin: 10 }}
-                  >
-                    List of users
-                  </Typography>
-                </Box>
+                  Validate
+                </Button>
               </Box>
             </Grid>
           </Grid>
-          <Box className={classes.mainBox}>
-            <Typography
-              variant='h3'
-              style={{ width: '100%', marginTop: '3rem' }}
-            >
-              Attachments
-            </Typography>
-
-            <Grid container spacing={3}>
-              <Grid item md={9}>
-                <CarouselLayout>
-                  {state.attachments?.map((attachment, i) => (
-                    <div key={attachment._id} className={classes.carouselCard}>
-                      <CardMedia
-                        style={{ height: '10rem' }}
-                        image={attachment.image}
-                        title='Live from space album cover'
-                      />
-                      <Box
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <input
-                          accept='image/*'
-                          style={{ display: 'none' }}
-                          id='modify-button-file'
-                          // onChange={handleImage}
-                          onChange={modifyImage}
-                          type='file'
-                          name='photo'
-                        />
-                        <label
-                          htmlFor='modify-button-file'
-                          style={{ cursor: 'pointer' }}
-                          onClick={handleModify.bind(this, attachment._id)}
-                        >
-                          <Button>modify</Button>
-                        </label>
-                        <Button
-                          onClick={deleteAttachment.bind(this, attachment._id)}
-                          style={{ color: 'red' }}
-                        >
-                          Delete
-                        </Button>
-                        <Switch
-                          status={ok}
-                          onChange={toggle}
-                          inputProps={{
-                            'aria-label': 'controlled',
-                          }}
-                        />
-                      </Box>
-                    </div>
-                  ))}
-                  {/* one */}
-                </CarouselLayout>
-              </Grid>
-              <Grid
-                item
-                md={3}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Box
-                  style={{
-                    backgroundColor: '#808080',
-                    borderRadius: '10px',
-                  }}
-                >
-                  <Box style={{ padding: '0.2rem' }}>
-                    <Box>
-                      <input
-                        accept='image/*'
-                        style={{ display: 'none' }}
-                        id='contained-button-file'
-                        onChange={handleImage}
-                        type='file'
-                        name='photo'
-                      />
-                      <label
-                        htmlFor='contained-button-file'
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <Box className={classes.image}>
-                          <Box>
-                            <PlusIcon size={35} style={{ color: '#fff' }} />
-                            <FileIcon size={35} style={{ color: '#fff' }} />
-                          </Box>
-                          <Box style={{ textAlign: 'center' }}>
-                            <Typography style={{ color: '#fff' }}>
-                              Upload Document
-                            </Typography>
-                          </Box>
-                        </Box>
-                      </label>{' '}
-                    </Box>
-                  </Box>
-                </Box>
-              </Grid>
-            </Grid>
-          </Box>
         </form>
       </Box>
     </div>
   );
 };
 
-export default VisitorProfileTwo;
+export default VisitorProfile;

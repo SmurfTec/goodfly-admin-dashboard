@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
@@ -10,89 +10,106 @@ import {
 } from '@material-ui/core';
 import useManyInputs from 'hooks/useManyInputs';
 
-const styles = makeStyles((theme) => ({
-  account: {
-    minHeight: 200,
-    marginTop: 10,
-  },
-  typo: {
-    width: '25%',
-  },
-  mainBox: {
-    backgroundColor: '#f2f2f2',
-    borderRadius: '10px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 25,
-    padding: 20,
-  },
-  inputBox: {
-    border: 0,
-    outline: 0,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    width: '100%',
-  },
-  textInput: {
-    width: '80%',
-    backgroundColor: '#fff',
-    marginBottom: 7,
-  },
-}));
+import useStyles from './styles';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+
+import LoadingOverlay from 'react-loading-overlay';
+import useToggleInput from 'hooks/useToggleInput';
+import { AuthContext } from 'Contexts/AuthContext';
+import { makeReq } from 'Utils/makeReq';
 
 const Profile = () => {
-  const classes = styles();
-
-  // * This will be replaced by logged User
-  const user = {
-    fullName: 'Umer Aziz',
-  };
+  const classes = useStyles();
+  const { user, updateMe } = useContext(AuthContext);
 
   const initialState = {
-    name: '',
-    fullName: '',
-    email: '',
-    telephoneNumber: '',
-    facebookProfile: '',
-    instagramProfile: '',
-    twitterProfile: '',
-    snapChatProfile: '',
-    photp: '',
+    name: user.name || '',
+    fullName: user.fullName || '',
+    email: user.email || '',
+    telephoneNumber: user.telephoneNumber || '',
+    facebookProfile: user.facebookProfile || '',
+    instagramProfile: user.instagramProfile || '',
+    twitterProfile: user.twitterProfile || '',
+    snapChatProfile: user.snapChatProfile || '',
+    photp: user.photp || '',
   };
 
-  const [state, handleTxtChange, handleToggleChange, changeInput, resetState] =
-    useManyInputs(initialState);
+  const [
+    state,
+    handleTxtChange,
+    handleToggleChange,
+    changeInput,
+    resetState,
+    setState,
+  ] = useManyInputs(initialState);
+
+  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState('Uploading Image...');
+
+  useEffect(() => {
+    setState({ ...user });
+  }, [user]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`state`, state);
-    resetState();
+    updateMe(state, setState);
   };
 
   const handleImage = async (e) => {
-    const file = e.target.files[0];
-    const convert64 = await convertTobase64(file);
+    setUploadingText('Uploading Image ...');
+    toggleImageUploading();
+    const selectedFile = e.target.files[0];
+    const fileType = ['image/'];
+    try {
+      console.log(`selectedFile.type`, selectedFile.type);
+      if (selectedFile && selectedFile.type.includes(fileType)) {
+        let reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onloadend = async (e) => {
+          console.log(`result onLoadEnd`, e.target.result);
+          const file = e.target.result;
 
-    changeInput('photo', convert64);
-  };
+          // TODO  Delete Image from cloudinary if it exists on this user
 
-  const convertTobase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        console.log(`fileReader.result`, fileReader.result);
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        console.log(`error`, error);
-        reject(error);
-      };
-    });
+          // // * 1 Upload Image on Cloudinary
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append(
+            'upload_preset',
+            process.env.REACT_APP_CLOUDINARY_PRESET
+          );
+
+          const res = await axios.post(
+            `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
+            formData
+          );
+          const uploadedImage = res.data.url;
+          console.log(`res`, res);
+
+          setUploadingText('Updating Image ...');
+
+          const resData = await makeReq(
+            `/users/me`,
+            { body: { photo: uploadedImage } },
+            'PATCH'
+          );
+          console.log(`resData`, resData);
+
+          changeInput('photo', uploadedImage);
+
+          toggleImageUploading();
+        };
+      } else {
+        toast.error('Only Image files are acceptable !');
+      }
+    } catch (err) {
+      toast(
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
+      );
+      console.log(`err`, err);
+    }
   };
 
   return (
@@ -272,53 +289,60 @@ const Profile = () => {
                     textAlign: 'center',
                   }}
                 >
-                  <Box
-                    display='flex'
-                    flexDirection='column'
-                    justifyContent='center'
-                    alignItems='center'
+                  <LoadingOverlay
+                    active={isImageUploading}
+                    spinner
+                    text={uploadingText}
                   >
-                    <Typography variant='h5' mb={1}>
-                      {' '}
-                      Profile Photo
-                    </Typography>
-                    <Avatar
-                      style={{
-                        width: '10rem',
-                        height: '8rem',
-                        borderRadius: '50%',
-                      }}
-                      src={
-                        state.photo
-                          ? state.photo
-                          : `https://ui-avatars.com/api/?name=${user.fullName
-                              .split(' ')
-                              .join(
-                                '+'
-                              )}&background=0D8ABC&color=fff&rounded=true`
-                      }
-                      title='Live from space album cover'
-                    />
-                    <Box mt={1}>
-                      <input
-                        accept='image/*'
-                        style={{ display: 'none' }}
-                        id='contained-button-file'
-                        onChange={handleImage}
-                        type='file'
-                        name='photo'
+                    <Box
+                      display='flex'
+                      flexDirection='column'
+                      justifyContent='center'
+                      alignItems='center'
+                    >
+                      <Typography variant='h5' mb={1}>
+                        {' '}
+                        Profile Photo
+                      </Typography>
+                      <Avatar
+                        style={{
+                          width: '10rem',
+                          height: '8rem',
+                          borderRadius: '50%',
+                        }}
+                        src={
+                          state.photo
+                            ? state.photo
+                            : `https://ui-avatars.com/api/?name=${user.name
+                                .split(' ')
+                                .join(
+                                  '+'
+                                )}&background=0D8ABC&color=fff&rounded=true`
+                        }
+                        title='Live from space album cover'
                       />
-                      <label htmlFor='contained-button-file'>
-                        <Button
-                          variant='outlined'
-                          color='primary'
-                          component='span'
-                        >
-                          Upload
-                        </Button>
-                      </label>
+                      <Box mt={1}>
+                        <input
+                          accept='image/*'
+                          style={{ display: 'none' }}
+                          id='contained-button-file'
+                          onChange={handleImage}
+                          type='file'
+                          name='photo'
+                        />
+                        <label htmlFor='contained-button-file'>
+                          <Button
+                            variant='outlined'
+                            color='primary'
+                            component='span'
+                          >
+                            Upload
+                          </Button>
+                        </label>
+                      </Box>
                     </Box>
-                  </Box>
+                  </LoadingOverlay>
+
                   <Box style={{ marginBottom: 65 }}>
                     <Typography variant='h5' style={{ width: '100%' }}>
                       New Password

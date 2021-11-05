@@ -1,15 +1,21 @@
-import 'react-perfect-scrollbar/dist/css/styles.css';
 import { useRoutes } from 'react-router-dom';
-import {
-  ThemeProvider,
-  StyledEngineProvider,
-} from '@material-ui/core';
+import { ThemeProvider, StyledEngineProvider } from '@material-ui/core';
 import GlobalStyles from './components/GlobalStyles';
 import theme from './theme';
-import routes from './routes';
+import { publicRoutes, protechtedRoutes, loading } from './routes';
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext } from 'Contexts/AuthContext';
 
 const App = () => {
+  const [routes, setRoutes] = useState(loading);
+  const { user, token } = useContext(AuthContext);
   const content = useRoutes(routes);
+
+  useEffect(() => {
+    if (token && user) setRoutes(protechtedRoutes);
+    else if (token) setRoutes(loading);
+    else setRoutes(publicRoutes);
+  }, [user, token]);
 
   return (
     <StyledEngineProvider injectFirst>
