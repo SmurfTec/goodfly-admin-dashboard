@@ -8,7 +8,6 @@ import {
   TextField,
 } from '@material-ui/core';
 import useManyInputs from 'hooks/useManyInputs';
-import { AlertTriangle } from 'react-feather';
 
 const styles = makeStyles((theme) => ({
   main: {

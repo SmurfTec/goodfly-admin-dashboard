@@ -10,6 +10,7 @@ import {
   Play as PlayIcon,
   ArrowLeft as ArrowLeftIcon,
 } from 'react-feather';
+import { Link } from 'react-router-dom';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -38,7 +39,6 @@ const styles = makeStyles((theme) => ({
 
 const CustomTrip = () => {
   const classes = styles();
-
   return (
     <div style={{ marginTop: '3rem' }}>
       <Typography variant='h4' m={2}>
@@ -53,8 +53,14 @@ const CustomTrip = () => {
             width: '100%',
           }}
         >
-          <Button variant='outlined'>
-            <ArrowLeftIcon />Back to the List</Button>
+          <Button
+            variant='outlined'
+            component={Link}
+            to='/app/trips/customtrips'
+          >
+            <ArrowLeftIcon />
+            Back to the List
+          </Button>
           <Box>
             <SettingsIcon className={classes.icons} />
             <DownloadIcon className={classes.icons} />
@@ -232,8 +238,11 @@ const CustomTrip = () => {
               style={{ width: '30%' }}
             />
           </Box>
-          <Box style={{ margin: '2rem 9rem 2rem' }}>
-            <Typography variant='h5' style={{ color: '#c6c6c6' ,marginBottom: '1rem'}}>
+          <Box style={{ margin: '2rem 5rem 2rem' }}>
+            <Typography
+              variant='h5'
+              style={{ color: '#c6c6c6', marginBottom: '1rem' }}
+            >
               Theme/Type of Trip
             </Typography>
             <Typography variant='text' style={{ color: '#8f8f8f' }}>
@@ -245,8 +254,8 @@ const CustomTrip = () => {
               Material-UI SvgIcon component to render the SVG path for
               each icon, and so a have a peer-dependency on the next
               release of Material-UI. If you are not already using
-              Material-UI in your project, you can add it with:
-              each icon, and so a have a peer-dependency on the next
+              Material-UI in your project, you can add it with: each
+              icon, and so a have a peer-dependency on the next
               release of Material-UI. If you are not already using
               Material-UI in your project, you can add it with:
             </Typography>
