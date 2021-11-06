@@ -63,8 +63,7 @@ const stages = [
     accommodations: [
       {
         _id: '12312312',
-        location:
-          'Etape : Aéroport internationnal Paris Charles de Gaulle',
+        location: 'Etape : Aéroport internationnal Paris Charles de Gaulle',
         description:
           'Aliquam vel purus molestie, bibendum quam ac, tempor tortor.',
       },
@@ -88,8 +87,7 @@ const stages = [
     accommodations: [
       {
         _id: '12312312',
-        location:
-          'Etape : Aéroport internationnal Paris Charles de Gaulle',
+        location: 'Etape : Aéroport internationnal Paris Charles de Gaulle',
         description:
           'Aliquam vel purus molestie, bibendum quam ac, tempor tortor.',
       },
@@ -113,8 +111,7 @@ const stages = [
     accommodations: [
       {
         _id: '12312312',
-        location:
-          'Etape : Aéroport internationnal Paris Charles de Gaulle',
+        location: 'Etape : Aéroport internationnal Paris Charles de Gaulle',
         description:
           'Aliquam vel purus molestie, bibendum quam ac, tempor tortor.',
       },
@@ -311,8 +308,7 @@ const DetailReservation = () => {
 
   const [value, setValue] = React.useState(0);
   const [tabValue, setTabValue] = React.useState(0);
-  const [reservationStatus, setReservationStatus] =
-    React.useState('');
+  const [reservationStatus, setReservationStatus] = React.useState('');
   const [payment, setPayment] = React.useState(false);
   const [ok, setOk] = React.useState(true);
 
@@ -392,31 +388,11 @@ const DetailReservation = () => {
           Payment :{' '}
         </Typography>
         <FormControl component='fieldset'>
-          <RadioGroup
-            row
-            aria-label='gender'
-            name='row-radio-buttons-group'
-          >
-            <FormControlLabel
-              value='Total'
-              control={<Radio />}
-              label='Total'
-            />
-            <FormControlLabel
-              value='3X'
-              control={<Radio />}
-              label='3X'
-            />
-            <FormControlLabel
-              value='4X'
-              control={<Radio />}
-              label='4X'
-            />
-            <FormControlLabel
-              value='5X'
-              control={<Radio />}
-              label='5X'
-            />
+          <RadioGroup row aria-label='gender' name='row-radio-buttons-group'>
+            <FormControlLabel value='Total' control={<Radio />} label='Total' />
+            <FormControlLabel value='3X' control={<Radio />} label='3X' />
+            <FormControlLabel value='4X' control={<Radio />} label='4X' />
+            <FormControlLabel value='5X' control={<Radio />} label='5X' />
           </RadioGroup>
         </FormControl>
       </Box>
@@ -486,21 +462,15 @@ const DetailReservation = () => {
                 </Grid>
                 <Grid item md={9} style={{ padding: '1.5rem' }}>
                   <Box className={classes.flexBetween}>
-                    <Typography variant='h3'>
-                      {' '}
-                      #01 Formule Hajj 2020
-                    </Typography>
-                    <Typography variant='h5'>
-                      {' '}
-                      Du 5 au 29 avril 2020
-                    </Typography>
+                    <Typography variant='h3'> #01 Formule Hajj 2020</Typography>
+                    <Typography variant='h5'> Du 5 au 29 avril 2020</Typography>
                   </Box>
                   <Box style={{ margin: '1rem' }}>
                     <Typography variant='text'>
                       Description Search for French expressions in the
                       Description Search for French expressions in the
-                      French-English Linguee dictionary and in
-                      1000000000 translations.
+                      French-English Linguee dictionary and in 1000000000
+                      translations.
                     </Typography>
                   </Box>
                 </Grid>
@@ -519,7 +489,7 @@ const DetailReservation = () => {
                     className={classes.Tabs}
                   >
                     <Tab label='Journey' {...a11yProps(0)} />
-                    <Tab label='Farmalities' {...a11yProps(1)} />
+                    <Tab label='Formalities' {...a11yProps(1)} />
                   </Tabs>
                 </Box>
                 <Box className={classes.options2}>
@@ -540,10 +510,7 @@ const DetailReservation = () => {
               <Box className={classes.header}>
                 <Typography variant='h4'>Client Area</Typography>
                 <div style={{ display: 'flex' }}>
-                  <Typography
-                    variant='h5'
-                    style={{ margin: '0px 10px 0px' }}
-                  >
+                  <Typography variant='h5' style={{ margin: '0px 10px 0px' }}>
                     Number
                   </Typography>
                   <Paper
@@ -890,10 +857,7 @@ const DetailReservation = () => {
                 <Grid item md={9}>
                   <CarouselLayout>
                     {trips.map((trip, i) => (
-                      <div
-                        key={trip._id}
-                        className={classes.carouselCard}
-                      >
+                      <div key={trip._id} className={classes.carouselCard}>
                         <CardMedia
                           style={{ height: '10rem' }}
                           image='https://picsum.photos/200/300?random=2'
@@ -907,9 +871,7 @@ const DetailReservation = () => {
                           }}
                         >
                           <Button>modify</Button>
-                          <Button style={{ color: 'red' }}>
-                            Delete
-                          </Button>
+                          <Button style={{ color: 'red' }}>Delete</Button>
                           <Switch
                             status={ok}
                             onChange={toggle}
@@ -942,14 +904,8 @@ const DetailReservation = () => {
                         <label htmlFor='contained-button-file'>
                           <Box className={classes.image}>
                             <Box>
-                              <PlusIcon
-                                size={35}
-                                style={{ color: '#fff' }}
-                              />
-                              <FileIcon
-                                size={35}
-                                style={{ color: '#fff' }}
-                              />
+                              <PlusIcon size={35} style={{ color: '#fff' }} />
+                              <FileIcon size={35} style={{ color: '#fff' }} />
                             </Box>
                             <Box style={{ textAlign: 'center' }}>
                               <Typography style={{ color: '#fff' }}>
@@ -970,28 +926,16 @@ const DetailReservation = () => {
               index={2}
               style={{ backgroundColor: '#f2f2f2' }}
             >
-              <TableContainer
-                component={Paper}
-                className={classes.table}
-              >
-                <Table
-                  sx={{ minWidth: 750 }}
-                  aria-label='simple table'
-                >
+              <TableContainer component={Paper} className={classes.table}>
+                <Table sx={{ minWidth: 750 }} aria-label='simple table'>
                   <TableHead>
                     <TableRow>
                       <TableCell>Reference</TableCell>
                       <TableCell align='right'>Deadline</TableCell>
                       <TableCell align='right'>Status </TableCell>
-                      <TableCell align='right'>
-                        Payment Date{' '}
-                      </TableCell>
-                      <TableCell align='right'>
-                        Payroll amount
-                      </TableCell>
-                      <TableCell align='right'>
-                        Payment means
-                      </TableCell>
+                      <TableCell align='right'>Payment Date </TableCell>
+                      <TableCell align='right'>Payroll amount</TableCell>
+                      <TableCell align='right'>Payment means</TableCell>
                       <TableCell align='right'>Actions</TableCell>
                     </TableRow>
                   </TableHead>
@@ -1001,19 +945,11 @@ const DetailReservation = () => {
                         <TableCell component='th' scope='row'>
                           {row.name}
                         </TableCell>
-                        <TableCell align='right'>
-                          {row.calories}
-                        </TableCell>
+                        <TableCell align='right'>{row.calories}</TableCell>
                         <TableCell align='right'>{row.fat}</TableCell>
-                        <TableCell align='right'>
-                          {row.carbs}
-                        </TableCell>
-                        <TableCell align='right'>
-                          {row.protein}
-                        </TableCell>
-                        <TableCell align='right'>
-                          {row.protein}
-                        </TableCell>
+                        <TableCell align='right'>{row.carbs}</TableCell>
+                        <TableCell align='right'>{row.protein}</TableCell>
+                        <TableCell align='right'>{row.protein}</TableCell>
                         <TableCell align='right'>
                           <Button>Detail</Button>{' '}
                         </TableCell>
@@ -1085,17 +1021,12 @@ const DetailReservation = () => {
             </Typography>
           </DialogTitle>
           <DialogContent>
-            <Box
-              className={classes.flexBetween}
-              style={{ margin: 0 }}
-            >
+            <Box className={classes.flexBetween} style={{ margin: 0 }}>
               <Typography variant='h5'>
                 Amount of the due date : 2100.00$
               </Typography>
               <Box className={classes.flexAround}>
-                <Typography variant='text'>
-                  Add a payment method
-                </Typography>
+                <Typography variant='text'>Add a payment method</Typography>
                 <Box>
                   <PlusIcon
                     style={{

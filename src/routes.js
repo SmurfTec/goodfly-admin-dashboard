@@ -42,7 +42,7 @@ import OrganizedTrips from './components/dashboard/Trip/OrganizedTrips.js';
 
 import CreateOffer from './components/dashboard/Offer/CreateOffer.js';
 import Offers from './components/dashboard/Offer/Offers.js';
-import Offer from './components/dashboard/Offer/Offer.js';
+import ViewOffer from './components/dashboard/Offer/ViewOffer.js';
 import DashboardHome from 'components/dashboard/DashboardHome';
 import Loading from 'pages/Loading';
 import Logout from 'components/common/Logout';
@@ -145,7 +145,7 @@ export const protechtedRoutes = [
         children: [
           { path: '/', element: <Offers /> },
           { path: 'createOffer', element: <CreateOffer /> },
-          { path: 'offer', element: <Offer /> },
+          { path: '/:id', element: <ViewOffer /> },
         ],
       },
 

@@ -4,9 +4,9 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Box } from '@material-ui/system';
-import { Switch } from '@material-ui/core';
+import { CardActionArea, Switch } from '@material-ui/core';
 
 const styles = makeStyles((theme) => ({
   root: {
@@ -17,9 +17,8 @@ const styles = makeStyles((theme) => ({
   details: {
     display: 'flex',
     flexDirection: 'column',
-    [theme.breakpoints.down('lg')]: {
-      width: '8rem',
-    },
+    paddingBlock: 20,
+    flexBasis: '60%',
   },
   content: {
     flex: '1 0 auto',
@@ -38,56 +37,49 @@ const styles = makeStyles((theme) => ({
 }));
 
 const TripCard = ({ trip }) => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const { _id, title, upload, image, services, price } = trip;
 
   const classes = styles();
-  // const { _id, name, category, images, date, services, price } = trip;
-  const [status, setStatus] = React.useState(true);
 
-  const toggle = (event) => {
-    setStatus(event.target.status);
+  const handleClick = () => {
+    navigate(`/app/offers/${_id}`);
   };
-  // const handleClick = () => {
-  //   // navigate(`/app/dashboard/${_id}`);
-  //   window.alert(' clicked ');
-  // };
 
   return (
     <>
-      <Typography variant='h5'>name</Typography>
+      <Typography variant='h5'>{title.toUpperCase()}</Typography>
       <Card className={classes.root}>
-        <CardMedia
-          className={classes.cover}
-          image='https://picsum.photos/200/300?random=2'
-          title='Live from space album cover'
-        />
-        <div className={classes.details}>
-          <CardContent className={classes.content}>
-            <Typography component='h5' variant='h5'>
-              Live From Space
-            </Typography>
-            <Typography variant='subtitle1' color='textSecondary'>
-              Mac Miller
-            </Typography>
-            <Typography variant='subtitle1' color='textSecondary'>
-              Mac Miller
-            </Typography>
-            <Box
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <Typography variant='h3'>5100$</Typography>
-              <Switch
-                status={status}
-                onChange={toggle}
-                inputProps={{ 'aria-label': 'controlled' }}
-              />
-            </Box>
-          </CardContent>
-        </div>
+        <CardMedia className={classes.cover} image={image} title={title} />
+        <CardActionArea onClick={handleClick}>
+          <div className={classes.details}>
+            <CardContent className={classes.content}>
+              <Typography component='h5' variant='h5'>
+                {title.toUpperCase()}
+              </Typography>
+              {services.slice(0, 3).map((service) => (
+                <Typography variant='subtitle1' color='textSecondary'>
+                  {service}
+                </Typography>
+              ))}
+              <Box
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <Typography variant='h3' sx={{ color: '#ff4747' }}>
+                  {price}€
+                </Typography>
+                <Switch
+                  checked={!!upload}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+              </Box>
+            </CardContent>
+          </div>
+        </CardActionArea>
       </Card>
     </>
   );

@@ -1,10 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import CarouselLayout from 'components/common/Carousel/CarouselLayout';
-import TripCard from './TripCard';
 
 import { Typography, Box, Grid, Button } from '@material-ui/core';
-
 import {
   Plus as PlusIcon,
   Archive as ArchiveIcon,
@@ -12,6 +9,8 @@ import {
 } from 'react-feather';
 
 import { Link } from 'react-router-dom';
+import { OffersContext } from 'Contexts/OffersContext';
+import OffersCarousel from './OffersCarousel';
 
 const trips = [
   {
@@ -23,11 +22,7 @@ const trips = [
       'https://picsum.photos/200/300?random=2',
     ],
     date: '12-12-12',
-    services: [
-      'Formalités administratives',
-      'Transferts internes',
-      'Guide',
-    ],
+    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
     price: 15000,
   },
   {
@@ -39,11 +34,7 @@ const trips = [
       'https://picsum.photos/200/300?random=2',
     ],
     date: '12-12-12',
-    services: [
-      'Formalités administratives',
-      'Transferts internes',
-      'Guide',
-    ],
+    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
     price: 15000,
   },
   {
@@ -55,11 +46,7 @@ const trips = [
       'https://picsum.photos/200/300?random=2',
     ],
     date: '12-12-12',
-    services: [
-      'Formalités administratives',
-      'Transferts internes',
-      'Guide',
-    ],
+    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
     price: 15000,
   },
   {
@@ -71,11 +58,7 @@ const trips = [
       'https://picsum.photos/200/300?random=2',
     ],
     date: '12-12-12',
-    services: [
-      'Formalités administratives',
-      'Transferts internes',
-      'Guide',
-    ],
+    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
     price: 15000,
   },
   {
@@ -87,11 +70,7 @@ const trips = [
       'https://picsum.photos/200/300?random=2',
     ],
     date: '12-12-12',
-    services: [
-      'Formalités administratives',
-      'Transferts internes',
-      'Guide',
-    ],
+    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
     price: 15000,
   },
   {
@@ -103,11 +82,7 @@ const trips = [
       'https://picsum.photos/200/300?random=2',
     ],
     date: '12-12-12',
-    services: [
-      'Formalités administratives',
-      'Transferts internes',
-      'Guide',
-    ],
+    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
     price: 15000,
   },
   {
@@ -119,11 +94,7 @@ const trips = [
       'https://picsum.photos/200/300?random=2',
     ],
     date: '12-12-12',
-    services: [
-      'Formalités administratives',
-      'Transferts internes',
-      'Guide',
-    ],
+    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
     price: 15000,
   },
 ];
@@ -177,41 +148,32 @@ const styles = makeStyles((theme) => ({
 
 const Offers = () => {
   const classes = styles();
+  const { offers } = useContext(OffersContext);
 
   return (
     <div style={{ marginTop: '3rem' }}>
       <Typography variant='h5' m={2}>
-        Offer Mangment
+        Offers Mangment
       </Typography>
       <Grid container>
         <Grid item sm={10}>
-          <Box className={classes.boxBack}>
-            <Box p={3}>
-              <Typography variant='h5'>HAJJ</Typography>
-              <CarouselLayout>
-                {trips.map((trip, i) => (
-                  <div
-                    key={trip._id}
-                    className={classes.carouselCard}
-                  >
-                    <TripCard trip={trip} />
-                  </div>
-                ))}
-                {/* one */}
-              </CarouselLayout>
-            </Box>
-          </Box>
-          <Box className={classes.boxBack}>
-            <Box p={3}>
-              <Typography variant='h5'>OMRA</Typography>
-            </Box>
-          </Box>
-          <Box className={classes.boxBack}>
-            {' '}
-            <Box style={{ padding: '1rem' }}>
-              <Typography variant='h5'>Organized Trips</Typography>
-            </Box>
-          </Box>
+          {/* TODO - Fetch Categories and then map them */}
+
+          <OffersCarousel
+            classes={classes}
+            offers={offers?.filter((offer) => offer.category === 'spiritual')}
+            title='spiritual'
+          />
+          <OffersCarousel
+            classes={classes}
+            offers={offers?.filter((offer) => offer.category === 'ethical')}
+            title='ethical'
+          />
+          <OffersCarousel
+            classes={classes}
+            offers={offers?.filter((offer) => offer.category === 'excursions')}
+            title='excursions'
+          />
         </Grid>
         <Grid item sm={2}>
           <Box
@@ -244,9 +206,7 @@ const Offers = () => {
                 <Box>
                   <ArchiveIcon size={35} style={{ color: '#fff' }} />
                 </Box>
-                <Typography style={{ color: '#fff' }}>
-                  archives
-                </Typography>
+                <Typography style={{ color: '#fff' }}>archives</Typography>
               </Box>
             </Box>
           </Box>

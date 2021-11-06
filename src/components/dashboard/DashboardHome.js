@@ -91,24 +91,28 @@ const DashboardHome = () => {
           </Box>
         </Box>
         <CreateCard
+          link='/app/customers/new'
           classes={classes}
           Icon={Person}
           primaryText='Manage Client'
           secondarytext='New Client'
         />
         <CreateCard
+          link='/app/offers/createOffer'
           classes={classes}
           Icon={Loyalty}
           primaryText='Manage Offer'
           secondarytext='New Offer'
         />
         <CreateCard
+          link='/app/products/create'
           classes={classes}
           Icon={Storefront}
           primaryText='Manage Product'
           secondarytext='New Product'
         />
         <CreateCard
+          link='/app/blogs/create'
           classes={classes}
           Icon={Description}
           primaryText='Manage Article'
