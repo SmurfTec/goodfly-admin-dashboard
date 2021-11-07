@@ -159,6 +159,7 @@ const styles = makeStyles((theme) => ({
   },
   root: {
     marginTop: 15,
+    minWidth: 220,
     maxWidth: 220,
   },
   media: {

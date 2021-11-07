@@ -12,9 +12,9 @@ export const OffersProvider = ({ children }) => {
     offers,
     setOffers,
     pushOffer,
-    removeOffer,
     filterOffer,
     updateOffer,
+    removeOffer,
     clearOffers,
   ] = useArray();
 
@@ -41,6 +41,7 @@ export const OffersProvider = ({ children }) => {
   const deleteTrip = async (id) => {
     try {
       await makeReq(`/trips/${id}`, {}, 'DELETE');
+      removeOffer(id);
     } catch (err) {
       handleCatch(err);
     }

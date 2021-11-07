@@ -6,6 +6,8 @@ import { publicRoutes, protechtedRoutes, loading } from './routes';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from 'Contexts/AuthContext';
 
+import './App.css';
+
 const App = () => {
   const [routes, setRoutes] = useState(loading);
   const { user, token } = useContext(AuthContext);

@@ -1,12 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import {
-  Typography,
-  Box,
-  Button,
-  TextField,
-} from '@material-ui/core';
+import { Typography, Box, Button, TextField } from '@material-ui/core';
 import useManyInputs from 'hooks/useManyInputs';
 import { CustomersContext } from 'Contexts/CustomersContext';
 import { toast } from 'react-toastify';
@@ -47,8 +42,7 @@ const AddStaffer = () => {
     passwordConfirm: '',
   };
 
-  const [state, handleTxtChange, , , resetState] =
-    useManyInputs(initialState);
+  const [state, handleTxtChange, , , resetState] = useManyInputs(initialState);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -81,6 +75,7 @@ const AddStaffer = () => {
                 required
                 value={state.name}
                 name='name'
+                type='text'
                 onChange={handleTxtChange}
                 id='standard-basic'
                 label='name'
@@ -94,6 +89,7 @@ const AddStaffer = () => {
                 id='standard-basic'
                 label='fullnName'
                 variant='standard'
+                type='text'
               />
               <TextField
                 required
@@ -103,6 +99,7 @@ const AddStaffer = () => {
                 id='standard-basic'
                 label='Telephone mobile'
                 variant='standard'
+                type='text'
               />
             </Box>
             <Box className={classes.form}>
@@ -115,6 +112,7 @@ const AddStaffer = () => {
                 label='Email Address'
                 variant='standard'
                 style={{ width: '45%' }}
+                type='email'
               />
               <TextField
                 required
@@ -124,6 +122,7 @@ const AddStaffer = () => {
                 id='standard-basic'
                 label='Telephone Home'
                 variant='standard'
+                type='text'
               />
             </Box>
             <Box className={classes.form}>
@@ -136,6 +135,7 @@ const AddStaffer = () => {
                 label='Address'
                 variant='standard'
                 style={{ width: '75%' }}
+                type='text'
               />
             </Box>
             <Box className={classes.form}>
@@ -147,6 +147,7 @@ const AddStaffer = () => {
                 id='standard-basic'
                 label='Postal Code'
                 variant='standard'
+                type='text'
               />
               <TextField
                 required
@@ -156,8 +157,10 @@ const AddStaffer = () => {
                 id='standard-basic'
                 label='City'
                 variant='standard'
+                type='text'
               />
               <TextField
+                type='text'
                 required
                 value={state.country}
                 name='country'

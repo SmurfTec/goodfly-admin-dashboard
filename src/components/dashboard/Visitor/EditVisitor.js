@@ -152,6 +152,11 @@ const EditVisitor = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`state`, state);
+    // const updatedCustomer = {
+    //   ...state,
+    //   attachments: state.attachments.map((el) => el.image),
+    // };
+    // modifyCustomer(id, updatedCustomer);
     modifyCustomer(id, state);
     // resetState();
   };
