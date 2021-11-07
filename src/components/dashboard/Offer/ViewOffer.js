@@ -1,13 +1,9 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import cx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
-import stageImg1 from 'Assets/img/stage1.png';
-import stageImg2 from 'Assets/img/stage12.png';
-import stageImg3 from 'Assets/img/stage2.png';
-import stageImg4 from 'Assets/img/stage23.png';
 
 import StagesTab from './StagesTab';
 import FormalitiesTab from './FormalitiesTab';
@@ -15,13 +11,18 @@ import FormalitiesTab from './FormalitiesTab';
 // import Carousel from 'react-material-ui-carousel';
 
 import {
-
   CardMedia,
   Grid,
+  Skeleton,
   Tab,
   Tabs,
   Typography,
 } from '@material-ui/core';
+import { useParams } from 'react-router';
+import { OffersContext } from 'Contexts/OffersContext';
+import useToggleInput from 'hooks/useToggleInput';
+
+import { ConfirmDialog } from 'components/dashboard/Dialogs';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -55,91 +56,6 @@ function a11yProps(index) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
-
-const stages = [
-  {
-    _id: '12312',
-    date: '05/04/2020 - Jour #01 : ',
-    locatation: 'Départ Aéroport Paris CDG',
-    description: `Ut mi turpis, sagittis quis eleifend non, faucibus eget velit. Proin ullamcorper 
-      pulvinar velit, vitae egestas mauris mattis in. Nam dapibus facilisis nisi, non mollis
-      magna. Pellentesque at tincidunt tortor. Quisque imperdiet condimentum. 
-      `,
-    accommodations: [
-      {
-        _id: '12312312',
-        location:
-          'Etape : Aéroport internationnal Paris Charles de Gaulle',
-        description:
-          'Aliquam vel purus molestie, bibendum quam ac, tempor tortor.',
-      },
-      {
-        _id: '12312',
-        location: 'Repas : Demi-pension',
-        description:
-          'Urna quis sodales luctus, leo diam porttitor ante, sit amet venenatis sapien nisi in lacus.',
-      },
-    ],
-    images: [stageImg1],
-  },
-  {
-    _id: '12122',
-    date: '05/04/2020 - Jour #01 : ',
-    locatation: 'Départ Aéroport Paris CDG',
-    description: `Ut mi turpis, sagittis quis eleifend non, faucibus eget velit. Proin ullamcorper 
-      pulvinar velit, vitae egestas mauris mattis in. Nam dapibus facilisis nisi, non mollis
-      magna. Pellentesque at tincidunt tortor. Quisque imperdiet condimentum. 
-      `,
-    accommodations: [
-      {
-        _id: '12312312',
-        location:
-          'Etape : Aéroport internationnal Paris Charles de Gaulle',
-        description:
-          'Aliquam vel purus molestie, bibendum quam ac, tempor tortor.',
-      },
-      {
-        _id: '12312',
-        location: 'Repas : Demi-pension',
-        description:
-          'Urna quis sodales luctus, leo diam porttitor ante, sit amet venenatis sapien nisi in lacus.',
-      },
-    ],
-    images: [stageImg1, stageImg2, stageImg3, stageImg3, stageImg3],
-  },
-  {
-    _id: '121dasdad2',
-    date: '05/04/2020 - Jour #01 : ',
-    locatation: 'Départ Aéroport Paris CDG',
-    description: `Ut mi turpis, sagittis quis eleifend non, faucibus eget velit. Proin ullamcorper 
-      pulvinar velit, vitae egestas mauris mattis in. Nam dapibus facilisis nisi, non mollis
-      magna. Pellentesque at tincidunt tortor. Quisque imperdiet condimentum. 
-      `,
-    accommodations: [
-      {
-        _id: '12312312',
-        location:
-          'Etape : Aéroport internationnal Paris Charles de Gaulle',
-        description:
-          'Aliquam vel purus molestie, bibendum quam ac, tempor tortor.',
-      },
-      {
-        _id: '12312',
-        location: 'Repas : Demi-pension',
-        description:
-          'Urna quis sodales luctus, leo diam porttitor ante, sit amet venenatis sapien nisi in lacus.',
-      },
-    ],
-    images: [
-      stageImg3,
-      stageImg4,
-      // stageImg3,
-      // stageImg4,
-      // stageImg3,
-      // stageImg4,
-    ],
-  },
-];
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -186,11 +102,37 @@ const useStyles = makeStyles(() => ({
 
 const Offer = () => {
   const classes = useStyles();
+
+  const { getOfferById, offers, deleteTrip, archieveTrip } =
+    useContext(OffersContext);
+  const { id } = useParams();
+
+  const [offer, setOffer] = useState();
+
+  const [isDeleteOpen, toggleDeleteOpen] = useToggleInput(false);
+  const [isArchieveOpen, toggleArchieveOpen] = useToggleInput(false);
+
+  useEffect(() => {
+    // TODO Uncomment this line
+    setOffer(getOfferById(id));
+  }, [id, offers]);
+
   const [tabValue, setTabValue] = React.useState(0);
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
+
+  const handleDelete = () => {
+    deleteTrip(id);
+    toggleDeleteOpen();
+  };
+
+  const handleArchieve = () => {
+    archieveTrip(id);
+    toggleArchieveOpen();
+  };
+
   return (
     <div style={{ marginTop: '3rem' }}>
       <Box className={classes.header}>
@@ -202,12 +144,15 @@ const Offer = () => {
         <Button
           variant='outlined'
           className={cx(classes.button, classes.delButton)}
+          onClick={toggleDeleteOpen}
         >
-          {' '}
           Delete
         </Button>
-        <Button variant='outlined' className={classes.button}>
-          {' '}
+        <Button
+          variant='outlined'
+          className={classes.button}
+          onClick={toggleArchieveOpen}
+        >
           Archive
         </Button>
         <Button variant='outlined' className={classes.button}>
@@ -218,27 +163,38 @@ const Offer = () => {
       <Box className={classes.main}>
         <Grid container style={{ padding: '1rem 2rem 1rem' }}>
           <Grid sm={3} style={{ padding: '1.5rem' }}>
-            <CardMedia
-              style={{ height: '8rem' }}
-              image='https://picsum.photos/200/300?random=2'
-              title='trip'
-            />
+            {offer ? (
+              <CardMedia
+                style={{ height: '8rem' }}
+                image={offer.image}
+                title='trip'
+              />
+            ) : (
+              <Skeleton variant='rect' height={100} />
+            )}
           </Grid>
           <Grid sm={9} style={{ padding: '1.5rem' }}>
             <Box className={classes.flexBetween}>
-              <Typography variant='h3'>
-                #01 Formule hajj 2020
-              </Typography>
-              <Typography variant='h4'>
-                du 5 au 29 avril 2020
-              </Typography>
+              {offer ? (
+                <Typography variant='h3'>{offer.title}</Typography>
+              ) : (
+                <Skeleton variant='rect' width='80%' />
+              )}
+              {offer ? (
+                <Typography variant='h4'>
+                  {new Date(offer.startingDate).toDateString()}
+                </Typography>
+              ) : (
+                <Skeleton variant='rect' width='80%' />
+              )}
             </Box>
             <Box mt={2}>
               <Typography variant='text'>
-                Description Search for French expressions in the
-                Description Search for French expressions in the
-                French-English Linguee dictionary and in 1000000000
-                translations.
+                {offer ? (
+                  offer.description
+                ) : (
+                  <Skeleton variant='rect' width='80%' />
+                )}
               </Typography>
             </Box>
           </Grid>
@@ -256,19 +212,31 @@ const Offer = () => {
               className={classes.Tabs}
             >
               <Tab label='Journey' {...a11yProps(0)} />
-              <Tab label='Farmalities' {...a11yProps(1)} />
+              <Tab label='Formalities' {...a11yProps(1)} />
             </Tabs>
           </Box>
           <Box className={classes.options2}>
             <TabPanel value={tabValue} index={0}>
-              <StagesTab stages={stages ? stages : []} />
+              <StagesTab stages={offer?.stages} />
             </TabPanel>
             <TabPanel value={tabValue} index={1}>
-              <FormalitiesTab />
+              <FormalitiesTab formalities={offer?.formalities} />
             </TabPanel>
           </Box>
         </Box>
       </Box>
+      <ConfirmDialog
+        open={isDeleteOpen}
+        toggleDialog={toggleDeleteOpen}
+        success={handleDelete}
+        dialogTitle='Are you sure you want to Delete this trip ?'
+      />
+      <ConfirmDialog
+        open={isArchieveOpen}
+        toggleDialog={toggleArchieveOpen}
+        success={handleArchieve}
+        dialogTitle='Are you sure you want to Archieve this trip ?'
+      />
     </div>
   );
 };

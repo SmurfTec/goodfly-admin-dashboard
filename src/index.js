@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-multi-carousel/lib/styles.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 // * -------------------------------- * //
 
 // * ------ Contexts ----------
@@ -15,7 +16,7 @@ import { AuthProvider } from 'Contexts/AuthContext';
 import { StoreProvider } from 'Contexts/StoreContext';
 import { CustomersProvider } from 'Contexts/CustomersContext';
 import { BlogsProvider } from 'Contexts/BlogsContext';
-
+import { OffersProvider } from 'Contexts/OffersContext';
 // * -------------------------------- * //
 
 ReactDOM.render(
@@ -24,18 +25,20 @@ ReactDOM.render(
       <StoreProvider>
         <CustomersProvider>
           <BlogsProvider>
-            <ToastContainer
-              position='top-right'
-              autoClose={3500}
-              hideProgressBar
-              newestOnTop={true}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
-            <App />
+            <OffersProvider>
+              <ToastContainer
+                position='top-right'
+                autoClose={3500}
+                hideProgressBar
+                newestOnTop={true}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
+              <App />
+            </OffersProvider>
           </BlogsProvider>
         </CustomersProvider>
       </StoreProvider>

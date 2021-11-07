@@ -20,7 +20,7 @@ import v4 from 'uuid/dist/v4';
 import { CustomersContext } from 'Contexts/CustomersContext';
 import { Link } from 'react-router-dom';
 import useToggleInput from 'hooks/useToggleInput';
-import { ConfirmDialogBox } from '../Dialogs';
+import { ConfirmDialog } from '../Dialogs';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -346,7 +346,7 @@ const Visitors = () => {
           />
         </TableContainer>
       </Box>
-      <ConfirmDialogBox
+      <ConfirmDialog
         open={isDeleteOpen}
         toggleDialog={toggleDeleteOpen}
         success={handleDeleteCustomer}
