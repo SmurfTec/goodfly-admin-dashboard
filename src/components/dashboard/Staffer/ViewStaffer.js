@@ -203,7 +203,7 @@ const ViewStaffer = () => {
         >
           <DialogTitle>
             <Typography variant='h4'>
-              Changing the Paaseword
+              Changing the Paasword
             </Typography>
           </DialogTitle>
           <DialogContent>
@@ -216,7 +216,7 @@ const ViewStaffer = () => {
                 autoFocus
                 margin='dense'
                 id='name'
-                label='new password'
+                label='New Password'
                 type='email'
                 fullWidth
                 style={{ width: '40rem', marginRight: '2rem' }}
@@ -234,7 +234,7 @@ const ViewStaffer = () => {
           </DialogContent>
           <DialogActions
             className={classes.form}
-            style={{ margin: '1rem', justifyContent: 'center' }}
+            style={{ margin: '1rem', justifyContent: 'right' }}
           >
             <Button variant='outlined' onClick={handleClosePass}>
               Cancel
