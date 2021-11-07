@@ -29,12 +29,12 @@ export const CustomersProvider = ({ children }) => {
 
   useEffect(() => {
     (async () => {
-      // * If user is logged In , only then fetch data
+      // If user is logged In , only then fetch data
       if (user) {
         const resData = await makeReq(`/users?role=visitor`);
         setCustomers(resData.users);
       }
-      // * Clear the State after user is logged Out
+      // Clear the State after user is logged Out
       else {
         setCustomers('loading');
       }
@@ -51,7 +51,7 @@ export const CustomersProvider = ({ children }) => {
     }
   };
 
-  // * Update Customer
+  // Update Customer
   const modifyCustomer = async (id, updatedCustomer) => {
     try {
       const resData = await makeReq(
@@ -61,7 +61,7 @@ export const CustomersProvider = ({ children }) => {
       );
       toast.success('Customer Updated Successfully !');
 
-      // * Update Customer in the context array
+      // Update Customer in the context array
       updateCustomer(id, resData.user);
     } catch (err) {
       handleCatch(err);
@@ -73,7 +73,7 @@ export const CustomersProvider = ({ children }) => {
       ? 'loading'
       : customers?.find((el) => el._id === id);
 
-  // * Create New Customer
+  // Create New Customer
   const createNewCustomer = async (newCustomerProfile, resetForm) => {
     try {
       const resData = await makeReq(

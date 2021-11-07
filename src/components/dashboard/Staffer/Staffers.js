@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import {
@@ -18,146 +18,9 @@ import {
 import { Search as SearchIcon } from 'react-feather';
 import { Link } from 'react-router-dom';
 import v4 from 'uuid/dist/v4';
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData(
-    'Muhammadzain',
-    ' zain@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadali',
-    ' ali@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadusman',
-    ' usman@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadkashif',
-    ' kashif@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadumer',
-    ' umer@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadabc',
-    ' abc@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsonu',
-    ' sonu@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsaqib',
-    ' saqib@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsohil',
-    ' sohail@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-];
+import { CustomersContext } from 'Contexts/CustomersContext';
+import useToggleInput from 'hooks/useToggleInput';
+// import { ConfirmDialogBox } from '../Dialogs';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -181,16 +44,24 @@ const styles = makeStyles((theme) => ({
 
 const Staffers = () => {
   const classes = styles();
-    const [filter, setFilter] = useState('');
-    const [filteredItems, setFilteredItems] = useState([]);
+  const { customers, deleteCustomer } = useContext(CustomersContext);
+  const [currentDeleteId, setCurrentDeleteId] = useState();
+  const [isDeleteOpen, toggleDeleteOpen] = useToggleInput();
+
+  const [filter, setFilter] = useState('');
+  const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     rowsPerPage -
-    Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
+    Math.min(
+      rowsPerPage,
+      customers === 'loading'
+        ? 0
+        : customers?.length - page * rowsPerPage
+    );
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -199,25 +70,40 @@ const Staffers = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
- const handleSearch = (e) => {
-   const data = e.target.value;
-   setFilter(data);
-   console.log(filter);
- };
- //  filtered
- useEffect(() => {
-   setFilteredItems(
-     rows.filter(
-       (row) =>
-         row.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
-     )
-   );
- }, [filter]);
+  const handleSearch = (e) => {
+    const data = e.target.value;
+    setFilter(data);
+    console.log(filter);
+  };
+  //  filtered
+  useEffect(() => {
+    setFilteredCustomers(
+      customers === 'loading'
+        ? 'loading'
+        : customers?.filter(
+            (row) =>
+              row.name.toLowerCase().indexOf(filter.toLowerCase()) !==
+              -1
+          )
+    );
+  }, [filter]);
 
- // data must be updated
- useEffect(() => {
-   setFilteredItems(rows);
- }, []);
+  // data must be updated
+  useEffect(() => {
+    setFilteredCustomers(customers);
+  }, [customers]);
+
+  const handleDelete = (id) => {
+    // console.log(`id`, id);
+    setCurrentDeleteId(id);
+    toggleDeleteOpen();
+  };
+
+  const handleDeleteCustomer = () => {
+    // console.log(`id`, id);
+    deleteCustomer(currentDeleteId);
+    toggleDeleteOpen();
+  };
 
   return (
     <div style={{ marginTop: '3rem' }}>
@@ -285,28 +171,39 @@ const Staffers = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredItems
-                .slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
-                .map((row, index) => (
-                  <TableRow key={v4()}>
-                    <TableCell component='th' scope='row'>
-                      {row.name}
-                    </TableCell>
-                    <TableCell align='right'>
-                      {row.calories}
-                    </TableCell>
-                    <TableCell align='right'>{row.fat}</TableCell>
-                    <TableCell align='right'>{row.carbs}</TableCell>
-                    <TableCell align='right'>{row.protein}</TableCell>
-                    <TableCell align='right'>{row.protein}</TableCell>
-                    <TableCell align='right'>
-                      <Button>Edit</Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
+              {filteredCustomers === 'loading'
+                ? 'loading'
+                : filteredCustomers
+                    ?.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                    .map((row, index) => (
+                      <TableRow key={v4()}>
+                        <TableCell component='th' scope='row'>
+                          {row.name}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row._id}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {' '}
+                          {new Date(row.createdAt).toDateString()}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.role}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.email}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.telephoneNumber}
+                        </TableCell>
+                        <TableCell align='right'>
+                          <Button>Edit</Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={6} />
@@ -317,7 +214,7 @@ const Staffers = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 20]}
             component='div'
-            count={rows.length}
+            count={customers === 'loading' ? 0 : customers?.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -325,6 +222,12 @@ const Staffers = () => {
           />
         </TableContainer>
       </Box>
+      {/* <ConfirmDialogBox
+        open={isDeleteOpen}
+        toggleDialog={toggleDeleteOpen}
+        success={handleDeleteCustomer}
+        dialogTitle='Delete this Customer ?'
+      /> */}
     </div>
   );
 };

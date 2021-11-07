@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 import StagesTab from './StagesTab';
 import FormalitiesTab from './FormalitiesTab';
-
+import { Link } from 'react-router-dom';
 // import Carousel from 'react-material-ui-carousel';
 
 import {
@@ -62,7 +62,6 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '3rem',
   },
   main: {
     backgroundColor: '#f2f2f2',
@@ -135,10 +134,11 @@ const Offer = () => {
 
   return (
     <div style={{ marginTop: '3rem' }}>
+      <Button variant='outlined' container={Link} to='/app/offers'>
+        Back to offers
+      </Button>
       <Box className={classes.header}>
-        {' '}
         <Button variant='outlined' className={classes.button}>
-          {' '}
           Modify
         </Button>
         <Button
@@ -156,7 +156,6 @@ const Offer = () => {
           Archive
         </Button>
         <Button variant='outlined' className={classes.button}>
-          {' '}
           Put Forward
         </Button>
       </Box>

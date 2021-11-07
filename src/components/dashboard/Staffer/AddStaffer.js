@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import {
@@ -8,6 +8,8 @@ import {
   TextField,
 } from '@material-ui/core';
 import useManyInputs from 'hooks/useManyInputs';
+import { CustomersContext } from 'Contexts/CustomersContext';
+import { toast } from 'react-toastify';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -29,6 +31,8 @@ const styles = makeStyles((theme) => ({
 const AddStaffer = () => {
   const classes = styles();
 
+  const { createNewCustomer } = useContext(CustomersContext);
+
   const initialState = {
     name: '',
     fullName: '',
@@ -37,7 +41,7 @@ const AddStaffer = () => {
     telephoneLineNumber: '',
     address: '',
     postalCode: '',
-    ciy: '',
+    city: '',
     country: '',
     password: '',
     passwordConfirm: '',
@@ -53,14 +57,14 @@ const AddStaffer = () => {
       alert(' Passwrod must be same bruno');
       return;
     }
+    createNewCustomer(state, resetState);
     resetState(); // reset data-fields
   };
 
   return (
     <div style={{ marginTop: '3rem' }}>
       <Typography variant='h5' m={2}>
-        {' '}
-        Add new Staffer{' '}
+        Add new Staffer
       </Typography>
       <form onSubmit={handleSubmit}>
         <Box className={classes.main}>

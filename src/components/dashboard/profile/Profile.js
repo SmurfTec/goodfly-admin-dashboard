@@ -193,7 +193,7 @@ const Profile = () => {
                     defaultValue='+2123123131'
                     size='small'
                     className={classes.textInput}
-                    placeholder='Your Name'
+                    placeholder='TelephoneNumber'
                     name='telephoneNumber'
                     value={state.telephoneNumber}
                     onChange={handleTxtChange}
