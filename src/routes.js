@@ -92,12 +92,12 @@ export const protechtedRoutes = [
         ],
       },
       { path: '/categories', element: <TourCategories /> },
+      // { path: '/subcategories', element: <SubCategories /> },
       {
-        path: 'trips',
+        path: '/customtrips',
         children: [
-          { path: '/organizedTrips', element: <OrganizedTrips /> },
-          { path: '/customtrips', element: <CustomTrips /> },
-          { path: '/customtrips/:id', element: <CustomTrip /> },
+          { path: '/', element: <CustomTrips /> },
+          { path: '/:id', element: <CustomTrip /> },
         ],
       },
       {
@@ -110,8 +110,19 @@ export const protechtedRoutes = [
           { path: '/create', element: <CreateProduct /> },
         ],
       },
-      { path: 'reservations', element: <Reservations /> },
-      { path: 'detailReservation', element: <DetailReservation /> },
+      {
+        path: '/reservations',
+        children: [
+          { path: '/', element: <Reservations /> },
+          {
+            path: '/:id',
+            element: <DetailReservation />,
+          },
+        ],
+      },
+
+      { path: '/organizedTrips', element: <OrganizedTrips /> }, //* ??????
+
       {
         path: 'orders',
         children: [

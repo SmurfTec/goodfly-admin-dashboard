@@ -112,9 +112,9 @@ const CreateProduct = () => {
 
   const initialState = {
     name: '',
-    price: 100,
+    price: '',
     category: '',
-    weight: 5,
+    weight: '',
     pricePerKilo: '',
     length: '',
     width: '',
@@ -283,7 +283,7 @@ const CreateProduct = () => {
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  placeholder='+2123123131'
+                  placeholder='1'
                   size='small'
                   className={classes.textInput}
                   name='weight'
@@ -491,7 +491,11 @@ const CreateProduct = () => {
                           width: '12rem',
                           height: '12rem',
                         }}
-                        image={state.images.lenth>0 ? state.images?.[0] : 'https://picsum.photos/200/300?random=2'}  
+                        image={
+                          state.images.lenth > 0
+                            ? state.images?.[0]
+                            : 'https://picsum.photos/200/300?random=2'
+                        }
                         title='product name'
                       />
                     </Box>

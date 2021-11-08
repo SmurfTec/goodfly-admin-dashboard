@@ -21,6 +21,7 @@ import {
   Tag,
   User,
   Users,
+  MessageCircle,
 } from 'react-feather';
 import { FiberManualRecord } from '@material-ui/icons';
 
@@ -36,9 +37,9 @@ const NavItems = [
     icon: User,
   },
   {
-    id: '/notifications',
-    labelText: 'Notifications',
-    icon: Bell,
+    id: '/messages',
+    labelText: 'Messages',
+    icon: MessageCircle,
   },
   {
     id: '/customers',
@@ -59,14 +60,14 @@ const NavItems = [
       },
       {
         id: '/reservations',
-        labelText: 'Registration Management',
+        labelText: 'Reservations Management',
         icon: FiberManualRecord,
         color: '#1a73e8',
         bgColor: '#e8f0fe',
       },
       {
-        id: '44',
-        labelText: 'Travel Management',
+        id: '/customtrips',
+        labelText: 'CustomTrips Management',
         icon: FiberManualRecord,
         color: '#1a73e8',
         bgColor: '#e8f0fe',
@@ -257,7 +258,7 @@ StyledTreeItem.propTypes = {
 
 const useStyles = makeStyles({
   root: {
-    height: 600,
+    height: 530,
     flexGrow: 1,
     maxWidth: 400,
   },

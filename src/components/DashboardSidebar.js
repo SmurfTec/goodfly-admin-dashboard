@@ -38,70 +38,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const items = [
-  {
-    href: '/app/offers',
-    icon: HomeIcon,
-    title: 'Accueil',
-  },
-  {
-    href: '/profile',
-    icon: UserIcon,
-    title: 'Mon proﬁl',
-  },
-  {
-    href: '/notifications',
-    icon: BellIcon,
-    title: 'Notifications',
-  },
-
-  {
-    href: '/clients',
-    icon: UsersIcon,
-    title: 'Gestion des clients',
-  },
-  {
-    href: '/Offres',
-    icon: Edit2Icon,
-    title: 'Offres',
-  },
-  {
-    href: '/  Inscriptions',
-    icon: SettingsIcon,
-    title: 'Inscriptions',
-  },
-  {
-    href: '/Catégories',
-    icon: ColumnsIcon,
-    title: 'Catégories',
-  },
-  {
-    href: '/Boutique',
-    icon: ShoppingBagIcon,
-    title: 'Boutique',
-  },
-  {
-    href: '/Paiements',
-    icon: CreditCardIcon,
-    title: 'Paiements',
-  },
-  {
-    href: '/blog',
-    icon: BoldIcon,
-    title: 'Gestion du blog',
-  },
-  {
-    href: '/reviews',
-    icon: AlignJustifyIcon,
-    title: 'Avis & commentaires',
-  },
-  {
-    href: '/staffer',
-    icon: UserIcon,
-    title: 'Gestion des staffers',
-  },
-];
-
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
   const { user } = useContext(AuthContext);
@@ -172,7 +108,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         Tableau de bord
       </Typography>
 
-      <Box sx={{ p: 2 }}>
+      <Box sx={{ padding: '5px' }} mt={1}>
         <SidebarContent />
 
         <Box
