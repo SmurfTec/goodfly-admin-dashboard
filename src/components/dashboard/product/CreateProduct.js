@@ -14,11 +14,7 @@ import {
   CardMedia,
   Paper,
 } from '@material-ui/core';
-import {
-  Plus as PlusIcon,
-  File as FileIcon,
-  X as XIcon,
-} from 'react-feather';
+import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
 
 import uuid from 'uuid/dist/v4';
 import useManyInputs from 'hooks/useManyInputs';
@@ -216,7 +212,7 @@ const CreateProduct = () => {
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  placeholder='zain'
+                  placeholder='name'
                   size='small'
                   className={classes.textInput}
                   name='name'
@@ -303,7 +299,7 @@ const CreateProduct = () => {
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  placeholder='www.facebook.com'
+                  placeholder='kg'
                   size='small'
                   className={classes.textInput}
                   name='pricePerKilo'
@@ -364,6 +360,7 @@ const CreateProduct = () => {
               <Box
                 className={classes.inputBox}
                 style={{ display: 'inline-block' }}
+                mt={1}
               >
                 <Typography variant='h5'>
                   Description of Product
@@ -371,14 +368,14 @@ const CreateProduct = () => {
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  placeholder='add product description'
+                  placeholder='Add product description'
                   size='small'
                   multiline
                   rows={7}
                   style={{
                     backgroundColor: '#fff',
                     width: '100%',
-                    margin: '1rem 0rem  1rem',
+                    margin: '0.5rem 0rem  1rem',
                   }}
                   name='description'
                   value={state.description}
@@ -494,7 +491,7 @@ const CreateProduct = () => {
                           width: '12rem',
                           height: '12rem',
                         }}
-                        image={state.images?.[0]}
+                        image={state.images.lenth>0 ? state.images?.[0] : 'https://picsum.photos/200/300?random=2'}  
                         title='product name'
                       />
                     </Box>

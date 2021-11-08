@@ -62,7 +62,7 @@ export const CustomersProvider = ({ children }) => {
       toast.success('Customer Updated Successfully !');
 
       // Update Customer in the context array
-      updateCustomer(id, resData.user);
+      updateCustomer(id, resData.suer);
     } catch (err) {
       handleCatch(err);
     }
@@ -81,6 +81,7 @@ export const CustomersProvider = ({ children }) => {
         { body: { ...newCustomerProfile } },
         'POST'
       );
+
       resetForm();
 
       pushCustomer(resData.user);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   AppBar,
@@ -12,9 +12,11 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import PersonIcon from '@material-ui/icons/Person';
+import { AuthContext } from 'Contexts/AuthContext';
 
 const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
   const [notifications] = useState([]);
+  const { user} = useContext(AuthContext);
 
   return (
     <AppBar elevation={0} {...rest}>
@@ -31,11 +33,22 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
           alignItems='center'
         >
           <PersonIcon />
+          <Box display='flex' columnGap={1}>
           <Typography variant='h5'>
-            Admin Name - GoodFly.fr
+            {user.role}
           </Typography>
+          <Typography variant='h5'>
+            {user.name}
+          </Typography>
+          </Box>
         </Box>
-        <Box style={{ marginLeft: 'auto',display:'flex',alignItems: 'center'}}>
+        <Box
+          style={{
+            marginLeft: 'auto',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
           <Hidden mdDown>
             <IconButton color='inherit' size='large'>
               <Badge
@@ -46,7 +59,7 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <Typography>4 sep 2021</Typography>
+            <Typography>{new Date().toDateString()}</Typography>
           </Hidden>
           <Hidden mdUp>
             <IconButton

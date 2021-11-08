@@ -1,7 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Avatar, Box, Drawer, Hidden, Typography } from '@material-ui/core';
+import {
+  Avatar,
+  Box,
+  Drawer,
+  Hidden,
+  Typography,
+} from '@material-ui/core';
 import {
   Settings as SettingsIcon,
   ShoppingBag as ShoppingBagIcon,
@@ -18,9 +24,10 @@ import {
 } from 'react-feather';
 import { makeStyles } from '@material-ui/styles';
 import logo from 'Assets/img/airplane.svg';
-
 import NavItem from './NavItem';
 import SidebarContent from './SidebarContent';
+import { AuthContext } from 'Contexts/AuthContext';
+
 // import SidebarContent2 from './SidebarContent2';
 
 const useStyles = makeStyles((theme) => ({
@@ -97,8 +104,8 @@ const items = [
 
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
+  const { user } = useContext(AuthContext);
   const classes = useStyles();
-
   useEffect(() => {
     if (openMobile && onMobileClose) {
       // onMobileClose();
@@ -127,7 +134,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           variant='h5'
           style={{ marginBottom: '1rem' }}
         >
-          Interface d’administration
+          Administration Interface
         </Typography>
         <Typography
           variant='h2'
@@ -144,7 +151,11 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           // onClick={() => history.push('/')}
         >
           GOODFLY
-          <img src={logo} style={{ width: 40, height: 50 }} alt='logo' />
+          <img
+            src={logo}
+            style={{ width: 40, height: 50 }}
+            alt='logo'
+          />
         </Typography>
       </Box>
       {/* <Divider /> */}
@@ -175,7 +186,9 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         >
           <Avatar
             alt='Cindy Baker'
-            src='/static/images/avatar/3.jpg'
+            src={
+              user.photo ? user.photo : '/static/images/avatar/3.jpg'
+            }
             sx={{ width: 100, height: 100 }}
           />
           <NavItem

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
+import {Link} from 'react-router-dom'
 
 import {
   Typography,
@@ -65,8 +66,7 @@ const ViewStaffer = () => {
       </Typography>
       <Box className={classes.main}>
         <Box size='large' className={classes.form}>
-          <Button variant='outlined' className={classes.topButtons}>
-            {' '}
+          <Button variant='outlined' component={Link} to ='/app/staffers' className={classes.topButtons}>
             Back to the List
           </Button>
           <Button

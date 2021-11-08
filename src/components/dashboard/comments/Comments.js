@@ -209,7 +209,7 @@ const Comments = () => {
                 backgroundColor: 'white',
               }}
             >
-              <Tab label='Avis' {...a11yProps(0)} />
+              <Tab label='Opinion' {...a11yProps(0)} />
               <Tab label='Comments' {...a11yProps(1)} />
             </Tabs>
           </Box>

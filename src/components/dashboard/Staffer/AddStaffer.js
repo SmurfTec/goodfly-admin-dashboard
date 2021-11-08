@@ -1,9 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import { Typography, Box, Button, TextField } from '@material-ui/core';
+import {
+  Typography,
+  Box,
+  Button,
+  TextField,
+} from '@material-ui/core';
 import useManyInputs from 'hooks/useManyInputs';
-import { CustomersContext } from 'Contexts/CustomersContext';
+import { StaffersContext } from 'Contexts/StaffersContext';
 import { toast } from 'react-toastify';
 
 const styles = makeStyles((theme) => ({
@@ -26,7 +31,7 @@ const styles = makeStyles((theme) => ({
 const AddStaffer = () => {
   const classes = styles();
 
-  const { createNewCustomer } = useContext(CustomersContext);
+  const { createNewStaffer } = useContext(StaffersContext);
 
   const initialState = {
     name: '',
@@ -42,17 +47,17 @@ const AddStaffer = () => {
     passwordConfirm: '',
   };
 
-  const [state, handleTxtChange, , , resetState] = useManyInputs(initialState);
+  const [state, handleTxtChange, , , resetState] =
+    useManyInputs(initialState);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`state`, state);
     if (state.password !== state.passwordConfirm) {
-      alert(' Passwrod must be same bruno');
+      toast(' Passwrod must be same');
       return;
     }
-    createNewCustomer(state, resetState);
-    resetState(); // reset data-fields
+    createNewStaffer(state, resetState);
   };
 
   return (

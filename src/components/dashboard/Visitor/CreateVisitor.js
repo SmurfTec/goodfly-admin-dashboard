@@ -111,8 +111,11 @@ const VisitorProfile = () => {
     setState,
   ] = useManyInputs(initialState);
 
-  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState('Uploading Image...');
+  const [isImageUploading, toggleImageUploading] =
+    useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState(
+    'Uploading Image...'
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -162,7 +165,9 @@ const VisitorProfile = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message || err.message || 'Something Went Wrong'
+        err?.response?.data?.message ||
+          err.message ||
+          'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -181,7 +186,13 @@ const VisitorProfile = () => {
         </Box>
         <form onSubmit={handleSubmit}>
           <Grid container>
-            <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
+            <Grid
+              item
+              xs={12}
+              sm={7}
+              md={7}
+              style={{ minHeight: 400 }}
+            >
               <Box className={classes.mainBox}>
                 <Box
                   style={{
@@ -191,11 +202,16 @@ const VisitorProfile = () => {
                     margin: '10px 0px 30px ',
                   }}
                 >
-                  <Typography variant='h4'> Client Profile</Typography>
+                  <Typography variant='h4'>
+                    {' '}
+                    Client Profile
+                  </Typography>
                   <div style={{ display: 'flex' }}>
-                    <Typography variant='h5' style={{ margin: '0px 10px 0px' }}>
-                      {' '}
-                      Number{' '}
+                    <Typography
+                      variant='h5'
+                      style={{ margin: '0px 10px 0px' }}
+                    >
+                      Number
                     </Typography>
                     <Paper
                       style={{
@@ -205,7 +221,6 @@ const VisitorProfile = () => {
                         padding: 4,
                       }}
                     >
-                      {' '}
                       0001
                     </Paper>
                   </div>
@@ -255,7 +270,7 @@ const VisitorProfile = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    // defaultValue='Islamabad'
+                    placeholder='Islamabad'
                     size='small'
                     className={classes.textInput}
                     name='birthName'
@@ -271,7 +286,7 @@ const VisitorProfile = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    // defaultValue='She'
+                    placeholder='She'
                     size='small'
                     className={classes.textInput}
                     name='spouseName'
@@ -287,7 +302,7 @@ const VisitorProfile = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    // defaultValue='MuhammadZain'
+                    placeholder='MuhammadZain'
                     size='small'
                     className={classes.textInput}
                     name='name'
@@ -303,7 +318,7 @@ const VisitorProfile = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    // defaultValue='muhammadzain8@gmail.com'
+                    placeholder='muhammadzain8@gmail.com'
                     size='small'
                     className={classes.textInput}
                     name='email'
@@ -311,16 +326,15 @@ const VisitorProfile = () => {
                     onChange={handleTxtChange}
                     required
                   />
-                </Box>{' '}
+                </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    Mobile{' '}
+                    Mobile
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    // defaultValue='+2123123131'
+                    placeholder='+2123123131'
                     size='small'
                     className={classes.textInput}
                     name='telephoneNumber'
@@ -328,16 +342,15 @@ const VisitorProfile = () => {
                     onChange={handleTxtChange}
                     required
                   />
-                </Box>{' '}
+                </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    TelePhone{' '}
+                    TelePhone
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    // defaultValue='+2123123131'
+                    placeholder='+2123123131'
                     size='small'
                     className={classes.textInput}
                     name='telephoneLineNumber'
@@ -345,16 +358,15 @@ const VisitorProfile = () => {
                     onChange={handleTxtChange}
                     required
                   />
-                </Box>{' '}
+                </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    Address{' '}
+                    Address
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    // defaultValue='h6 islamabad'
+                    placeholder='h6 islamabad'
                     size='small'
                     className={classes.textInput}
                     name='address'
@@ -365,13 +377,12 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    Additional Address{' '}
+                    Additional Address
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    // defaultValue='www.instagram.com'
+                    placeholder='www.instagram.com'
                     size='small'
                     className={classes.textInput}
                     name='additionalAddress'
@@ -379,19 +390,21 @@ const VisitorProfile = () => {
                     onChange={handleTxtChange}
                     required
                   />
-                </Box>{' '}
-                <Box className={classes.inputBox} style={{ marginBottom: 5 }}>
+                </Box>
+                <Box
+                  className={classes.inputBox}
+                  style={{ marginBottom: 5 }}
+                >
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    Postal Code{' '}
+                    Postal Code
                   </Typography>
                   <TextField
                     type='number'
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    // defaultValue='46000'
+                    placeholder='46000'
                     size='small'
-                    style={{ backgroundColor: '#fff', width: '30%' }}
+                    style={{ backgroundColor: '#fff', width: '20%' }}
                     name='postalCode'
                     value={state.postalCode}
                     onChange={handleTxtChange}
@@ -402,30 +415,28 @@ const VisitorProfile = () => {
                     className={classes.typo}
                     style={{ textAlign: 'center' }}
                   >
-                    {' '}
-                    City{' '}
+                    City
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    // defaultValue='Islamabad'
+                    placeholder='Islamabad'
                     size='small'
-                    style={{ backgroundColor: '#fff', width: '40%' }}
+                    style={{ backgroundColor: '#fff', width: '20%' }}
                     name='city'
                     value={state.city}
                     onChange={handleTxtChange}
                     required
                   />
-                </Box>{' '}
+                </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    Country{' '}
+                    Country
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    // defaultValue='pakistan'
+                    placeholder='pakistan'
                     size='small'
                     className={classes.textInput}
                     name='country'
@@ -436,13 +447,12 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    Birth Date{' '}
+                    Birth Date
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    // defaultValue='pakistan'
+                    placeholder='pakistan'
                     type=''
                     size='small'
                     type='date'
@@ -455,13 +465,12 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    Nationality{' '}
+                    Nationality
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    // defaultValue='pakistan'
+                    placeholder='pakistan'
                     size='small'
                     className={classes.textInput}
                     name='nationality'
@@ -472,13 +481,12 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    Passport No{' '}
+                    Passport No
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    // defaultValue='pakistan'
+                    placeholder='pakistan'
                     size='small'
                     className={classes.textInput}
                     name='passportNumber'
@@ -489,13 +497,12 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
                     Date of Issue
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    // defaultValue='pakistan'
+                    placeholder='pakistan'
                     size='small'
                     className={classes.textInput}
                     name='passportDateOfIssue'
@@ -506,13 +513,12 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    Place of Issue{' '}
+                    Place of Issue
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    // defaultValue='pakistan'
+                    placeholder='pakistan'
                     size='small'
                     className={classes.textInput}
                     name='passportPlaceOfIssue'
@@ -523,8 +529,17 @@ const VisitorProfile = () => {
                 </Box>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={5} md={5} className={classes.account}>
-              <Box className={classes.mainBox} style={{ padding: 10 }}>
+            <Grid
+              item
+              xs={12}
+              sm={5}
+              md={5}
+              className={classes.account}
+            >
+              <Box
+                className={classes.mainBox}
+                style={{ padding: 10 }}
+              >
                 <Box
                   style={{
                     display: 'flex',
@@ -542,7 +557,7 @@ const VisitorProfile = () => {
                     <TextField
                       hiddenLabel
                       id='filled-hidden-label-small'
-                      // defaultValue='facebook'
+                      placeholder='facebook'
                       size='small'
                       className={classes.textInput}
                       name='facebookProfile'
@@ -555,7 +570,7 @@ const VisitorProfile = () => {
                     <TextField
                       hiddenLabel
                       id='filled-hidden-label-small'
-                      // defaultValue='instagram'
+                      placeholder='instagram'
                       size='small'
                       className={classes.textInput}
                       name='instagramProfile'
@@ -568,7 +583,7 @@ const VisitorProfile = () => {
                     <TextField
                       hiddenLabel
                       id='filled-hidden-label-small'
-                      // defaultValue='twitter'
+                      placeholder='twitter'
                       size='small'
                       className={classes.textInput}
                       name='twitterProfile'
@@ -581,7 +596,7 @@ const VisitorProfile = () => {
                     <TextField
                       hiddenLabel
                       id='filled-hidden-label-small'
-                      // defaultValue='snapchat'
+                      placeholder='snapchat'
                       size='small'
                       className={classes.textInput}
                       name='snapChatProfile'
@@ -591,8 +606,18 @@ const VisitorProfile = () => {
                   </Box>
                 </Box>
               </Box>
-              <Box className={classes.mainBox} style={{ padding: 10 }}>
-                <Typography variant='h4' style={{ width: '100%', margin: 15 }}>
+              <Box
+                className={classes.mainBox}
+                style={{ padding: 10 }}
+              >
+                <Typography
+                  variant='h4'
+                  style={{
+                    width: '100%',
+                    margin: 15,
+                    padding: '0rem 0.5rem 0rem',
+                  }}
+                >
                   Photo
                 </Typography>
                 <Avatar
@@ -628,19 +653,24 @@ const VisitorProfile = () => {
                       htmlFor='contained-button-file'
                       style={{ cursor: 'pointer' }}
                     >
-                      {' '}
                       <Box className={classes.image}>
                         <Box>
-                          <PlusIcon size={35} style={{ color: '#fff' }} />
-                          <FileIcon size={35} style={{ color: '#fff' }} />
+                          <PlusIcon
+                            size={35}
+                            style={{ color: '#fff' }}
+                          />
+                          <FileIcon
+                            size={35}
+                            style={{ color: '#fff' }}
+                          />
                         </Box>
                         <Typography style={{ color: '#fff' }}>
                           Upload Photo
                         </Typography>
                       </Box>
-                    </label>{' '}
+                    </label>
                   </Box>
-                </LoadingOverlay>{' '}
+                </LoadingOverlay>
               </Box>
               <Box
                 style={{

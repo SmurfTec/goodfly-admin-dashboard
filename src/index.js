@@ -15,6 +15,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import { AuthProvider } from 'Contexts/AuthContext';
 import { StoreProvider } from 'Contexts/StoreContext';
 import { CustomersProvider } from 'Contexts/CustomersContext';
+import { StaffersProvider } from 'Contexts/StaffersContext';
 import { BlogsProvider } from 'Contexts/BlogsContext';
 import { OffersProvider } from 'Contexts/OffersContext';
 // * -------------------------------- * //
@@ -23,24 +24,26 @@ ReactDOM.render(
   <BrowserRouter>
     <AuthProvider>
       <StoreProvider>
-        <CustomersProvider>
-          <BlogsProvider>
-            <OffersProvider>
-              <ToastContainer
-                position='top-right'
-                autoClose={3500}
-                hideProgressBar
-                newestOnTop={true}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-              />
-              <App />
-            </OffersProvider>
-          </BlogsProvider>
-        </CustomersProvider>
+        <StaffersProvider>
+          <CustomersProvider>
+            <BlogsProvider>
+              <OffersProvider>
+                <ToastContainer
+                  position='top-right'
+                  autoClose={3000}
+                  hideProgressBar
+                  newestOnTop={true}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                />
+                <App />
+              </OffersProvider>
+            </BlogsProvider>
+          </CustomersProvider>
+        </StaffersProvider>
       </StoreProvider>
     </AuthProvider>
   </BrowserRouter>,

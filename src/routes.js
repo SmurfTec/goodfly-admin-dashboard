@@ -8,7 +8,6 @@ import Register from './pages/Register';
 import Settings from './pages/Settings';
 
 import Profile from './components/dashboard/profile/Profile';
-
 import CreateBlog from './components/dashboard/Blog/CreateBlog';
 import Blogs from './components/dashboard/Blog/Blogs.js';
 
@@ -37,7 +36,6 @@ import Payments from './components/dashboard/payment/Payments.js';
 import DetailReservation from './components/dashboard/Reservation/DetailReservation.js';
 
 import Comments from './components/dashboard/comments/Comments.js';
-
 import OrganizedTrips from './components/dashboard/Trip/OrganizedTrips.js';
 
 import CreateOffer from './components/dashboard/Offer/CreateOffer.js';
@@ -55,7 +53,6 @@ export const protechtedRoutes = [
       //-----------------   MY PAGES ------------------------------
       { path: '/', element: <DashboardHome /> },
       { path: 'profile', element: <Profile /> },
-
       {
         path: 'blogs',
         children: [
@@ -66,7 +63,6 @@ export const protechtedRoutes = [
           { path: 'create', element: <CreateBlog /> },
         ],
       },
-
       {
         path: 'customers',
         children: [
@@ -78,7 +74,6 @@ export const protechtedRoutes = [
           { path: 'edit/:id', element: <EditVisitor /> },
         ],
       },
-
       {
         path: 'staffers',
         children: [
@@ -97,7 +92,6 @@ export const protechtedRoutes = [
         ],
       },
       { path: '/categories', element: <TourCategories /> },
-
       {
         path: 'trips',
         children: [
@@ -106,7 +100,6 @@ export const protechtedRoutes = [
           { path: '/customtrips/:id', element: <CustomTrip /> },
         ],
       },
-
       {
         path: 'products',
         children: [
@@ -117,9 +110,8 @@ export const protechtedRoutes = [
           { path: '/create', element: <CreateProduct /> },
         ],
       },
-
       { path: 'reservations', element: <Reservations /> },
-
+      { path: 'detailReservation', element: <DetailReservation /> },
       {
         path: 'orders',
         children: [
@@ -133,13 +125,8 @@ export const protechtedRoutes = [
           },
         ],
       },
-
       { path: 'payments', element: <Payments /> },
-
-      { path: 'detailReservation', element: <DetailReservation /> },
-
       { path: 'comments', element: <Comments /> },
-
       {
         path: 'offers',
         children: [
@@ -148,9 +135,7 @@ export const protechtedRoutes = [
           { path: '/:id', element: <ViewOffer /> },
         ],
       },
-
       //  Other
-
       // { path: 'account', element: <Account /> },
       // { path: 'customers', element: <CustomerList /> },
       // { path: 'dashboard', element: <Dashboard /> },
@@ -160,7 +145,6 @@ export const protechtedRoutes = [
     ],
   },
   { path: 'logout', element: <Logout /> },
-
   { path: '*', element: <Navigate to='/app' /> },
 ];
 

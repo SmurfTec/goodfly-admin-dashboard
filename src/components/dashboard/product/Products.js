@@ -222,12 +222,10 @@ const Products = () => {
   return (
     <div style={{ marginTop: '3rem' }}>
       <Box
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          margin: '0rem 2rem 0.5rem  0rem',
-        }}
+        display='flex'
+        justifyContent='space-between'
+        alignItems='center'
+        m={2}
       >
         <Typography variant='h4' m={2}>
           Product Management
