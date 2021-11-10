@@ -136,11 +136,7 @@ const trips = [
       'https://picsum.photos/200/300?random=2',
     ],
     date: '12-12-12',
-    services: [
-      'Formalités administratives',
-      'Transferts internes',
-      'Guide',
-    ],
+    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
     price: 15000,
   },
   {
@@ -152,11 +148,7 @@ const trips = [
       'https://picsum.photos/200/300?random=2',
     ],
     date: '12-12-12',
-    services: [
-      'Formalités administratives',
-      'Transferts internes',
-      'Guide',
-    ],
+    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
     price: 15000,
   },
   {
@@ -168,11 +160,7 @@ const trips = [
       'https://picsum.photos/200/300?random=2',
     ],
     date: '12-12-12',
-    services: [
-      'Formalités administratives',
-      'Transferts internes',
-      'Guide',
-    ],
+    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
     price: 15000,
   },
   {
@@ -184,11 +172,7 @@ const trips = [
       'https://picsum.photos/200/300?random=2',
     ],
     date: '12-12-12',
-    services: [
-      'Formalités administratives',
-      'Transferts internes',
-      'Guide',
-    ],
+    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
     price: 15000,
   },
   {
@@ -200,11 +184,7 @@ const trips = [
       'https://picsum.photos/200/300?random=2',
     ],
     date: '12-12-12',
-    services: [
-      'Formalités administratives',
-      'Transferts internes',
-      'Guide',
-    ],
+    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
     price: 15000,
   },
   {
@@ -216,11 +196,7 @@ const trips = [
       'https://picsum.photos/200/300?random=2',
     ],
     date: '12-12-12',
-    services: [
-      'Formalités administratives',
-      'Transferts internes',
-      'Guide',
-    ],
+    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
     price: 15000,
   },
   {
@@ -232,11 +208,7 @@ const trips = [
       'https://picsum.photos/200/300?random=2',
     ],
     date: '12-12-12',
-    services: [
-      'Formalités administratives',
-      'Transferts internes',
-      'Guide',
-    ],
+    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
     price: 15000,
   },
 ];
@@ -358,7 +330,7 @@ const styles = makeStyles((theme) => ({
   },
   title: {
     margin: theme.spacing(4, 0, 2),
-    padding:'1rem'
+    padding: '1rem',
   },
   dateFields: {
     backgroundColor: '#fff',
@@ -369,7 +341,7 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const CreateOffer = () => {
+const ModifyOffer = () => {
   const classes = styles();
 
   const [value, setValue] = React.useState(0);
@@ -451,11 +423,7 @@ const CreateOffer = () => {
           {/*  map the Product */}
 
           <Box>
-            <TabPanel
-              value={value}
-              index={0}
-              className={classes.options}
-            >
+            <TabPanel value={value} index={0} className={classes.options}>
               <Grid container className={classes.rootContainer}>
                 <Grid item sm={12} md={5}>
                   <Box
@@ -468,14 +436,9 @@ const CreateOffer = () => {
                         paddingRight: '1rem',
                       }}
                     >
-                      <Typography variant='h5'>
-                        Offer Gallery
-                      </Typography>
+                      <Typography variant='h5'>Offer Gallery</Typography>
 
-                      <Button
-                        variant='outlined'
-                        style={{ marginTop: '1rem' }}
-                      >
+                      <Button variant='outlined' style={{ marginTop: '1rem' }}>
                         Add
                       </Button>
                       <Button
@@ -571,10 +534,7 @@ const CreateOffer = () => {
                     }}
                   >
                     {' '}
-                    <Typography
-                      variant='h5'
-                      style={{ marginRight: '1rem' }}
-                    >
+                    <Typography variant='h5' style={{ marginRight: '1rem' }}>
                       Date
                     </Typography>
                     <FormControl component='fieldset'>
@@ -629,10 +589,7 @@ const CreateOffer = () => {
                     }}
                   >
                     {' '}
-                    <Typography
-                      variant='h5'
-                      style={{ marginRight: '1rem' }}
-                    >
+                    <Typography variant='h5' style={{ marginRight: '1rem' }}>
                       Place of departure
                     </Typography>
                     <FormControl component='fieldset'>
@@ -683,10 +640,7 @@ const CreateOffer = () => {
                       display: 'inline-grid',
                     }}
                   >
-                    <Typography variant='h5'>
-                      {' '}
-                      Services Includes
-                    </Typography>
+                    <Typography variant='h5'> Services Includes</Typography>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -774,11 +728,7 @@ const CreateOffer = () => {
                 </Button>
               </Box>
             </TabPanel>
-            <TabPanel
-              value={value}
-              index={1}
-              className={classes.options}
-            >
+            <TabPanel value={value} index={1} className={classes.options}>
               <Box
                 style={{
                   display: 'flex',
@@ -793,10 +743,7 @@ const CreateOffer = () => {
                 >
                   Add a Step
                 </Button>
-                <Button
-                  variant='contained'
-                  style={{ width: '10rem' }}
-                >
+                <Button variant='contained' style={{ width: '10rem' }}>
                   Next
                 </Button>
               </Box>
@@ -827,18 +774,16 @@ const CreateOffer = () => {
                       />
                       <Box mt={2}>
                         <Typography variant='text'>
-                          dfsafdsadfs fdsf a dfsafdsadfs fdsf adsadsad
-                          da sdas dfsafdsadfs fdsf a dfsafdsadfs fdsf
-                          adasdasdadasdas dfsafdsadfs fdsf a
-                          dfsafdsadfs fdsf adsadasdas dfsafdsadfs fdsf
-                          a dfsafdsadfs fdsf adasdasdasdasdas
-                          dfsafdsadfs fdsf a dfsafdsadfs fdsf
-                          adasdasdas dfsafdsadfs fdsf a dfsafdsadfs
-                          fdsf adasdasdasdas dfsafdsadfs fdsf a
-                          dfsafdsadfs fdsf adasdasda dfsafdsadfs fdsf
-                          a dfsafdsadfs fdsf adasdas dfsafdsadfs fdsf
-                          a dfsafdsadfs fdsf aasd dfsafdsadfs fdsf a
-                          dfsafdsadfs fdsf asdasdas
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf adsadsad da sdas
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf adasdasdadasdas
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf adsadasdas
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf adasdasdasdasdas
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf adasdasdas
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf adasdasdasdas
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf adasdasda
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf adasdas
+                          dfsafdsadfs fdsf a dfsafdsadfs fdsf aasd dfsafdsadfs
+                          fdsf a dfsafdsadfs fdsf asdasdas
                         </Typography>
                       </Box>
                     </Box>
@@ -848,10 +793,7 @@ const CreateOffer = () => {
                       Medina-Hotel foulane
                     </Typography>
                     <Box>
-                      <Gallery
-                        images={IMAGES}
-                        style={{ width: '10rem' }}
-                      />
+                      <Gallery images={IMAGES} style={{ width: '10rem' }} />
                       {/* <CardMedia
                         className={classes.cover}
                         image='https://picsum.photos/200/300?random=2'
@@ -888,10 +830,7 @@ const CreateOffer = () => {
                         </Box>
                       ))} */}
                     <Box>
-                      <Typography
-                        variant='h4'
-                        className={classes.title}
-                      >
+                      <Typography variant='h4' className={classes.title}>
                         Text only
                       </Typography>
                       <div className={classes.demo}>
@@ -926,20 +865,13 @@ const CreateOffer = () => {
                   >
                     Delete
                   </Button>
-                  <Button
-                    variant='outlined'
-                    style={{ width: '8rem' }}
-                  >
+                  <Button variant='outlined' style={{ width: '8rem' }}>
                     Update
                   </Button>
                 </Box>
               </Box>
             </TabPanel>
-            <TabPanel
-              value={value}
-              index={2}
-              className={classes.options}
-            >
+            <TabPanel value={value} index={2} className={classes.options}>
               <Box
                 style={{
                   display: 'flex',
@@ -995,10 +927,7 @@ const CreateOffer = () => {
                     justifyContent: 'center',
                   }}
                 >
-                  <Typography variant='h3'>
-                    {' '}
-                    Formality Omra
-                  </Typography>
+                  <Typography variant='h3'> Formality Omra</Typography>
                   {/*  map the Formalities */}
                   {Formalities &&
                     Formalities.map((formality) => (
@@ -1010,10 +939,7 @@ const CreateOffer = () => {
                             justifyContent: 'left',
                           }}
                         >
-                          <Typography
-                            variant='h1'
-                            style={{ fontSize: '3rem' }}
-                          >
+                          <Typography variant='h1' style={{ fontSize: '3rem' }}>
                             {' '}
                             .{' '}
                           </Typography>
@@ -1159,10 +1085,7 @@ const CreateOffer = () => {
                               }}
                             >
                               <Box>
-                                <PlusIcon
-                                  size={35}
-                                  style={{ color: '#fff' }}
-                                />
+                                <PlusIcon size={35} style={{ color: '#fff' }} />
                                 <ImageIcon
                                   size={35}
                                   style={{ color: '#fff' }}
@@ -1194,10 +1117,7 @@ const CreateOffer = () => {
                             />
                           </div>
                           <Box style={{ textAlign: 'right' }}>
-                            <Button style={{ color: 'red' }}>
-                              {' '}
-                              delete{' '}
-                            </Button>
+                            <Button style={{ color: 'red' }}> delete </Button>
                           </Box>
                         </>
                       ))}
@@ -1210,9 +1130,7 @@ const CreateOffer = () => {
                         marginRight: '1rem',
                       }}
                     >
-                      <Typography variant='h5'>
-                        Accommodation
-                      </Typography>
+                      <Typography variant='h5'>Accommodation</Typography>
                     </Box>
                   </Grid>
                   <Grid item md={8} mt={4}>
@@ -1274,14 +1192,8 @@ const CreateOffer = () => {
                             }}
                           >
                             <Box>
-                              <PlusIcon
-                                size={35}
-                                style={{ color: '#fff' }}
-                              />
-                              <ImageIcon
-                                size={35}
-                                style={{ color: '#fff' }}
-                              />
+                              <PlusIcon size={35} style={{ color: '#fff' }} />
+                              <ImageIcon size={35} style={{ color: '#fff' }} />
                             </Box>
                             <Typography style={{ color: '#fff' }}>
                               New Image
@@ -1309,10 +1221,7 @@ const CreateOffer = () => {
                             />
                           </div>
                           <Box style={{ textAlign: 'right' }}>
-                            <Button style={{ color: 'red' }}>
-                              {' '}
-                              delete{' '}
-                            </Button>
+                            <Button style={{ color: 'red' }}> delete </Button>
                           </Box>
                         </>
                       ))}
@@ -1326,10 +1235,7 @@ const CreateOffer = () => {
                       alignItems='center'
                       style={{ gap: '20px' }}
                     >
-                      <Button
-                        variant='outlined'
-                        style={{ color: 'red' }}
-                      >
+                      <Button variant='outlined' style={{ color: 'red' }}>
                         Cancel{' '}
                       </Button>
                       <Button variant='contained'>Validate </Button>
@@ -1344,11 +1250,7 @@ const CreateOffer = () => {
 
       {/*  Formality Dialog  */}
       <div>
-        <Dialog
-          open={formalityDialog}
-          fullWidth
-          onClose={closeFormalityDialog}
-        >
+        <Dialog open={formalityDialog} fullWidth onClose={closeFormalityDialog}>
           <DialogTitle>Add a Formality</DialogTitle>
           <DialogContent>
             <TextField
@@ -1411,7 +1313,7 @@ const CreateOffer = () => {
   );
 };
 
-export default CreateOffer;
+export default ModifyOffer;
 
 // import React from 'react';
 // import { makeStyles } from '@material-ui/styles';

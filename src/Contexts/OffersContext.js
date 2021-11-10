@@ -2,11 +2,14 @@ import useArray from 'hooks/useArray';
 import React, { useState, useEffect, useContext, memo } from 'react';
 import { handleCatch, makeReq } from 'Utils/makeReq';
 import { AuthContext } from './AuthContext';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export const OffersContext = React.createContext();
 
 export const OffersProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [
     offers,
@@ -62,9 +65,22 @@ export const OffersProvider = ({ children }) => {
     }
   };
 
+  const createOffer = async (newOffer) => {
+    try {
+      const { trip } = await makeReq(`/trips`, { body: newOffer }, 'POST');
+      console.log(`trip`, trip);
+
+      pushOffer(trip);
+      toast.success('Offer Created Sucessfully !');
+      navigate('/app/offers');
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
   return (
     <OffersContext.Provider
-      value={{ offers, getOfferById, deleteTrip, archieveTrip }}
+      value={{ offers, getOfferById, deleteTrip, archieveTrip, createOffer }}
     >
       {children}
     </OffersContext.Provider>

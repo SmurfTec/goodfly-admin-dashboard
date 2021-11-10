@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 
 import {
   CardMedia,
+  Container,
   Grid,
   Skeleton,
   Tab,
@@ -133,12 +134,17 @@ const Offer = () => {
   };
 
   return (
-    <div style={{ marginTop: '3rem' }}>
-      <Button variant='outlined' container={Link} to='/app/offers'>
+    <Container style={{ marginTop: '3rem' }}>
+      <Button variant='outlined' component={Link} to='/app/offers'>
         Back to offers
       </Button>
       <Box className={classes.header}>
-        <Button variant='outlined' className={classes.button}>
+        <Button
+          variant='outlined'
+          component={Link}
+          to={`/app/offers/${id}/edit`}
+          className={classes.button}
+        >
           Modify
         </Button>
         <Button
@@ -236,7 +242,7 @@ const Offer = () => {
         success={handleArchieve}
         dialogTitle='Are you sure you want to Archieve this trip ?'
       />
-    </div>
+    </Container>
   );
 };
 

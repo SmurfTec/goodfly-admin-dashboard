@@ -3,45 +3,6 @@ import React from 'react';
 import { Grid, Skeleton, Typography } from '@material-ui/core';
 import { Box } from '@material-ui/system';
 
-const Formalities = [
-  {
-    id: 1,
-    title: 'Formalities administratives',
-    subtitle: 'Prise en charge du dossier et de enregistment',
-    description: 'Notre dsadas occupe de tout bla bla bla bla',
-  },
-  {
-    id: 2,
-    title: 'Formalities administratives',
-    subtitle: 'Prise en charge du dossier et de enregistment',
-    description: 'Notre dsadas occupe de tout bla bla bla bla',
-  },
-  {
-    id: 3,
-    title: 'Formalities administratives',
-    subtitle: 'Prise en charge du dossier et de enregistment',
-    description: 'Notre dsadas occupe de tout bla bla bla bla',
-  },
-  {
-    id: 4,
-    title: 'Formalities administratives',
-    subtitle: 'Prise en charge du dossier et de enregistment',
-    description: 'Notre dsadas occupe de tout bla bla bla bla',
-  },
-  {
-    id: 5,
-    title: 'Formalities administratives',
-    subtitle: 'Prise en charge du dossier et de enregistment',
-    description: 'Notre dsadas occupe de tout bla bla bla bla',
-  },
-  {
-    id: 6,
-    title: 'Formalities administratives',
-    subtitle: 'Prise en charge du dossier et de enregistment',
-    description: 'Notre dsadas occupe de tout bla bla bla bla',
-  },
-];
-
 // const useStyles = makeStyles((theme) => ({}));
 
 const FormalitiesTab = ({ formalities }) => {
