@@ -18,7 +18,7 @@ import {
 import { Search as SearchIcon } from 'react-feather';
 import { Link } from 'react-router-dom';
 import v4 from 'uuid/dist/v4';
-import { CustomersContext } from 'Contexts/CustomersContext';
+import { StaffersContext } from 'Contexts/StaffersContext';
 import useToggleInput from 'hooks/useToggleInput';
 // import { ConfirmDialogBox } from '../Dialogs';
 
@@ -44,12 +44,12 @@ const styles = makeStyles((theme) => ({
 
 const Staffers = () => {
   const classes = styles();
-  const { customers, deleteCustomer } = useContext(CustomersContext);
+  const { staffers, deleteStaffer } = useContext(StaffersContext);
   const [currentDeleteId, setCurrentDeleteId] = useState();
   const [isDeleteOpen, toggleDeleteOpen] = useToggleInput();
 
   const [filter, setFilter] = useState('');
-  const [filteredCustomers, setFilteredCustomers] = useState([]);
+  const [filteredStaffers, setFilteredStaffers] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -58,9 +58,9 @@ const Staffers = () => {
     rowsPerPage -
     Math.min(
       rowsPerPage,
-      customers === 'loading'
+      staffers === 'loading'
         ? 0
-        : customers?.length - page * rowsPerPage
+        : staffers?.length - page * rowsPerPage
     );
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -77,10 +77,10 @@ const Staffers = () => {
   };
   //  filtered
   useEffect(() => {
-    setFilteredCustomers(
-      customers === 'loading'
+    setFilteredStaffers(
+      staffers === 'loading'
         ? 'loading'
-        : customers?.filter(
+        : staffers?.filter(
             (row) =>
               row.name.toLowerCase().indexOf(filter.toLowerCase()) !==
               -1
@@ -90,8 +90,8 @@ const Staffers = () => {
 
   // data must be updated
   useEffect(() => {
-    setFilteredCustomers(customers);
-  }, [customers]);
+    setFilteredStaffers(staffers);
+  }, [staffers]);
 
   const handleDelete = (id) => {
     // console.log(`id`, id);
@@ -99,21 +99,19 @@ const Staffers = () => {
     toggleDeleteOpen();
   };
 
-  const handleDeleteCustomer = () => {
+  const handleDeleteStaffer = () => {
     // console.log(`id`, id);
-    deleteCustomer(currentDeleteId);
+    deleteStaffer(currentDeleteId);
     toggleDeleteOpen();
   };
 
   return (
     <div style={{ marginTop: '3rem' }}>
       <Box
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          margin: '0rem 2rem 0.5rem  0rem',
-        }}
+        display='flex'
+        justifyContent='space-between'
+        alignItems='center'
+        m={2}
       >
         <Typography variant='h4' m={2}>
           User Management
@@ -171,9 +169,9 @@ const Staffers = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredCustomers === 'loading'
+              {filteredStaffers === 'loading'
                 ? 'loading'
-                : filteredCustomers
+                : filteredStaffers
                     ?.slice(
                       page * rowsPerPage,
                       page * rowsPerPage + rowsPerPage
@@ -183,9 +181,7 @@ const Staffers = () => {
                         <TableCell component='th' scope='row'>
                           {row.name}
                         </TableCell>
-                        <TableCell align='right'>
-                          {row._id}
-                        </TableCell>
+                        <TableCell align='right'>{row._id}</TableCell>
                         <TableCell align='right'>
                           {' '}
                           {new Date(row.createdAt).toDateString()}
@@ -214,7 +210,7 @@ const Staffers = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 20]}
             component='div'
-            count={customers === 'loading' ? 0 : customers?.length}
+            count={staffers === 'loading' ? 0 : staffers?.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -225,8 +221,8 @@ const Staffers = () => {
       {/* <ConfirmDialogBox
         open={isDeleteOpen}
         toggleDialog={toggleDeleteOpen}
-        success={handleDeleteCustomer}
-        dialogTitle='Delete this Customer ?'
+        success={handleDeleteStaffer}
+        dialogTitle='Delete this Staffer ?'
       /> */}
     </div>
   );

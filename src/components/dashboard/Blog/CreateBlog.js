@@ -52,6 +52,7 @@ const CreateBlog = () => {
   const classes = styles();
 
   const { createNewBlog } = useContext(BlogsContext);
+
   const initialState = {
     publishDate: new Date(),
     title: '',
@@ -74,9 +75,13 @@ const CreateBlog = () => {
   };
 
   // const [editorState, setEditorState] = React.useState({});
-  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState('Uploading Image...');
-  const [keyword, handleChangeKeyword, resetKeyword] = useTextInput('');
+  const [isImageUploading, toggleImageUploading] =
+    useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState(
+    'Uploading Image...'
+  );
+  const [keyword, handleChangeKeyword, resetKeyword] =
+    useTextInput('');
   const [isOpen, setIsOpen] = useState(false);
 
   const [blogImages, setBlogImages] = useState([]);
@@ -124,7 +129,8 @@ const CreateBlog = () => {
           setState((st) => ({
             ...st,
             content:
-              st.content + `\n<img src="${uploadedImage}" alt='blog image' />`,
+              st.content +
+              `\n<img src="${uploadedImage}" alt='blog image' />`,
           }));
 
           setBlogImages((st) => [...st, uploadedImage]);
@@ -135,7 +141,9 @@ const CreateBlog = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message || err.message || 'Something Went Wrong'
+        err?.response?.data?.message ||
+          err.message ||
+          'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -145,10 +153,17 @@ const CreateBlog = () => {
     setState((st) => ({ ...st, [e.target.name]: e.target.value }));
   };
   const handleToggleChange = (e) => {
-    setState((st) => ({ ...st, [e.target.name]: !st[e.target.name] }));
+    setState((st) => ({
+      ...st,
+      [e.target.name]: !st[e.target.name],
+    }));
   };
   const handleAddKeyword = (e) => {
     e.preventDefault();
+    if (state.keywords.length >= 5) {
+      toast('Add only Five Keywords');
+      return;
+    }
     setState((st) => ({
       ...st,
       keywords: [...st.keywords, keyword],
@@ -223,7 +238,7 @@ const CreateBlog = () => {
                 value={state.dateOfPublish}
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='Date of Publish'
+                defaultValue={state.dateOfPublish}
                 variant='standard'
                 style={{ marginRight: 50 }}
                 type='date'

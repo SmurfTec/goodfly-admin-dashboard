@@ -22,146 +22,6 @@ import { Link } from 'react-router-dom';
 import useToggleInput from 'hooks/useToggleInput';
 import { ConfirmDialog } from '../Dialogs';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-// const customers = [
-//   createData(
-//     'Muhammadzain',
-//     ' zain@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadali',
-//     ' ali@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadusman',
-//     ' usman@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadkashif',
-//     ' kashif@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadumer',
-//     ' umer@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadabc',
-//     ' abc@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadsonu',
-//     ' sonu@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadsaqib',
-//     ' saqib@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadsohil',
-//     ' sohail@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadtayyab',
-//     ' tayyab@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadgul',
-//     'gul@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadtayyab',
-//     ' tayyab@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadgul',
-//     'gul@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadtayyab',
-//     ' tayyab@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadgul',
-//     'gul@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadtayyab',
-//     ' tayyab@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadgul',
-//     'gul@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadtayyab',
-//     ' tayyab@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-//   createData(
-//     'Muhammadgul',
-//     'gul@gmail.com',
-//     '+2233123312334',
-//     'GF12333',
-//     '11/07/2021'
-//   ),
-// ];
-
 const useStyles = makeStyles((theme) => ({
   main: {
     backgroundColor: '#f2f2f2',
@@ -202,7 +62,9 @@ const Visitors = () => {
     rowsPerPage -
     Math.min(
       rowsPerPage,
-      customers === 'loading' ? 0 : customers?.length - page * rowsPerPage
+      customers === 'loading'
+        ? 0
+        : customers?.length - page * rowsPerPage
     );
 
   const handleChangePage = (event, newPage) => {
@@ -225,7 +87,9 @@ const Visitors = () => {
       customers === 'loading'
         ? 'loading'
         : customers?.filter(
-            (row) => row.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+            (row) =>
+              row.name.toLowerCase().indexOf(filter.toLowerCase()) !==
+              -1
           )
     );
   }, [filter]);
@@ -249,9 +113,22 @@ const Visitors = () => {
 
   return (
     <div style={{ marginTop: '3rem' }}>
-      <Typography variant='h4' m={2}>
-        Customer management
-      </Typography>
+      <Box
+        display='flex'
+        justifyContent='space-between'
+        alignItems='center'
+        m={3}
+      >
+        <Typography variant='h4'>Customer management</Typography>
+        <Button
+          variant='contained'
+          style={{ width: '12rem' }}
+          component={Link}
+          to='/app/customers/new'
+        >
+          Create Customer
+        </Button>
+      </Box>
       <Box className={classes.main}>
         <Box
           style={{
@@ -261,7 +138,10 @@ const Visitors = () => {
             width: '100%',
           }}
         >
-          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+          <Typography
+            variant='text'
+            style={{ margin: '0px 3px 0px' }}
+          >
             Search Client
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -304,7 +184,9 @@ const Visitors = () => {
                         <TableCell component='th' scope='row'>
                           {row.name}
                         </TableCell>
-                        <TableCell align='right'>{row.email}</TableCell>
+                        <TableCell align='right'>
+                          {row.email}
+                        </TableCell>
                         <TableCell align='right'>
                           {row.telephoneNumber}
                         </TableCell>

@@ -269,8 +269,15 @@ const TourCategories = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose} autoFocus>
+            <Button onClick={handleClose} variant='outlined'>
+              Cancel
+            </Button>
+            <Button
+              onClick={handleClose}
+              variant='outlined'
+              autoFocus
+              style={{ color: 'red',border: '1px solid red'}}
+            >
               Confirm
             </Button>
           </DialogActions>

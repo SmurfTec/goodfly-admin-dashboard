@@ -1,7 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Avatar, Box, Drawer, Hidden, Typography } from '@material-ui/core';
+import {
+  Avatar,
+  Box,
+  Drawer,
+  Hidden,
+  Typography,
+} from '@material-ui/core';
 import {
   Settings as SettingsIcon,
   ShoppingBag as ShoppingBagIcon,
@@ -18,9 +24,10 @@ import {
 } from 'react-feather';
 import { makeStyles } from '@material-ui/styles';
 import logo from 'Assets/img/airplane.svg';
-
 import NavItem from './NavItem';
 import SidebarContent from './SidebarContent';
+import { AuthContext } from 'Contexts/AuthContext';
+
 // import SidebarContent2 from './SidebarContent2';
 
 const useStyles = makeStyles((theme) => ({
@@ -31,74 +38,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const items = [
-  {
-    href: '/app/offers',
-    icon: HomeIcon,
-    title: 'Accueil',
-  },
-  {
-    href: '/profile',
-    icon: UserIcon,
-    title: 'Mon proﬁl',
-  },
-  {
-    href: '/notifications',
-    icon: BellIcon,
-    title: 'Notifications',
-  },
-
-  {
-    href: '/clients',
-    icon: UsersIcon,
-    title: 'Gestion des clients',
-  },
-  {
-    href: '/Offres',
-    icon: Edit2Icon,
-    title: 'Offres',
-  },
-  {
-    href: '/  Inscriptions',
-    icon: SettingsIcon,
-    title: 'Inscriptions',
-  },
-  {
-    href: '/Catégories',
-    icon: ColumnsIcon,
-    title: 'Catégories',
-  },
-  {
-    href: '/Boutique',
-    icon: ShoppingBagIcon,
-    title: 'Boutique',
-  },
-  {
-    href: '/Paiements',
-    icon: CreditCardIcon,
-    title: 'Paiements',
-  },
-  {
-    href: '/blog',
-    icon: BoldIcon,
-    title: 'Gestion du blog',
-  },
-  {
-    href: '/reviews',
-    icon: AlignJustifyIcon,
-    title: 'Avis & commentaires',
-  },
-  {
-    href: '/staffer',
-    icon: UserIcon,
-    title: 'Gestion des staffers',
-  },
-];
-
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
+  const { user } = useContext(AuthContext);
   const classes = useStyles();
-
   useEffect(() => {
     if (openMobile && onMobileClose) {
       // onMobileClose();
@@ -127,7 +70,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           variant='h5'
           style={{ marginBottom: '1rem' }}
         >
-          Interface d’administration
+          Administration Interface
         </Typography>
         <Typography
           variant='h2'
@@ -144,7 +87,11 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           // onClick={() => history.push('/')}
         >
           GOODFLY
-          <img src={logo} style={{ width: 40, height: 50 }} alt='logo' />
+          <img
+            src={logo}
+            style={{ width: 40, height: 50 }}
+            alt='logo'
+          />
         </Typography>
       </Box>
       {/* <Divider /> */}
@@ -161,7 +108,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         Tableau de bord
       </Typography>
 
-      <Box sx={{ p: 2 }}>
+      <Box sx={{ padding: '5px' }} mt={1}>
         <SidebarContent />
 
         <Box
@@ -175,7 +122,9 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         >
           <Avatar
             alt='Cindy Baker'
-            src='/static/images/avatar/3.jpg'
+            src={
+              user.photo ? user.photo : '/static/images/avatar/3.jpg'
+            }
             sx={{ width: 100, height: 100 }}
           />
           <NavItem

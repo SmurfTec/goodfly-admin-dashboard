@@ -8,7 +8,6 @@ import Register from './pages/Register';
 import Settings from './pages/Settings';
 
 import Profile from './components/dashboard/profile/Profile';
-
 import CreateBlog from './components/dashboard/Blog/CreateBlog';
 import Blogs from './components/dashboard/Blog/Blogs';
 
@@ -36,17 +35,16 @@ import Order from './components/dashboard/Order/Order';
 import Payments from './components/dashboard/payment/Payments';
 import DetailReservation from './components/dashboard/Reservation/DetailReservation';
 
-import Comments from './components/dashboard/comments/Comments';
-
 import OrganizedTrips from './components/dashboard/Trip/OrganizedTrips';
 
-import CreateOffer from './components/dashboard/Offer/CreateOffer';
-import Offers from './components/dashboard/Offer/Offers';
-import ViewOffer from './components/dashboard/Offer/ViewOffer';
-import DashboardHome from 'components/dashboard/DashboardHome';
 import Loading from 'pages/Loading';
 import Logout from 'components/common/Logout';
 import ModifyOffer from 'components/dashboard/Offer/ModifyOffer';
+import DashboardHome from 'components/dashboard/DashboardHome';
+import Comments from 'components/dashboard/comments/Comments';
+import Offers from 'components/dashboard/Offer/Offers';
+import CreateOffer from 'components/dashboard/Offer/CreateOffer';
+import ViewOffer from 'components/dashboard/Offer/ViewOffer';
 
 export const protechtedRoutes = [
   {
@@ -56,7 +54,6 @@ export const protechtedRoutes = [
       //-----------------   MY PAGES ------------------------------
       { path: '/', element: <DashboardHome /> },
       { path: 'profile', element: <Profile /> },
-
       {
         path: 'blogs',
         children: [
@@ -67,7 +64,6 @@ export const protechtedRoutes = [
           { path: 'create', element: <CreateBlog /> },
         ],
       },
-
       {
         path: 'customers',
         children: [
@@ -79,7 +75,6 @@ export const protechtedRoutes = [
           { path: 'edit/:id', element: <EditVisitor /> },
         ],
       },
-
       {
         path: 'staffers',
         children: [
@@ -98,16 +93,14 @@ export const protechtedRoutes = [
         ],
       },
       { path: '/categories', element: <TourCategories /> },
-
+      // { path: '/subcategories', element: <SubCategories /> },
       {
-        path: 'trips',
+        path: '/customtrips',
         children: [
-          { path: '/organizedTrips', element: <OrganizedTrips /> },
-          { path: '/customtrips', element: <CustomTrips /> },
-          { path: '/customtrips/:id', element: <CustomTrip /> },
+          { path: '/', element: <CustomTrips /> },
+          { path: '/:id', element: <CustomTrip /> },
         ],
       },
-
       {
         path: 'products',
         children: [
@@ -118,8 +111,18 @@ export const protechtedRoutes = [
           { path: '/create', element: <CreateProduct /> },
         ],
       },
+      {
+        path: '/reservations',
+        children: [
+          { path: '/', element: <Reservations /> },
+          {
+            path: '/:id',
+            element: <DetailReservation />,
+          },
+        ],
+      },
 
-      { path: 'reservations', element: <Reservations /> },
+      { path: '/organizedTrips', element: <OrganizedTrips /> }, //* ??????
 
       {
         path: 'orders',
@@ -134,13 +137,8 @@ export const protechtedRoutes = [
           },
         ],
       },
-
       { path: 'payments', element: <Payments /> },
-
-      { path: 'detailReservation', element: <DetailReservation /> },
-
       { path: 'comments', element: <Comments /> },
-
       {
         path: 'offers',
         children: [
@@ -150,9 +148,7 @@ export const protechtedRoutes = [
           { path: '/:id/edit', element: <ModifyOffer /> },
         ],
       },
-
       //  Other
-
       // { path: 'account', element: <Account /> },
       // { path: 'customers', element: <CustomerList /> },
       // { path: 'dashboard', element: <Dashboard /> },
@@ -162,7 +158,6 @@ export const protechtedRoutes = [
     ],
   },
   { path: 'logout', element: <Logout /> },
-
   { path: '*', element: <Navigate to='/app' /> },
 ];
 

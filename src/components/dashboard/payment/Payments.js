@@ -180,8 +180,8 @@ const styles = makeStyles((theme) => ({
 
 const Payments = () => {
   const classes = styles();
-    const [filter, setFilter] = useState('');
-    const [filteredItems, setFilteredItems] = useState([]);
+  const [filter, setFilter] = useState('');
+  const [filteredItems, setFilteredItems] = useState([]);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -199,30 +199,31 @@ const Payments = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-const handleSearch = (e) => {
-  const data = e.target.value;
-  setFilter(data);
-  console.log(filter);
-};
-//  filtered
-useEffect(() => {
-  setFilteredItems(
-    rows.filter(
-      (row) =>
-        row.clientName.toLowerCase().indexOf(filter.toLowerCase()) !==
-        -1
-    )
-  );
-}, [filter]);
+  const handleSearch = (e) => {
+    const data = e.target.value;
+    setFilter(data);
+    console.log(filter);
+  };
+  //  filtered
+  useEffect(() => {
+    setFilteredItems(
+      rows.filter(
+        (row) =>
+          row.clientName
+            .toLowerCase()
+            .indexOf(filter.toLowerCase()) !== -1
+      )
+    );
+  }, [filter]);
 
-// data must be updated
-useEffect(() => {
-  setFilteredItems(rows);
-}, []);
+  // data must be updated
+  useEffect(() => {
+    setFilteredItems(rows);
+  }, []);
 
   return (
     <div style={{ marginTop: '3rem' }}>
-      <Typography variant='h4' m={2}>
+      <Typography variant='h4' m={3}>
         Payment Management
       </Typography>
       <Box className={classes.main}>
@@ -282,7 +283,9 @@ useEffect(() => {
                     <TableCell align='right'>
                       {row.calories}
                     </TableCell>
-                    <TableCell align='right'>{row.clientName}</TableCell>
+                    <TableCell align='right'>
+                      {row.clientName}
+                    </TableCell>
                     <TableCell align='right'>{row.client}</TableCell>
                     <TableCell align='right'>
                       <Button>Details</Button>
