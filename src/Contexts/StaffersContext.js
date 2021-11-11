@@ -68,9 +68,7 @@ export const StaffersProvider = ({ children }) => {
   };
 
   const getStafferById = (id) =>
-    staffers === 'loading'
-      ? 'loading'
-      : staffers?.find((el) => el._id === id);
+    staffers === 'loading' ? 'loading' : staffers?.find((el) => el._id === id);
 
   // Create New Staffer
   const createNewStaffer = async (newStafferProfile, resetForm) => {
@@ -94,6 +92,7 @@ export const StaffersProvider = ({ children }) => {
 
   return (
     <StaffersContext.Provider
+      displayName='Staffers Context'
       value={{
         staffers,
         deleteStaffer,

@@ -96,6 +96,7 @@ export const CustomersProvider = ({ children }) => {
 
   return (
     <CustomersContext.Provider
+      displayName='Customers Context'
       value={{
         customers,
         deleteCustomer,

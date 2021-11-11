@@ -57,7 +57,10 @@ export const BlogsProvider = ({ children }) => {
   };
 
   return (
-    <BlogsContext.Provider value={{ blogs, createNewBlog }}>
+    <BlogsContext.Provider
+      displayName='Blogs Context'
+      value={{ blogs, createNewBlog }}
+    >
       {children}
     </BlogsContext.Provider>
   );

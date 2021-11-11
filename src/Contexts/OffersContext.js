@@ -80,6 +80,7 @@ export const OffersProvider = ({ children }) => {
 
   return (
     <OffersContext.Provider
+      displayName='Offers Context'
       value={{ offers, getOfferById, deleteTrip, archieveTrip, createOffer }}
     >
       {children}

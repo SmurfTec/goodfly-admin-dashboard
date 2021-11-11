@@ -40,7 +40,10 @@ export const StoreProvider = ({ children }) => {
   }, [user]);
 
   return (
-    <StoreContext.Provider value={{ orders, products }}>
+    <StoreContext.Provider
+      displayName='Store Context'
+      value={{ orders, products }}
+    >
       {children}
     </StoreContext.Provider>
   );
