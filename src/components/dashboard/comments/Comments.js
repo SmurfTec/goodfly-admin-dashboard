@@ -23,39 +23,7 @@ import {
 } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import v4 from 'uuid/dist/v4';
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role='tabpanel'
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
+import { a11yProps, TabPanel } from 'components/common/TabPanel';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -169,8 +137,7 @@ const Comments = () => {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    rowsPerPage -
-    Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -227,14 +194,8 @@ const Comments = () => {
               </Box>
               <Box mt={3}></Box>
 
-              <TableContainer
-                component={Paper}
-                className={classes.root}
-              >
-                <Table
-                  sx={{ minWidth: 650 }}
-                  aria-label='simple table'
-                >
+              <TableContainer component={Paper} className={classes.root}>
+                <Table sx={{ minWidth: 650 }} aria-label='simple table'>
                   <TableHead>
                     <TableRow>
                       <TableCell align='center'>Author</TableCell>
@@ -271,10 +232,7 @@ const Comments = () => {
                           <TableCell align='left'>
                             {row.calories}
                             <Box className={classes.flexLeft} m={2}>
-                              <Button
-                                mr={1}
-                                style={{ color: 'green' }}
-                              >
+                              <Button mr={1} style={{ color: 'green' }}>
                                 Approve
                               </Button>
                               <Button mr={1}>Reply</Button>
@@ -340,10 +298,7 @@ const Comments = () => {
           </DialogTitle>
           <DialogContent>
             <Box className={classes.flexBetween}>
-              <Box
-                className={classes.flexBetween}
-                style={{ margin: 0 }}
-              >
+              <Box className={classes.flexBetween} style={{ margin: 0 }}>
                 <Avatar
                   alt='Cindy Baker'
                   src='/static/images/avatar/3.jpg'
@@ -358,10 +313,7 @@ const Comments = () => {
                   </Typography>
                 </Box>
               </Box>
-              <Box
-                className={classes.flexBetween}
-                style={{ margin: 0 }}
-              >
+              <Box className={classes.flexBetween} style={{ margin: 0 }}>
                 <Box
                   style={{
                     display: 'inline-grid',
@@ -383,18 +335,10 @@ const Comments = () => {
               </Box>
             </Box>
             <Box style={{ display: 'inline-grid' }}>
-              <Typography variant='text'>
-                {' '}
-                4 jun 2021 a 23H52
-              </Typography>
-              <Typography
-                variant='text'
-                mt={2}
-                style={{ minHeight: '5rem' }}
-              >
-                Set applied to the cell. The prop defaults to the
-                value in the p The prop defaults to the value in the p
-                adding appli
+              <Typography variant='text'> 4 jun 2021 a 23H52</Typography>
+              <Typography variant='text' mt={2} style={{ minHeight: '5rem' }}>
+                Set applied to the cell. The prop defaults to the value in the p
+                The prop defaults to the value in the p adding appli
               </Typography>
             </Box>
           </DialogContent>

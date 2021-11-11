@@ -12,7 +12,7 @@ import {
   Container,
 } from '@material-ui/core';
 import Gallery from 'react-grid-gallery';
-import TabPanel from './TabPanel';
+import { TabPanel } from '../../../common/TabPanel';
 import { SkipNext, SkipPrevious } from '@material-ui/icons';
 import { useArray, useToggleInput } from 'hooks';
 import AddStageDialog from './AddStageDialog';

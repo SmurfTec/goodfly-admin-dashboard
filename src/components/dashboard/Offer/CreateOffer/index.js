@@ -6,13 +6,7 @@ import StagesTab from './StagesTab';
 import FormalitiesTab from './FormalitiesTab';
 import { OffersContext } from 'Contexts/OffersContext';
 import { removeKeyIncludingString } from 'Utils/objectMethods';
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
+import { a11yProps } from 'components/common/TabPanel';
 
 const useStyles = makeStyles((theme) => ({
   options: {

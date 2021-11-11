@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Box, Typography } from '@material-ui/core';
 
-const TabPanel = (props) => {
+export const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
   return (
@@ -29,4 +29,9 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default TabPanel;
+export const a11yProps = (index) => {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+};

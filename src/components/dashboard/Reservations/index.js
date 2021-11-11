@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import {
@@ -14,149 +14,14 @@ import {
   Button,
   TablePagination,
   TextField,
+  Skeleton,
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 import v4 from 'uuid/dist/v4';
+import { ReservationsContext } from 'Contexts/ReservationsContext';
+import { Edit } from '@mui/icons-material';
+import { useNavigate } from 'react-router';
 
-function createData(name, calories, fat, client, protein) {
-  return { name, calories, fat, client, protein };
-}
-
-const rows = [
-  createData(
-    'Muhammadzain',
-    ' zain@gmail.com',
-    '+2233123312334',
-    'zain',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadali',
-    ' ali@gmail.com',
-    '+2233123312334',
-    'sonu',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadusman',
-    ' usman@gmail.com',
-    '+2233123312334',
-    'ali',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadkashif',
-    ' kashif@gmail.com',
-    '+2233123312334',
-    'umer',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadumer',
-    ' umer@gmail.com',
-    '+2233123312334',
-    'kasi',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadabc',
-    ' abc@gmail.com',
-    '+2233123312334',
-    'qweew',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsonu',
-    ' sonu@gmail.com',
-    '+2233123312334',
-    'gdasd',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsaqib',
-    ' saqib@gmail.com',
-    '+2233123312334',
-    'fdasfs',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsohil',
-    ' sohail@gmail.com',
-    '+2233123312334',
-    'eqwe',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'fasdf',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'sdas',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'fsdfsa',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'fasdfa',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'fasd',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'fasdf',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'fsadf',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'fdsa',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'fsdf',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'adfsds',
-    '11/07/2021'
-  ),
-];
 const styles = makeStyles((theme) => ({
   main: {
     backgroundColor: '#f2f2f2',
@@ -178,16 +43,19 @@ const styles = makeStyles((theme) => ({
 }));
 
 const Reservations = () => {
+  const { reservations } = useContext(ReservationsContext);
   const classes = styles();
   const [filter, setFilter] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+  const navigate = useNavigate();
+
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     rowsPerPage -
-    Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    Math.min(rowsPerPage, (reservations?.length || 0) - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -205,18 +73,22 @@ const Reservations = () => {
   //  filtered
   useEffect(() => {
     setFilteredItems(
-      rows.filter(
-        (row) =>
-          row.client.toLowerCase().indexOf(filter.toLowerCase()) !==
-          -1
-      )
+      // reservations?.filter(
+      //   (el) => el.client.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+      // )
+      reservations || []
     );
   }, [filter]);
 
   // data must be updated
   useEffect(() => {
-    setFilteredItems(rows);
-  }, []);
+    setFilteredItems(reservations);
+  }, [reservations]);
+
+  const handleClick = (id) => {
+    // navigate(`/app/reservations/${id}`);
+    navigate(`${id}`);
+  };
 
   return (
     <div style={{ marginTop: '3rem' }}>
@@ -297,15 +169,12 @@ const Reservations = () => {
         <Box
           style={{
             display: 'flex',
-            justifyContent: 'right',
+            justifyContent: 'center',
             alignItems: 'center',
             width: '100%',
           }}
         >
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
-          >
+          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
             Search Reservation
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -328,37 +197,64 @@ const Reservations = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Ref Reservation</TableCell>
-                <TableCell align='right'>reservation date</TableCell>
-                <TableCell align='right'>Status</TableCell>
-                <TableCell align='right'>Clients</TableCell>
-                <TableCell align='right'>Emails</TableCell>
-                <TableCell align='right'>Telephone</TableCell>
-                <TableCell align='right'>Actions</TableCell>
+                <TableCell align='center'>reservation date</TableCell>
+                <TableCell align='center'>Status</TableCell>
+                <TableCell align='center'>Clients</TableCell>
+                <TableCell align='center'>Emails</TableCell>
+                <TableCell align='center'>Telephone</TableCell>
+                <TableCell align='center'>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {filteredItems
-                .slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
-                .map((row, index) => (
-                  <TableRow key={v4()}>
-                    <TableCell component='th' scope='row'>
-                      {row.name}
-                    </TableCell>
-                    <TableCell align='right'>
-                      {row.calories}
-                    </TableCell>
-                    <TableCell align='right'>{row.fat}</TableCell>
-                    <TableCell align='right'>{row.client}</TableCell>
-                    <TableCell align='right'>{row.protein}</TableCell>
-                    <TableCell align='right'>{row.protein}</TableCell>
-                    <TableCell align='right'>
-                      <Button>Edit</Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                ? filteredItems
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((purchase) => (
+                      <TableRow key={v4()}>
+                        <TableCell component='th' scope='row'>
+                          {/* TODO- Purchase Reference */}
+                          {purchase._id.slice(5)}
+                        </TableCell>
+                        <TableCell align='center'>
+                          {new Date(purchase.createdAt).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell align='center'>{purchase.status}</TableCell>
+                        <TableCell align='center'>{`${purchase.firstName} ${purchase.lastName}`}</TableCell>
+                        <TableCell align='center'>{purchase.email}</TableCell>
+                        <TableCell align='center'>{purchase.phone}</TableCell>
+                        <TableCell align='center'>
+                          <Button
+                            startIcon={<Edit />}
+                            onClick={handleClick.bind(this, purchase._id)}
+                          ></Button>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                : [1, 2, 3, 4, 5].map(() => (
+                    <TableRow key={v4()}>
+                      <TableCell component='th' scope='row'>
+                        <Skeleton variant='rect' />
+                      </TableCell>
+                      <TableCell align='center'>
+                        <Skeleton variant='rect' />
+                      </TableCell>
+                      <TableCell align='center'>
+                        <Skeleton variant='rect' />
+                      </TableCell>
+                      <TableCell align='center'>
+                        <Skeleton variant='rect' />
+                      </TableCell>
+                      <TableCell align='center'>
+                        <Skeleton variant='rect' />
+                      </TableCell>
+                      <TableCell align='center'>
+                        <Skeleton variant='rect' />
+                      </TableCell>
+                      <TableCell align='center'>
+                        <Skeleton variant='rect' />
+                      </TableCell>
+                    </TableRow>
+                  ))}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={6} />
@@ -369,7 +265,7 @@ const Reservations = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 20]}
             component='div'
-            count={rows.length}
+            count={reservations?.length || 0}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

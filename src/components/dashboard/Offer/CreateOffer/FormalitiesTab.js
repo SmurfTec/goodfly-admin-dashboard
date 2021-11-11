@@ -10,7 +10,7 @@ import { Box } from '@material-ui/system';
 import { useArray, useToggleInput, useTextInput } from 'hooks';
 import React from 'react';
 import AddFormalityDialog from './AddFormalityDialog';
-import TabPanel from './TabPanel';
+import { TabPanel } from '../../../common/TabPanel';
 
 const FormalitiesTab = ({ value, classes, handleNext }) => {
   const [formality, handleFormality, resetFormality] = useTextInput('');

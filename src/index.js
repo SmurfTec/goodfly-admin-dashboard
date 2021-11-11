@@ -18,6 +18,7 @@ import { CustomersProvider } from 'Contexts/CustomersContext';
 import { StaffersProvider } from 'Contexts/StaffersContext';
 import { BlogsProvider } from 'Contexts/BlogsContext';
 import { OffersProvider } from 'Contexts/OffersContext';
+import { ReservationsProvider } from 'Contexts/ReservationsContext';
 // * -------------------------------- * //
 
 ReactDOM.render(
@@ -28,18 +29,20 @@ ReactDOM.render(
           <CustomersProvider>
             <BlogsProvider>
               <OffersProvider>
-                <ToastContainer
-                  position='top-right'
-                  autoClose={3000}
-                  hideProgressBar
-                  newestOnTop={true}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                />
-                <App />
+                <ReservationsProvider>
+                  <ToastContainer
+                    position='top-right'
+                    autoClose={3000}
+                    hideProgressBar
+                    newestOnTop={true}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                  />
+                  <App />
+                </ReservationsProvider>
               </OffersProvider>
             </BlogsProvider>
           </CustomersProvider>

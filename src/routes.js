@@ -27,13 +27,13 @@ import CustomTrip from './components/dashboard/Trip/CustomTrip';
 import CreateProduct from './components/dashboard/product/CreateProduct';
 import Products from './components/dashboard/product/Products';
 
-import Reservations from './components/dashboard/Reservation/Reservations';
+import Reservations from './components/dashboard/Reservations';
 
 import Orders from './components/dashboard/Order/Orders';
 import Order from './components/dashboard/Order/Order';
 
 import Payments from './components/dashboard/payment/Payments';
-import DetailReservation from './components/dashboard/Reservation/DetailReservation';
+import DetailReservation from './components/dashboard/Reservations/DetailReservation';
 
 import OrganizedTrips from './components/dashboard/Trip/OrganizedTrips';
 

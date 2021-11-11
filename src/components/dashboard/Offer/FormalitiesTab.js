@@ -13,7 +13,7 @@ const FormalitiesTab = ({ formalities }) => {
       <Grid container>
         {formalities
           ? formalities.map((formality) => (
-              <Grid item xs={12} sm={6} key={formality.id}>
+              <Grid item xs={12} sm={6} key={formality._id}>
                 <Box
                   style={{
                     display: 'flex',

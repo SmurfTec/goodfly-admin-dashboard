@@ -17,7 +17,7 @@ import {
   MenuItem,
   Radio,
 } from '@material-ui/core';
-import TabPanel from './TabPanel';
+import { TabPanel } from '../../../common/TabPanel';
 import { useManyInputs, useToggleInput } from 'hooks';
 import LoadingOverlay from 'react-loading-overlay';
 import axios from 'axios';
