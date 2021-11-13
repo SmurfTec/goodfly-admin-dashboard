@@ -14,6 +14,7 @@ import {
   Button,
   TablePagination,
   TextField,
+  Container,
   Skeleton,
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
@@ -21,6 +22,7 @@ import v4 from 'uuid/dist/v4';
 import { ReservationsContext } from 'Contexts/ReservationsContext';
 import { Edit } from '@mui/icons-material';
 import { useNavigate } from 'react-router';
+import { daysBetween } from 'Utils/dateMethods';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -42,13 +44,90 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
+const filterButtons = [
+  {
+    text: 'In progress',
+    status: 'green',
+    color: 'green',
+  },
+  {
+    text: 'To be verified',
+    status: 'orange',
+    color: 'orange',
+  },
+  {
+    text: 'Archived',
+    status: 'blue',
+    color: 'blue',
+  },
+  {
+    text: 'Black List',
+    status: 'black',
+    color: '#000',
+  },
+  {
+    text: 'Before Deletion',
+    status: 'grey',
+    color: 'gray',
+  },
+  {
+    text: 'Finalized',
+    status: 'white',
+    color: 'purple',
+    // color: '#fff',
+  },
+  {
+    text: 'Deleted',
+    status: 'red',
+    color: 'red',
+  },
+];
+
+const FilterButton = ({ currentStatus, text, handleFilter, status, color }) => (
+  <Button
+    data-statusfilter={status}
+    onClick={handleFilter}
+    variant={`${currentStatus === status ? 'contained' : 'outlined'}`}
+    style={{
+      // color: `${color}`,
+      // border: `1px solid ${color}`,
+      minWidth: '9rem',
+    }}
+    sx={{
+      // '&.MuiButton-root': {
+      //   border: `2px black solid`,
+      // },
+      '&.MuiButton-contained': {
+        color: '#fff',
+        backgroundColor: color,
+      },
+      '&.MuiButton-outlined': {
+        color: color,
+        border: `1px solid ${color}`,
+      },
+    }}
+  >
+    {text}
+  </Button>
+);
+
 const Reservations = () => {
   const { reservations } = useContext(ReservationsContext);
   const classes = styles();
   const [filter, setFilter] = useState('');
-  const [filteredItems, setFilteredItems] = useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const [currentReservations, setCurrentReservations] = useState([]);
+
+  const [currentStatus, setCurrentStatus] = useState('green');
+  const [greenReseravtions, setGreenReseravtions] = useState([]);
+  const [orangeReservations, setOrangeReservations] = useState([]);
+  const [blueReservations, setBlueReservations] = useState([]);
+  const [blackReservations, setBlackReservations] = useState([]);
+  const [greyReservations, setGreyReservations] = useState([]);
+  const [whiteReservations, setWhiteReservations] = useState([]);
+  const [redReservations, setRedReservations] = useState([]);
 
   const navigate = useNavigate();
 
@@ -68,30 +147,180 @@ const Reservations = () => {
   const handleSearch = (e) => {
     const data = e.target.value;
     setFilter(data);
-    console.log(filter);
+    // console.log(filter);
   };
   //  filtered
   useEffect(() => {
-    setFilteredItems(
-      // reservations?.filter(
-      //   (el) => el.client.toLowerCase().indexOf(filter.toLowerCase()) !== -1
-      // )
-      reservations || []
+    setCurrentReservations(
+      reservations?.filter(
+        (el) =>
+          el.visitor.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+      )
+      // reservations || []
     );
   }, [filter]);
 
-  // data must be updated
   useEffect(() => {
-    setFilteredItems(reservations);
+    setCurrentReservations(reservations);
+
+    const nonPaidStatuses = [
+      'pre-reservation',
+      'validated',
+      'schedule-inProgress',
+    ];
+
+    const greenOrangeReservations =
+      reservations?.filter((el) => nonPaidStatuses.includes(el.status)) || [];
+
+    // * Reservations which have more than 8 weeks till departure date
+    // * Fall in green category
+    const greenReseravtionsNew =
+      greenOrangeReservations?.filter((el) => {
+        const departureDate = new Date(el.trip.startingDate);
+        const currentDate = new Date();
+
+        // * 8 Weeks after departure date = > 48 days
+        return daysBetween(departureDate, currentDate) > 48;
+      }) || [];
+
+    const orangeReservationsNew =
+      greenOrangeReservations?.filter((el) => {
+        const departureDate = new Date(el.trip.startingDate);
+        const currentDate = new Date();
+
+        // * 8 Weeks before departure date =  <= 48 days
+        return daysBetween(departureDate, currentDate) <= 48;
+      }) || [];
+
+    // * Those reservations , which got archieved since 6 weeks
+    // * till 4 weeks , after that they will move to black list
+    const blueReservationsNew =
+      reservations?.filter((el) => {
+        const departureDate = new Date(el.trip.startingDate);
+        const currentDate = new Date();
+
+        // * Till 4 Weeks from  departure date =  > 28 days
+        // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
+        // * So thats why I put 2nd condition
+        return (
+          (el.status === 'archived' || nonPaidStatuses.includes(el.status)) &&
+          daysBetween(departureDate, currentDate) >= 28 &&
+          daysBetween(departureDate, currentDate) <= 42
+        );
+      }) || [];
+
+    // const nonBlackStatus = [
+    //   'reservation-paid',
+    //   'cancelled',
+    //   'cancellation-request',
+    // ];
+
+    // * Those reservations , which arrive 4 weeks before departure date
+    // * till 2 weeks , after that they move to red List
+    // * OR is archived since 6 weeks and still not recovered
+
+    console.log(`reservations?.length`, reservations?.length);
+    const blackReservationsNew =
+      reservations?.filter((el) => {
+        const departureDate = new Date(el.trip.startingDate);
+        const currentDate = new Date();
+
+        // * Till 2 Weeks from  departure date =  > 14 days
+        // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
+        // * So thats why I put 2nd condition
+
+        console.log(`status cond`, nonPaidStatuses.includes(el.status));
+
+        console.log(`cond 2.1`, daysBetween(departureDate, currentDate) < 28);
+        console.log(`cond 2.2`, daysBetween(departureDate, currentDate) > 14);
+
+        return (
+          (el.status === 'archived' || nonPaidStatuses.includes(el.status)) &&
+          daysBetween(departureDate, currentDate) < 28 &&
+          daysBetween(departureDate, currentDate) > 14
+        );
+      }) || [];
+
+    // ! Unrecoverable Reservations (status 'cancelled')
+    // ! Either cancelled by staffer , or black reservations with less than 2 weeks
+    // * Note : Reservations status will change automatically from backend
+    // * When 2 weeks left ....
+    const redReservationsNew =
+      reservations?.filter((el) => el.status === 'cancelled') || [];
+
+    // * Cancellation Requests by client
+    const greyReservationsNew =
+      reservations?.filter((el) => el.status === 'cancellation-request') || [];
+
+    // * Reservations paid / Finalized
+    const whiteReservationsNew =
+      reservations?.filter((el) => el.status === 'reservation-paid') || [];
+
+    setGreenReseravtions(greenReseravtionsNew);
+    setOrangeReservations(orangeReservationsNew);
+    setBlueReservations(blueReservationsNew);
+    setBlackReservations(blackReservationsNew);
+    setGreyReservations(greyReservationsNew);
+    setWhiteReservations(whiteReservationsNew);
+    setRedReservations(redReservationsNew);
   }, [reservations]);
+
+  useEffect(() => {
+    switch (currentStatus) {
+      case 'green':
+        setCurrentReservations(greenReseravtions);
+        break;
+
+      case 'orange':
+        setCurrentReservations(orangeReservations);
+        break;
+
+      case 'blue':
+        setCurrentReservations(blueReservations);
+        break;
+
+      case 'black':
+        setCurrentReservations(blackReservations);
+        break;
+
+      case 'grey':
+        setCurrentReservations(greyReservations);
+        break;
+
+      case 'white':
+        setCurrentReservations(whiteReservations);
+        break;
+      case 'red':
+        setCurrentReservations(redReservations);
+        break;
+
+      default:
+        break;
+    }
+  }, [
+    currentStatus,
+    greenReseravtions,
+    orangeReservations,
+    blueReservations,
+    blackReservations,
+    greyReservations,
+    whiteReservations,
+    redReservations,
+  ]);
 
   const handleClick = (id) => {
     // navigate(`/app/reservations/${id}`);
     navigate(`${id}`);
   };
 
+  const filterReservations = (e) => {
+    const { statusfilter } = e.currentTarget.dataset;
+    // console.log(`statusfilter`, statusfilter);
+    setCurrentStatus(statusfilter);
+  };
+
   return (
-    <div style={{ marginTop: '3rem' }}>
+    <Container style={{ marginTop: '3rem' }}>
       <Typography variant='h4' m={2}>
         Reservation Management
       </Typography>
@@ -100,70 +329,22 @@ const Reservations = () => {
         mb={0}
         style={{
           display: 'flex',
-          justifyContent: 'space-evenly',
+          justifyContent: 'flex-start',
           alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 20,
         }}
       >
-        <Button
-          variant='outlined'
-          style={{
-            color: 'green',
-            border: '1px solid green',
-            minWidth: '9rem',
-          }}
-        >
-          InProgress
-        </Button>
-        <Button
-          variant='outlined'
-          style={{
-            color: 'orange',
-            border: '1px solid orange',
-            minWidth: '9rem',
-          }}
-        >
-          To be Verified
-        </Button>
-        <Button
-          variant='outlined'
-          style={{
-            color: 'blue',
-            border: '1px solid blue',
-            minWidth: '9rem',
-          }}
-        >
-          Archived
-        </Button>
-        <Button
-          variant='outlined'
-          style={{
-            color: 'gray',
-            border: '1px solid gray',
-            minWidth: '9rem',
-          }}
-        >
-          Before deletion
-        </Button>
-        <Button
-          variant='outlined'
-          style={{
-            color: 'purple',
-            border: '1px solid purple',
-            minWidth: '9rem',
-          }}
-        >
-          Finalized
-        </Button>
-        <Button
-          variant='outlined'
-          style={{
-            color: 'red',
-            border: '1px solid red',
-            minWidth: '9rem',
-          }}
-        >
-          Deleted
-        </Button>
+        {filterButtons.map((btn) => (
+          <FilterButton
+            key={v4()}
+            currentStatus={currentStatus}
+            text={btn.text}
+            handleFilter={filterReservations}
+            status={btn.status}
+            color={btn.color}
+          />
+        ))}
       </Box>
       <Box className={classes.main}>
         <Box
@@ -206,8 +387,8 @@ const Reservations = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredItems
-                ? filteredItems
+              {currentReservations
+                ? currentReservations
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((purchase) => (
                       <TableRow key={v4()}>
@@ -273,7 +454,7 @@ const Reservations = () => {
           />
         </TableContainer>
       </Box>
-    </div>
+    </Container>
   );
 };
 

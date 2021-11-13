@@ -18,7 +18,7 @@ export const ReservationsProvider = ({ children }) => {
     updateReservation,
     removeReservation,
     clearReservations,
-  ] = useArray();
+  ] = useArray([], '_id');
 
   useEffect(() => {
     // * If user is logged In , only then fetch data
@@ -40,11 +40,34 @@ export const ReservationsProvider = ({ children }) => {
 
   const getReservationById = (id) => reservations?.find((el) => el._id === id);
 
-  const modifyReservation = async (id) => {
+  const deleteReservation = async (id) => {
     try {
       removeReservation(id);
     } catch (err) {
       handleCatch(err);
+    }
+  };
+
+  const modifyReservation = async (
+    id,
+    updatedReservation,
+    updateOnlyInContext
+  ) => {
+    if (updateOnlyInContext) {
+      updateReservation(id, updatedReservation);
+    } else {
+      // TODO - Make PATCH req and update Reservation
+      try {
+        const resData = await makeReq(
+          `/trips/purchase/${id}`,
+          { body: { ...updatedReservation } },
+          'PATCH'
+        );
+        console.log(`resData.purchase`, resData.purchase);
+        toast.success('Reservation updated Successfully !');
+      } catch (err) {
+        handleCatch(err);
+      }
     }
   };
 
@@ -54,6 +77,7 @@ export const ReservationsProvider = ({ children }) => {
       value={{
         reservations,
         getReservationById,
+        deleteReservation,
         modifyReservation,
       }}
     >

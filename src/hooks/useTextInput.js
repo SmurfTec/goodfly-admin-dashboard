@@ -11,7 +11,7 @@ const useTextInput = (initialState = '') => {
     setState(initialState);
   };
 
-  return [state, handleChange, resetState];
+  return [state, handleChange, resetState, setState];
 };
 
 export default useTextInput;

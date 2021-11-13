@@ -40,7 +40,7 @@ const makeReq = (endpoint, { body, ...customConfig } = {}, method = 'GET') => {
   console.log(`body`, body);
   return fetch(`${API_BASE_URL}${endpoint}`, config).then(async (res) => {
     const data = await res.json();
-    console.log(`data`, data);
+    // console.log(`data`, data);
     if (res.ok) {
       return data;
     } else {

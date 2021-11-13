@@ -62,7 +62,8 @@ export const CustomersProvider = ({ children }) => {
       toast.success('Customer Updated Successfully !');
 
       // Update Customer in the context array
-      updateCustomer(id, resData.suer);
+      updateCustomer(id, resData.user);
+      return resData.user;
     } catch (err) {
       handleCatch(err);
     }

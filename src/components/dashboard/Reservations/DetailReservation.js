@@ -31,11 +31,6 @@ import {
   Skeleton,
   Container,
 } from '@material-ui/core';
-import Divider from '@material-ui/core/Divider';
-import stageImg1 from 'Assets/img/stage1.png';
-import stageImg2 from 'Assets/img/stage12.png';
-import stageImg3 from 'Assets/img/stage2.png';
-import stageImg4 from 'Assets/img/stage23.png';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
 
 import {
@@ -45,98 +40,23 @@ import {
 } from 'react-feather';
 import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
 
-import StagesTab from '../Offer/StagesTab';
 import FormalitiesTab from '../Offer/FormalitiesTab';
 import { TabPanel, a11yProps } from '../../common/TabPanel';
 import { useParams } from 'react-router';
 import { ReservationsContext } from 'Contexts/ReservationsContext';
 import OfferView from '../Offer/OfferView';
+import LoadingOverlay from 'react-loading-overlay';
+import { useArray, useTextInput, useToggleInput } from 'hooks';
+import v4 from 'uuid/dist/v4';
+import { Delete, Edit } from '@material-ui/icons';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { CustomersContext } from 'Contexts/CustomersContext';
+import PaymentsTable from './paymentsTable';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
-
-const stages = [
-  {
-    _id: '12312',
-    date: '05/04/2020 - Jour #01 : ',
-    locatation: 'Départ Aéroport Paris CDG',
-    description: `Ut mi turpis, sagittis quis eleifend non, faucibus eget velit. Proin ullamcorper 
-      pulvinar velit, vitae egestas mauris mattis in. Nam dapibus facilisis nisi, non mollis
-      magna. Pellentesque at tincidunt tortor. Quisque imperdiet condimentum. 
-      `,
-    accommodations: [
-      {
-        _id: '12312312',
-        location: 'Etape : Aéroport internationnal Paris Charles de Gaulle',
-        description:
-          'Aliquam vel purus molestie, bibendum quam ac, tempor tortor.',
-      },
-      {
-        _id: '12312',
-        location: 'Repas : Demi-pension',
-        description:
-          'Urna quis sodales luctus, leo diam porttitor ante, sit amet venenatis sapien nisi in lacus.',
-      },
-    ],
-    images: [stageImg1],
-  },
-  {
-    _id: '12122',
-    date: '05/04/2020 - Jour #01 : ',
-    locatation: 'Départ Aéroport Paris CDG',
-    description: `Ut mi turpis, sagittis quis eleifend non, faucibus eget velit. Proin ullamcorper 
-      pulvinar velit, vitae egestas mauris mattis in. Nam dapibus facilisis nisi, non mollis
-      magna. Pellentesque at tincidunt tortor. Quisque imperdiet condimentum. 
-      `,
-    accommodations: [
-      {
-        _id: '12312312',
-        location: 'Etape : Aéroport internationnal Paris Charles de Gaulle',
-        description:
-          'Aliquam vel purus molestie, bibendum quam ac, tempor tortor.',
-      },
-      {
-        _id: '12312',
-        location: 'Repas : Demi-pension',
-        description:
-          'Urna quis sodales luctus, leo diam porttitor ante, sit amet venenatis sapien nisi in lacus.',
-      },
-    ],
-    images: [stageImg1, stageImg2, stageImg3, stageImg3, stageImg3],
-  },
-  {
-    _id: '121dasdad2',
-    date: '05/04/2020 - Jour #01 : ',
-    locatation: 'Départ Aéroport Paris CDG',
-    description: `Ut mi turpis, sagittis quis eleifend non, faucibus eget velit. Proin ullamcorper 
-      pulvinar velit, vitae egestas mauris mattis in. Nam dapibus facilisis nisi, non mollis
-      magna. Pellentesque at tincidunt tortor. Quisque imperdiet condimentum. 
-      `,
-    accommodations: [
-      {
-        _id: '12312312',
-        location: 'Etape : Aéroport internationnal Paris Charles de Gaulle',
-        description:
-          'Aliquam vel purus molestie, bibendum quam ac, tempor tortor.',
-      },
-      {
-        _id: '12312',
-        location: 'Repas : Demi-pension',
-        description:
-          'Urna quis sodales luctus, leo diam porttitor ante, sit amet venenatis sapien nisi in lacus.',
-      },
-    ],
-    images: [
-      stageImg3,
-      stageImg4,
-      // stageImg3,
-      // stageImg4,
-      // stageImg3,
-      // stageImg4,
-    ],
-  },
-];
 
 const rows = [
   createData(
@@ -169,8 +89,6 @@ const rows = [
     '11/07/2021'
   ),
 ];
-
-const trips = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const styles = makeStyles((theme) => ({
   form: {
@@ -278,28 +196,45 @@ const styles = makeStyles((theme) => ({
 
 const DetailReservation = () => {
   const classes = styles();
-  const { getReservationById, reservations } = useContext(ReservationsContext);
+  const { getReservationById, reservations, modifyReservation } =
+    useContext(ReservationsContext);
+  const { modifyCustomer } = useContext(CustomersContext);
   const { id } = useParams();
 
   const [reservation, setReservation] = useState();
+  const [
+    attachments,
+    setAttachments,
+    pushAttachment,
+    filterAttachment,
+    updateAttachment,
+    removeAttachment,
+    clearAttachment,
+  ] = useArray([], '_id');
 
   const [value, setValue] = React.useState(0);
-  const [tabValue, setTabValue] = React.useState(0);
   const [reservationStatus, setReservationStatus] = React.useState('');
-  const [payment, setPayment] = React.useState(false);
-  const [ok, setOk] = React.useState(true);
+
+  const [installments, handleInstallments, , setInstallments] =
+    useTextInput('');
+
+  // const handleIn
 
   useEffect(() => {
     setReservation(getReservationById(id));
   }, [id, reservations]);
 
+  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState('Uploading Image...');
+
   useEffect(() => {
-    if (reservation) setReservationStatus(reservation.status);
+    if (reservation) {
+      setReservationStatus(reservation.status);
+      setAttachments(reservation.visitor.attachments);
+      setInstallments(reservation?.installments || '');
+    }
   }, [reservation]);
 
-  const toggle = (event) => {
-    setOk(event.target.ok);
-  };
   const handleReservationStatus = (event) => {
     setReservationStatus(event.target.value);
   };
@@ -307,16 +242,107 @@ const DetailReservation = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
+
+
+
+  // const handleModifyAttachment = (id) => {
+  //   console.log(`id`, id);
+  //   setModifyAttachmentId(id);
+  // };
+
+  const handleDeleteAttachment = (id) => {
+    console.log(`id`, id);
+    removeAttachment(id);
   };
 
-  const openPayment = () => {
-    setPayment(true);
+  const handleAttachmentChange = async (e) => {
+    setUploadingText('Uploading Attachment ...');
+    toggleImageUploading();
+    const selectedFile = e.target.files[0];
+    const fileType = ['image/'];
+    try {
+      console.log(`selectedFile.type`, selectedFile.type);
+      if (selectedFile && selectedFile.type.includes(fileType)) {
+        let reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onloadend = async (e) => {
+          console.log(`result onLoadEnd`, e.target.result);
+          const file = e.target.result;
+
+          // TODO  Delete Image from cloudinary if it exists on this user
+
+          // // * 1 Upload Image on Cloudinary
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append(
+            'upload_preset',
+            process.env.REACT_APP_CLOUDINARY_PRESET
+          );
+
+          const res = await axios.post(
+            `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
+            formData
+          );
+          const uploadedAttachment = res.data.url;
+          console.log(`res`, res);
+
+          setUploadingText('Updating Attachment ...');
+
+          pushAttachment({ _id: v4(), image: uploadedAttachment });
+
+          toggleImageUploading();
+        };
+      } else {
+        toast.error('Only Image files are acceptable !');
+      }
+    } catch (err) {
+      toast(
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
+      );
+      console.log(`err`, err);
+    }
   };
 
-  const closePayment = () => {
-    setPayment(false);
+  const handleModifyCustomer = async (e) => {
+    e.preventDefault();
+    const updatedVisitor = {
+      ...reservation.visitor,
+      attachments,
+    };
+    const updatedCustomer = await modifyCustomer(
+      reservation.visitor._id,
+      updatedVisitor
+    );
+    console.log(`updatedCustomer`, updatedCustomer);
+    console.log(`updatedReservation`, {
+      ...reservation,
+      visitor: updatedCustomer,
+    });
+    modifyReservation(
+      reservation._id,
+      { ...reservation, visitor: updatedCustomer },
+      true
+    );
+  };
+
+  const handleValidate = () => {
+    console.log(`reservationStatus`, reservationStatus);
+    console.log(`installments`, installments);
+
+    if (reservationStatus === 'pre-reservation') {
+      toast.error('Plz update reservation status before validation !');
+      return;
+    }
+
+    if (!installments) {
+      toast.error('Plz select Installments before validation !');
+      return;
+    }
+
+    modifyReservation(reservation._id, {
+      status: reservationStatus,
+      installments,
+    });
   };
 
   return (
@@ -330,11 +356,11 @@ const DetailReservation = () => {
       </Typography>
       <Box
         style={{
-          width: '50%',
           margin: '1rem',
           display: 'flex',
           justifyContent: 'left',
           alignItems: 'center',
+          flexWrap: 'wrap',
         }}
       >
         <Typography variant='h5'> Reservation Status :</Typography>
@@ -342,7 +368,7 @@ const DetailReservation = () => {
           <FormControl
             size='small'
             style={{
-              width: '45%',
+              width: 'fit-content',
               backgroundColor: '#fff',
               margin: '1rem',
             }}
@@ -359,12 +385,21 @@ const DetailReservation = () => {
               label='Reservation Status'
               onChange={handleReservationStatus}
             >
-              <MenuItem value={'inProgress'}>In Progress</MenuItem>
-              <MenuItem value={'inProgress'}>In Progress</MenuItem>
-              <MenuItem value={'inProgress'}>In Progress</MenuItem>
-              <MenuItem value={'inProgress'}>In Progress</MenuItem>
-              <MenuItem value={'inProgress'}>In Progress</MenuItem>
-              <MenuItem value={'inProgress'}>In Progress</MenuItem>
+              <MenuItem value={'pre-reservation'}>Pre Reservation</MenuItem>
+              <MenuItem value={'validated'}>Validated</MenuItem>
+              <MenuItem value={'schedule-inProgress'} sx={{ display: 'none' }}>
+                Schedule in Progress
+              </MenuItem>
+              <MenuItem value={'reservation-paid'} sx={{ display: 'none' }}>
+                Finalized
+              </MenuItem>
+              <MenuItem value={'archived'} sx={{ display: 'none' }}>
+                Archived
+              </MenuItem>
+              <MenuItem value={'cancelled'}>Cancelled</MenuItem>
+              <MenuItem value={'cancellation-request'} sx={{ display: 'none' }}>
+                Cancellation Request
+              </MenuItem>
               {/* <MenuItem value={20}>Two</MenuItem>
             <MenuItem value={30}>Three</MenuItem> */}
             </Select>
@@ -380,6 +415,7 @@ const DetailReservation = () => {
           display: 'flex',
           justifyContent: 'left',
           alignItems: 'center',
+          flexWrap: 'wrap',
         }}
       >
         {' '}
@@ -387,11 +423,17 @@ const DetailReservation = () => {
           Payment :{' '}
         </Typography>
         <FormControl component='fieldset'>
-          <RadioGroup row aria-label='gender' name='row-radio-buttons-group'>
-            <FormControlLabel value='Total' control={<Radio />} label='Total' />
-            <FormControlLabel value='3X' control={<Radio />} label='3X' />
-            <FormControlLabel value='4X' control={<Radio />} label='4X' />
-            <FormControlLabel value='5X' control={<Radio />} label='5X' />
+          <RadioGroup
+            value={installments}
+            onChange={handleInstallments}
+            row
+            aria-label='gender'
+            name='installments'
+          >
+            <FormControlLabel value='1' control={<Radio />} label='Total' />
+            <FormControlLabel value='3' control={<Radio />} label='3X' />
+            <FormControlLabel value='4' control={<Radio />} label='4X' />
+            <FormControlLabel value='5' control={<Radio />} label='5X' />
           </RadioGroup>
         </FormControl>
       </Box>
@@ -435,7 +477,10 @@ const DetailReservation = () => {
                   <Box>
                     <PrinterIcon className={classes.icons} />
                     <Trash2Icon className={classes.icons} />
-                    <PlayIcon className={classes.icons} />
+                    <PlayIcon
+                      className={classes.icons}
+                      onClick={handleValidate}
+                    />
                   </Box>
                 </Box>
               </Tabs>
@@ -516,6 +561,7 @@ const DetailReservation = () => {
                         backgroundColor: '#c6c6c6',
                         minWidth: 140,
                       }}
+                      onClick={handleModifyCustomer}
                     >
                       Modify
                     </Button>{' '}
@@ -796,7 +842,7 @@ const DetailReservation = () => {
                 <Grid container spacing={3}>
                   <Grid item md={9}>
                     <CarouselLayout>
-                      {reservation.visitor.attachments.map((attachment, i) => (
+                      {attachments.map((attachment, i) => (
                         <div
                           key={attachment._id}
                           className={classes.carouselCard}
@@ -809,12 +855,26 @@ const DetailReservation = () => {
                           <Box
                             style={{
                               display: 'flex',
-                              justifyContent: 'space-between',
+                              justifyContent: 'flex-end',
                               alignItems: 'center',
                             }}
                           >
-                            <Button>modify</Button>
-                            <Button style={{ color: 'red' }}>Delete</Button>
+                            {/* <Button
+                              color='primary'
+                              startIcon={<Edit />}
+                              onClick={handleModifyAttachment.bind(
+                                this,
+                                attachment._id
+                              )}
+                            ></Button> */}
+                            <Button
+                              color='error'
+                              startIcon={<Delete />}
+                              onClick={handleDeleteAttachment.bind(
+                                this,
+                                attachment._id
+                              )}
+                            ></Button>
                             {/* <Switch
                               status={ok}
                               onChange={toggle}
@@ -841,22 +901,35 @@ const DetailReservation = () => {
                             accept='image/*'
                             style={{ display: 'none' }}
                             id='contained-button-file'
-                            multiple
                             type='file'
+                            onChange={handleAttachmentChange}
+                            disabled={isImageUploading}
                           />
-                          <label htmlFor='contained-button-file'>
-                            <Box className={classes.image}>
-                              <Box>
-                                <PlusIcon size={35} style={{ color: '#fff' }} />
-                                <FileIcon size={35} style={{ color: '#fff' }} />
+                          <LoadingOverlay
+                            active={isImageUploading}
+                            spinner
+                            text={uploadingText}
+                          >
+                            <label htmlFor='contained-button-file'>
+                              <Box className={classes.image}>
+                                <Box>
+                                  <PlusIcon
+                                    size={35}
+                                    style={{ color: '#fff' }}
+                                  />
+                                  <FileIcon
+                                    size={35}
+                                    style={{ color: '#fff' }}
+                                  />
+                                </Box>
+                                <Box style={{ textAlign: 'center' }}>
+                                  <Typography style={{ color: '#fff' }}>
+                                    Upload Document
+                                  </Typography>
+                                </Box>
                               </Box>
-                              <Box style={{ textAlign: 'center' }}>
-                                <Typography style={{ color: '#fff' }}>
-                                  Upload Document
-                                </Typography>
-                              </Box>
-                            </Box>
-                          </label>
+                            </label>
+                          </LoadingOverlay>
                         </Box>
                       </Box>
                     </Box>
@@ -869,84 +942,7 @@ const DetailReservation = () => {
                 index={2}
                 style={{ backgroundColor: '#f2f2f2' }}
               >
-                <TableContainer component={Paper} className={classes.table}>
-                  <Table sx={{ minWidth: 750 }} aria-label='simple table'>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Reference</TableCell>
-                        <TableCell align='right'>Deadline</TableCell>
-                        <TableCell align='right'>Status </TableCell>
-                        <TableCell align='right'>Payment Date </TableCell>
-                        <TableCell align='right'>Payroll amount</TableCell>
-                        <TableCell align='right'>Payment means</TableCell>
-                        <TableCell align='right'>Actions</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {rows.map((row, index) => (
-                        <TableRow key={row.name}>
-                          <TableCell component='th' scope='row'>
-                            {row.name}
-                          </TableCell>
-                          <TableCell align='right'>{row.calories}</TableCell>
-                          <TableCell align='right'>{row.fat}</TableCell>
-                          <TableCell align='right'>{row.carbs}</TableCell>
-                          <TableCell align='right'>{row.protein}</TableCell>
-                          <TableCell align='right'>{row.protein}</TableCell>
-                          <TableCell align='right'>
-                            <Button>Detail</Button>{' '}
-                          </TableCell>
-                          <TableCell align='right'>
-                            <Button>Edit</Button>{' '}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <Box
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'right',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Box
-                    style={{
-                      backgroundColor: 'white',
-                      minHeight: '10rem',
-                      width: '18rem',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      padding: '1rem',
-                    }}
-                  >
-                    <Box>
-                      <Typography variant='h5' m={1}>
-                        Total Reservations
-                      </Typography>
-                      <Typography variant='h5' m={1}>
-                        Total Paye
-                      </Typography>
-                      <Typography variant='h5' m={1}>
-                        Stay paid
-                      </Typography>
-                    </Box>
-                    <Box>
-                      <Typography variant='h5' m={1}>
-                        12000.00${' '}
-                      </Typography>
-                      <Typography variant='h5' m={1}>
-                        6300.00$
-                      </Typography>
-                      <Typography variant='h5' m={1}>
-                        2100.00$
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Box>
+                <PaymentsTable data={reservation?.payments} classes={classes} />
               </TabPanel>
             </Box>
           </Box>
@@ -957,208 +953,6 @@ const DetailReservation = () => {
 
       {/*  Dialog */}
 
-      <Button onClick={openPayment}> Dialog ????</Button>
-
-      <Dialog open={payment} maxWidth='lg' onClose={closePayment}>
-        <DialogTitle>
-          <Typography variant='h4'>
-            Payment of the due date Ref : GF125487
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
-          <Box className={classes.flexBetween} style={{ margin: 0 }}>
-            <Typography variant='h5'>
-              Amount of the due date : 2100.00$
-            </Typography>
-            <Box className={classes.flexAround}>
-              <Typography variant='text'>Add a payment method</Typography>
-              <Box>
-                <PlusIcon
-                  style={{
-                    borderRadius: '1.2rem',
-                    width: '2.1rem',
-                    marginLeft: '0.5rem',
-                  }}
-                  className={classes.icons}
-                />
-              </Box>
-            </Box>
-          </Box>
-          <Divider />
-
-          <Box
-            style={{
-              display: 'flex',
-              justifyContent: 'right',
-              alignItems: 'center',
-            }}
-          >
-            <Typography variant='h5' mr={1}>
-              Payment Method :{' '}
-            </Typography>
-            <FormControl component='fieldset'>
-              <RadioGroup
-                row
-                aria-label='gender'
-                name='row-radio-buttons-group'
-              >
-                <FormControlLabel
-                  value='Bank card'
-                  control={<Radio />}
-                  label='Bank card'
-                />
-                <FormControlLabel
-                  value='Bank Transfer'
-                  control={<Radio />}
-                  label='Bank Transfer'
-                />
-                <FormControlLabel
-                  value='Bank check'
-                  control={<Radio />}
-                  label='Bank check'
-                />
-                <FormControlLabel
-                  value='Espece'
-                  control={<Radio />}
-                  label='Espece'
-                />
-                <FormControlLabel
-                  value='Loyalty points'
-                  control={<Radio />}
-                  label='Loyalty points'
-                />
-              </RadioGroup>
-            </FormControl>
-          </Box>
-          <Box className={classes.flexLeft}>
-            <Box className={classes.form}>
-              <TextField
-                autoFocus
-                margin='dense'
-                id='name'
-                label='Espece'
-                type='text'
-                fullWidth
-                style={{ marginRight: '2rem' }}
-              />
-            </Box>
-            <Box className={classes.form}>
-              <TextField
-                autoFocus
-                margin='dense'
-                id='date'
-                label='20/12/21'
-                type='date'
-                fullWidth
-                style={{ marginRight: '2rem' }}
-              />
-            </Box>
-            <Box className={classes.form}>
-              <TextField
-                autoFocus
-                margin='dense'
-                id='payment'
-                label='1000.00'
-                type='text'
-                fullWidth
-                style={{ marginRight: '2rem' }}
-              />
-            </Box>
-          </Box>
-          <Divider />
-
-          <Box
-            style={{
-              display: 'flex',
-              justifyContent: 'right',
-              alignItems: 'center',
-            }}
-          >
-            <Typography variant='h5' mr={1}>
-              Payment Method :{' '}
-            </Typography>
-            <FormControl component='fieldset'>
-              <RadioGroup
-                row
-                aria-label='gender'
-                name='row-radio-buttons-group'
-              >
-                <FormControlLabel
-                  value='Bank card'
-                  control={<Radio />}
-                  label='Bank card'
-                />
-                <FormControlLabel
-                  value='Bank Transfer'
-                  control={<Radio />}
-                  label='Bank Transfer'
-                />
-                <FormControlLabel
-                  value='Bank check'
-                  control={<Radio />}
-                  label='Bank check'
-                />
-                <FormControlLabel
-                  value='Espece'
-                  control={<Radio />}
-                  label='Espece'
-                />
-                <FormControlLabel
-                  value='Loyalty points'
-                  control={<Radio />}
-                  label='Loyalty points'
-                />
-              </RadioGroup>
-            </FormControl>
-          </Box>
-          <Box className={classes.flexLeft}>
-            <Box className={classes.form}>
-              <TextField
-                autoFocus
-                margin='dense'
-                id='name'
-                label='Transaction number'
-                type='text'
-                fullWidth
-                style={{ marginRight: '2rem' }}
-              />
-            </Box>
-            <Box className={classes.form}>
-              <TextField
-                autoFocus
-                margin='dense'
-                id='transication'
-                label='Transaction  Date'
-                type='text'
-                fullWidth
-                style={{ marginRight: '2rem' }}
-              />
-            </Box>
-            <Box className={classes.form}>
-              <TextField
-                autoFocus
-                margin='dense'
-                id='Transaction Amount'
-                label='Transaction Amount'
-                type='text'
-                fullWidth
-                style={{ marginRight: '2rem' }}
-              />
-            </Box>
-          </Box>
-        </DialogContent>
-        <DialogActions
-          className={classes.form}
-          style={{ margin: '1rem', justifyContent: 'right' }}
-        >
-          <Button variant='outlined' onClick={closePayment}>
-            Cancel
-          </Button>
-          <Button variant='contained' onClick={closePayment}>
-            Validate
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Container>
   );
 };
