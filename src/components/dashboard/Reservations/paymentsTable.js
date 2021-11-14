@@ -11,17 +11,26 @@ import {
   Typography,
   Skeleton,
 } from '@material-ui/core';
+import { ReservationsContext } from 'Contexts/ReservationsContext';
 import { useToggleInput } from 'hooks';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import v4 from 'uuid/dist/v4';
 import PaymentDetailsDialog from './PaymentDetailsDialog';
 
-const PaymentsTable = ({ classes, data }) => {
-  const handleClick = (id) => {
-    setCurrentPayment();
-  };
+const PaymentsTable = ({ classes, data, purchaseId }) => {
   const [isDialogOpen, toggleDialogOpen] = useToggleInput(false);
   const [currentPayment, setCurrentPayment] = useState();
+  const { makePayment } = useContext(ReservationsContext);
+
+  const handlePayment = (updatedPayment) => {
+    makePayment(purchaseId, currentPayment._id, updatedPayment);
+    toggleDialogOpen();
+  };
+
+  const handleClick = (payment) => {
+    setCurrentPayment(payment);
+    toggleDialogOpen();
+  };
 
   return (
     <>
@@ -64,7 +73,11 @@ const PaymentsTable = ({ classes, data }) => {
                       align='right'
                       onClick={handleClick.bind(this, item)}
                     >
-                      <Button> {item.isPaid ? 'Details' : 'Validate'}</Button>
+                      <Button>
+                        {item.isPaid || item.paymentMethod === 'cash'
+                          ? 'Details'
+                          : 'Validate'}
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))
@@ -141,7 +154,13 @@ const PaymentsTable = ({ classes, data }) => {
           </Box>
         </Box>
       </Box>
-      <PaymentDetailsDialog />
+      <PaymentDetailsDialog
+        classes={classes}
+        open={isDialogOpen}
+        toggleDialog={toggleDialogOpen}
+        payment={currentPayment}
+        handleSuccess={handlePayment}
+      />
     </>
   );
 };

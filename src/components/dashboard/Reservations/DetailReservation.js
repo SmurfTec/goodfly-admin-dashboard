@@ -53,149 +53,10 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { CustomersContext } from 'Contexts/CustomersContext';
 import PaymentsTable from './paymentsTable';
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData(
-    'Muhammadzain',
-    ' zain@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadali',
-    ' ali@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadali',
-    ' ali@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-
-  createData(
-    'Muhammadumer',
-    ' umer@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-];
-
-const styles = makeStyles((theme) => ({
-  form: {
-    margin: '1rem 0rem  2rem',
-    // marginBottom: '1rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-  },
-  table: {
-    margin: ' 0.5rem 0.5rem 0.5rem',
-  },
-  icons: {
-    backgroundColor: '#46B9F6',
-    color: '#fff',
-    width: '2.3rem',
-    height: '2rem',
-    margin: '0.5rem 0.1rem',
-    padding: '0.2rem',
-  },
-  options: {
-    padding: '1rem',
-    minHeight: '20rem',
-  },
-  options2: {
-    backgroundColor: '#fff',
-    minHeight: '20rem',
-  },
-  address: {
-    width: '100%',
-    textAlign: 'center',
-    margin: '1rem',
-  },
-  flexBetween: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    margin: '1rem',
-  },
-  flexAround: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    margin: '1rem',
-  },
-  flexLeft: {
-    display: 'flex',
-    justifyContent: 'left',
-    alignItems: 'center',
-  },
-  Tabs: {
-    '& .MuiTab-root': {
-      backgroundColor: '#e6e6e6',
-      color: '#808080',
-    },
-    '& .Mui-selected': {
-      backgroundColor: '#fafafa',
-      color: '#333333',
-    },
-  },
-  header: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    width: '100%',
-    justifyContent: 'space-between',
-    marginTop: 25,
-  },
-  textInput: {
-    width: '75%',
-    backgroundColor: '#fff',
-    marginBottom: 7,
-  },
-  inputBox: {
-    border: 0,
-    outline: 0,
-    display: 'flex',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  typo: {
-    width: '25%',
-  },
-  image: {
-    minHeight: 150,
-    margin: 7,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    border: `2px dashed #fff`,
-    borderRadius: '10px',
-    cursor: 'pointer',
-  },
-  mainBox: {
-    backgroundColor: '#f2f2f2',
-    borderRadius: '10px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: '3rem 1rem 1rem',
-    padding: 20,
-  },
-}));
+import useStyles from './styles/detailReservation';
 
 const DetailReservation = () => {
-  const classes = styles();
+  const classes = useStyles();
   const { getReservationById, reservations, modifyReservation } =
     useContext(ReservationsContext);
   const { modifyCustomer } = useContext(CustomersContext);
@@ -231,7 +92,7 @@ const DetailReservation = () => {
     if (reservation) {
       setReservationStatus(reservation.status);
       setAttachments(reservation.visitor.attachments);
-      setInstallments(reservation?.installments || '');
+      setInstallments(reservation?.installments.toString() || '');
     }
   }, [reservation]);
 
@@ -242,8 +103,6 @@ const DetailReservation = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-
 
   // const handleModifyAttachment = (id) => {
   //   console.log(`id`, id);
@@ -385,7 +244,12 @@ const DetailReservation = () => {
               label='Reservation Status'
               onChange={handleReservationStatus}
             >
-              <MenuItem value={'pre-reservation'}>Pre Reservation</MenuItem>
+              <MenuItem
+                value={'pre-reservation'}
+                disabled={reservation?.status !== 'pre-reservation'}
+              >
+                Pre Reservation
+              </MenuItem>
               <MenuItem value={'validated'}>Validated</MenuItem>
               <MenuItem value={'schedule-inProgress'} sx={{ display: 'none' }}>
                 Schedule in Progress
@@ -430,10 +294,30 @@ const DetailReservation = () => {
             aria-label='gender'
             name='installments'
           >
-            <FormControlLabel value='1' control={<Radio />} label='Total' />
-            <FormControlLabel value='3' control={<Radio />} label='3X' />
-            <FormControlLabel value='4' control={<Radio />} label='4X' />
-            <FormControlLabel value='5' control={<Radio />} label='5X' />
+            <FormControlLabel
+              disabled={reservation?.status !== 'pre-reservation'}
+              value='1'
+              control={<Radio />}
+              label='Total'
+            />
+            <FormControlLabel
+              disabled={reservation?.status !== 'pre-reservation'}
+              value='3'
+              control={<Radio />}
+              label='3X'
+            />
+            <FormControlLabel
+              disabled={reservation?.status !== 'pre-reservation'}
+              value='4'
+              control={<Radio />}
+              label='4X'
+            />
+            <FormControlLabel
+              disabled={reservation?.status !== 'pre-reservation'}
+              value='5'
+              control={<Radio />}
+              label='5X'
+            />
           </RadioGroup>
         </FormControl>
       </Box>
@@ -942,7 +826,11 @@ const DetailReservation = () => {
                 index={2}
                 style={{ backgroundColor: '#f2f2f2' }}
               >
-                <PaymentsTable data={reservation?.payments} classes={classes} />
+                <PaymentsTable
+                  purchaseId={reservation._id}
+                  data={reservation?.payments}
+                  classes={classes}
+                />
               </TabPanel>
             </Box>
           </Box>
@@ -952,7 +840,6 @@ const DetailReservation = () => {
       )}
 
       {/*  Dialog */}
-
     </Container>
   );
 };

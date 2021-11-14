@@ -25,7 +25,7 @@ export const ReservationsProvider = ({ children }) => {
     if (user) {
       (async () => {
         try {
-          const resData = await makeReq(`/trips/purchase`);
+          const resData = await makeReq(`/purchases`);
           setReservations(resData.purchases);
         } catch (err) {
           handleCatch(err);
@@ -56,18 +56,33 @@ export const ReservationsProvider = ({ children }) => {
     if (updateOnlyInContext) {
       updateReservation(id, updatedReservation);
     } else {
-      // TODO - Make PATCH req and update Reservation
       try {
         const resData = await makeReq(
-          `/trips/purchase/${id}`,
+          `/purchases/${id}`,
           { body: { ...updatedReservation } },
           'PATCH'
         );
         console.log(`resData.purchase`, resData.purchase);
+        updateReservation(id, resData.purchase);
         toast.success('Reservation updated Successfully !');
       } catch (err) {
         handleCatch(err);
       }
+    }
+  };
+
+  const makePayment = async (purchaseId, paymentId, updatedPayment) => {
+    try {
+      const resData = await makeReq(
+        `/purchases/${purchaseId}/payment/${paymentId}`,
+        { body: { ...updatedPayment } },
+        'PATCH'
+      );
+      console.log(`resData.purchase`, resData.purchase);
+      updateReservation(purchaseId, resData.purchase);
+      toast.success('Reservation updated Successfully !');
+    } catch (err) {
+      handleCatch(err);
     }
   };
 
@@ -79,6 +94,7 @@ export const ReservationsProvider = ({ children }) => {
         getReservationById,
         deleteReservation,
         modifyReservation,
+        makePayment,
       }}
     >
       {children}
