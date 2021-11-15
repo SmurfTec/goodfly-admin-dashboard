@@ -10,6 +10,7 @@ import {
   TableRow,
   Typography,
   Skeleton,
+  useTheme,
 } from '@material-ui/core';
 import { ReservationsContext } from 'Contexts/ReservationsContext';
 import { useToggleInput } from 'hooks';
@@ -18,6 +19,7 @@ import v4 from 'uuid/dist/v4';
 import PaymentDetailsDialog from './PaymentDetailsDialog';
 
 const PaymentsTable = ({ classes, data, purchaseId }) => {
+  const theme = useTheme();
   const [isDialogOpen, toggleDialogOpen] = useToggleInput(false);
   const [currentPayment, setCurrentPayment] = useState();
   const { makePayment } = useContext(ReservationsContext);
@@ -57,7 +59,14 @@ const PaymentsTable = ({ classes, data, purchaseId }) => {
                     <TableCell align='right'>
                       {new Date(item.deadline).toLocaleDateString()}
                     </TableCell>
-                    <TableCell align='right'>
+                    <TableCell
+                      align='right'
+                      style={{
+                        color: item.isPaid
+                          ? theme.palette.success.main
+                          : theme.palette.error.main,
+                      }}
+                    >
                       {item.isPaid ? 'paid' : 'not-paid'}
                     </TableCell>
                     <TableCell align='right'>

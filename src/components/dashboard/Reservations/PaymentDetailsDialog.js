@@ -100,107 +100,117 @@ const PaymentDetailsDialog = ({
             }}
           >
             <Typography variant='h5' mr={1}>
-              Payment Method :
+              Payment Method : {payment?.paymentMethod}
             </Typography>
-            <FormControl component='fieldset'>
-              <RadioGroup
-                value={state.paymentMethod}
-                onChange={handleTxtChange}
-                row
-                aria-label='gender'
-                name='paymentMethod'
-              >
-                <FormControlLabel
-                  value='bankCard'
-                  control={<Radio />}
-                  label='Bank Card'
-                />
-
-                <FormControlLabel
-                  value='bankTransactio'
-                  control={<Radio />}
-                  label='Bank Transfer'
-                />
-                <FormControlLabel
-                  value='bankCheck'
-                  control={<Radio />}
-                  label='Bank check'
-                />
-                <FormControlLabel
-                  value='cash'
-                  control={<Radio />}
-                  label='Espece'
-                />
-                <FormControlLabel
-                  value='Loyalty points'
-                  control={<Radio />}
-                  label='Loyalty points'
-                />
-              </RadioGroup>
-            </FormControl>
-          </Box>
-          <Box className={classes.flexLeft}>
-            <Box className={classes.form}>
-              {state.paymentMethod === 'cash' ? (
-                <TextField
-                  autoFocus
-                  margin='dense'
-                  id='name'
-                  label='Cash'
-                  type='text'
-                  value='Cash'
-                  fullWidth
-                  style={{ marginRight: '2rem' }}
-                  // disabled
-                  required={state.amount === 'cash'}
-                />
-              ) : (
-                <TextField
-                  autoFocus
-                  margin='dense'
-                  id='name'
-                  label='Transaction number'
-                  type='text'
-                  fullWidth
-                  style={{ marginRight: '2rem' }}
-                  value={state.transactionNumber}
+            {payment?.isPaid ? (
+              <Box>
+                <Typography variant='h5'>
+                  Paid On {new Date(payment.paidDate).toLocaleDateString()}
+                </Typography>
+              </Box>
+            ) : (
+              <FormControl component='fieldset'>
+                <RadioGroup
+                  value={state.paymentMethod}
                   onChange={handleTxtChange}
-                  name='transactionNumber'
-                  required={state.paymentMethod !== 'cash'}
-                />
-              )}
-            </Box>
-            <Box className={classes.form}>
-              <TextField
-                autoFocus
-                margin='dense'
-                id='date'
-                label='Date'
-                type='date'
-                fullWidth
-                style={{ marginRight: '2rem' }}
-                value={state.date}
-                // onChange={(newDate) => changeInput('date', newDate)}
-                onChange={handleTxtChange}
-                name='date'
-                required
-              />
-            </Box>
-            <Box className={classes.form}>
-              <TextField
-                autoFocus
-                margin='dense'
-                id='payment'
-                label='Payment Amount'
-                fullWidth
-                style={{ marginRight: '2rem' }}
-                value={state.amount}
-                name='amount'
-                required
-                type='number'
-              />
-            </Box>
+                  row
+                  aria-label='gender'
+                  name='paymentMethod'
+                >
+                  <FormControlLabel
+                    value='bankCard'
+                    control={<Radio />}
+                    label='Bank Card'
+                  />
+
+                  <FormControlLabel
+                    value='bankTransactio'
+                    control={<Radio />}
+                    label='Bank Transfer'
+                  />
+                  <FormControlLabel
+                    value='bankCheck'
+                    control={<Radio />}
+                    label='Bank check'
+                  />
+                  <FormControlLabel
+                    value='cash'
+                    control={<Radio />}
+                    label='Espece'
+                  />
+                  <FormControlLabel
+                    value='Loyalty points'
+                    control={<Radio />}
+                    label='Loyalty points'
+                  />
+                </RadioGroup>
+              </FormControl>
+            )}
           </Box>
+          {!payment?.isPaid && (
+            <Box className={classes.flexLeft}>
+              <Box className={classes.form}>
+                {state.paymentMethod === 'cash' ? (
+                  <TextField
+                    autoFocus
+                    margin='dense'
+                    id='name'
+                    label='Cash'
+                    type='text'
+                    value='Cash'
+                    fullWidth
+                    style={{ marginRight: '2rem' }}
+                    // disabled
+                    required={state.amount === 'cash'}
+                  />
+                ) : (
+                  <TextField
+                    autoFocus
+                    margin='dense'
+                    id='name'
+                    label='Transaction number'
+                    type='text'
+                    fullWidth
+                    style={{ marginRight: '2rem' }}
+                    value={state.transactionNumber}
+                    onChange={handleTxtChange}
+                    name='transactionNumber'
+                    required={state.paymentMethod !== 'cash'}
+                  />
+                )}
+              </Box>
+              <Box className={classes.form}>
+                <TextField
+                  autoFocus
+                  margin='dense'
+                  id='date'
+                  label='Date'
+                  type='date'
+                  fullWidth
+                  style={{ marginRight: '2rem' }}
+                  value={state.date}
+                  // onChange={(newDate) => changeInput('date', newDate)}
+                  onChange={handleTxtChange}
+                  name='date'
+                  required
+                />
+              </Box>
+              <Box className={classes.form}>
+                <TextField
+                  autoFocus
+                  margin='dense'
+                  id='payment'
+                  label='Payment Amount'
+                  fullWidth
+                  style={{ marginRight: '2rem' }}
+                  value={state.amount}
+                  name='amount'
+                  required
+                  type='number'
+                />
+              </Box>
+            </Box>
+          )}
         </form>
       </DialogContent>
       <DialogActions
