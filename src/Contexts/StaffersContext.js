@@ -1,11 +1,5 @@
 import useArray from 'hooks/useArray';
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  memo,
-  useCallback,
-} from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { handleCatch, makeReq } from 'Utils/makeReq';
@@ -68,7 +62,9 @@ export const StaffersProvider = ({ children }) => {
   };
 
   const getStafferById = (id) =>
-    staffers === 'loading' ? 'loading' : staffers?.find((el) => el._id === id);
+    staffers === 'loading'
+      ? 'loading'
+      : staffers?.find((el) => el._id === id);
 
   // Create New Staffer
   const createNewStaffer = async (newStafferProfile, resetForm) => {

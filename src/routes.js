@@ -148,11 +148,13 @@ export const protechtedRoutes = [
           { path: '/:id/edit', element: <ModifyOffer /> },
         ],
       },
+
       //  Other
       // { path: 'account', element: <Account /> },
       // { path: 'customers', element: <CustomerList /> },
       // { path: 'dashboard', element: <Dashboard /> },
       // { path: 'products', element: <ProductList /> },
+
       { path: 'settings', element: <Settings /> },
       { path: '*', element: <NotFound /> },
     ],

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
@@ -20,6 +20,10 @@ import uuid from 'uuid/dist/v4';
 import useManyInputs from 'hooks/useManyInputs';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { ProductContext } from 'Contexts/ProductContext';
+import { toast } from 'react-toastify';
+import useToggleInput from 'hooks/useToggleInput';
+import LoadingOverlay from 'react-loading-overlay';
 
 const styles = makeStyles((theme) => ({
   account: {
@@ -109,6 +113,8 @@ const CreateProduct = () => {
   const classes = styles();
   const theme = useTheme();
   const lgDown = useMediaQuery(theme.breakpoints.down('lg'));
+
+  const { createNewProduct } = useContext(ProductContext);
 
   const initialState = {
     name: '',

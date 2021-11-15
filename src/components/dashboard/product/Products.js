@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import {
@@ -19,146 +19,9 @@ import {
 import { Search as SearchIcon } from 'react-feather';
 import { Link } from 'react-router-dom';
 import v4 from 'uuid/dist/v4';
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData(
-    'Muhammadzain',
-    ' zain@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadali',
-    ' ali@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadusman',
-    ' usman@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadkashif',
-    ' kashif@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadumer',
-    ' umer@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadabc',
-    ' abc@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsonu',
-    ' sonu@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsaqib',
-    ' saqib@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsohil',
-    ' sohail@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-];
+import { ProductContext } from 'Contexts/ProductContext';
+import useToggleInput from 'hooks/useToggleInput';
+import { ConfirmDialogBox } from '../Dialogs';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -181,16 +44,32 @@ const styles = makeStyles((theme) => ({
 }));
 
 const Products = () => {
+  const { products, modifyProduct, deleteProduct } =
+    useContext(ProductContext);
+
+  console.log('PRODUCTS', products);
+
   const classes = styles();
   const [filter, setFilter] = useState('');
-  const [filteredItems, setFilteredItems] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  // const [currentDeleteId, setCurrentDeleteId] = useState();
+  // const [isDeleteOpen, toggleDeleteOpen] = useToggleInput();
+
+  useEffect(() => {
+    setFilteredProducts(products);
+  }, [products]);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     rowsPerPage -
-    Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    Math.min(
+      rowsPerPage,
+      products === 'loading'
+        ? 0
+        : products?.length - page * rowsPerPage
+    );
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -207,18 +86,22 @@ const Products = () => {
   };
   //  filtered
   useEffect(() => {
-    setFilteredItems(
-      rows.filter(
-        (row) =>
-          row.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
-      )
+    setFilteredProducts(
+      products === 'loading'
+        ? 'loading'
+        : products?.filter(
+            (row) =>
+              row.name.toLowerCase().indexOf(filter.toLowerCase()) !==
+              -1
+          )
     );
   }, [filter]);
 
-  // data must be updated
-  useEffect(() => {
-    setFilteredItems(rows);
-  }, []);
+  const handleDeleteCustomer = () => {
+    // console.log(`id`);
+    // deleteProducts(currentDeleteId);
+    // toggleDeleteOpen();
+  };
   return (
     <div style={{ marginTop: '3rem' }}>
       <Box
@@ -282,44 +165,52 @@ const Products = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredItems
-                .slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
-                .map((row, index) => (
-                  <TableRow key={v4()}>
-                    <TableCell component='th' scope='row'>
-                      <Box
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-around',
-                        }}
-                      >
-                        <CardMedia
-                          style={{
-                            width: '2.5rem',
-                            height: '2.5rem',
-                          }}
-                          image='https://picsum.photos/200/300?random=2'
-                          title='product name'
-                        />
-                        {row.name}
-                      </Box>
-                    </TableCell>
-                    <TableCell align='right'>
-                      {row.calories}
-                    </TableCell>
-                    <TableCell align='right'>{row.fat}</TableCell>
-                    <TableCell align='right'>{row.carbs}</TableCell>
-                    <TableCell align='right'>{row.protein}</TableCell>
-                    <TableCell align='right'>
-                      <Button>Edit</Button>
-                      <Button style={{ color: 'red' }}>Delete</Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
+              {filteredProducts === 'loading'
+                ? 'loading'
+                : filteredProducts
+                    ?.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                    .map((row, index) => (
+                      <TableRow key={v4()}>
+                        <TableCell component='th' scope='row'>
+                          <Box
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-around',
+                            }}
+                          >
+                            <CardMedia
+                              style={{
+                                width: '2.5rem',
+                                height: '2.5rem',
+                              }}
+                              image='https://picsum.photos/200/300?random=2'
+                              title='product name'
+                            />
+                            {row.name}
+                          </Box>
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.isOnline ? 'online' : 'offline'}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.category}
+                        </TableCell>
+                        <TableCell align='right'>{row._id}</TableCell>
+                        <TableCell align='right'>
+                          {new Date().toDateString()}
+                        </TableCell>
+                        <TableCell align='right'>
+                          <Button>Edit</Button>
+                          <Button style={{ color: 'red' }}>
+                            Delete
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={6} />
@@ -330,7 +221,7 @@ const Products = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 20]}
             component='div'
-            count={rows.length}
+            count={products === 'loading' ? 0 : products?.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -338,6 +229,13 @@ const Products = () => {
           />
         </TableContainer>
       </Box>
+
+      {/* <ConfirmDialogBox
+        open={isDeleteOpen}
+        toggleDialog={toggleDeleteOpen}
+        success={handleDeleteCustomer}
+        dialogTitle='Delete this Customer ?'
+      /> */}
     </div>
   );
 };
