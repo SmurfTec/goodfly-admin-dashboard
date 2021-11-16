@@ -130,24 +130,6 @@ const FormalitiesTab = ({ value, classes, handleNext }) => {
         }}
       >
         <Button
-          variant='outlined'
-          style={{
-            width: '8rem',
-            color: 'red',
-            border: '1px solid red',
-            marginRight: '1rem',
-          }}
-        >
-          Delete
-        </Button>
-        <Button
-          variant='outlined'
-          style={{ width: '8rem', marginRight: '1rem' }}
-        >
-          {' '}
-          Update
-        </Button>
-        <Button
           variant='contained'
           style={{ width: '8rem' }}
           onClick={handleSubmit}

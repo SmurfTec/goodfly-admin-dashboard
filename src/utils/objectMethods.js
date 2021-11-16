@@ -2,7 +2,7 @@ export const objectFilter = (obj, callBack) =>
   Object.assign(
     ...Object.keys(obj)
       .filter((key) => callBack(obj[key]))
-      .map((key) => ({ [key]: obj[key] }))
+      .map((key) => ({ [key]: true }))
   );
 
 export const removeKeyIncludingString = (obj, string) => {

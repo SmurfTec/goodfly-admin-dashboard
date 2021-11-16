@@ -61,7 +61,7 @@ const AddStageDialog = ({
         let reader = new FileReader();
         reader.readAsDataURL(selectedFile);
         reader.onloadend = async (e) => {
-          // console.log(`result onLoadEnd`, e.target.result);
+          console.log(`result onLoadEnd`, e.target.result);
           const file = e.target.result;
 
           // TODO  Delete Image from cloudinary if it exists on this user
@@ -147,15 +147,6 @@ const AddStageDialog = ({
   };
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (state.images.length === 0) {
-      toast.error('Select at leat 1 image for stage');
-      return;
-    }
-    // TODO - Accomodation
-    // if(state.images.length === 0) {
-    //   toast.error('Select at leat 1 image for stage')
-    //   return
-    // }
     resetState();
     if (stage) handleUpdate(state);
     else handleSubmit(state);
@@ -173,7 +164,7 @@ const AddStageDialog = ({
       <DialogContent>
         <form onSubmit={handleFormSubmit}>
           <Grid container>
-            <Grid item sm={12} md={12} lg={3} style={{ padding: '1rem' }}>
+            <Grid item md={3} style={{ padding: '1rem' }}>
               <TextField
                 type='text'
                 placeholder='Stage Title'
@@ -235,19 +226,19 @@ const AddStageDialog = ({
                 />
               </Box>
             </Grid>
-            <Grid item sm={12} md={12} lg={9}>
-              <Grid container sx={{ justifyContent: 'flex-start' }}>
-                <Grid item sm={12} md={4}>
+            <Grid item md={9}>
+              <Grid container>
+                <Grid item md={4}>
                   <Box
                     style={{
                       display: 'flex',
-                      justifyContent: 'flex-start',
+                      justifyContent: 'right',
                       alignItems: 'center',
                       marginRight: '1rem',
                     }}
                   >
                     <Box>
-                      <Typography variant='h5'>Gallery of the Stage</Typography>
+                      <Typography variant='h5'>gallery of the stage</Typography>
                       <input
                         accept='image/*'
                         style={{ display: 'none' }}
@@ -300,6 +291,8 @@ const AddStageDialog = ({
                       </label>
                     </Box>
                   </Box>
+                </Grid>
+                <Grid item md={8}>
                   <CarouselLayout>
                     {state.images.map((image, i) => (
                       <>
@@ -315,7 +308,7 @@ const AddStageDialog = ({
                             title='Live from space album cover'
                           />
                         </div>
-                        <Box>
+                        <Box style={{ textAlign: 'right' }}>
                           <Button
                             style={{ color: 'red' }}
                             data-type='image'
@@ -330,16 +323,17 @@ const AddStageDialog = ({
                     ))}
                   </CarouselLayout>
                 </Grid>
-                <Grid item sm={12} md={4} mt={5}>
+                <Grid item md={4} mt={5}>
                   <Box
                     style={{
+                      textAlign: 'right',
                       marginRight: '1rem',
                     }}
                   >
                     <Typography variant='h5'>Accommodation</Typography>
                   </Box>
                 </Grid>
-                <Grid item sm={12} md={8} mt={4}>
+                <Grid item md={8} mt={4}>
                   <Box>
                     <Box ml={2} style={{ width: '60%' }}>
                       <TextField
@@ -359,7 +353,7 @@ const AddStageDialog = ({
                           row
                           aria-label='gender'
                           name='row-radio-buttons-group'
-                          value={state?.accomodation?.boardType}
+                          value={state.accomodation.boardType}
                           name='boardType'
                           onChange={handleAccomodation}
                         >
@@ -383,11 +377,11 @@ const AddStageDialog = ({
                     </Box>
                   </Box>
                 </Grid>
-                <Grid item sm={12} md={4} mt={4}>
+                <Grid item md={4} mt={4}>
                   <Box
                     style={{
                       display: 'flex',
-                      justifyContent: 'flex-start',
+                      justifyContent: 'right',
                       alignItems: 'center',
                       marginRight: '1rem',
                     }}
@@ -440,7 +434,7 @@ const AddStageDialog = ({
                     </label>
                   </Box>
                 </Grid>
-                <Grid item sm={12} md={8} mt={2}>
+                <Grid item md={8} mt={2}>
                   <CarouselLayout>
                     {state.accomodation?.images?.map((image, i) => (
                       <>
@@ -473,7 +467,7 @@ const AddStageDialog = ({
                     {/* one */}
                   </CarouselLayout>
                 </Grid>
-                <Grid item sm={12} md={12} mt={3}>
+                <Grid item md={12} mt={3}>
                   <Box
                     display='flex'
                     justifyContent='right'

@@ -61,7 +61,6 @@ function CarouselLayout({ children, deviceType }) {
   return (
     <div className={classes.root}>
       <Carousel {...settings} responsive={responsive}>
-        {console.log(`children`, children)}
         {children}
       </Carousel>
     </div>

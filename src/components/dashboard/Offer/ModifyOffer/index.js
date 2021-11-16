@@ -1,12 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Box, Tab, Tabs } from '@material-ui/core';
-import OffersTabs from './OffersTabs';
-import StagesTab from './StagesTab';
-import FormalitiesTab from './FormalitiesTab';
+import OffersTabs from '../CreateOffer/OffersTabs';
+import StagesTab from '../CreateOffer/StagesTab';
+import FormalitiesTab from '../CreateOffer/FormalitiesTab';
 import { OffersContext } from 'Contexts/OffersContext';
-import { removeKeyIncludingString } from 'Utils/objectMethods';
+import { objectFilter, removeKeyIncludingString } from 'Utils/objectMethods';
 import { a11yProps } from 'components/common/TabPanel';
+import { useParams } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   options: {
@@ -134,21 +135,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CreateOffer = () => {
+const ModifyOffer = () => {
   const classes = useStyles();
-  const { createOffer } = useContext(OffersContext);
+  const { id } = useParams();
+
+  const { updateOffer, getOfferById, offers } = useContext(OffersContext);
 
   const [value, setValue] = useState(0);
 
-  const [state, setState] = useState({});
+  const [state, setState] = useState();
+
+  useEffect(() => {
+    setState(getOfferById(id));
+  }, [getOfferById, offers, id]);
 
   const gotoNextStep = () => {
     setValue((st) => st + 1);
   };
 
   const validateOffersTab = (data, resetData) => {
-    console.log(`data`, data);
-    setState(data);
+    // console.log(`data`, data);
+
+    // * Convert services from { guide : true, b : false ,...} to ['guide' , ....]
+    const newServices = objectFilter(data.services, (el) => el);
+    // * Give array of only "true" values of each key
+    console.log(`newServices`, newServices);
+
+    setState({ ...data, services: newServices });
     gotoNextStep();
   };
 
@@ -165,8 +178,6 @@ const CreateOffer = () => {
       ...state,
       formalities: data,
     };
-
-    console.log(`newOffer before`, newOffer);
 
     // * Fix Services
     let servicesArr = Object.entries(newOffer.services);
@@ -187,18 +198,16 @@ const CreateOffer = () => {
       removeKeyIncludingString(newOffer, 'departurePlace');
       removeKeyIncludingString(newOffer, 'destination');
     }
+
     removeKeyIncludingString(newOffer, 'isDates');
     removeKeyIncludingString(newOffer, 'isDeparturePlace');
 
     // * Change Country and Region from  { code: 'AD', label: 'Andorra', phone: '376' } to 'Andorra'
     newOffer.country = newOffer.country.label;
     newOffer.region = newOffer.region.label;
-    console.log(`newOffer.region.label`, newOffer.region.label);
 
     console.log(`newOffer after`, newOffer);
-
-    console.log(`newOffer after`, newOffer);
-    createOffer(newOffer);
+    updateOffer(id, newOffer);
     // gotoNextStep();
   };
 
@@ -219,7 +228,7 @@ const CreateOffer = () => {
           >
             <Tabs
               value={value}
-              // onChange={(newValue) => setValue(newValue)}
+              onChange={(e, newValue) => setValue(newValue)}
               aria-label='basic tabs example'
               indicatorColor='primary'
               centered
@@ -227,7 +236,6 @@ const CreateOffer = () => {
               <Tab
                 disableFocusRipple
                 disableRipple
-                sx={{ cursor: 'unset' }}
                 label='Offer'
                 {...a11yProps(0)}
                 className={classes.tabRoot}
@@ -236,36 +244,35 @@ const CreateOffer = () => {
                 disableFocusRipple
                 disableRipple
                 label='Stages'
-                sx={{ cursor: 'unset' }}
                 {...a11yProps(1)}
               />
               <Tab
                 disableFocusRipple
                 disableRipple
                 label='Formalities'
-                sx={{ cursor: 'unset' }}
                 {...a11yProps(2)}
               />
             </Tabs>
           </Box>
-
-          {/*  map the Product */}
 
           <Box>
             <OffersTabs
               handleNext={validateOffersTab}
               value={value}
               classes={classes}
+              offer={state}
             />
             <StagesTab
               handleSubmit={validateStagesTab}
               value={value}
               classes={classes}
+              offer={state}
             />
             <FormalitiesTab
               value={value}
               classes={classes}
               handleNext={validateFormalitiesTab}
+              offer={state}
             />
           </Box>
         </Box>
@@ -274,4 +281,4 @@ const CreateOffer = () => {
   );
 };
 
-export default CreateOffer;
+export default ModifyOffer;
