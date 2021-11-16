@@ -70,7 +70,7 @@ export const ProductProvider = ({ children }) => {
   const createNewProduct = async (newProduct, resetForm) => {
     try {
       const resData = await makeReq(
-        `/products/staffer`,
+        `/products`,
         { body: { ...newProduct } },
         'POST'
       );

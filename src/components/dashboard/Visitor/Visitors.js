@@ -49,9 +49,9 @@ const Visitors = () => {
   const [filter, setFilter] = useState('');
   const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [currentDeleteId, setCurrentDeleteId] = useState();
   const [isDeleteOpen, toggleDeleteOpen] = useToggleInput();
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   useEffect(() => {
     setFilteredCustomers(customers);

@@ -21,7 +21,7 @@ import { Link } from 'react-router-dom';
 import v4 from 'uuid/dist/v4';
 import { ProductContext } from 'Contexts/ProductContext';
 import useToggleInput from 'hooks/useToggleInput';
-import { ConfirmDialogBox } from '../Dialogs';
+import { ConfirmDialog } from '../Dialogs';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -54,8 +54,8 @@ const Products = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  // const [currentDeleteId, setCurrentDeleteId] = useState();
-  // const [isDeleteOpen, toggleDeleteOpen] = useToggleInput();
+  const [currentDeleteId, setCurrentDeleteId] = useState();
+  const [isDeleteOpen, toggleDeleteOpen] = useToggleInput();
 
   useEffect(() => {
     setFilteredProducts(products);
@@ -97,10 +97,15 @@ const Products = () => {
     );
   }, [filter]);
 
-  const handleDeleteCustomer = () => {
-    // console.log(`id`);
-    // deleteProducts(currentDeleteId);
-    // toggleDeleteOpen();
+  const handleDelete = (id) => {
+    // console.log(`id`, id);
+    setCurrentDeleteId(id);
+    toggleDeleteOpen();
+  };
+
+  const handleDeleteProduct = () => {
+    deleteProduct(currentDeleteId);
+    toggleDeleteOpen();
   };
   return (
     <div style={{ marginTop: '3rem' }}>
@@ -187,7 +192,11 @@ const Products = () => {
                                 width: '2.5rem',
                                 height: '2.5rem',
                               }}
-                              image='https://picsum.photos/200/300?random=2'
+                              image={
+                                row.images
+                                  ? row.images[0]
+                                  : 'https://picsum.photos/200/300?random=2'
+                              }
                               title='product name'
                             />
                             {row.name}
@@ -205,7 +214,10 @@ const Products = () => {
                         </TableCell>
                         <TableCell align='right'>
                           <Button>Edit</Button>
-                          <Button style={{ color: 'red' }}>
+                          <Button
+                            style={{ color: 'red' }}
+                            onClick={handleDelete.bind(this, row._id)}
+                          >
                             Delete
                           </Button>
                         </TableCell>
@@ -230,12 +242,12 @@ const Products = () => {
         </TableContainer>
       </Box>
 
-      {/* <ConfirmDialogBox
+      <ConfirmDialog
         open={isDeleteOpen}
         toggleDialog={toggleDeleteOpen}
-        success={handleDeleteCustomer}
-        dialogTitle='Delete this Customer ?'
-      /> */}
+        success={handleDeleteProduct}
+        dialogTitle='Delete this Product ?'
+      />
     </div>
   );
 };

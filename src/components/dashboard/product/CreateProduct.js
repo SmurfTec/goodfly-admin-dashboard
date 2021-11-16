@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
@@ -24,6 +24,7 @@ import { ProductContext } from 'Contexts/ProductContext';
 import { toast } from 'react-toastify';
 import useToggleInput from 'hooks/useToggleInput';
 import LoadingOverlay from 'react-loading-overlay';
+import axios from 'axios';
 
 const styles = makeStyles((theme) => ({
   account: {
@@ -114,6 +115,12 @@ const CreateProduct = () => {
   const theme = useTheme();
   const lgDown = useMediaQuery(theme.breakpoints.down('lg'));
 
+  const [isImageUploading, toggleImageUploading] =
+    useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState(
+    'Uploading Image...'
+  );
+
   const { createNewProduct } = useContext(ProductContext);
 
   const initialState = {
@@ -131,6 +138,7 @@ const CreateProduct = () => {
     images: [],
     isOnline: false,
   };
+
   const [
     state,
     handleTxtChange,
@@ -151,32 +159,60 @@ const CreateProduct = () => {
       state.labels.filter((item) => item !== el)
     );
   };
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     console.log(`state`, state);
-    resetState();
+    createNewProduct(state, resetState);
   };
 
   const handleImage = async (e) => {
-    const files = e.target.files;
-    const convert64 = await convertTobase64(files[0]);
+    setUploadingText('Uploading Image ...');
+    toggleImageUploading();
+    const selectedFile = e.target.files[0];
+    const fileType = ['image/'];
+    try {
+      console.log(`selectedFile.type`, selectedFile.type);
+      if (selectedFile && selectedFile.type.includes(fileType)) {
+        let reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onloadend = async (e) => {
+          console.log(`result onLoadEnd`, e.target.result);
+          const file = e.target.result;
 
-    changeInput('images', [convert64]);
-    // changeInput('images', [files[0]]);
-  };
+          // TODO  Delete Image from cloudinary if it exists on this user
 
-  const convertTobase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        console.log(`fileReader.result`, fileReader.result);
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        console.log(`error`, error);
-        reject(error);
-      };
-    });
+          // // * 1 Upload Image on Cloudinary
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append(
+            'upload_preset',
+            process.env.REACT_APP_CLOUDINARY_PRESET
+          );
+
+          const res = await axios.post(
+            `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
+            formData
+          );
+          const uploadedImage = res.data.url;
+          console.log(`res`, res);
+
+          setUploadingText('Updating Image ...');
+
+          changeInput('photo', uploadedImage);
+
+          toggleImageUploading();
+        };
+      } else {
+        toast.error('Only Image files are acceptable !');
+      }
+    } catch (err) {
+      toast(
+        err?.response?.data?.message ||
+          err.message ||
+          'Something Went Wrong'
+      );
+      console.log(`err`, err);
+    }
   };
 
   return (
@@ -498,7 +534,7 @@ const CreateProduct = () => {
                           height: '12rem',
                         }}
                         image={
-                          state.images.lenth > 0
+                          state.images.length > 0
                             ? state.images?.[0]
                             : 'https://picsum.photos/200/300?random=2'
                         }
@@ -507,48 +543,53 @@ const CreateProduct = () => {
                     </Box>
                   </Grid>
                   <Grid item lg={6}>
-                    {' '}
-                    <input
-                      accept='image/*'
-                      style={{ display: 'none' }}
-                      id='contained-button-file'
-                      multiple
-                      onChange={handleImage}
-                      type='file'
-                    />
-                    <label
-                      htmlFor='contained-button-file'
-                      style={{ cursor: 'pointer' }}
+                    <LoadingOverlay
+                      active={isImageUploading}
+                      spinner
+                      text={uploadingText}
                     >
-                      <Box
-                        mt={1}
-                        p={1}
-                        style={{
-                          backgroundColor: '#808080',
-                          borderRadius: '10px',
-                        }}
+                      <input
+                        accept='image/*'
+                        style={{ display: 'none' }}
+                        id='contained-button-file'
+                        multiple
+                        onChange={handleImage}
+                        type='file'
+                      />
+                      <label
+                        htmlFor='contained-button-file'
+                        style={{ cursor: 'pointer' }}
                       >
-                        <Box className={classes.image}>
-                          <Box
-                            display='flex'
-                            justifyContent='center'
-                            style={{ cursor: 'pointer' }}
-                          >
-                            <PlusIcon
-                              size={35}
-                              style={{ color: '#fff' }}
-                            />
-                            <FileIcon
-                              size={35}
-                              style={{ color: '#fff' }}
-                            />
+                        <Box
+                          mt={1}
+                          p={1}
+                          style={{
+                            backgroundColor: '#808080',
+                            borderRadius: '10px',
+                          }}
+                        >
+                          <Box className={classes.image}>
+                            <Box
+                              display='flex'
+                              justifyContent='center'
+                              style={{ cursor: 'pointer' }}
+                            >
+                              <PlusIcon
+                                size={35}
+                                style={{ color: '#fff' }}
+                              />
+                              <FileIcon
+                                size={35}
+                                style={{ color: '#fff' }}
+                              />
+                            </Box>
+                            <Typography style={{ color: '#fff' }}>
+                              Upload Image
+                            </Typography>
                           </Box>
-                          <Typography style={{ color: '#fff' }}>
-                            Upload Image
-                          </Typography>
                         </Box>
-                      </Box>
-                    </label>
+                      </label>
+                    </LoadingOverlay>
                   </Grid>
                 </Grid>
               </Box>
