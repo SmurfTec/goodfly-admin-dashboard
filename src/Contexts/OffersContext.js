@@ -16,7 +16,7 @@ export const OffersProvider = ({ children }) => {
     setOffers,
     pushOffer,
     filterOffer,
-    updateOffer,
+    updateOfferById,
     removeOffer,
     clearOffers,
   ] = useArray();
@@ -68,7 +68,6 @@ export const OffersProvider = ({ children }) => {
   const createOffer = async (newOffer) => {
     try {
       const { trip } = await makeReq(`/trips`, { body: newOffer }, 'POST');
-      console.log(`trip`, trip);
 
       pushOffer(trip);
       toast.success('Offer Created Sucessfully !');
@@ -78,10 +77,33 @@ export const OffersProvider = ({ children }) => {
     }
   };
 
+  const updateOffer = async (id, updatedOffer) => {
+    try {
+      const { trip } = await makeReq(
+        `/trips/${id}`,
+        { body: updatedOffer },
+        'PATCH'
+      );
+
+      updateOfferById(id, trip);
+      toast.success('Offer Updated Sucessfully !');
+      navigate('/app/offers');
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
   return (
     <OffersContext.Provider
       displayName='Offers Context'
-      value={{ offers, getOfferById, deleteTrip, archieveTrip, createOffer }}
+      value={{
+        offers,
+        getOfferById,
+        deleteTrip,
+        archieveTrip,
+        createOffer,
+        updateOffer,
+      }}
     >
       {children}
     </OffersContext.Provider>

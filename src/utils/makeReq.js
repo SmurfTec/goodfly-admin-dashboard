@@ -2,14 +2,15 @@ import { LOCALSTORAGE_TOKEN_KEY } from 'Contexts/AuthContext';
 import { toast } from 'react-toastify';
 
 // * Development URLs
-const API_BASE_URL = `http://localhost:7000/api`;
+// const API_BASE_URL = `http://localhost:7000/api`;
+const API_BASE_URL = `http://70ed-119-73-114-101.ngrok.io/api`;
 
 // * Production URLs
 // const API_BASE_URL = `https://goodfly-api.herokuapp.com/api`;
 
 const handleCatch = (err) => {
-  console.log('**********');
-  console.log(`err`, err);
+  // console.log('**********');
+  // console.log(`err`, err);
   let errMsg = 'Something Went Wrong';
   if (err.message) errMsg = err.message;
   toast.error(errMsg);
@@ -24,7 +25,6 @@ const makeReq = (
   const headers = { 'Content-Type': 'application/json' };
 
   if (token) {
-    console.log(`token`, token);
     headers.Authorization = `Bearer ${token}`;
   }
 
@@ -40,18 +40,15 @@ const makeReq = (
   if (body) {
     config.body = JSON.stringify(body);
   }
-  console.log(`body`, body);
-  return fetch(`${API_BASE_URL}${endpoint}`, config).then(
-    async (res) => {
-      const data = await res.json();
-      // console.log(`data`, data);
-      if (res.ok) {
-        return data;
-      } else {
-        return Promise.reject(data);
-      }
+  return fetch(`${API_BASE_URL}${endpoint}`, config).then(async (res) => {
+    const data = await res.json();
+    // console.log(`data`, data);
+    if (res.ok) {
+      return data;
+    } else {
+      return Promise.reject(data);
     }
-  );
+  });
 };
 
 export { API_BASE_URL, makeReq, handleCatch };

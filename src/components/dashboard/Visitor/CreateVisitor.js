@@ -80,9 +80,9 @@ const VisitorProfile = () => {
 
   const initialState = {
     pronoun: 'Mr',
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
-    birthName: '',
     spouseName: '',
     photo: '',
     telephoneLineNumber: '',
@@ -111,11 +111,8 @@ const VisitorProfile = () => {
     setState,
   ] = useManyInputs(initialState);
 
-  const [isImageUploading, toggleImageUploading] =
-    useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState(
-    'Uploading Image...'
-  );
+  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -165,9 +162,7 @@ const VisitorProfile = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message ||
-          err.message ||
-          'Something Went Wrong'
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -186,13 +181,7 @@ const VisitorProfile = () => {
         </Box>
         <form onSubmit={handleSubmit}>
           <Grid container>
-            <Grid
-              item
-              xs={12}
-              sm={7}
-              md={7}
-              style={{ minHeight: 400 }}
-            >
+            <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
               <Box className={classes.mainBox}>
                 <Box
                   style={{
@@ -202,15 +191,9 @@ const VisitorProfile = () => {
                     margin: '10px 0px 30px ',
                   }}
                 >
-                  <Typography variant='h4'>
-                    {' '}
-                    Client Profile
-                  </Typography>
+                  <Typography variant='h4'> Client Profile</Typography>
                   <div style={{ display: 'flex' }}>
-                    <Typography
-                      variant='h5'
-                      style={{ margin: '0px 10px 0px' }}
-                    >
+                    <Typography variant='h5' style={{ margin: '0px 10px 0px' }}>
                       Number
                     </Typography>
                     <Paper
@@ -234,7 +217,7 @@ const VisitorProfile = () => {
                   }}
                 >
                   <Typography variant='h5' style={{ width: '25%' }}>
-                    Civilite
+                    Pronoun
                   </Typography>
                   <FormControl component='fieldset'>
                     <RadioGroup
@@ -243,7 +226,7 @@ const VisitorProfile = () => {
                       name='row-radio-buttons-group'
                       value={state.pronoun}
                       name='pronoun'
-                      onChange={handleToggleChange}
+                      onChange={handleTxtChange}
                     >
                       <FormControlLabel
                         value='Mr'
@@ -265,16 +248,32 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Birth Name
+                    First Name
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    placeholder='Islamabad'
+                    placeholder='First Name'
                     size='small'
                     className={classes.textInput}
-                    name='birthName'
-                    value={state.birthName}
+                    name='firstName'
+                    value={state.firstName}
+                    onChange={handleTxtChange}
+                    required
+                  />
+                </Box>
+                <Box className={classes.inputBox}>
+                  <Typography variant='h5' className={classes.typo}>
+                    Last Name
+                  </Typography>
+                  <TextField
+                    hiddenLabel
+                    id='filled-hidden-label-small'
+                    placeholder='Last Name'
+                    size='small'
+                    className={classes.textInput}
+                    name='lastName'
+                    value={state.lastName}
                     onChange={handleTxtChange}
                     required
                   />
@@ -295,22 +294,7 @@ const VisitorProfile = () => {
                     required
                   />
                 </Box>
-                <Box className={classes.inputBox}>
-                  <Typography variant='h5' className={classes.typo}>
-                    Name
-                  </Typography>
-                  <TextField
-                    hiddenLabel
-                    id='filled-hidden-label-small'
-                    placeholder='MuhammadZain'
-                    size='small'
-                    className={classes.textInput}
-                    name='name'
-                    value={state.name}
-                    onChange={handleTxtChange}
-                    required
-                  />
-                </Box>
+
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
                     Email
@@ -391,10 +375,7 @@ const VisitorProfile = () => {
                     required
                   />
                 </Box>
-                <Box
-                  className={classes.inputBox}
-                  style={{ marginBottom: 5 }}
-                >
+                <Box className={classes.inputBox} style={{ marginBottom: 5 }}>
                   <Typography variant='h5' className={classes.typo}>
                     Postal Code
                   </Typography>
@@ -529,17 +510,8 @@ const VisitorProfile = () => {
                 </Box>
               </Box>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={5}
-              md={5}
-              className={classes.account}
-            >
-              <Box
-                className={classes.mainBox}
-                style={{ padding: 10 }}
-              >
+            <Grid item xs={12} sm={5} md={5} className={classes.account}>
+              <Box className={classes.mainBox} style={{ padding: 10 }}>
                 <Box
                   style={{
                     display: 'flex',
@@ -606,10 +578,7 @@ const VisitorProfile = () => {
                   </Box>
                 </Box>
               </Box>
-              <Box
-                className={classes.mainBox}
-                style={{ padding: 10 }}
-              >
+              <Box className={classes.mainBox} style={{ padding: 10 }}>
                 <Typography
                   variant='h4'
                   style={{
@@ -655,14 +624,8 @@ const VisitorProfile = () => {
                     >
                       <Box className={classes.image}>
                         <Box>
-                          <PlusIcon
-                            size={35}
-                            style={{ color: '#fff' }}
-                          />
-                          <FileIcon
-                            size={35}
-                            style={{ color: '#fff' }}
-                          />
+                          <PlusIcon size={35} style={{ color: '#fff' }} />
+                          <FileIcon size={35} style={{ color: '#fff' }} />
                         </Box>
                         <Typography style={{ color: '#fff' }}>
                           Upload Photo

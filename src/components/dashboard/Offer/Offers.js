@@ -12,93 +12,6 @@ import { Link } from 'react-router-dom';
 import { OffersContext } from 'Contexts/OffersContext';
 import OffersCarousel from './OffersCarousel';
 
-const trips = [
-  {
-    _id: 1,
-    title: 'paksitan',
-    category: 'ethical',
-    images: [
-      'https://picsum.photos/200/300?random=2',
-      'https://picsum.photos/200/300?random=2',
-    ],
-    date: '12-12-12',
-    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
-    price: 15000,
-  },
-  {
-    _id: 2,
-    title: 'paksitan',
-    category: 'ethical',
-    images: [
-      'https://picsum.photos/200/300?random=2',
-      'https://picsum.photos/200/300?random=2',
-    ],
-    date: '12-12-12',
-    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
-    price: 15000,
-  },
-  {
-    _id: 3,
-    title: 'paksitan',
-    category: 'ethical',
-    images: [
-      'https://picsum.photos/200/300?random=2',
-      'https://picsum.photos/200/300?random=2',
-    ],
-    date: '12-12-12',
-    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
-    price: 15000,
-  },
-  {
-    _id: 4,
-    title: 'paksitan',
-    category: 'ethical',
-    images: [
-      'https://picsum.photos/200/300?random=2',
-      'https://picsum.photos/200/300?random=2',
-    ],
-    date: '12-12-12',
-    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
-    price: 15000,
-  },
-  {
-    _id: 5,
-    title: 'paksitan',
-    category: 'ethical',
-    images: [
-      'https://picsum.photos/200/300?random=2',
-      'https://picsum.photos/200/300?random=2',
-    ],
-    date: '12-12-12',
-    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
-    price: 15000,
-  },
-  {
-    _id: 6,
-    title: 'paksitan',
-    category: 'ethical',
-    images: [
-      'https://picsum.photos/200/300?random=2',
-      'https://picsum.photos/200/300?random=2',
-    ],
-    date: '12-12-12',
-    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
-    price: 15000,
-  },
-  {
-    _id: 7,
-    title: 'paksitan',
-    category: 'ethical',
-    images: [
-      'https://picsum.photos/200/300?random=2',
-      'https://picsum.photos/200/300?random=2',
-    ],
-    date: '12-12-12',
-    services: ['Formalités administratives', 'Transferts internes', 'Guide'],
-    price: 15000,
-  },
-];
-
 const styles = makeStyles((theme) => ({
   main: {
     backgroundColor: '#f2f2f2',
@@ -187,21 +100,23 @@ const Offers = () => {
             }}
           >
             <Box className={classes.imgBackground}>
-              <Box className={classes.image}>
+              <Box
+                className={classes.image}
+                component={Link}
+                to='/app/offers/createoffer'
+              >
                 <Box>
                   <PlusIcon size={35} style={{ color: '#fff' }} />
                   <TagIcon size={35} style={{ color: '#fff' }} />
                 </Box>
-                <Button
-                  style={{ color: '#fff' }}
-                  component={Link}
-                  to='/app/offers/createoffer'
-                >
-                  New Offer
-                </Button>
+                <Button style={{ color: '#fff' }}>New Offer</Button>
               </Box>
             </Box>
-            <Box className={classes.imgBackground}>
+            <Box
+              className={classes.imgBackground}
+              // component={Link}
+              // to='/app/offers/createoffer'
+            >
               <Box className={classes.image}>
                 <Box>
                   <ArchiveIcon size={35} style={{ color: '#fff' }} />

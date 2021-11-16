@@ -1,12 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import {
-  Typography,
-  Box,
-  Button,
-  TextField,
-} from '@material-ui/core';
+import { Typography, Box, Button, TextField } from '@material-ui/core';
 import useManyInputs from 'hooks/useManyInputs';
 import { StaffersContext } from 'Contexts/StaffersContext';
 import { toast } from 'react-toastify';
@@ -34,8 +29,8 @@ const AddStaffer = () => {
   const { createNewStaffer } = useContext(StaffersContext);
 
   const initialState = {
-    name: '',
-    fullName: '',
+    firstName: '',
+    lastName: '',
     telephoneNumber: '',
     email: '',
     telephoneLineNumber: '',
@@ -47,8 +42,7 @@ const AddStaffer = () => {
     passwordConfirm: '',
   };
 
-  const [state, handleTxtChange, , , resetState] =
-    useManyInputs(initialState);
+  const [state, handleTxtChange, , , resetState] = useManyInputs(initialState);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -78,21 +72,20 @@ const AddStaffer = () => {
             <Box className={classes.form}>
               <TextField
                 required
-                value={state.name}
-                name='name'
+                value={state.firstName}
+                name='firstName'
                 type='text'
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='name'
+                label='firstName'
                 variant='standard'
               />
               <TextField
-                required
-                value={state.fullName}
-                name='fullName'
+                value={state.lastName}
+                name='lastName'
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='fullnName'
+                label='Last Name'
                 variant='standard'
                 type='text'
               />

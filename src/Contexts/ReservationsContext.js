@@ -62,7 +62,7 @@ export const ReservationsProvider = ({ children }) => {
           { body: { ...updatedReservation } },
           'PATCH'
         );
-        console.log(`resData.purchase`, resData.purchase);
+        // console.log(`resData.purchase`, resData.purchase);
         updateReservation(id, resData.purchase);
         toast.success('Reservation updated Successfully !');
       } catch (err) {
@@ -78,7 +78,7 @@ export const ReservationsProvider = ({ children }) => {
         { body: { ...updatedPayment } },
         'PATCH'
       );
-      console.log(`resData.purchase`, resData.purchase);
+      // console.log(`resData.purchase`, resData.purchase);
       updateReservation(purchaseId, resData.purchase);
       toast.success('Reservation updated Successfully !');
     } catch (err) {

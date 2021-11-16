@@ -1,3 +1,10 @@
+export const objectFilter = (obj, callBack) =>
+  Object.assign(
+    ...Object.keys(obj)
+      .filter((key) => callBack(obj[key]))
+      .map((key) => ({ [key]: true }))
+  );
+
 export const removeKeyIncludingString = (obj, string) => {
   Object.keys(obj).forEach((key) => {
     if (key.includes(string)) {

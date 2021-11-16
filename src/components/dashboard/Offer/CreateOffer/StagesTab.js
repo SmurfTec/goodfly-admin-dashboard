@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Box,
@@ -19,7 +19,7 @@ import AddStageDialog from './AddStageDialog';
 import UpdateStateDialog from './AddStageDialog';
 import v4 from 'uuid/dist/v4';
 
-const StagesTab = ({ value, classes, handleSubmit }) => {
+const StagesTab = ({ value, classes, handleSubmit, offer }) => {
   const [
     stages,
     setStages,
@@ -32,6 +32,11 @@ const StagesTab = ({ value, classes, handleSubmit }) => {
   const [isDialogOpen, toggleDialogOpen] = useToggleInput(false);
   const [isUpdateDialogOpen, toggleUpdateDialogOpen] = useToggleInput(false);
   const [currentStage, setCurrentStage] = useState(0);
+
+  useEffect(() => {
+    if (!offer) return;
+    setStages(offer.stages);
+  }, [offer]);
 
   const addNewStage = (data) => {
     console.log(`data`, data);
@@ -49,11 +54,11 @@ const StagesTab = ({ value, classes, handleSubmit }) => {
   };
 
   const handleNext = () => {
-    setCurrentStage((st) => st + 1);
+    setCurrentStage((st) => +st + 1);
   };
 
   const handlePrevious = () => {
-    setCurrentStage((st) => st - 1);
+    setCurrentStage((st) => (st === 0 ? 0 : st - 1));
   };
 
   const handleDelete = (e) => {
@@ -75,7 +80,7 @@ const StagesTab = ({ value, classes, handleSubmit }) => {
           style={{ width: '10rem', marginRight: '1rem' }}
           onClick={toggleDialogOpen}
         >
-          Add a Step
+          Add a Stage
         </Button>
         <Button
           disabled={stages.length === 0}
@@ -154,47 +159,13 @@ const StagesTab = ({ value, classes, handleSubmit }) => {
                   {stages?.[currentStage]?.accomodation?.name}
                 </Typography>
                 <Box>
-                  {stages?.[currentStage]?.images?.length > 0 && (
+                  {stages?.[currentStage]?.accomodation?.images?.length > 0 && (
                     <Gallery
                       images={stages?.[currentStage]?.accomodation?.images}
                       style={{ width: '10rem' }}
                     />
                   )}
-                  {/* <CardMedia
-                          className={classes.cover}
-                          image='https://picsum.photos/200/300?random=2'
-                          title='Live from space album cover'
-                        /> */}
                 </Box>
-                {/* <Typography variant='h5'> </Typography>
-                      <Typography variant='h5'>
-                        Service Includes
-                      </Typography>
-          
-                      {/*  map the Services */}
-                {/* {services &&
-                        services.map((s) => (
-                          <Box>
-                            <Box
-                              style={{
-                                display: 'flex',
-                                alignItems: 'self-end',
-                                justifyContent: 'left',
-                                marginTop: 0,
-                              }}
-                            >
-                              <Typography
-                                variant='h1'
-                                style={{ fontSize: '3rem' }}
-                              >
-                                .
-                              </Typography>
-                              <Typography variant='text'>
-                                <bold>.</bold>Half pension
-                              </Typography>
-                            </Box>
-                          </Box>
-                        ))} */}
               </Grid>
             </Grid>
             <Box

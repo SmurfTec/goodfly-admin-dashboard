@@ -24,8 +24,8 @@ const Profile = () => {
   const { user, updateMe } = useContext(AuthContext);
 
   const initialState = {
-    name: user.name || '',
-    fullName: user.fullName || '',
+    firstName: user.firstName || '',
+    lastName: user.lastName || '',
     email: user.email || '',
     telephoneNumber: user.telephoneNumber || '',
     facebookProfile: user.facebookProfile || '',
@@ -130,26 +130,23 @@ const Profile = () => {
               <Box className={classes.mainBox}>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    Name{' '}
+                    First Name
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    defaultValue='zain'
                     size='small'
                     className={classes.textInput}
-                    placeholder='Your Name'
-                    name='name'
-                    value={state.name}
+                    placeholder='First Name'
+                    name='firstName'
+                    value={state.firstName}
                     onChange={handleTxtChange}
                     required
                   />
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    fullName{' '}
+                    Last Name
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -157,17 +154,16 @@ const Profile = () => {
                     defaultValue='m.zain'
                     size='small'
                     className={classes.textInput}
-                    placeholder='Your FullName'
-                    name='fullName'
-                    value={state.fullName}
+                    placeholder='Last Name'
+                    name='lastName'
+                    value={state.lastName}
                     onChange={handleTxtChange}
                     required
                   />
-                </Box>{' '}
+                </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    Email{' '}
+                    Email
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -181,11 +177,10 @@ const Profile = () => {
                     onChange={handleTxtChange}
                     required
                   />
-                </Box>{' '}
+                </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    Telephone{' '}
+                    Telephone
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -199,12 +194,11 @@ const Profile = () => {
                     onChange={handleTxtChange}
                     required
                   />
-                </Box>{' '}
+                </Box>
                 <Box sx={{ pt: 5 }} />
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    Facebook{' '}
+                    Facebook
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -233,11 +227,10 @@ const Profile = () => {
                     onChange={handleTxtChange}
                     required
                   />
-                </Box>{' '}
+                </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    Twitter{' '}
+                    Twitter
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -250,11 +243,10 @@ const Profile = () => {
                     onChange={handleTxtChange}
                     required
                   />
-                </Box>{' '}
+                </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    {' '}
-                    Snapchat{' '}
+                    Snapchat
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -301,7 +293,6 @@ const Profile = () => {
                       alignItems='center'
                     >
                       <Typography variant='h5' mb={1}>
-                        {' '}
                         Profile Photo
                       </Typography>
                       <Avatar
@@ -313,7 +304,7 @@ const Profile = () => {
                         src={
                           state.photo
                             ? state.photo
-                            : `https://ui-avatars.com/api/?name=${user.name
+                            : `https://ui-avatars.com/api/?name=${user.fullName
                                 .split(' ')
                                 .join(
                                   '+'

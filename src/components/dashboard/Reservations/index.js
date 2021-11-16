@@ -154,7 +154,7 @@ const Reservations = () => {
     setCurrentReservations(
       reservations?.filter(
         (el) =>
-          el.visitor.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+          el.visitor.fullName.toLowerCase().indexOf(filter.toLowerCase()) !== -1
       )
       // reservations || []
     );

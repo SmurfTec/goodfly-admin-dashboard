@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
   const getMe = async () => {
     try {
       const res = await makeReq(`/users/me`, {}, 'GET');
-      console.log(`res`, res);
+      // console.log(`res`, res);
 
       setUser(res.user);
     } catch (err) {
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
         { body: { ...newProfile } },
         'PATCH'
       );
-      console.log(`res`, res);
+      // console.log(`res`, res);
 
       setUser(res.user);
       toast.success('Profile Updates Successfully !');
@@ -56,8 +56,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signInUser = (tk, us) => {
-    console.log(`tk`, tk);
-    console.log(`us`, us);
+    // console.log(`tk`, tk);
+    // console.log(`us`, us);
 
     window.localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, tk);
 

@@ -62,9 +62,7 @@ const Visitors = () => {
     rowsPerPage -
     Math.min(
       rowsPerPage,
-      customers === 'loading'
-        ? 0
-        : customers?.length - page * rowsPerPage
+      customers === 'loading' ? 0 : customers?.length - page * rowsPerPage
     );
 
   const handleChangePage = (event, newPage) => {
@@ -88,8 +86,7 @@ const Visitors = () => {
         ? 'loading'
         : customers?.filter(
             (row) =>
-              row.name.toLowerCase().indexOf(filter.toLowerCase()) !==
-              -1
+              row.fullName.toLowerCase().indexOf(filter.toLowerCase()) !== -1
           )
     );
   }, [filter]);
@@ -138,10 +135,7 @@ const Visitors = () => {
             width: '100%',
           }}
         >
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
-          >
+          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
             Search Client
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -182,11 +176,9 @@ const Visitors = () => {
                     .map((row, index) => (
                       <TableRow key={v4()}>
                         <TableCell component='th' scope='row'>
-                          {row.name}
+                          {row.fullName}
                         </TableCell>
-                        <TableCell align='right'>
-                          {row.email}
-                        </TableCell>
+                        <TableCell align='right'>{row.email}</TableCell>
                         <TableCell align='right'>
                           {row.telephoneNumber}
                         </TableCell>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Box,
@@ -17,17 +17,23 @@ import {
   MenuItem,
   Radio,
 } from '@material-ui/core';
+
+import Autocomplete from '@mui/material/Autocomplete';
+
 import { TabPanel } from '../../../common/TabPanel';
 import { useManyInputs, useToggleInput } from 'hooks';
 import LoadingOverlay from 'react-loading-overlay';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { getMuiDateFormat } from 'Utils/dateMethods';
+import { countries, regions } from 'Utils/constants';
 
-const OffersTabs = ({ classes, value, handleNext }) => {
+const OffersTabs = ({ classes, value, handleNext, offer }) => {
   const initialState = {
     image: '',
     title: '',
-    destination: '',
+    country: 'Albania',
+    region: 'asis',
     description: '',
     isDates: 'no',
     price: '',
@@ -51,6 +57,38 @@ const OffersTabs = ({ classes, value, handleNext }) => {
   const [state, handleTxtChange, , changeInput, resetState, setState] =
     useManyInputs(initialState);
 
+  useEffect(() => {
+    if (!offer) return;
+
+    const newState = {
+      ...offer,
+      isDates: offer.startingDate ? 'yes' : 'no',
+      startingDate: getMuiDateFormat(offer.startingDate),
+      endingDate: getMuiDateFormat(offer.endingDate),
+      isDeparturePlace: offer.departurePlace ? 'yes' : 'no',
+      departurePlace: offer.departurePlace || '',
+      arrivalPlace: offer.arrivalPlace || '',
+      country: countries.find((el) => el.label === offer.country) || '',
+      region: regions.find((el) => el.label === offer.region) || '',
+      services: !!offer.services?.includes
+        ? {
+            guide: offer.services.includes('guide'),
+            airportTransport: offer.services.includes('airportTransport'),
+            religiousCourse: offer.services.includes('religiousCourse'),
+            legitimateVisit: offer.services.includes('legitimateVisit'),
+            internelTransfer: offer.services.includes('internelTransfer'),
+            formalities: offer.services.includes('formalities'),
+            sittingNextToScholors: offer.services.includes(
+              'sittingNextToScholors'
+            ),
+          }
+        : offer.services,
+
+      //       category : of
+    };
+    setState(newState);
+  }, [offer]);
+
   const handleCheckBox = (e) => {
     setState((st) => ({
       ...st,
@@ -67,12 +105,10 @@ const OffersTabs = ({ classes, value, handleNext }) => {
     const selectedFile = e.target.files[0];
     const fileType = ['image/'];
     try {
-      console.log(`selectedFile.type`, selectedFile.type);
       if (selectedFile && selectedFile.type.includes(fileType)) {
         let reader = new FileReader();
         reader.readAsDataURL(selectedFile);
         reader.onloadend = async (e) => {
-          console.log(`result onLoadEnd`, e.target.result);
           const file = e.target.result;
 
           // TODO  Delete Image from cloudinary if it exists on this user
@@ -90,7 +126,6 @@ const OffersTabs = ({ classes, value, handleNext }) => {
             formData
           );
           const uploadedImage = res.data.url;
-          console.log(`res`, res);
 
           setUploadingText('Updating Image ...');
 
@@ -105,7 +140,6 @@ const OffersTabs = ({ classes, value, handleNext }) => {
       toast(
         err?.response?.data?.message || err.message || 'Something Went Wrong'
       );
-      console.log(`err`, err);
     }
   };
 
@@ -118,7 +152,8 @@ const OffersTabs = ({ classes, value, handleNext }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleNext(state, resetState);
+    if (!state.image) toast.error('Offer Must have an Image');
+    else handleNext(state, resetState);
   };
 
   return (
@@ -208,9 +243,9 @@ const OffersTabs = ({ classes, value, handleNext }) => {
                   onChange={handleTxtChange}
                   required
                 >
-                  <MenuItem value={'hajj'}>Hajj</MenuItem>
-                  <MenuItem value={'omra'}>Omra</MenuItem>
-                  <MenuItem value={'organized'}>Organized</MenuItem>
+                  <MenuItem value={'spiritual'}>Spiritual</MenuItem>
+                  <MenuItem value={'ethical'}>Ethical</MenuItem>
+                  <MenuItem value={'excursions'}>Excursions</MenuItem>
                 </Select>
               </FormControl>
 
@@ -236,7 +271,7 @@ const OffersTabs = ({ classes, value, handleNext }) => {
                   placeholder='Price'
                   size='small'
                   type='number'
-                  inputProps={{ min: 0, step: 100 }}
+                  inputProps={{ min: 0 }}
                   className={classes.textInput}
                   name='price'
                   value={state.price}
@@ -245,16 +280,83 @@ const OffersTabs = ({ classes, value, handleNext }) => {
               </Box>
 
               <Box className={classes.inputBox}>
-                <TextField
-                  required
-                  hiddenLabel
-                  id='filled-hidden-label-small'
-                  placeholder='Destination'
-                  size='small'
-                  className={classes.textInput}
-                  name='destination'
-                  value={state.destination}
-                  onChange={handleTxtChange}
+                <Autocomplete
+                  id='country'
+                  sx={{ backgroundColor: '#fff' }}
+                  options={countries}
+                  fullWidth
+                  autoHighlight
+                  value={state.country}
+                  onChange={(event, newValue) => {
+                    changeInput('country', newValue);
+                  }}
+                  getOptionLabel={(option) => option.label}
+                  renderOption={(props, option) => (
+                    <Box
+                      component='li'
+                      sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
+                      {...props}
+                    >
+                      <img
+                        loading='lazy'
+                        width='20'
+                        src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                        srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                        alt=''
+                      />
+                      {option.label}
+                    </Box>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label='Choose a country'
+                      inputProps={{
+                        ...params.inputProps,
+                      }}
+                      required
+                    />
+                  )}
+                />
+              </Box>
+              <Box className={classes.inputBox}>
+                <Autocomplete
+                  id='region'
+                  sx={{ backgroundColor: '#fff' }}
+                  options={regions}
+                  fullWidth
+                  autoHighlight
+                  value={state.region}
+                  onChange={(event, newValue) => {
+                    changeInput('region', newValue);
+                  }}
+                  getOptionLabel={(option) => option.label}
+                  renderOption={(props, option) => (
+                    <Box
+                      component='li'
+                      sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
+                      {...props}
+                    >
+                      <img
+                        loading='lazy'
+                        width='20'
+                        src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                        srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                        alt=''
+                      />
+                      {option.label}
+                    </Box>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label='Choose  Region'
+                      inputProps={{
+                        ...params.inputProps,
+                      }}
+                      required
+                    />
+                  )}
                 />
               </Box>
               <Box className={classes.inputBox}>
@@ -411,11 +513,11 @@ const OffersTabs = ({ classes, value, handleNext }) => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={state.guide}
+                    checked={state.services.guide}
                     onChange={handleCheckBox}
                     name='checkedA'
                     name='guide'
-                    value={state.guide}
+                    // value={state.services.guide}
                   />
                 }
                 label='Guide'
@@ -423,11 +525,11 @@ const OffersTabs = ({ classes, value, handleNext }) => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={state.airportTransport}
+                    checked={state.services.airportTransport}
                     onChange={handleCheckBox}
                     name='checkedB'
                     name='airportTransport'
-                    value={state.airportTransport}
+                    // value={state.services.airportTransport}
                   />
                 }
                 label='Airport transport'
@@ -435,11 +537,11 @@ const OffersTabs = ({ classes, value, handleNext }) => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={state.religiousCourse}
+                    checked={state.services.religiousCourse}
                     onChange={handleCheckBox}
                     name='checkedC'
                     name='religiousCourse'
-                    value={state.religiousCourse}
+                    // value={state.services.religiousCourse}
                   />
                 }
                 label='Religious courses'
@@ -447,11 +549,11 @@ const OffersTabs = ({ classes, value, handleNext }) => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={state.legitimateVisit}
+                    checked={state.services.legitimateVisit}
                     onChange={handleCheckBox}
                     name='checkedD'
                     name='legitimateVisit'
-                    value={state.legitimateVisit}
+                    // value={state.services.legitimateVisit}
                   />
                 }
                 label='Legitimate visit(Mount uhud,Quba mosque)'
@@ -459,11 +561,11 @@ const OffersTabs = ({ classes, value, handleNext }) => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={state.internelTransfer}
+                    checked={state.services.internelTransfer}
                     onChange={handleCheckBox}
                     name='checkedE'
                     name='internelTransfer'
-                    value={state.internelTransfer}
+                    // value={state.services.internelTransfer}
                   />
                 }
                 label='Internal transfer'
@@ -471,11 +573,11 @@ const OffersTabs = ({ classes, value, handleNext }) => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={state.formalities}
+                    checked={state.services.formalities}
                     onChange={handleCheckBox}
                     name='checkedF'
                     name='formalities'
-                    value={state.formalities}
+                    // value={state.services.formalities}
                   />
                 }
                 label='Formalities'
@@ -483,11 +585,11 @@ const OffersTabs = ({ classes, value, handleNext }) => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={state.sittingNextToScholors}
+                    checked={state.services.sittingNextToScholors}
                     onChange={handleCheckBox}
                     name='checkedG'
                     name='sittingNextToScholors'
-                    value={state.sittingNextToScholors}
+                    // value={state.services.sittingNextToScholors}
                   />
                 }
                 label='sitting next to the scholars'
