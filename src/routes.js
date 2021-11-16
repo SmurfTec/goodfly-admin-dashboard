@@ -109,6 +109,7 @@ export const protechtedRoutes = [
             element: <Products />,
           },
           { path: '/create', element: <CreateProduct /> },
+          { path: 'edit/:id', element: <EditProduct /> },
         ],
       },
       {

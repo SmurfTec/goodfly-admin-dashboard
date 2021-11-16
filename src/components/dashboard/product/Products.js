@@ -44,8 +44,7 @@ const styles = makeStyles((theme) => ({
 }));
 
 const Products = () => {
-  const { products, modifyProduct, deleteProduct } =
-    useContext(ProductContext);
+  const { products, deleteProduct } = useContext(ProductContext);
 
   console.log('PRODUCTS', products);
 
@@ -213,7 +212,12 @@ const Products = () => {
                           {new Date().toDateString()}
                         </TableCell>
                         <TableCell align='right'>
-                          <Button>Edit</Button>
+                          <Button
+                            component={Link}
+                            to={`/app/products/edit/${row._id}`}
+                          >
+                            Edit
+                          </Button>
                           <Button
                             style={{ color: 'red' }}
                             onClick={handleDelete.bind(this, row._id)}

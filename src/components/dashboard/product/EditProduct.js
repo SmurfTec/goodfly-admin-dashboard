@@ -110,7 +110,7 @@ const productCategories = [
   { id: uuid(), value: 'Teas & Infusions' },
 ];
 
-const CreateProduct = () => {
+const EditProduct = () => {
   const classes = styles();
   const theme = useTheme();
   const lgDown = useMediaQuery(theme.breakpoints.down('lg'));
@@ -618,4 +618,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default EditProduct;

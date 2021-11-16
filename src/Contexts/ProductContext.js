@@ -15,9 +15,9 @@ export const ProductProvider = ({ children }) => {
     products,
     setProducts,
     pushProduct,
-    removeProduct,
     filterProduct,
     updateProduct,
+    removeProduct,
     clearProducts,
   ] = useArray('loading', '_id');
 
@@ -55,7 +55,7 @@ export const ProductProvider = ({ children }) => {
       );
       toast.success('Product Updated Successfully !');
       // Update Product in the context array
-      updateProduct(id, resData.user);
+      updateProduct(id, resData.product);
     } catch (err) {
       handleCatch(err);
     }
@@ -76,7 +76,7 @@ export const ProductProvider = ({ children }) => {
       );
       resetForm();
 
-      pushProduct(resData.user);
+      pushProduct(resData.product);
       toast.success('Product Created Successfully !');
       setTimeout(() => {
         navigate('/app/products');

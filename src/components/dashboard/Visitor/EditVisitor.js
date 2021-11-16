@@ -86,10 +86,12 @@ const styles = makeStyles((theme) => ({
 
 const EditVisitor = () => {
   const classes = styles();
+  
   const [ok, setOk] = React.useState(true);
   const { getCustomerById, customers, modifyCustomer } =
     useContext(CustomersContext);
   const { id } = useParams();
+
   const initialState = {
     pronoun: 'Mr',
     name: '',
@@ -195,12 +197,12 @@ const EditVisitor = () => {
     const selectedFile = e.target.files[0];
     const fileType = ['image/'];
     try {
-      console.log(`selectedFile.type`, selectedFile.type);
+      // console.log(`selectedFile.type`, selectedFile.type);
       if (selectedFile && selectedFile.type.includes(fileType)) {
         let reader = new FileReader();
         reader.readAsDataURL(selectedFile);
         reader.onloadend = async (e) => {
-          console.log(`result onLoadEnd`, e.target.result);
+          // console.log(`result onLoadEnd`, e.target.result);
           const file = e.target.result;
 
           // TODO  Delete Image from cloudinary if it exists on this user
@@ -218,7 +220,7 @@ const EditVisitor = () => {
             formData
           );
           const uploadedImage = res.data.url;
-          console.log(`res`, res);
+          // console.log(`res`, res);
 
           setUploadingText('Updating Image ...');
           changeInput('attachments', [
