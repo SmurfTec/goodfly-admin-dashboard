@@ -57,10 +57,14 @@ const DashboardHome = () => {
         <Typography variant='h5' color='textSecondary' gutterBottom>
           Welcome to goodgly Dashboard . you staffer
         </Typography>
-        <Typography variant='h5' fontWeight='normal' color='textSecondary'>
-          Welcome to goodgly Dashboard . you staffer Welcome to goodgly
-          Dashboard . you staffer Welcome to goodgly Dashboard . you staffer
-          Welcome to goodgly Dashboard . you staffer
+        <Typography
+          variant='h5'
+          fontWeight='normal'
+          color='textSecondary'
+        >
+          Welcome to goodgly Dashboard . you staffer Welcome to
+          goodgly Dashboard . you staffer Welcome to goodgly Dashboard
+          . you staffer Welcome to goodgly Dashboard . you staffer
         </Typography>
       </Box>
       <Box
@@ -72,16 +76,20 @@ const DashboardHome = () => {
         sx={{
           padding: '19px 20px',
           background: '#f2f2f2f2',
+          borderRadius: '0.5rem',
         }}
       >
         <Box className={classes.Card}>
           <Typography variant='h5' gutterBottom>
-            {/* {primaryText} */}
+            Add/Create
           </Typography>
           <Box className={classes.MiniCard}>
             <Box className={classes.image}>
               <Box>
-                <Add size={35} style={{ color: '#cccccc', fontSize: '70px' }} />
+                <Add
+                  size={35}
+                  style={{ color: '#cccccc', fontSize: '90px' }}
+                />
                 {/* <Icon size={35} style={{ color: '#fff' }} /> */}
               </Box>
               <Typography style={{ color: '#fff' }}>
@@ -119,13 +127,15 @@ const DashboardHome = () => {
           secondarytext='New Blog'
         />
       </Box>
-      <Grid container sx={{ mt: 5 }} spacing={4}>
+
+      <Grid container sx={{ mt: 5 }} spacing={1}>
         <Grid
           item
           xs={12}
           sm={8}
           sx={{
             backgroundColor: '#f2f2f2',
+            borderRadius: '0.5rem',
           }}
         >
           <LineChart />
@@ -135,6 +145,7 @@ const DashboardHome = () => {
             paddingTop: '0px !important',
             paddingBottom: '0px !important',
             minHeight: '380px',
+            borderRadius: '0.5rem',
           }}
           item
           xs={12}
@@ -190,12 +201,16 @@ const DashboardHome = () => {
           </Box>
         </Grid>
       </Grid>
-      <Grid container sx={{ mt: 5 }} spacing={4}>
+      <Grid container sx={{ mt: 5 }} spacing={1}>
         <Grid
           item
           xs={12}
           sm={7}
-          sx={{ display: 'flex', backgroundColor: '#f2f2f2' }}
+          sx={{
+            display: 'flex',
+            backgroundColor: '#f2f2f2',
+            borderRadius: '0.5rem',
+          }}
         >
           <Box className={classes.InfoButtonGrid}>
             <Box className={classes.InfoButton}>
@@ -255,9 +270,14 @@ const DashboardHome = () => {
                 <ReactSVG src={youtubeSvg} />
               </Box>
             </Box>
-          </Box>{' '}
+          </Box>
         </Grid>
-        <Grid item xs={12} sm={5} style={{ paddingTop: 0 }}>
+        <Grid
+          item
+          xs={12}
+          sm={5}
+          style={{ paddingTop: 0, borderRadius: '0.5rem' }}
+        >
           <Box className={classes.ActionsGrid}>
             <Box
               sx={{
@@ -280,7 +300,11 @@ const DashboardHome = () => {
               exclusive
               onChange={handleChange}
             >
-              <ToggleButton sx={{ border: 0 }} value='plane' aria-label='plane'>
+              <ToggleButton
+                sx={{ border: 0 }}
+                value='plane'
+                aria-label='plane'
+              >
                 <Button
                   disableRipple
                   fullWidth
@@ -289,13 +313,18 @@ const DashboardHome = () => {
                   variant='outlined'
                   sx={{
                     color: searchBy === 'plane' ? '#46B9F6' : '#000',
-                    borderColor: searchBy === 'plane' ? '#46B9F6' : '#000',
+                    borderColor:
+                      searchBy === 'plane' ? '#46B9F6' : '#000',
                   }}
                 >
                   Search for a plane ticket
                 </Button>
               </ToggleButton>
-              <ToggleButton sx={{ border: 0 }} value='boat' aria-label='boat'>
+              <ToggleButton
+                sx={{ border: 0 }}
+                value='boat'
+                aria-label='boat'
+              >
                 <Button
                   disableRipple
                   fullWidth
@@ -304,7 +333,8 @@ const DashboardHome = () => {
                   variant='outlined'
                   sx={{
                     color: searchBy === 'boat' ? '#46B9F6' : '#000',
-                    borderColor: searchBy === 'boat' ? '#46B9F6' : '#000',
+                    borderColor:
+                      searchBy === 'boat' ? '#46B9F6' : '#000',
                   }}
                 >
                   Find a boat ticket
@@ -322,7 +352,8 @@ const DashboardHome = () => {
                   size={'small'}
                   variant='outlined'
                   sx={{
-                    color: searchBy === 'reservation' ? '#46B9F6' : '#000',
+                    color:
+                      searchBy === 'reservation' ? '#46B9F6' : '#000',
                     borderColor:
                       searchBy === 'reservation' ? '#46B9F6' : '#000',
                   }}
@@ -342,8 +373,10 @@ const DashboardHome = () => {
                   size={'small'}
                   variant='outlined'
                   sx={{
-                    color: searchBy === 'vehicle' ? '#46B9F6' : '#000',
-                    borderColor: searchBy === 'vehicle' ? '#46B9F6' : '#000',
+                    color:
+                      searchBy === 'vehicle' ? '#46B9F6' : '#000',
+                    borderColor:
+                      searchBy === 'vehicle' ? '#46B9F6' : '#000',
                   }}
                 >
                   Find a vehicle rental

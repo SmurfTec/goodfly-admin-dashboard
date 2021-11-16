@@ -53,13 +53,13 @@ const LineChart = () => {
       xaxis: {
         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
         title: {
-          text: 'Month',
+          text: 'Months',
         },
       },
       yaxis: {
-        title: {
-          text: 'Temperature',
-        },
+        // title: {
+        //   text: 'Temperature',
+        // },
         min: 5,
         max: 40,
       },
