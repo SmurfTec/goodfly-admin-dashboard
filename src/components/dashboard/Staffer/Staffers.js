@@ -58,9 +58,7 @@ const Staffers = () => {
     rowsPerPage -
     Math.min(
       rowsPerPage,
-      staffers === 'loading'
-        ? 0
-        : staffers?.length - page * rowsPerPage
+      staffers === 'loading' ? 0 : staffers?.length - page * rowsPerPage
     );
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -82,8 +80,7 @@ const Staffers = () => {
         ? 'loading'
         : staffers?.filter(
             (row) =>
-              row.name.toLowerCase().indexOf(filter.toLowerCase()) !==
-              -1
+              row.fullName.toLowerCase().indexOf(filter.toLowerCase()) !== -1
           )
     );
   }, [filter]);
@@ -134,10 +131,7 @@ const Staffers = () => {
             width: '100%',
           }}
         >
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
-          >
+          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
             Search Staffers
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -179,19 +173,15 @@ const Staffers = () => {
                     .map((row, index) => (
                       <TableRow key={v4()}>
                         <TableCell component='th' scope='row'>
-                          {row.name}
+                          {row.fullName}
                         </TableCell>
                         <TableCell align='right'>{row._id}</TableCell>
                         <TableCell align='right'>
                           {' '}
                           {new Date(row.createdAt).toDateString()}
                         </TableCell>
-                        <TableCell align='right'>
-                          {row.role}
-                        </TableCell>
-                        <TableCell align='right'>
-                          {row.email}
-                        </TableCell>
+                        <TableCell align='right'>{row.role}</TableCell>
+                        <TableCell align='right'>{row.email}</TableCell>
                         <TableCell align='right'>
                           {row.telephoneNumber}
                         </TableCell>

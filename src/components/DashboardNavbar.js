@@ -1,4 +1,4 @@
-import { useState,useContext } from 'react';
+import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   AppBar,
@@ -16,7 +16,7 @@ import { AuthContext } from 'Contexts/AuthContext';
 
 const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
   const [notifications] = useState([]);
-  const { user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <AppBar elevation={0} {...rest}>
@@ -27,19 +27,11 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
         }}
       >
         <Box sx={{ flexGrow: 1, maxWidth: 256 }} />
-        <Box
-          display='flex'
-          justifyContent='space-around'
-          alignItems='center'
-        >
+        <Box display='flex' justifyContent='space-around' alignItems='center'>
           <PersonIcon />
           <Box display='flex' columnGap={1}>
-          <Typography variant='h5'>
-            {user.role}
-          </Typography>
-          <Typography variant='h5'>
-            {user.name}
-          </Typography>
+            <Typography variant='h5'>{user.role}</Typography>
+            <Typography variant='h5'>{user.fullName}</Typography>
           </Box>
         </Box>
         <Box
@@ -62,11 +54,7 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
             <Typography>{new Date().toDateString()}</Typography>
           </Hidden>
           <Hidden mdUp>
-            <IconButton
-              color='inherit'
-              onClick={onMobileNavOpen}
-              size='large'
-            >
+            <IconButton color='inherit' onClick={onMobileNavOpen} size='large'>
               <MenuIcon />
             </IconButton>
           </Hidden>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 import {
   Typography,
@@ -66,7 +66,12 @@ const ViewStaffer = () => {
       </Typography>
       <Box className={classes.main}>
         <Box size='large' className={classes.form}>
-          <Button variant='outlined' component={Link} to ='/app/staffers' className={classes.topButtons}>
+          <Button
+            variant='outlined'
+            component={Link}
+            to='/app/staffers'
+            className={classes.topButtons}
+          >
             Back to the List
           </Button>
           <Button
@@ -89,12 +94,12 @@ const ViewStaffer = () => {
           <Box className={classes.form}>
             <TextField
               id='standard-basic'
-              label='name'
+              label='First Name'
               variant='standard'
-            />
+            />{' '}
             <TextField
               id='standard-basic'
-              label='firstname'
+              label='Last Name'
               variant='standard'
             />
             <TextField
@@ -130,16 +135,8 @@ const ViewStaffer = () => {
               label='Postal Code'
               variant='standard'
             />
-            <TextField
-              id='standard-basic'
-              label='City'
-              variant='standard'
-            />
-            <TextField
-              id='standard-basic'
-              label='Country'
-              variant='standard'
-            />
+            <TextField id='standard-basic' label='City' variant='standard' />
+            <TextField id='standard-basic' label='Country' variant='standard' />
           </Box>
           <Box
             size='large'
@@ -202,9 +199,7 @@ const ViewStaffer = () => {
           }}
         >
           <DialogTitle>
-            <Typography variant='h4'>
-              Changing the Paasword
-            </Typography>
+            <Typography variant='h4'>Changing the Paasword</Typography>
           </DialogTitle>
           <DialogContent>
             <Box

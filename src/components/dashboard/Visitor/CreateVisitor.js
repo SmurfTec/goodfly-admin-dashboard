@@ -81,8 +81,8 @@ const VisitorProfile = () => {
   const initialState = {
     pronoun: 'Mr',
     firstName: '',
+    lastName: '',
     email: '',
-    birthName: '',
     spouseName: '',
     photo: '',
     telephoneLineNumber: '',
@@ -248,16 +248,32 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Birth Name
+                    First Name
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    placeholder='Islamabad'
+                    placeholder='First Name'
                     size='small'
                     className={classes.textInput}
-                    name='birthName'
-                    value={state.birthName}
+                    name='firstName'
+                    value={state.firstName}
+                    onChange={handleTxtChange}
+                    required
+                  />
+                </Box>
+                <Box className={classes.inputBox}>
+                  <Typography variant='h5' className={classes.typo}>
+                    Last Name
+                  </Typography>
+                  <TextField
+                    hiddenLabel
+                    id='filled-hidden-label-small'
+                    placeholder='Last Name'
+                    size='small'
+                    className={classes.textInput}
+                    name='lastName'
+                    value={state.lastName}
                     onChange={handleTxtChange}
                     required
                   />
@@ -278,22 +294,7 @@ const VisitorProfile = () => {
                     required
                   />
                 </Box>
-                <Box className={classes.inputBox}>
-                  <Typography variant='h5' className={classes.typo}>
-                    Name
-                  </Typography>
-                  <TextField
-                    hiddenLabel
-                    id='filled-hidden-label-small'
-                    placeholder='MuhammadZain'
-                    size='small'
-                    className={classes.textInput}
-                    name='firstName'
-                    value={state.firstName}
-                    onChange={handleTxtChange}
-                    required
-                  />
-                </Box>
+
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
                     Email
