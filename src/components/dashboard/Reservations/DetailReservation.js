@@ -92,7 +92,7 @@ const DetailReservation = () => {
     if (reservation) {
       setReservationStatus(reservation.status);
       setAttachments(reservation.visitor.attachments);
-      setInstallments(reservation?.installments.toString() || '');
+      setInstallments(reservation?.installments?.toString() || '');
     }
   }, [reservation]);
 

@@ -400,8 +400,23 @@ const Reservations = () => {
                           {new Date(purchase.createdAt).toLocaleDateString()}
                         </TableCell>
                         <TableCell align='center'>{purchase.status}</TableCell>
-                        <TableCell align='center'>{`${purchase.firstName} ${purchase.lastName}`}</TableCell>
-                        <TableCell align='center'>{purchase.email}</TableCell>
+                        <TableCell align='center'>
+                          {purchase.travelers?.map((traveler) => (
+                            <>
+                              {' '}
+                              {`${traveler.firstName} ${traveler.lastName}`}{' '}
+                              <br />{' '}
+                            </>
+                          ))}
+                        </TableCell>
+                        <TableCell align='center'>
+                          {purchase.travelers?.map((traveler) => (
+                            <>
+                              {traveler.email}
+                              <br />
+                            </>
+                          ))}
+                        </TableCell>
                         <TableCell align='center'>{purchase.phone}</TableCell>
                         <TableCell align='center'>
                           <Button
