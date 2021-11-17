@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import {
@@ -17,178 +17,26 @@ import {
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 import v4 from 'uuid/dist/v4';
+import styles from './styles';
+import { OffersContext } from 'Contexts/OffersContext';
+import { Link } from 'react-router-dom';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
-const rows = [
-  createData(
-    'Muhammadzain',
-    ' zain@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadali',
-    ' ali@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadusman',
-    ' usman@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadkashif',
-    ' kashif@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadumer',
-    ' umer@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadabc',
-    ' abc@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsonu',
-    ' sonu@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsaqib',
-    ' saqib@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsohil',
-    ' sohail@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-];
-
-const styles = makeStyles((theme) => ({
-  main: {
-    backgroundColor: '#f2f2f2',
-    minHeight: '20rem',
-    borderRadius: '0.8rem',
-    padding: '1rem',
-    margin: '2rem 1.5rem 2rem',
-  },
-  table: {
-    margin: ' 2rem 1rem 2rem',
-    padding: '1rem',
-    width: 'inherit',
-  },
-  textInput: {
-    width: '80%',
-    backgroundColor: '#fff',
-    marginBottom: 7,
-  },
-}));
-
 const CustomTrips = () => {
   const classes = styles();
-    const [filter, setFilter] = useState('');
-    const [filteredItems, setFilteredItems] = useState([]);
+  const { customOffers } = useContext(OffersContext);
+  const [filter, setFilter] = useState('');
+  const [filteredItems, setFilteredItems] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     rowsPerPage -
-    Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    Math.min(rowsPerPage, filteredItems.length - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -198,25 +46,23 @@ const CustomTrips = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
- const handleSearch = (e) => {
-   const data = e.target.value;
-   setFilter(data);
-   console.log(filter);
- };
- //  filtered
- useEffect(() => {
-   setFilteredItems(
-     rows.filter(
-       (row) =>
-         row.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
-     )
-   );
- }, [filter]);
+  const handleSearch = (e) => {
+    const data = e.target.value;
+    setFilter(data);
+  };
+  //  filtered
+  useEffect(() => {
+    setFilteredItems(
+      customOffers?.filter(
+        (row) => row.fullName.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+      )
+    );
+  }, [filter]);
 
- // data must be updated
- useEffect(() => {
-   setFilteredItems(rows);
- }, []);
+  // data must be updated
+  useEffect(() => {
+    setFilteredItems(customOffers);
+  }, [customOffers]);
   return (
     <div style={{ marginTop: '3rem' }}>
       <Typography variant='h4' m={2}>
@@ -231,10 +77,7 @@ const CustomTrips = () => {
             width: '100%',
           }}
         >
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
-          >
+          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
             Search Client
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -257,32 +100,32 @@ const CustomTrips = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
-                <TableCell align='right'>
-                  Date of Reservation
-                </TableCell>
-                <TableCell align='right'>Emails</TableCell>
-                <TableCell align='right'>Telephone</TableCell>
-                <TableCell align='right'>Actions</TableCell>
+                <TableCell align='center'>Date of Reservation</TableCell>
+                <TableCell align='center'>Emails</TableCell>
+                <TableCell align='center'>Telephone</TableCell>
+                <TableCell align='center'>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {filteredItems
-                .slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
-                .map((row, index) => (
-                  <TableRow key={v4()}>
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => (
+                  <TableRow key={row._id}>
                     <TableCell component='th' scope='row'>
-                      {row.name}
+                      {row.fullName}
                     </TableCell>
-                    <TableCell align='right'>
-                      {row.calories}
+                    <TableCell align='center'>
+                      {new Date(row.createdAt).toLocaleDateString()}
                     </TableCell>
-                    <TableCell align='right'>{row.fat}</TableCell>
-                    <TableCell align='right'>{row.carbs}</TableCell>
-                    <TableCell align='right'>
-                      <Button>Show Details</Button>
+                    <TableCell align='center'>{row.email}</TableCell>
+                    <TableCell align='center'>{row.phone}</TableCell>
+                    <TableCell align='center'>
+                      <Button
+                        component={Link}
+                        to={`/app/customtrips/${row._id}`}
+                      >
+                        Show Details
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -296,7 +139,7 @@ const CustomTrips = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 20]}
             component='div'
-            count={rows.length}
+            count={filteredItems.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

@@ -21,13 +21,26 @@ export const OffersProvider = ({ children }) => {
     clearOffers,
   ] = useArray();
 
+  const [
+    customOffers,
+    setCustomOffers,
+    pushCustomOffer,
+    filterCustomOffer,
+    updateCustomOfferById,
+    removeCustomOffer,
+    clearCustomOffers,
+  ] = useArray();
+
   useEffect(() => {
     // * If user is logged In , only then fetch data
     if (user) {
       (async () => {
         try {
-          const resData = await makeReq(`/trips`);
-          setOffers(resData.trips);
+          const resData1 = await makeReq(`/trips`);
+          const resData2 = await makeReq(`/trips/customTrip`);
+
+          setOffers(resData1.trips);
+          setCustomOffers(resData2.trips);
         } catch (err) {
           handleCatch(err);
         }
@@ -39,7 +52,10 @@ export const OffersProvider = ({ children }) => {
     }
   }, [user]);
 
-  const getOfferById = (id) => offers?.find((el) => el._id === id);
+  const getOfferById = (id, isCustom) =>
+    isCustom
+      ? customOffers?.find((el) => el._id === id)
+      : offers?.find((el) => el._id === id);
 
   const deleteTrip = async (id) => {
     try {
@@ -105,6 +121,7 @@ export const OffersProvider = ({ children }) => {
         archieveTrip,
         createOffer,
         updateOffer,
+        customOffers,
       }}
     >
       {children}
