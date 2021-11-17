@@ -27,6 +27,7 @@ import LoadingOverlay from 'react-loading-overlay';
 import axios from 'axios';
 import { useParams } from 'react-router';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
+import v4 from 'uuid/dist/v4';
 
 const styles = makeStyles((theme) => ({
   account: {
@@ -138,7 +139,6 @@ const EditProduct = () => {
   };
 
   const [loading, setLoading] = useState(true);
-  const [modifyImageId, setModifyImageId] = useState();
 
   const [isImageUploading, toggleImageUploading] =
     useToggleInput(false);
@@ -175,6 +175,13 @@ const EditProduct = () => {
     changeInput('label', '');
   };
 
+  const deleteImage = (id) => {
+    changeInput(
+      'images',
+      state.images.filter((el) => el._id !== id)
+    );
+  };
+
   // remove label
   const removeLabel = (el) => {
     changeInput(
@@ -189,32 +196,6 @@ const EditProduct = () => {
     modifyProduct(id, state);
   };
 
-  // handle images
-
-  const deleteAttachment = (id) => {
-    changeInput(
-      'images',
-      state.images.filter((el) => el._id !== id)
-    );
-  };
-
-  const handleModify = (id) => {
-    setModifyImageId(id);
-  };
-
-  const modifyImage = async (e) => {
-    const file = e.target.files[0];
-    try {
-      const convert64 = await convertTobase64(file);
-
-      changeInput(
-        'images',
-        state.image.map((el) =>
-          el._id === modifyImageId ? { ...el, image: convert64 } : el
-        )
-      );
-    } catch (err) {}
-  };
   const handleImage = async (e) => {
     setUploadingText('Uploading Image ...');
     toggleImageUploading();
@@ -246,7 +227,10 @@ const EditProduct = () => {
 
           setUploadingText('Updating Image ...');
 
-          changeInput('images', [...state.images, uploadedImage]);
+          changeInput('images', [
+            ...state.images,
+            { _id: v4(), image: uploadedImage },
+          ]);
 
           toggleImageUploading();
         };
@@ -263,21 +247,6 @@ const EditProduct = () => {
     }
   };
 
-  const convertTobase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onloadend = () => {
-        console.log(`fileReader.result`, fileReader.result);
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        console.log(`error`, error);
-        reject(error);
-      };
-    });
-  };
-
   return (
     <div style={{ backgroundColor: '#fff', overflow: 'hidden' }}>
       <Box>
@@ -291,8 +260,17 @@ const EditProduct = () => {
         </Box>
 
         <Grid container>
-          <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
-            <Box className={classes.mainBox}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            style={{ minHeight: 400 }}
+          >
+            <Box
+              className={classes.mainBox}
+              style={{ padding: '5rem' }}
+            >
               <Box
                 style={{
                   display: 'flex',
@@ -566,118 +544,6 @@ const EditProduct = () => {
               </Box>
             </Box>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={5}
-            md={5}
-            className={classes.account}
-          >
-            <Box className={classes.mainBox}>
-              <Typography variant='h5' style={{ width: '100%' }}>
-                Account managment
-              </Typography>
-              <Box
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  width: '100%',
-                  minHeight: 180,
-                  padding: 15,
-                  margin: 15,
-                }}
-              >
-                <Grid container>
-                  <Grid item lg={6}>
-                    <Box mt={1}>
-                      <CardMedia
-                        style={{
-                          width: '12rem',
-                          height: '12rem',
-                        }}
-                        image={
-                          state.images.length > 0
-                            ? state.images?.[0]
-                            : 'https://picsum.imagess/200/300?random=2'
-                        }
-                        title='product name'
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item lg={6}>
-                    <LoadingOverlay
-                      active={isImageUploading}
-                      spinner
-                      text={uploadingText}
-                    >
-                      <input
-                        accept='image/*'
-                        style={{ display: 'none' }}
-                        id='contained-button-file'
-                        multiple
-                        onChange={handleImage}
-                        type='file'
-                      />
-                      <label
-                        htmlFor='contained-button-file'
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <Box
-                          mt={1}
-                          p={1}
-                          style={{
-                            backgroundColor: '#808080',
-                            borderRadius: '10px',
-                          }}
-                        >
-                          <Box className={classes.image}>
-                            <Box
-                              display='flex'
-                              justifyContent='center'
-                              style={{ cursor: 'pointer' }}
-                            >
-                              <PlusIcon
-                                size={35}
-                                style={{ color: '#fff' }}
-                              />
-                              <FileIcon
-                                size={35}
-                                style={{ color: '#fff' }}
-                              />
-                            </Box>
-                            <Typography style={{ color: '#fff' }}>
-                              Upload Image
-                            </Typography>
-                          </Box>
-                        </Box>
-                      </label>
-                    </LoadingOverlay>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Box>
-            <Box
-              style={{
-                display: 'flex',
-                justifyContent: 'space-evenly',
-                alignItems: 'center',
-                width: '100%',
-              }}
-            >
-              <Button
-                form='newProductForm'
-                type='submit'
-                variant='contained'
-                size='medium'
-                style={{ width: 150 }}
-                onClick={handleSubmit}
-                // disabled={}  disable if there is no change
-              >
-                Update
-              </Button>
-            </Box>
-          </Grid>
         </Grid>
 
         {/*  product photos  */}
@@ -685,7 +551,7 @@ const EditProduct = () => {
         <Box className={classes.mainBox}>
           <Typography
             variant='h3'
-            style={{ width: '100%', marginTop: '3rem' }}
+            style={{ width: '100%', marginTop: '1rem' }}
           >
             Products images
           </Typography>
@@ -697,7 +563,7 @@ const EditProduct = () => {
                   <div key={index} className={classes.carouselCard}>
                     <CardMedia
                       style={{ height: '10rem' }}
-                      image={image}
+                      image={image.image}
                       title='Live from space album cover'
                     />
                     <Box
@@ -707,27 +573,8 @@ const EditProduct = () => {
                         alignItems: 'center',
                       }}
                     >
-                      <input
-                        accept='image/*'
-                        style={{ display: 'none' }}
-                        id='modify-button-file'
-                        // onChange={handleImage}
-                        onChange={modifyImage}
-                        type='file'
-                        name='photo'
-                      />
-                      <label
-                        htmlFor='modify-button-file'
-                        style={{ cursor: 'pointer' }}
-                        onClick={handleModify.bind(this, image._id)}
-                      >
-                        <Button>modify</Button>
-                      </label>
                       <Button
-                        onClick={deleteAttachment.bind(
-                          this,
-                          image._id
-                        )}
+                        onClick={deleteImage.bind(this, image._id)}
                         style={{ color: 'red' }}
                       >
                         Delete
@@ -796,6 +643,26 @@ const EditProduct = () => {
               </LoadingOverlay>{' '}
             </Grid>
           </Grid>
+          <Box
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              padding: '2rem 2rem 1rem',
+            }}
+          >
+            <Button
+              form='newProductForm'
+              type='submit'
+              variant='contained'
+              size='medium'
+              style={{ width: 150 }}
+              onClick={handleSubmit}
+            >
+              Update
+            </Button>
+          </Box>
         </Box>
       </Box>
     </div>

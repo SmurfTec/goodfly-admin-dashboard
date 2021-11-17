@@ -26,6 +26,7 @@ import useToggleInput from 'hooks/useToggleInput';
 import LoadingOverlay from 'react-loading-overlay';
 import axios from 'axios';
 import v4 from 'uuid/dist/v4';
+import CarouselLayout from 'components/common/Carousel/CarouselLayout';
 
 const styles = makeStyles((theme) => ({
   account: {
@@ -166,6 +167,13 @@ const CreateProduct = () => {
     createNewProduct(state, resetState);
   };
 
+  const deleteImage = (id) => {
+    changeInput(
+      'images',
+      state.images.filter((el) => el._id !== id)
+    );
+  };
+
   const handleImage = async (e) => {
     setUploadingText('Uploading Image ...');
     toggleImageUploading();
@@ -230,8 +238,17 @@ const CreateProduct = () => {
         </Box>
 
         <Grid container>
-          <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
-            <Box className={classes.mainBox}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            style={{ minHeight: 400 }}
+          >
+            <Box
+              className={classes.mainBox}
+              style={{ padding: '5rem' }}
+            >
               <Box
                 style={{
                   display: 'flex',
@@ -505,118 +522,124 @@ const CreateProduct = () => {
               </Box>
             </Box>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={5}
-            md={5}
-            className={classes.account}
+        </Grid>
+
+        <Box className={classes.mainBox}>
+          <Typography
+            variant='h3'
+            style={{ width: '100%', marginTop: '1rem' }}
           >
-            <Box className={classes.mainBox}>
-              <Typography variant='h5' style={{ width: '100%' }}>
-                Account managment
-              </Typography>
-              <Box
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  width: '100%',
-                  minHeight: 180,
-                  padding: 15,
-                  margin: 15,
-                }}
-              >
-                <Grid container>
-                  <Grid item lg={6}>
-                    <Box mt={1}>
-                      <CardMedia
-                        style={{
-                          width: '12rem',
-                          height: '12rem',
-                        }}
-                        image={
-                          state.images.length > 0
-                            ? state.images?.[0].image
-                            : 'https://picsum.imagess/200/300?random=2'
-                        }
-                        title='product-name'
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item lg={6}>
-                    <LoadingOverlay
-                      active={isImageUploading}
-                      spinner
-                      text={uploadingText}
+            Products images
+          </Typography>
+
+          <Grid container spacing={3}>
+            <Grid item md={9}>
+              <CarouselLayout>
+                {state.images?.map((image, index) => (
+                  <div key={index} className={classes.carouselCard}>
+                    <CardMedia
+                      style={{ height: '10rem' }}
+                      image={image.image}
+                      title='Live from space album cover'
+                    />
+                    <Box
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
                     >
+                      <Button
+                        onClick={deleteImage.bind(this, image._id)}
+                        style={{ color: 'red' }}
+                      >
+                        Delete
+                      </Button>
+                    </Box>
+                  </div>
+                ))}
+                {/* one */}
+              </CarouselLayout>
+            </Grid>
+            <Grid
+              item
+              md={3}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <LoadingOverlay
+                active={isImageUploading}
+                spinner
+                text={uploadingText}
+              >
+                <Box
+                  style={{
+                    backgroundColor: '#808080',
+                    borderRadius: '10px',
+                  }}
+                >
+                  <Box style={{ padding: '0.2rem' }}>
+                    <Box>
                       <input
                         accept='image/*'
                         style={{ display: 'none' }}
                         id='contained-button-file'
-                        multiple
                         onChange={handleImage}
                         type='file'
+                        name='photo'
                       />
                       <label
                         htmlFor='contained-button-file'
                         style={{ cursor: 'pointer' }}
                       >
-                        <Box
-                          mt={1}
-                          p={1}
-                          style={{
-                            backgroundColor: '#808080',
-                            borderRadius: '10px',
-                          }}
-                        >
-                          <Box className={classes.image}>
-                            <Box
-                              display='flex'
-                              justifyContent='center'
-                              style={{ cursor: 'pointer' }}
-                            >
-                              <PlusIcon
-                                size={35}
-                                style={{ color: '#fff' }}
-                              />
-                              <FileIcon
-                                size={35}
-                                style={{ color: '#fff' }}
-                              />
-                            </Box>
+                        <Box className={classes.image}>
+                          <Box>
+                            <PlusIcon
+                              size={35}
+                              style={{ color: '#fff' }}
+                            />
+                            <FileIcon
+                              size={35}
+                              style={{ color: '#fff' }}
+                            />
+                          </Box>
+                          <Box style={{ textAlign: 'center' }}>
                             <Typography style={{ color: '#fff' }}>
-                              Upload Image
+                              Upload Document
                             </Typography>
                           </Box>
                         </Box>
-                      </label>
-                    </LoadingOverlay>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Box>
-            <Box
-              style={{
-                display: 'flex',
-                justifyContent: 'space-evenly',
-                alignItems: 'center',
-                width: '100%',
-              }}
-            >
-              <Button
-                form='newProductForm'
-                type='submit'
-                variant='contained'
-                size='medium'
-                style={{ width: 150 }}
-                onClick={handleSubmit}
-              >
-                Create
-              </Button>
-            </Box>
+                      </label>{' '}
+                    </Box>
+                  </Box>
+                </Box>
+              </LoadingOverlay>{' '}
+            </Grid>
           </Grid>
-        </Grid>
+          <Box
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              padding: '2rem 2rem 1rem',
+            }}
+          >
+            <Button
+              form='newProductForm'
+              type='submit'
+              variant='contained'
+              size='medium'
+              style={{ width: 150 }}
+              onClick={handleSubmit}
+            >
+              create
+            </Button>
+          </Box>
+        </Box>
       </Box>
     </div>
   );

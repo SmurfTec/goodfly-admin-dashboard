@@ -87,7 +87,7 @@ const styles = makeStyles((theme) => ({
 
 const EditVisitor = () => {
   const classes = styles();
-  
+
   const [ok, setOk] = React.useState(true);
   const { getCustomerById, customers, modifyCustomer } =
     useContext(CustomersContext);
@@ -122,8 +122,11 @@ const EditVisitor = () => {
 
   const [modifyImageId, setModifyImageId] = useState();
 
-  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState('Uploading Image...');
+  const [isImageUploading, toggleImageUploading] =
+    useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState(
+    'Uploading Image...'
+  );
 
   const [
     state,
@@ -144,7 +147,9 @@ const EditVisitor = () => {
         ...initialState,
         ...customer,
         dateOfBirth: getMuiDateFormat(customer.dateOfBirth),
-        passportDateOfIssue: getMuiDateFormat(customer.passportDateOfIssue),
+        passportDateOfIssue: getMuiDateFormat(
+          customer.passportDateOfIssue
+        ),
       });
       setLoading(false);
     }
@@ -157,13 +162,7 @@ const EditVisitor = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`state`, state);
-    // const updatedCustomer = {
-    //   ...state,
-    //   attachments: state.attachments.map((el) => el.image),
-    // };
-    // modifyCustomer(id, updatedCustomer);
     modifyCustomer(id, state);
-    // resetState();
   };
 
   const deleteAttachment = (id) => {
@@ -234,7 +233,9 @@ const EditVisitor = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message || err.message || 'Something Went Wrong'
+        err?.response?.data?.message ||
+          err.message ||
+          'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -336,7 +337,13 @@ const EditVisitor = () => {
           </Box>
           <form onSubmit={handleSubmit} id='customerForm'>
             <Grid container>
-              <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
+              <Grid
+                item
+                xs={12}
+                sm={7}
+                md={7}
+                style={{ minHeight: 400 }}
+              >
                 <Box className={classes.mainBox}>
                   <Box
                     style={{
@@ -346,7 +353,10 @@ const EditVisitor = () => {
                       margin: '10px 0px 30px ',
                     }}
                   >
-                    <Typography variant='h4'> Client Profile</Typography>
+                    <Typography variant='h4'>
+                      {' '}
+                      Client Profile
+                    </Typography>
                     <div style={{ display: 'flex' }}>
                       <Typography
                         variant='h5'
@@ -530,7 +540,10 @@ const EditVisitor = () => {
                       required
                     />
                   </Box>{' '}
-                  <Box className={classes.inputBox} style={{ marginBottom: 5 }}>
+                  <Box
+                    className={classes.inputBox}
+                    style={{ marginBottom: 5 }}
+                  >
                     <Typography variant='h5' className={classes.typo}>
                       {' '}
                       Postal Code{' '}
@@ -669,7 +682,13 @@ const EditVisitor = () => {
                   </Box>
                 </Box>
               </Grid>
-              <Grid item xs={12} sm={5} md={5} className={classes.account}>
+              <Grid
+                item
+                xs={12}
+                sm={5}
+                md={5}
+                className={classes.account}
+              >
                 <Box
                   className={classes.mainBox}
                   style={{ padding: 10, margin: '0px 10px 0px 0px ' }}
@@ -743,7 +762,10 @@ const EditVisitor = () => {
                     margin: '40px 10px 0px 0px ',
                   }}
                 >
-                  <Typography variant='h4' style={{ width: '90%', margin: 15 }}>
+                  <Typography
+                    variant='h4'
+                    style={{ width: '90%', margin: 15 }}
+                  >
                     Last customer order
                   </Typography>
                   <Box
@@ -770,7 +792,10 @@ const EditVisitor = () => {
                     margin: '40px 10px 0px 0px ',
                   }}
                 >
-                  <Typography variant='h4' style={{ width: '90%', margin: 10 }}>
+                  <Typography
+                    variant='h4'
+                    style={{ width: '90%', margin: 10 }}
+                  >
                     Find a Client
                   </Typography>
                   <Box
@@ -848,7 +873,10 @@ const EditVisitor = () => {
                           <label
                             htmlFor='modify-button-file'
                             style={{ cursor: 'pointer' }}
-                            onClick={handleModify.bind(this, attachment._id)}
+                            onClick={handleModify.bind(
+                              this,
+                              attachment._id
+                            )}
                           >
                             <Button>modify</Button>
                           </label>
@@ -910,8 +938,14 @@ const EditVisitor = () => {
                           >
                             <Box className={classes.image}>
                               <Box>
-                                <PlusIcon size={35} style={{ color: '#fff' }} />
-                                <FileIcon size={35} style={{ color: '#fff' }} />
+                                <PlusIcon
+                                  size={35}
+                                  style={{ color: '#fff' }}
+                                />
+                                <FileIcon
+                                  size={35}
+                                  style={{ color: '#fff' }}
+                                />
                               </Box>
                               <Box style={{ textAlign: 'center' }}>
                                 <Typography style={{ color: '#fff' }}>
