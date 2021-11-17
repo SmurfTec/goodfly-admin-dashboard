@@ -45,6 +45,7 @@ import Comments from 'components/dashboard/comments/Comments';
 import Offers from 'components/dashboard/Offer/Offers';
 import CreateOffer from 'components/dashboard/Offer/CreateOffer';
 import ViewOffer from 'components/dashboard/Offer/ViewOffer';
+import EditProduct from 'components/dashboard/product/EditProduct';
 
 export const protechtedRoutes = [
   {
@@ -109,7 +110,7 @@ export const protechtedRoutes = [
             element: <Products />,
           },
           { path: '/create', element: <CreateProduct /> },
-          { path: 'edit/:id', element: <EditProduct /> },
+          { path: '/edit/:id', element: <EditProduct /> },
         ],
       },
       {
