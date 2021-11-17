@@ -12,6 +12,7 @@ import {
   RadioGroup,
   Radio,
   Avatar,
+  CardMedia,
 } from '@material-ui/core';
 
 import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
@@ -22,6 +23,8 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import useToggleInput from 'hooks/useToggleInput';
 import LoadingOverlay from 'react-loading-overlay';
+import v4 from 'uuid/dist/v4';
+import CarouselLayout from 'components/common/Carousel/CarouselLayout';
 
 const styles = makeStyles((theme) => ({
   account: {
@@ -99,6 +102,7 @@ const VisitorProfile = () => {
     twitterProfile: '',
     snapChatProfile: '',
     passportDateOfIssue: '',
+    attachments: [],
     passportPlaceOfIssue: '',
   };
 
@@ -114,12 +118,67 @@ const VisitorProfile = () => {
   const [isImageUploading, toggleImageUploading] = useToggleInput(false);
   const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
+  const [isAttachmentUploading, toggleAttachmentUploading] =
+    useToggleInput(false);
+  const [AttachmentUploadingText, setAttachmentUploadingText] =
+    useState('Uploading Image...');
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`state`, state);
     createNewCustomer(state, resetState);
   };
 
+  const handleAttachment = async (e) => {
+    setAttachmentUploadingText('Uploading Image ...');
+    toggleAttachmentUploading();
+    const selectedFile = e.target.files[0];
+    const fileType = ['image/'];
+    try {
+      console.log(`selectedFile.type`, selectedFile.type);
+      if (selectedFile && selectedFile.type.includes(fileType)) {
+        let reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onloadend = async (e) => {
+          console.log(`result onLoadEnd`, e.target.result);
+          const file = e.target.result;
+
+          // TODO  Delete Image from cloudinary if it exists on this user
+
+          // // * 1 Upload Image on Cloudinary
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append(
+            'upload_preset',
+            process.env.REACT_APP_CLOUDINARY_PRESET
+          );
+
+          const res = await axios.post(
+            `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
+            formData
+          );
+          const uploadedImage = res.data.url;
+          console.log(`res`, res);
+
+          setAttachmentUploadingText('Updating Image ...');
+
+          changeInput('attachments', [
+            ...state.attachments,
+            { _id: v4(), image: uploadedImage },
+          ]);
+
+          toggleAttachmentUploading();
+        };
+      } else {
+        toast.error('Only Image files are acceptable !');
+      }
+    } catch (err) {
+      toast(
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
+      );
+      console.log(`err`, err);
+    }
+  };
   const handleImage = async (e) => {
     setUploadingText('Uploading Image ...');
     toggleImageUploading();
@@ -166,6 +225,13 @@ const VisitorProfile = () => {
       );
       console.log(`err`, err);
     }
+  };
+
+  const deleteAttachment = (id) => {
+    changeInput(
+      'attachments',
+      state.attachments.filter((el) => el._id !== id)
+    );
   };
 
   return (
@@ -651,6 +717,110 @@ const VisitorProfile = () => {
                 >
                   Validate
                 </Button>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box className={classes.mainBox}>
+                <Typography
+                  variant='h3'
+                  style={{ width: '100%', marginTop: '3rem' }}
+                >
+                  Attachments
+                </Typography>
+
+                <Grid container spacing={3}>
+                  <Grid item md={9}>
+                    <CarouselLayout>
+                      {state.attachments?.map((attachment, i) => (
+                        <div
+                          key={attachment._id}
+                          className={classes.carouselCard}
+                        >
+                          <CardMedia
+                            style={{ height: '10rem' }}
+                            image={attachment.image}
+                            title='Live from space album cover'
+                          />
+                          <Box
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <Button
+                              onClick={deleteAttachment.bind(
+                                this,
+                                attachment._id
+                              )}
+                              style={{ color: 'red' }}
+                            >
+                              Delete
+                            </Button>
+                          </Box>
+                        </div>
+                      ))}
+                      {/* one */}
+                    </CarouselLayout>
+                  </Grid>
+                  <Grid
+                    item
+                    md={3}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <LoadingOverlay
+                      active={isAttachmentUploading}
+                      spinner
+                      text={AttachmentUploadingText}
+                    >
+                      <Box
+                        style={{
+                          backgroundColor: '#808080',
+                          borderRadius: '10px',
+                        }}
+                      >
+                        <Box style={{ padding: '0.2rem' }}>
+                          <Box>
+                            <input
+                              accept='image/*'
+                              style={{ display: 'none' }}
+                              id='attachment'
+                              onChange={handleAttachment}
+                              type='file'
+                              name='photo'
+                            />
+                            <label
+                              htmlFor='attachment'
+                              style={{ cursor: 'pointer' }}
+                            >
+                              <Box className={classes.image}>
+                                <Box>
+                                  <PlusIcon
+                                    size={35}
+                                    style={{ color: '#fff' }}
+                                  />
+                                  <FileIcon
+                                    size={35}
+                                    style={{ color: '#fff' }}
+                                  />
+                                </Box>
+                                <Box style={{ textAlign: 'center' }}>
+                                  <Typography style={{ color: '#fff' }}>
+                                    Upload Document
+                                  </Typography>
+                                </Box>
+                              </Box>
+                            </label>{' '}
+                          </Box>
+                        </Box>
+                      </Box>
+                    </LoadingOverlay>{' '}
+                  </Grid>
+                </Grid>
               </Box>
             </Grid>
           </Grid>
