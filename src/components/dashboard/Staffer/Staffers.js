@@ -20,7 +20,7 @@ import { Link } from 'react-router-dom';
 import v4 from 'uuid/dist/v4';
 import { StaffersContext } from 'Contexts/StaffersContext';
 import useToggleInput from 'hooks/useToggleInput';
-// import { ConfirmDialogBox } from '../Dialogs';
+import { ConfirmDialog } from '../Dialogs';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -45,6 +45,7 @@ const styles = makeStyles((theme) => ({
 const Staffers = () => {
   const classes = styles();
   const { staffers, deleteStaffer } = useContext(StaffersContext);
+  console.log('staffers', staffers);
   const [currentDeleteId, setCurrentDeleteId] = useState();
   const [isDeleteOpen, toggleDeleteOpen] = useToggleInput();
 
@@ -53,12 +54,19 @@ const Staffers = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+  useEffect(() => {
+    setFilteredStaffers(staffers);
+  }, [staffers]);
+
   // Avoid a layout jump when reaching the last page with empty rows.
+
   const emptyRows =
     rowsPerPage -
     Math.min(
       rowsPerPage,
-      staffers === 'loading' ? 0 : staffers?.length - page * rowsPerPage
+      staffers === 'loading'
+        ? 0
+        : staffers?.length - page * rowsPerPage
     );
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -80,7 +88,9 @@ const Staffers = () => {
         ? 'loading'
         : staffers?.filter(
             (row) =>
-              row.fullName.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+              row.fullName
+                .toLowerCase()
+                .indexOf(filter.toLowerCase()) !== -1
           )
     );
   }, [filter]);
@@ -88,7 +98,7 @@ const Staffers = () => {
   // data must be updated
   useEffect(() => {
     setFilteredStaffers(staffers);
-  }, [staffers]);
+  }, []);
 
   const handleDelete = (id) => {
     // console.log(`id`, id);
@@ -131,7 +141,10 @@ const Staffers = () => {
             width: '100%',
           }}
         >
-          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+          <Typography
+            variant='text'
+            style={{ margin: '0px 3px 0px' }}
+          >
             Search Staffers
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -180,13 +193,28 @@ const Staffers = () => {
                           {' '}
                           {new Date(row.createdAt).toDateString()}
                         </TableCell>
-                        <TableCell align='right'>{row.role}</TableCell>
-                        <TableCell align='right'>{row.email}</TableCell>
+                        <TableCell align='right'>
+                          {row.role}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.email}
+                        </TableCell>
                         <TableCell align='right'>
                           {row.telephoneNumber}
                         </TableCell>
                         <TableCell align='right'>
-                          <Button>Edit</Button>
+                          <Button
+                            component={Link}
+                            to={`/app/staffers/edit/${row._id}`}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            onClick={handleDelete.bind(this, row._id)}
+                            style={{ color: 'red' }}
+                          >
+                            Delete
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -208,12 +236,12 @@ const Staffers = () => {
           />
         </TableContainer>
       </Box>
-      {/* <ConfirmDialogBox
+      <ConfirmDialog
         open={isDeleteOpen}
         toggleDialog={toggleDeleteOpen}
         success={handleDeleteStaffer}
         dialogTitle='Delete this Staffer ?'
-      /> */}
+      />
     </div>
   );
 };

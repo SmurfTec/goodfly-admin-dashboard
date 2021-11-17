@@ -47,6 +47,7 @@ export const StaffersProvider = ({ children }) => {
 
   // Update Staffer
   const modifyStaffer = async (id, updatedStaffer) => {
+    console.log(`updatedStaffer`, updatedStaffer);
     try {
       const resData = await makeReq(
         `/users/${id}`,
@@ -55,7 +56,12 @@ export const StaffersProvider = ({ children }) => {
       );
       toast.success('Staffer Updated Successfully !');
       // Update Staffer in the context array
-      updateStaffer(id, resData.user);
+      console.log(`id`, id);
+      console.log(`reseData`, resData);
+      updateStaffer(id, resData);
+      // setTimeout(() => {
+      //   navigate('/app/staffers');
+      // }, 2000);
     } catch (err) {
       handleCatch(err);
     }
@@ -75,7 +81,7 @@ export const StaffersProvider = ({ children }) => {
         'POST'
       );
       resetForm();
-
+      console.log('STAFFER', resData.user);
       pushStaffer(resData.user);
       toast.success('Staffer Created Successfully !');
       setTimeout(() => {

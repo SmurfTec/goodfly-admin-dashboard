@@ -16,7 +16,7 @@ import CreateVisitor from './components/dashboard/Visitor/CreateVisitor';
 import EditVisitor from './components/dashboard/Visitor/EditVisitor';
 
 import AddStaffer from './components/dashboard/Staffer/AddStaffer';
-import ViewStaffer from './components/dashboard/Staffer/ViewStaffer';
+import EditStaffer from './components/dashboard/Staffer/EditStaffer';
 import Staffers from './components/dashboard/Staffer/Staffers';
 
 import TourCategories from './components/dashboard/categories/TourCategories';
@@ -26,6 +26,7 @@ import CustomTrip from './components/dashboard/Trip/CustomTrip';
 
 import CreateProduct from './components/dashboard/product/CreateProduct';
 import Products from './components/dashboard/product/Products';
+import EditProduct from './components/dashboard/product/EditProduct';
 
 import Reservations from './components/dashboard/Reservations';
 
@@ -83,8 +84,8 @@ export const protechtedRoutes = [
             element: <Staffers />,
           },
           {
-            path: '/:id',
-            element: <ViewStaffer />,
+            path: 'edit/:id',
+            element: <EditStaffer />,
           },
           {
             path: '/create',

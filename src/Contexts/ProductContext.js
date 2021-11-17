@@ -56,6 +56,9 @@ export const ProductProvider = ({ children }) => {
       toast.success('Product Updated Successfully !');
       // Update Product in the context array
       updateProduct(id, resData.product);
+      setTimeout(() => {
+        navigate('/app/products');
+      }, 2000);
     } catch (err) {
       handleCatch(err);
     }

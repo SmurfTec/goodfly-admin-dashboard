@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
@@ -25,6 +25,8 @@ import { toast } from 'react-toastify';
 import useToggleInput from 'hooks/useToggleInput';
 import LoadingOverlay from 'react-loading-overlay';
 import axios from 'axios';
+import { useParams } from 'react-router';
+import CarouselLayout from 'components/common/Carousel/CarouselLayout';
 
 const styles = makeStyles((theme) => ({
   account: {
@@ -115,13 +117,9 @@ const EditProduct = () => {
   const theme = useTheme();
   const lgDown = useMediaQuery(theme.breakpoints.down('lg'));
 
-  const [isImageUploading, toggleImageUploading] =
-    useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState(
-    'Uploading Image...'
-  );
-
-  const { createNewProduct } = useContext(ProductContext);
+  const { products, getProductById, modifyProduct } =
+    useContext(ProductContext);
+  const { id } = useParams();
 
   const initialState = {
     name: '',
@@ -139,32 +137,84 @@ const EditProduct = () => {
     isOnline: false,
   };
 
+  const [loading, setLoading] = useState(true);
+  const [modifyImageId, setModifyImageId] = useState();
+
+  const [isImageUploading, toggleImageUploading] =
+    useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState(
+    'Uploading Image...'
+  );
+
   const [
     state,
     handleTxtChange,
     handleToggleChange,
     changeInput,
     resetState,
+    setState,
   ] = useManyInputs(initialState);
 
+  useEffect(() => {
+    const product = getProductById(id);
+    console.log(`product`, product);
+    if (!product || product === 'loading') setLoading(true);
+    else {
+      setState({
+        ...initialState,
+        ...product,
+      });
+      setLoading(false);
+    }
+  }, [id, products]);
+
+  // add new label
   const handleLabel = (e) => {
     e.preventDefault();
     changeInput('labels', [...state.labels, state.label]);
     changeInput('label', '');
   };
 
+  // remove label
   const removeLabel = (el) => {
     changeInput(
       'labels',
       state.labels.filter((item) => item !== el)
     );
   };
+
+  // modify
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(`state`, state);
-    createNewProduct(state, resetState);
+    modifyProduct(id, state);
   };
 
+  // handle images
+
+  const deleteAttachment = (id) => {
+    changeInput(
+      'images',
+      state.images.filter((el) => el._id !== id)
+    );
+  };
+
+  const handleModify = (id) => {
+    setModifyImageId(id);
+  };
+
+  const modifyImage = async (e) => {
+    const file = e.target.files[0];
+    try {
+      const convert64 = await convertTobase64(file);
+
+      changeInput(
+        'images',
+        state.image.map((el) =>
+          el._id === modifyImageId ? { ...el, image: convert64 } : el
+        )
+      );
+    } catch (err) {}
+  };
   const handleImage = async (e) => {
     setUploadingText('Uploading Image ...');
     toggleImageUploading();
@@ -211,6 +261,21 @@ const EditProduct = () => {
       );
       console.log(`err`, err);
     }
+  };
+
+  const convertTobase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onloadend = () => {
+        console.log(`fileReader.result`, fileReader.result);
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        console.log(`error`, error);
+        reject(error);
+      };
+    });
   };
 
   return (
@@ -607,12 +672,131 @@ const EditProduct = () => {
                 size='medium'
                 style={{ width: 150 }}
                 onClick={handleSubmit}
+                // disabled={}  disable if there is no change
               >
-                Create
+                Update
               </Button>
             </Box>
           </Grid>
         </Grid>
+
+        {/*  product photos  */}
+
+        <Box className={classes.mainBox}>
+          <Typography
+            variant='h3'
+            style={{ width: '100%', marginTop: '3rem' }}
+          >
+            Products images
+          </Typography>
+
+          <Grid container spacing={3}>
+            <Grid item md={9}>
+              <CarouselLayout>
+                {state.images?.map((image, index) => (
+                  <div key={index} className={classes.carouselCard}>
+                    <CardMedia
+                      style={{ height: '10rem' }}
+                      image={image}
+                      title='Live from space album cover'
+                    />
+                    <Box
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <input
+                        accept='image/*'
+                        style={{ display: 'none' }}
+                        id='modify-button-file'
+                        // onChange={handleImage}
+                        onChange={modifyImage}
+                        type='file'
+                        name='photo'
+                      />
+                      <label
+                        htmlFor='modify-button-file'
+                        style={{ cursor: 'pointer' }}
+                        onClick={handleModify.bind(this, image._id)}
+                      >
+                        <Button>modify</Button>
+                      </label>
+                      <Button
+                        onClick={deleteAttachment.bind(
+                          this,
+                          image._id
+                        )}
+                        style={{ color: 'red' }}
+                      >
+                        Delete
+                      </Button>
+                    </Box>
+                  </div>
+                ))}
+                {/* one */}
+              </CarouselLayout>
+            </Grid>
+            <Grid
+              item
+              md={3}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <LoadingOverlay
+                active={isImageUploading}
+                spinner
+                text={uploadingText}
+              >
+                <Box
+                  style={{
+                    backgroundColor: '#808080',
+                    borderRadius: '10px',
+                  }}
+                >
+                  <Box style={{ padding: '0.2rem' }}>
+                    <Box>
+                      <input
+                        accept='image/*'
+                        style={{ display: 'none' }}
+                        id='contained-button-file'
+                        onChange={handleImage}
+                        type='file'
+                        name='photo'
+                      />
+                      <label
+                        htmlFor='contained-button-file'
+                        style={{ cursor: 'pointer' }}
+                      >
+                        <Box className={classes.image}>
+                          <Box>
+                            <PlusIcon
+                              size={35}
+                              style={{ color: '#fff' }}
+                            />
+                            <FileIcon
+                              size={35}
+                              style={{ color: '#fff' }}
+                            />
+                          </Box>
+                          <Box style={{ textAlign: 'center' }}>
+                            <Typography style={{ color: '#fff' }}>
+                              Upload Document
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </label>{' '}
+                    </Box>
+                  </Box>
+                </Box>
+              </LoadingOverlay>{' '}
+            </Grid>
+          </Grid>
+        </Box>
       </Box>
     </div>
   );

@@ -1,7 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import { Typography, Box, Button, TextField } from '@material-ui/core';
+import {
+  Typography,
+  Box,
+  Button,
+  TextField,
+} from '@material-ui/core';
 import useManyInputs from 'hooks/useManyInputs';
 import { StaffersContext } from 'Contexts/StaffersContext';
 import { toast } from 'react-toastify';
@@ -42,11 +47,11 @@ const AddStaffer = () => {
     passwordConfirm: '',
   };
 
-  const [state, handleTxtChange, , , resetState] = useManyInputs(initialState);
+  const [state, handleTxtChange, , , resetState] =
+    useManyInputs(initialState);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`state`, state);
     if (state.password !== state.passwordConfirm) {
       toast(' Passwrod must be same');
       return;
@@ -81,6 +86,7 @@ const AddStaffer = () => {
                 variant='standard'
               />
               <TextField
+                required
                 value={state.lastName}
                 name='lastName'
                 onChange={handleTxtChange}
@@ -97,7 +103,7 @@ const AddStaffer = () => {
                 id='standard-basic'
                 label='Telephone mobile'
                 variant='standard'
-                type='text'
+                type='number'
               />
             </Box>
             <Box className={classes.form}>
@@ -120,7 +126,7 @@ const AddStaffer = () => {
                 id='standard-basic'
                 label='Telephone Home'
                 variant='standard'
-                type='text'
+                type='number'
               />
             </Box>
             <Box className={classes.form}>
@@ -145,7 +151,7 @@ const AddStaffer = () => {
                 id='standard-basic'
                 label='Postal Code'
                 variant='standard'
-                type='text'
+                type='number'
               />
               <TextField
                 required

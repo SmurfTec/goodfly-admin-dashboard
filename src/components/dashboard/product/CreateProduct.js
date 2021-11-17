@@ -25,6 +25,7 @@ import { toast } from 'react-toastify';
 import useToggleInput from 'hooks/useToggleInput';
 import LoadingOverlay from 'react-loading-overlay';
 import axios from 'axios';
+import v4 from 'uuid/dist/v4';
 
 const styles = makeStyles((theme) => ({
   account: {
@@ -192,11 +193,14 @@ const CreateProduct = () => {
             formData
           );
           const uploadedImage = res.data.url;
-          console.log(`res`, res);
+          // console.log(`res`, res);
 
           setUploadingText('Updating Image ...');
 
-          changeInput('images', [...state.images, uploadedImage]);
+          changeInput('images', [
+            ...state.images,
+            { _id: v4(), image: uploadedImage },
+          ]);
 
           toggleImageUploading();
         };
@@ -533,10 +537,10 @@ const CreateProduct = () => {
                         }}
                         image={
                           state.images.length > 0
-                            ? state.images?.[0]
+                            ? state.images?.[0].image
                             : 'https://picsum.imagess/200/300?random=2'
                         }
-                        title='product name'
+                        title='product-name'
                       />
                     </Box>
                   </Grid>
