@@ -92,7 +92,7 @@ const EditStaffer = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(`state`, state);
-    modifyStaffer(id, state);
+    modifyStaffer(id, { ...state });
   };
 
   const handleClickOpenPass = () => {
@@ -267,9 +267,7 @@ const EditStaffer = () => {
           }}
         >
           <DialogTitle>
-            <Typography variant='h4'>
-              Changing the Paasword
-            </Typography>
+            <Typography variant='h4'>Changing the Paasword</Typography>
           </DialogTitle>
           <DialogContent>
             <Box
