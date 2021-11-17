@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 
 import {
   Box,
@@ -19,7 +19,7 @@ import AddStageDialog from './AddStageDialog';
 import UpdateStateDialog from './AddStageDialog';
 import v4 from 'uuid/dist/v4';
 
-const StagesTab = ({ value, classes, handleSubmit, offer }) => {
+const StagesTab = memo(({ value, classes, handleSubmit, offer }) => {
   const [
     stages,
     setStages,
@@ -220,6 +220,6 @@ const StagesTab = ({ value, classes, handleSubmit, offer }) => {
       />
     </TabPanel>
   );
-};
+});
 
 export default StagesTab;

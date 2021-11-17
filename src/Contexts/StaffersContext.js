@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { handleCatch, makeReq } from 'Utils/makeReq';
 import { AuthContext } from './AuthContext';
+import { removeKeyIncludingString } from 'Utils/objectMethods';
 
 export const StaffersContext = React.createContext();
 
@@ -48,6 +49,10 @@ export const StaffersProvider = ({ children }) => {
   // Update Staffer
   const modifyStaffer = async (id, updatedStaffer) => {
     console.log(`updatedStaffer`, updatedStaffer);
+
+    // * Remove pass and passConfirm from req body, separate route for that purpose
+    removeKeyIncludingString(updatedStaffer, 'password');
+    removeKeyIncludingString(updatedStaffer, 'passwordConfirm');
     try {
       const resData = await makeReq(
         `/users/${id}`,
@@ -56,9 +61,7 @@ export const StaffersProvider = ({ children }) => {
       );
       toast.success('Staffer Updated Successfully !');
       // Update Staffer in the context array
-      console.log(`id`, id);
-      console.log(`reseData`, resData);
-      updateStaffer(id, resData);
+      updateStaffer(id, resData.user);
       // setTimeout(() => {
       //   navigate('/app/staffers');
       // }, 2000);
@@ -68,9 +71,7 @@ export const StaffersProvider = ({ children }) => {
   };
 
   const getStafferById = (id) =>
-    staffers === 'loading'
-      ? 'loading'
-      : staffers?.find((el) => el._id === id);
+    staffers === 'loading' ? 'loading' : staffers?.find((el) => el._id === id);
 
   // Create New Staffer
   const createNewStaffer = async (newStafferProfile, resetForm) => {
