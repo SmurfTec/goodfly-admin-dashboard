@@ -45,6 +45,8 @@ export const OffersProvider = ({ children }) => {
     try {
       await makeReq(`/trips/${id}`, {}, 'DELETE');
       removeOffer(id);
+      navigate('/app/offers');
+      toast.success('Offer Deleted Successfully !');
     } catch (err) {
       handleCatch(err);
     }

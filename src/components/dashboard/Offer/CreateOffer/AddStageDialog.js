@@ -457,7 +457,7 @@ const AddStageDialog = ({
                             title='Live from space album cover'
                           />
                         </div>
-                        <Box style={{ textAlign: 'right' }}>
+                        <Box>
                           <Button
                             style={{ color: 'red' }}
                             data-type='state.accomodation'

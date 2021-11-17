@@ -156,6 +156,11 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
     else handleNext(state, resetState);
   };
 
+  useEffect(() => {
+    console.log(`state`, state);
+  }, [state]);
+
+  // return <h1>Returned</h1>;
   return (
     <TabPanel value={value} index={0} className={classes.options}>
       <form onSubmit={handleSubmit}>

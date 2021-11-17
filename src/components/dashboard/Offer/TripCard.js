@@ -13,6 +13,7 @@ const styles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    minHeight: 206,
   },
   details: {
     display: 'flex',
