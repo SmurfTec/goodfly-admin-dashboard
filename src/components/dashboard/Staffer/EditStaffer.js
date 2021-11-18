@@ -16,6 +16,7 @@ import {
 import { StaffersContext } from 'Contexts/StaffersContext';
 import { useParams } from 'react-router';
 import useManyInputs from 'hooks/useManyInputs';
+import { toast } from 'react-toastify';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -44,7 +45,7 @@ const styles = makeStyles((theme) => ({
 const EditStaffer = () => {
   const classes = styles();
 
-  const { getStafferById, staffers, modifyStaffer } =
+  const { getStafferById, staffers, modifyStaffer, modifyPassword } =
     useContext(StaffersContext);
 
   const { id } = useParams();
@@ -95,6 +96,15 @@ const EditStaffer = () => {
     modifyStaffer(id, { ...state });
   };
 
+  const handleUpdatePass = (e) => {
+    e.preventDefault();
+    if (state.password !== state.passwordConfirm) {
+      toast.error(' Password Should be Same');
+      return;
+    }
+    modifyPassword(id, { ...state });
+    setOpenPass(false);
+  };
   const handleClickOpenPass = () => {
     setOpenPass(true);
   };
@@ -267,7 +277,9 @@ const EditStaffer = () => {
           }}
         >
           <DialogTitle>
-            <Typography variant='h4'>Changing the Paasword</Typography>
+            <Typography variant='h4'>
+              Changing the Paasword
+            </Typography>
           </DialogTitle>
           <DialogContent>
             <Box
@@ -281,8 +293,9 @@ const EditStaffer = () => {
                 id='name'
                 label='New Password'
                 type='password'
-                // value={state.password}
-                // onChange={handleTxtChange}
+                name='password'
+                value={state.password}
+                onChange={handleTxtChange}
                 fullWidth
                 style={{ width: '40rem', marginRight: '2rem' }}
               />
@@ -291,8 +304,9 @@ const EditStaffer = () => {
                 margin='dense'
                 id='name'
                 label='Confirm new password'
-                // value={state.password}
-                // onChange={handleTxtChange}
+                name='passwordConfirm'
+                value={state.passwordConfirm}
+                onChange={handleTxtChange}
                 type='password'
                 fullWidth
                 style={{ width: '40rem', marginRight: '2rem' }}
@@ -307,8 +321,8 @@ const EditStaffer = () => {
             <Button variant='outlined' onClick={handleClosePass}>
               Cancel
             </Button>
-            <Button variant='contained' onClick={handleClosePass}>
-              Submit
+            <Button variant='contained' onClick={handleUpdatePass}>
+              Update
             </Button>
           </DialogActions>
         </Dialog>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import {
@@ -17,6 +17,8 @@ import {
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 import v4 from 'uuid/dist/v4';
+import { Link } from 'react-router-dom';
+import { OrderContext } from 'Contexts/OrderContext';
 
 function createData(name, calories, fat, client, protein) {
   return { name, calories, fat, client, protein };
@@ -184,11 +186,18 @@ const styles = makeStyles((theme) => ({
 
 const Orders = () => {
   const classes = styles();
+
+  const { orders } = useContext(OrderContext);
+  console.log(orders);
+
   const [filter, setFilter] = useState('');
-  const [filteredItems, setFilteredItems] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  useEffect(() => {
+    setFilteredOrders(orders);
+  }, [orders]);
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     rowsPerPage -
@@ -205,24 +214,26 @@ const Orders = () => {
   const handleSearch = (e) => {
     const data = e.target.value;
     setFilter(data);
-    console.log(filter);
+    // console.log(filter);
   };
   //  filtered
   useEffect(() => {
-    setFilteredItems(
-      rows.filter(
-        (row) =>
-          row.client.toLowerCase().indexOf(filter.toLowerCase()) !==
-          -1
-      )
+    setFilteredOrders(
+      orders === 'loading'
+        ? 'loading'
+        : orders?.filter(
+            (row) =>
+              row.visitor.fullName
+                .toLowerCase()
+                .indexOf(filter.toLowerCase()) !== -1
+          )
     );
   }, [filter]);
 
   // data must be updated
   useEffect(() => {
-    setFilteredItems(rows);
+    setFilteredOrders(orders);
   }, []);
-
 
   return (
     <div style={{ marginTop: '3rem' }}>
@@ -273,28 +284,38 @@ const Orders = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredItems
-                .slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
-                .map((row, index) => (
-                  <TableRow key={v4()}>
-                    <TableCell component='th' scope='row'>
-                      {row.name}
-                    </TableCell>
-                    <TableCell align='right'>
-                      {row.calories}
-                    </TableCell>
-                    <TableCell align='right'>{row.fat}</TableCell>
-                    <TableCell align='right'>{row.client}</TableCell>
-                    <TableCell align='right'>{row.protein}</TableCell>
-                    <TableCell align='right'>{row.protein}</TableCell>
-                    <TableCell align='right'>
-                      <Button>Edit</Button>{' '}
-                    </TableCell>
-                  </TableRow>
-                ))}
+              {filteredOrders === 'loading'
+                ? 'loading'
+                : filteredOrders
+                    ?.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                    .map((row, index) => (
+                      <TableRow key={v4()}>
+                        <TableCell component='th' scope='row'>
+                          {row._id}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.date}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.status}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.visitor.fullName}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.visitor.email}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.visitor.telephoneNumber}
+                        </TableCell>
+                        <TableCell align='right'>
+                          <Button>Edit</Button>{' '}
+                        </TableCell>
+                      </TableRow>
+                    ))}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={6} />
@@ -305,7 +326,7 @@ const Orders = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 20]}
             component='div'
-            count={rows.length}
+            count={orders.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

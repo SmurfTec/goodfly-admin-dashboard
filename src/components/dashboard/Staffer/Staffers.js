@@ -45,7 +45,7 @@ const styles = makeStyles((theme) => ({
 const Staffers = () => {
   const classes = styles();
   const { staffers, deleteStaffer } = useContext(StaffersContext);
-  console.log('staffers', staffers);
+
   const [currentDeleteId, setCurrentDeleteId] = useState();
   const [isDeleteOpen, toggleDeleteOpen] = useToggleInput();
 
