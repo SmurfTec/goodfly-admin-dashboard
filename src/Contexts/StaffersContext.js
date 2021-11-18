@@ -53,6 +53,7 @@ export const StaffersProvider = ({ children }) => {
     // * Remove pass and passConfirm from req body, separate route for that purpose
     removeKeyIncludingString(updatedStaffer, 'password');
     removeKeyIncludingString(updatedStaffer, 'passwordConfirm');
+
     try {
       const resData = await makeReq(
         `/users/${id}`,
@@ -70,8 +71,30 @@ export const StaffersProvider = ({ children }) => {
     }
   };
 
+  // Update Staffer
+  const modifyPassword = async (id, updatedPassword) => {
+    console.log(`updatedPassword`, updatedPassword);
+
+    try {
+      const resData = await makeReq(
+        `/users/updatepassword/${id}`,
+        { body: { ...updatedPassword } },
+        'PATCH'
+      );
+      toast.success('Staffer Updated Successfully !');
+      // Update Staffer in the context array
+      updateStaffer(id, resData.user);
+      // setTimeout(() => {
+      //   navigate('/app/staffers');
+      // }, 2000);
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
   const getStafferById = (id) =>
-    staffers === 'loading' ? 'loading' : staffers?.find((el) => el._id === id);
+    staffers === 'loading'
+      ? 'loading'
+      : staffers?.find((el) => el._id === id);
 
   // Create New Staffer
   const createNewStaffer = async (newStafferProfile, resetForm) => {
@@ -101,6 +124,7 @@ export const StaffersProvider = ({ children }) => {
         deleteStaffer,
         getStafferById,
         modifyStaffer,
+        modifyPassword,
         createNewStaffer,
       }}
     >

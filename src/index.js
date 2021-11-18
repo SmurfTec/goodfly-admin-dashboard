@@ -13,22 +13,22 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 // * ------ Contexts ----------
 import { AuthProvider } from 'Contexts/AuthContext';
-import { StoreProvider } from 'Contexts/StoreContext';
 import { CustomersProvider } from 'Contexts/CustomersContext';
 import { StaffersProvider } from 'Contexts/StaffersContext';
 import { BlogsProvider } from 'Contexts/BlogsContext';
 import { OffersProvider } from 'Contexts/OffersContext';
 import { ReservationsProvider } from 'Contexts/ReservationsContext';
 import { ProductProvider } from 'Contexts/ProductContext';
+import { OrderProvider } from 'Contexts/OrderContext';
 
 // * -------------------------------- * //
 
 ReactDOM.render(
   <BrowserRouter>
     <AuthProvider>
-      <StoreProvider>
-        <StaffersProvider>
-          <CustomersProvider>
+      <StaffersProvider>
+        <CustomersProvider>
+          <OrderProvider>
             <ProductProvider>
               <BlogsProvider>
                 <OffersProvider>
@@ -49,9 +49,9 @@ ReactDOM.render(
                 </OffersProvider>
               </BlogsProvider>
             </ProductProvider>
-          </CustomersProvider>
-        </StaffersProvider>
-      </StoreProvider>
+          </OrderProvider>
+        </CustomersProvider>
+      </StaffersProvider>
     </AuthProvider>
   </BrowserRouter>,
   document.getElementById('root')
