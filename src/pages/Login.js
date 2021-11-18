@@ -32,7 +32,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${API_BASE_URL}/auth/login`, {
+      const res = await axios.post(`${API_BASE_URL}/auth/login/admin`, {
         email: state.email,
         password: state.password,
       });
