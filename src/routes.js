@@ -26,7 +26,7 @@ import CustomTrip from './components/dashboard/Trip/CustomTrip';
 
 import CreateProduct from './components/dashboard/product/CreateProduct';
 import Products from './components/dashboard/product/Products';
-import EditProduct from './components/dashboard/product/EditProduct';
+import EditProduct from 'components/dashboard/product/EditProduct';
 
 import Reservations from './components/dashboard/Reservations';
 
@@ -43,7 +43,7 @@ import Logout from 'components/common/Logout';
 import ModifyOffer from 'components/dashboard/Offer/ModifyOffer';
 import DashboardHome from 'components/dashboard/DashboardHome';
 import Comments from 'components/dashboard/comments/Comments';
-import Offers from 'components/dashboard/Offer/Offers';
+import Offers from 'components/dashboard/Offer';
 import CreateOffer from 'components/dashboard/Offer/CreateOffer';
 import ViewOffer from 'components/dashboard/Offer/ViewOffer';
 
@@ -113,6 +113,7 @@ export const protechtedRoutes = [
           { path: '/edit/:id', element: <EditProduct /> },
         ],
       },
+
       {
         path: '/reservations',
         children: [

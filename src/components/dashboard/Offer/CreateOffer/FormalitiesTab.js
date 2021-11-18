@@ -8,9 +8,42 @@ import {
 } from '@material-ui/core';
 import { Box } from '@material-ui/system';
 import { useArray, useToggleInput, useTextInput } from 'hooks';
-import React from 'react';
+import React, { useEffect } from 'react';
 import AddFormalityDialog from './AddFormalityDialog';
 import { TabPanel } from '../../../common/TabPanel';
+
+import v4 from 'uuid/dist/v4';
+
+const defaultFormalities = [
+  {
+    heading: 'Formalities Omra',
+    _id: v4(),
+    title: 'Formalités administratives',
+    subtitle: 'Prise en charge du dossier et de l’enregistrement.',
+    description: 'Notre équipe s’occupe de tout bla bla bla bla bla',
+  },
+  {
+    heading: 'Formalities Hajj',
+    _id: v4(),
+    title: 'Formalités administratives',
+    subtitle: 'Prise en charge du dossier et de l’enregistrement.',
+    description: 'Notre équipe s’occupe de tout bla bla bla bla bla',
+  },
+  {
+    heading: 'Formalities Desert',
+    _id: v4(),
+    title: 'Formalités administratives',
+    subtitle: 'Prise en charge du dossier et de l’enregistrement.',
+    description: 'Notre équipe s’occupe de tout bla bla bla bla bla',
+  },
+  {
+    heading: 'Formalities Malaysia',
+    _id: v4(),
+    title: 'Formalités administratives',
+    subtitle: 'Prise en charge du dossier et de l’enregistrement.',
+    description: 'Notre équipe s’occupe de tout bla bla bla bla bla',
+  },
+];
 
 const FormalitiesTab = ({ value, classes, handleNext }) => {
   const [formality, handleFormality, resetFormality] = useTextInput('');
@@ -28,7 +61,13 @@ const FormalitiesTab = ({ value, classes, handleNext }) => {
 
   const handleAddFormality = (data) => {
     console.log(`data`, data);
-    pushEl(data);
+    setFormalities([
+      {
+        title: data.title,
+        subtitle: data.subtitle,
+        description: data.description,
+      },
+    ]);
     toggleDialogOpen();
   };
 
@@ -36,6 +75,16 @@ const FormalitiesTab = ({ value, classes, handleNext }) => {
     handleNext(formalities);
     // clearFormalities();
   };
+
+  useEffect(() => {
+    setFormalities([
+      {
+        title: formality.title,
+        subtitle: formality.subtitle,
+        description: formality.description,
+      },
+    ]);
+  }, [formality]);
 
   return (
     <TabPanel value={value} index={2} className={classes.options}>
@@ -65,10 +114,11 @@ const FormalitiesTab = ({ value, classes, handleNext }) => {
             label='Choose an existing formality'
             onChange={handleFormality}
           >
-            <MenuItem value={'Formality Omra'}>Formality Omra</MenuItem>
-            <MenuItem value={'Formality Malasia'}>Formality Malasia</MenuItem>
-            <MenuItem value={'Formality Riyad'}>Formality Riyad</MenuItem>
-            <MenuItem value={'Formality Desert'}>Formality Desert</MenuItem>
+            {defaultFormalities.map((el) => (
+              <MenuItem key={el._id} value={el.heading}>
+                {el.heading}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         <Button

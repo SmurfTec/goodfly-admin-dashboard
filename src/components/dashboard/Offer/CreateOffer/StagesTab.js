@@ -66,6 +66,10 @@ const StagesTab = memo(({ value, classes, handleSubmit, offer }) => {
     handlePrevious();
   };
 
+  // useEffect(() => {
+  //   console.log(`state`, state);
+  // }, [state]);
+
   return (
     <TabPanel value={value} index={1} className={classes.options}>
       <Box

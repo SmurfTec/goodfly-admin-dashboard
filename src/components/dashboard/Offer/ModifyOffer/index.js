@@ -5,7 +5,11 @@ import OffersTabs from '../CreateOffer/OffersTabs';
 import StagesTab from '../CreateOffer/StagesTab';
 import FormalitiesTab from '../CreateOffer/FormalitiesTab';
 import { OffersContext } from 'Contexts/OffersContext';
-import { objectFilter, removeKeyIncludingString } from 'Utils/objectMethods';
+import {
+  objectFilter,
+  removeEntriesWithValue,
+  removeKeyIncludingString,
+} from 'Utils/objectMethods';
 import { a11yProps } from 'components/common/TabPanel';
 import { useParams } from 'react-router';
 
@@ -154,12 +158,16 @@ const ModifyOffer = () => {
   };
 
   const validateOffersTab = (data, resetData) => {
-    // console.log(`data`, data);
+    console.log(`data`, data.services);
 
-    // * Convert services from { guide : true, b : false ,...} to ['guide' , ....]
-    const newServices = objectFilter(data.services, (el) => el);
-    // * Give array of only "true" values of each key
-    console.log(`newServices`, newServices);
+    // * filter services with false value
+    let newServices = data.services;
+    removeEntriesWithValue(newServices, false);
+
+    // * Convert Services Obj into array of services
+    // * From { a : true , b :true , ...} to ['a' , 'b' ,'c']
+    newServices = Object.keys(newServices);
+    // console.log(`newServices`, newServices);
 
     setState({ ...data, services: newServices });
     gotoNextStep();

@@ -51,6 +51,7 @@ const styles = makeStyles((theme) => ({
   carouselCard: {
     display: 'block',
     height: '100%',
+    minHeight: 206,
     boxSizing: 'border-box',
     // width: '15rem',
     '& .MuiPaper-root': {

@@ -1,10 +1,19 @@
 export const objectFilter = (obj, callBack) => {
   if (!obj) return obj;
-  Object.assign(
+
+  return Object.assign(
     ...Object.keys(obj)
       .filter((key) => callBack(obj[key]))
       .map((key) => ({ [key]: true }))
   );
+};
+
+export const removeEntriesWithValue = (obj, value) => {
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] === value) {
+      delete obj[key];
+    }
+  });
 };
 
 export const removeKeyIncludingString = (obj, string) => {
