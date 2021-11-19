@@ -61,7 +61,7 @@ const CustomTrips = () => {
 
   // data must be updated
   useEffect(() => {
-    setFilteredItems(customOffers);
+    setFilteredItems(customOffers?.filter((item) => item.status === 'pending'));
   }, [customOffers]);
   return (
     <div style={{ marginTop: '3rem' }}>

@@ -16,6 +16,7 @@ import {
   RadioGroup,
   MenuItem,
   Radio,
+  Switch,
 } from '@material-ui/core';
 
 import Autocomplete from '@mui/material/Autocomplete';
@@ -31,6 +32,7 @@ import { countries, regions } from 'Utils/constants';
 const OffersTabs = ({ classes, value, handleNext, offer }) => {
   const initialState = {
     image: '',
+    upload: false,
     title: '',
     country: 'Albania',
     region: 'asis',
@@ -54,8 +56,14 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
     },
   };
 
-  const [state, handleTxtChange, , changeInput, resetState, setState] =
-    useManyInputs(initialState);
+  const [
+    state,
+    handleTxtChange,
+    handleToggleChange,
+    changeInput,
+    resetState,
+    setState,
+  ] = useManyInputs(initialState);
 
   useEffect(() => {
     if (!offer) return;
@@ -228,6 +236,18 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                 margin: '3rem 1rem 1rem',
               }}
             >
+              <FormControlLabel
+                sx={{ marginLeft: 'auto', marginBottom: 2 }}
+                control={
+                  <Switch
+                    checked={state.upload}
+                    onChange={handleToggleChange}
+                    name='upload'
+                    color='primary'
+                  />
+                }
+                label='upload'
+              />
               <FormControl
                 size='small'
                 style={{

@@ -45,6 +45,7 @@ import { TabPanel, a11yProps } from '../../common/TabPanel';
 import { useParams } from 'react-router';
 import { ReservationsContext } from 'Contexts/ReservationsContext';
 import OfferView from '../Offer/OfferView';
+import CustomerTripView from './CustomTripView';
 import LoadingOverlay from 'react-loading-overlay';
 import { useArray, useTextInput, useToggleInput } from 'hooks';
 import v4 from 'uuid/dist/v4';
@@ -54,6 +55,7 @@ import { toast } from 'react-toastify';
 import { CustomersContext } from 'Contexts/CustomersContext';
 import PaymentsTable from './paymentsTable';
 import useStyles from './styles/detailReservation';
+import { Link } from 'react-router-dom';
 
 const DetailReservation = () => {
   const classes = useStyles();
@@ -378,7 +380,12 @@ const DetailReservation = () => {
                 index={0}
                 style={{ backgroundColor: '#f2f2f2' }}
               >
-                <OfferView offer={reservation.trip} />
+                {reservation &&
+                  (reservation.trip ? (
+                    <OfferView offer={reservation.trip} />
+                  ) : (
+                    <CustomerTripView offer={reservation.customTrip} />
+                  ))}
               </TabPanel>
               <TabPanel
                 value={value}

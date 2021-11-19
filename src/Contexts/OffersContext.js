@@ -111,6 +111,25 @@ export const OffersProvider = ({ children }) => {
     }
   };
 
+  // * Custom Offers
+
+  const updateCustomOffer = async (id, updatedOffer) => {
+    try {
+      const { trip, purchase } = await makeReq(
+        `/trips/customTrip/${id}`,
+        { body: updatedOffer },
+        'PATCH'
+      );
+
+      updateCustomOfferById(id, trip);
+      if (purchase) updateOfferById(purchase._id, purchase);
+      toast.success('Offer Updated Sucessfully !');
+      navigate('/app/customTrips');
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
   return (
     <OffersContext.Provider
       displayName='Offers Context'
@@ -122,6 +141,7 @@ export const OffersProvider = ({ children }) => {
         createOffer,
         updateOffer,
         customOffers,
+        updateCustomOffer,
       }}
     >
       {children}

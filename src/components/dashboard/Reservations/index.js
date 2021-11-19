@@ -176,7 +176,8 @@ const Reservations = () => {
     // * Fall in green category
     const greenReseravtionsNew =
       greenOrangeReservations?.filter((el) => {
-        const departureDate = new Date(el.trip.startingDate);
+        const departureDate = new Date(el.departureDate);
+        // el.trip ? el.trip.startingDate : el.customTrip.startingDate
         const currentDate = new Date();
 
         // * 8 Weeks after departure date = > 48 days
@@ -185,7 +186,9 @@ const Reservations = () => {
 
     const orangeReservationsNew =
       greenOrangeReservations?.filter((el) => {
-        const departureDate = new Date(el.trip.startingDate);
+        const departureDate = new Date(
+          el.trip ? el.trip.startingDate : el.customTrip.startingDate
+        );
         const currentDate = new Date();
 
         // * 8 Weeks before departure date =  <= 48 days
@@ -196,7 +199,9 @@ const Reservations = () => {
     // * till 4 weeks , after that they will move to black list
     const blueReservationsNew =
       reservations?.filter((el) => {
-        const departureDate = new Date(el.trip.startingDate);
+        const departureDate = new Date(
+          el.trip ? el.trip.startingDate : el.customTrip.startingDate
+        );
         const currentDate = new Date();
 
         // * Till 4 Weeks from  departure date =  > 28 days
@@ -222,7 +227,9 @@ const Reservations = () => {
     console.log(`reservations?.length`, reservations?.length);
     const blackReservationsNew =
       reservations?.filter((el) => {
-        const departureDate = new Date(el.trip.startingDate);
+        const departureDate = new Date(
+          el.trip ? el.trip.startingDate : el.customTrip.startingDate
+        );
         const currentDate = new Date();
 
         // * Till 2 Weeks from  departure date =  > 14 days
@@ -401,28 +408,38 @@ const Reservations = () => {
                         </TableCell>
                         <TableCell align='center'>{purchase.status}</TableCell>
                         <TableCell align='center'>
-                          {purchase.travelers?.map((traveler) => (
-                            <>
-                              {' '}
-                              {`${traveler.firstName} ${traveler.lastName}`}{' '}
-                              <br />{' '}
-                            </>
-                          ))}
+                          {purchase.trip ? (
+                            purchase.travelers?.map((traveler) => (
+                              <>
+                                {' '}
+                                {`${traveler.firstName} ${traveler.lastName}`}{' '}
+                                <br />{' '}
+                              </>
+                            ))
+                          ) : (
+                            <>{purchase.customTrip.fullName}</>
+                          )}
                         </TableCell>
                         <TableCell align='center'>
-                          {purchase.travelers?.map((traveler) => (
-                            <>
-                              {traveler.email}
-                              <br />
-                            </>
-                          ))}
+                          {purchase.trip ? (
+                            purchase.travelers?.map((traveler) => (
+                              <>
+                                {traveler.email}
+                                <br />
+                              </>
+                            ))
+                          ) : (
+                            <> {purchase.email} </>
+                          )}
                         </TableCell>
                         <TableCell align='center'>{purchase.phone}</TableCell>
                         <TableCell align='center'>
                           <Button
-                            startIcon={<Edit />}
+                            endIcon={<Edit />}
                             onClick={handleClick.bind(this, purchase._id)}
-                          ></Button>
+                          >
+                            Edit
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))
