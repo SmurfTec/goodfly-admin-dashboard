@@ -135,7 +135,7 @@ export const protechtedRoutes = [
             element: <Orders />,
           },
           {
-            path: '/:id',
+            path: '/edit/:id',
             element: <Order />,
           },
         ],

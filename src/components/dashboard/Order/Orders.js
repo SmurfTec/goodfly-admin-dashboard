@@ -20,146 +20,6 @@ import v4 from 'uuid/dist/v4';
 import { Link } from 'react-router-dom';
 import { OrderContext } from 'Contexts/OrderContext';
 
-function createData(name, calories, fat, client, protein) {
-  return { name, calories, fat, client, protein };
-}
-
-const rows = [
-  createData(
-    'Muhammadzain',
-    ' zain@gmail.com',
-    '+2233123312334',
-    'zain',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadali',
-    ' ali@gmail.com',
-    '+2233123312334',
-    'sonu',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadusman',
-    ' usman@gmail.com',
-    '+2233123312334',
-    'ali',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadkashif',
-    ' kashif@gmail.com',
-    '+2233123312334',
-    'umer',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadumer',
-    ' umer@gmail.com',
-    '+2233123312334',
-    'kasi',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadabc',
-    ' abc@gmail.com',
-    '+2233123312334',
-    'qweew',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsonu',
-    ' sonu@gmail.com',
-    '+2233123312334',
-    'gdasd',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsaqib',
-    ' saqib@gmail.com',
-    '+2233123312334',
-    'fdasfs',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadsohil',
-    ' sohail@gmail.com',
-    '+2233123312334',
-    'eqwe',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'fasdf',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'sdas',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'fsdfsa',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'fasdfa',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'fasd',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'fasdf',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'fsadf',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'fdsa',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadtayyab',
-    ' tayyab@gmail.com',
-    '+2233123312334',
-    'fsdf',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadgul',
-    'gul@gmail.com',
-    '+2233123312334',
-    'adfsds',
-    '11/07/2021'
-  ),
-];
-
 const styles = makeStyles((theme) => ({
   main: {
     backgroundColor: '#f2f2f2',
@@ -201,7 +61,10 @@ const Orders = () => {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     rowsPerPage -
-    Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    Math.min(
+      rowsPerPage,
+      orders === 'loading' ? 0 : orders?.length - page * rowsPerPage
+    );
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -312,7 +175,12 @@ const Orders = () => {
                           {row.visitor.telephoneNumber}
                         </TableCell>
                         <TableCell align='right'>
-                          <Button>Edit</Button>{' '}
+                          <Button
+                            component={Link}
+                            to={`/app/orders/edit/${row._id}`}
+                          >
+                            Edit
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))}

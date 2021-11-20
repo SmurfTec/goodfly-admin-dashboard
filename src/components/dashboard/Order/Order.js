@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import PropTypes from 'prop-types';
 import {
   Box,
   Tab,
@@ -41,6 +40,10 @@ import {
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { a11yProps, TabPanel } from 'components/common/TabPanel';
+import { toast } from 'react-toastify';
+import useManyInputs from 'hooks/useManyInputs';
+import { OrderContext } from 'Contexts/OrderContext';
+import { useParams } from 'react-router';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -112,7 +115,10 @@ const styles = makeStyles((theme) => ({
     '& .MuiSwitch-switchBase.Mui-checked': {
       color: '#018786',
       '&:hover': {
-        backgroundColor: alpha('#018786', theme.palette.action.hoverOpacity),
+        backgroundColor: alpha(
+          '#018786',
+          theme.palette.action.hoverOpacity
+        ),
       },
     },
     '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
@@ -123,7 +129,10 @@ const styles = makeStyles((theme) => ({
     '& .MuiSwitch-switchBase.Mui-checked': {
       color: '#B00020',
       '&:hover': {
-        backgroundColor: alpha('#B00020', theme.palette.action.hoverOpacity),
+        backgroundColor: alpha(
+          '#B00020',
+          theme.palette.action.hoverOpacity
+        ),
       },
     },
     '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
@@ -142,13 +151,30 @@ const Order = () => {
   const theme = useTheme();
   const lgDown = useMediaQuery(theme.breakpoints.down('lg'));
 
-  const [value, setValue] = React.useState(0);
-  const [statusSwitch, setStatusSwitch] = React.useState(true);
+  const { orders, getOrderById, modifyOrder } =
+    useContext(OrderContext);
 
-  const [orderStatus, setOrderStatus] = React.useState('');
-  const [deliveryMethod, setDeliveryMethod] = React.useState('');
-  const [relayPoints, setRelayPoints] = React.useState('');
-  const [manualPayment, setManualPayment] = React.useState(false);
+  const { id } = useParams();
+
+  const [loading, setLoading] = useState(true);
+
+  const [value, setValue] = useState(0);
+  const [statusSwitch, setStatusSwitch] = useState(true);
+
+  const [singleOrder, setSingleOrder] = useState();
+
+  const [orderStatus, setOrderStatus] = useState('');
+  const [deliveryMethod, setDeliveryMethod] = useState('');
+  const [relayPoints, setRelayPoints] = useState('');
+  const [manualPayment, setManualPayment] = useState(false);
+
+  useEffect(() => {
+    const order = getOrderById(id);
+    console.log('order :>> ', order);
+    if (!order || order === 'loading') setLoading(true);
+    setSingleOrder(order);
+  }, [id, orders]);
+  console.log('singleOrder :>> ', singleOrder);
 
   const handleOrderStatus = (event) => {
     setOrderStatus(event.target.value);
@@ -217,9 +243,9 @@ const Order = () => {
                     value={orderStatus}
                     onChange={handleOrderStatus}
                   >
-                    <MenuItem value={10}>One</MenuItem>
-                    <MenuItem value={20}>Two</MenuItem>
-                    <MenuItem value={30}>Three</MenuItem>
+                    <MenuItem value=''>One</MenuItem>
+                    <MenuItem value=''>Two</MenuItem>
+                    <MenuItem value=''>Three</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
@@ -295,7 +321,9 @@ const Order = () => {
                               alignItems: 'center',
                             }}
                           >
-                            <Typography variant='text'>Status</Typography>
+                            <Typography variant='text'>
+                              Status
+                            </Typography>
                             <Switch
                               checked={statusSwitch}
                               onChange={toggle}
@@ -315,8 +343,9 @@ const Order = () => {
                           }}
                         >
                           <Typography variant='text'>
-                            The variant="fullWidth" prop should be used for
-                            smaller views. This demo also uses
+                            The variant="fullWidth" prop should be
+                            used for smaller views. This demo also
+                            uses
                           </Typography>
                         </Box>
                       </Box>
@@ -343,7 +372,10 @@ const Order = () => {
                 ))}
             </TabPanel>
             <TabPanel value={value} index={1}>
-              <Typography variant='h5'> Client Ref :1205489</Typography>
+              <Typography variant='h5'>
+                {' '}
+                Client Ref :1205489
+              </Typography>
               <Box
                 mt={3}
                 style={{
@@ -355,26 +387,30 @@ const Order = () => {
                 <TextField
                   id='standard-helperText'
                   label='name'
-                  defaultValue='Muhammad Zain'
+                  placeholder='Muhammad Zain'
                   variant='outlined'
+                  inputProps={{ readOnly: true }}
                 />
                 <TextField
                   id='standard-helperText'
                   label='firstname'
-                  defaultValue='Muhammad'
+                  placeholder='Muhammad'
                   variant='outlined'
+                  inputProps={{ readOnly: true }}
                 />
                 <TextField
                   id='standard-helperText'
                   label='email'
-                  defaultValue='Muhammadzain8@gmail.com'
+                  placeholder='Muhammadzain8@gmail.com'
                   variant='outlined'
+                  inputProps={{ readOnly: true }}
                 />
                 <TextField
                   id='standard-helperText'
                   label='Telephone'
-                  defaultValue='+33 600 00 000'
+                  placeholder='+33 600 00 000'
                   variant='outlined'
+                  inputProps={{ readOnly: true }}
                 />
               </Box>
               <Box
@@ -393,12 +429,15 @@ const Order = () => {
                     padding: '3%',
                   }}
                 >
-                  <Typography variant='h4' className={classes.address}>
+                  <Typography
+                    variant='h4'
+                    className={classes.address}
+                  >
                     Shipping Address{' '}
                   </Typography>
                   <Typography className={classes.address}>
-                    Text fields allow users to enter text into a UI. They
-                    typically appear in forms and dialogs.
+                    Text fields allow users to enter text into a UI.
+                    They typically appear in forms and dialogs.
                   </Typography>
                 </Box>
                 <Box
@@ -410,18 +449,23 @@ const Order = () => {
                     // verticalAlign: 'top',
                   }}
                 >
-                  <Typography variant='h4' className={classes.address}>
+                  <Typography
+                    variant='h4'
+                    className={classes.address}
+                  >
                     Billing Address{' '}
                   </Typography>
                   <Typography className={classes.address}>
-                    Text fields allow users to enter text into a UI. They
-                    typically appear in forms and dialogs.
+                    Text fields allow users to enter text into a UI.
+                    They typically appear in forms and dialogs.
                   </Typography>
                 </Box>
               </Box>
             </TabPanel>
             <TabPanel value={value} index={2}>
-              <Typography variant='h5'>Transport Management</Typography>
+              <Typography variant='h5'>
+                Transport Management
+              </Typography>
               <Box
                 mt={3}
                 style={{
@@ -481,7 +525,10 @@ const Order = () => {
                   </Select>
                 </FormControl>
 
-                <Button variant='contained' style={{ width: '12rem' }}>
+                <Button
+                  variant='contained'
+                  style={{ width: '12rem' }}
+                >
                   Add a Carrier{' '}
                 </Button>
               </Box>
@@ -501,12 +548,15 @@ const Order = () => {
                     padding: '3%',
                   }}
                 >
-                  <Typography variant='h4' className={classes.address}>
+                  <Typography
+                    variant='h4'
+                    className={classes.address}
+                  >
                     Shipping Address{' '}
                   </Typography>
                   <Typography className={classes.address}>
-                    Text fields allow users to enter text into a UI. They
-                    typically appear in forms and dialogs.
+                    Text fields allow users to enter text into a UI.
+                    They typically appear in forms and dialogs.
                   </Typography>
                 </Box>
                 <Box
@@ -518,12 +568,15 @@ const Order = () => {
                     // verticalAlign: 'top',
                   }}
                 >
-                  <Typography variant='h4' className={classes.address}>
+                  <Typography
+                    variant='h4'
+                    className={classes.address}
+                  >
                     Billing Address{' '}
                   </Typography>
                   <Typography className={classes.address}>
-                    Text fields allow users to enter text into a UI. They
-                    typically appear in forms and dialogs.
+                    Text fields allow users to enter text into a UI.
+                    They typically appear in forms and dialogs.
                   </Typography>
                 </Box>
               </Box>
@@ -534,22 +587,39 @@ const Order = () => {
                   margin: '1rem',
                 }}
               >
-                <Button variant='contained' style={{ marginRight: '1rem' }}>
+                <Button
+                  variant='contained'
+                  style={{ marginRight: '1rem' }}
+                >
                   Download the packaging Slip
                 </Button>
-                <Button variant='contained'>Validate the Modifications</Button>
+                <Button variant='contained'>
+                  Validate the Modifications
+                </Button>
               </Box>
             </TabPanel>
             <TabPanel value={value} index={3}>
-              <TableContainer component={Paper} className={classes.table}>
-                <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+              <TableContainer
+                component={Paper}
+                className={classes.table}
+              >
+                <Table
+                  sx={{ minWidth: 650 }}
+                  aria-label='simple table'
+                >
                   <TableHead>
                     <TableRow>
                       <TableCell>Payment</TableCell>
                       <TableCell align='right'>Type</TableCell>
-                      <TableCell align='right'>Transaction Date</TableCell>
-                      <TableCell align='right'>Transaction Amount</TableCell>
-                      <TableCell align='right'>Transaction Status</TableCell>
+                      <TableCell align='right'>
+                        Transaction Date
+                      </TableCell>
+                      <TableCell align='right'>
+                        Transaction Amount
+                      </TableCell>
+                      <TableCell align='right'>
+                        Transaction Status
+                      </TableCell>
                       <TableCell align='right'>Actions</TableCell>
                     </TableRow>
                   </TableHead>
@@ -559,10 +629,16 @@ const Order = () => {
                         <TableCell component='th' scope='row'>
                           {row.name}
                         </TableCell>
-                        <TableCell align='right'>{row.calories}</TableCell>
+                        <TableCell align='right'>
+                          {row.calories}
+                        </TableCell>
                         <TableCell align='right'>{row.fat}</TableCell>
-                        <TableCell align='right'>{row.carbs}</TableCell>
-                        <TableCell align='right'>{row.protein}</TableCell>
+                        <TableCell align='right'>
+                          {row.carbs}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.protein}
+                        </TableCell>
                         <TableCell align='right'>
                           <Button>Detail</Button>{' '}
                         </TableCell>
@@ -581,7 +657,10 @@ const Order = () => {
                   margin: '1rem',
                 }}
               >
-                <Button variant='contained' onClick={openManulPayment}>
+                <Button
+                  variant='contained'
+                  onClick={openManulPayment}
+                >
                   Add a Manual Payment
                 </Button>
               </Box>
@@ -610,7 +689,9 @@ const Order = () => {
                 style={{ justifyContent: 'space-between' }}
               >
                 <FormControl component='fieldset'>
-                  <FormLabel component='legend'>Payment Method</FormLabel>
+                  <FormLabel component='legend'>
+                    Payment Method
+                  </FormLabel>
                   <RadioGroup
                     row
                     aria-label='gender'
@@ -637,7 +718,9 @@ const Order = () => {
                     marginBottom: 7,
                   }}
                 >
-                  <InputLabel id='demo-simple-select-label'>Status</InputLabel>
+                  <InputLabel id='demo-simple-select-label'>
+                    Status
+                  </InputLabel>
 
                   <Select
                     labelId='demo-simple-select-label'
