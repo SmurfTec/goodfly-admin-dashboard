@@ -44,6 +44,7 @@ import Comments from 'components/dashboard/comments/Comments';
 import Offers from 'components/dashboard/Offer';
 import CreateOffer from 'components/dashboard/Offer/CreateOffer';
 import ViewOffer from 'components/dashboard/Offer/ViewOffer';
+import ModifyBlog from 'components/dashboard/Blog/ViewBlog';
 
 export const protechtedRoutes = [
   {
@@ -59,6 +60,10 @@ export const protechtedRoutes = [
           {
             path: '/',
             element: <Blogs />,
+          },
+          {
+            path: '/:id',
+            element: <ModifyBlog />,
           },
           { path: 'create', element: <CreateBlog /> },
         ],

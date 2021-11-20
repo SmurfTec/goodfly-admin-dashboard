@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
@@ -24,7 +24,8 @@ import v4 from 'uuid/dist/v4';
 import useTextInput from 'hooks/useTextInput';
 
 import { BlogsContext } from 'Contexts/BlogsContext';
-import { useNavigate } from 'react-router';
+import { useParams } from 'react-router';
+import { getMuiDateFormat } from 'Utils/dateMethods';
 
 const styles = makeStyles((theme) => ({
   image: {
@@ -49,14 +50,15 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const CreateBlog = () => {
+const ModifyBlog = () => {
   const classes = styles();
 
-  const navigate = useNavigate();
-  const { createNewBlog } = useContext(BlogsContext);
+  const { id } = useParams();
+
+  const { modifyBlog, getBlogFromId, blogs } = useContext(BlogsContext);
 
   const initialState = {
-    publishDate: new Date(),
+    publishDate: getMuiDateFormat(new Date()),
     title: '',
     theme: '',
     keywords: [],
@@ -83,12 +85,25 @@ const CreateBlog = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [blogImages, setBlogImages] = useState([]);
+
+  useEffect(() => {
+    const blog = getBlogFromId(id);
+    if (!blog) return;
+
+    console.log(`blog`, blog);
+    setState((st) => ({
+      ...st,
+      ...blog,
+      publishDate: getMuiDateFormat(blog.publishDate),
+    }));
+    setBlogImages(blog.images);
+  }, [id, blogs]);
+
   const toggleIsOpen = () => {
     setIsOpen(!isOpen);
   };
 
   const handleBlogCancel = () => {
-    navigate('/app/blogs');
     toggleIsOpen();
   };
 
@@ -171,16 +186,16 @@ const CreateBlog = () => {
     setState(initialState);
   };
 
-  const handleCreateBlog = () => {
+  const handleUpdateBlog = () => {
     console.log(`state`, state);
-    createNewBlog({ ...state, images: blogImages }, resetState);
+    modifyBlog(id, { ...state, images: blogImages });
   };
   return (
     <div>
       <Grid container style={{ marginTop: 50 }}>
         <Grid item sm={3} md={3}>
           <Box style={{ margin: 20 }}>
-            <Typography variant='h5'>New Article</Typography>
+            <Typography variant='h5'>New Blog</Typography>
             <LoadingOverlay
               active={isImageUploading}
               spinner
@@ -228,13 +243,13 @@ const CreateBlog = () => {
             />
           </Typography>
           <Box style={{ margin: 20 }}>
-            <Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <TextField
                 name='publishDate'
-                value={state.dateOfPublish}
+                value={state.publishDate}
                 onChange={handleTxtChange}
                 id='standard-basic'
-                defaultValue={state.dateOfPublish}
+                defaultValue={state.publishDate}
                 variant='standard'
                 style={{ marginRight: 50 }}
                 type='date'
@@ -244,15 +259,15 @@ const CreateBlog = () => {
                 value={state.theme}
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='Theme of Article'
+                label='Theme'
                 variant='standard'
               />
               <TextField
                 name='title'
-                value={state.Title}
+                value={state.title}
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='Title of Article'
+                label='Title'
                 variant='standard'
                 style={{ width: '100%' }}
               />
@@ -290,7 +305,7 @@ const CreateBlog = () => {
         }}
       >
         <Editor
-          initialValue='<p>Your Blog Content Here</p>'
+          // initialValue='<p>Your Blog Content Here</p>'
           init={{
             height: 500,
             menubar: false,
@@ -360,18 +375,18 @@ const CreateBlog = () => {
           Cancel
         </Button>
         <Button
-          onClick={handleCreateBlog}
+          onClick={handleUpdateBlog}
           variant='contained'
           size='medium'
           style={{ width: 150 }}
         >
-          Create
+          Update
         </Button>
       </Box>
 
       <ConfirmDialog
         open={isOpen}
-        success={handleBlogCancel}
+        Success={handleBlogCancel}
         toggleDialog={toggleIsOpen}
         dialogTitle=' Are you Sure you want to cancel ?'
       ></ConfirmDialog>
@@ -379,4 +394,4 @@ const CreateBlog = () => {
   );
 };
 
-export default CreateBlog;
+export default ModifyBlog;
