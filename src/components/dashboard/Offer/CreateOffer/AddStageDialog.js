@@ -48,15 +48,21 @@ const AddStageDialog = ({
   const [isImageUploading, toggleImageUploading] = useToggleInput(false);
   const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
+  const [isAccodmodationUploading, toggleAccomodationUploading] =
+    useToggleInput(false);
+  // const [uploadingText, setUploadingText] = useState('Uploading Image...');
+
   const handleImage = async (e) => {
     const { type } = e.currentTarget.dataset;
 
     setUploadingText('Uploading Image ...');
-    toggleImageUploading();
+
+    if (type === 'image') toggleImageUploading();
+    else toggleAccomodationUploading();
     const selectedFile = e.target.files[0];
     const fileType = ['image/'];
     try {
-      console.log(`selectedFile.type`, selectedFile.type);
+      // console.log(`selectedFile.type`, selectedFile.type);
       if (selectedFile && selectedFile.type.includes(fileType)) {
         let reader = new FileReader();
         reader.readAsDataURL(selectedFile);
@@ -100,7 +106,8 @@ const AddStageDialog = ({
               },
             }));
 
-          toggleImageUploading();
+          if (type === 'image') toggleImageUploading();
+          else toggleAccomodationUploading();
         };
       } else {
         toast.error('Only Image files are acceptable !');
@@ -403,7 +410,7 @@ const AddStageDialog = ({
                     />
                     <label htmlFor='accomodationImage'>
                       <LoadingOverlay
-                        active={isImageUploading}
+                        active={isAccodmodationUploading}
                         spinner
                         text={uploadingText}
                       >

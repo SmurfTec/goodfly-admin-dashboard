@@ -1,10 +1,8 @@
 import { Navigate } from 'react-router-dom';
 import DashboardLayout from './components/DashboardLayout';
-import MainLayout from './components/MainLayout';
 
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
-import Register from './pages/Register';
 import Settings from './pages/Settings';
 
 import Profile from './components/dashboard/profile/Profile';
@@ -46,6 +44,7 @@ import Comments from 'components/dashboard/comments/Comments';
 import Offers from 'components/dashboard/Offer';
 import CreateOffer from 'components/dashboard/Offer/CreateOffer';
 import ViewOffer from 'components/dashboard/Offer/ViewOffer';
+import ModifyBlog from 'components/dashboard/Blog/ViewBlog';
 
 export const protechtedRoutes = [
   {
@@ -61,6 +60,10 @@ export const protechtedRoutes = [
           {
             path: '/',
             element: <Blogs />,
+          },
+          {
+            path: '/:id',
+            element: <ModifyBlog />,
           },
           { path: 'create', element: <CreateBlog /> },
         ],

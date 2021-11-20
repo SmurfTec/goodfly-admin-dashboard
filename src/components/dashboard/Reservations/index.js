@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
-
+import SyncIcon from '@mui/icons-material/Sync';
 import {
   Typography,
   Paper,
@@ -112,7 +112,7 @@ const FilterButton = ({ currentStatus, text, handleFilter, status, color }) => (
 );
 
 const Reservations = () => {
-  const { reservations } = useContext(ReservationsContext);
+  const { reservations, fetchReservations } = useContext(ReservationsContext);
   const classes = styles();
   const [filter, setFilter] = useState('');
   const [page, setPage] = useState(0);
@@ -169,100 +169,114 @@ const Reservations = () => {
       'schedule-inProgress',
     ];
 
-    const greenOrangeReservations =
-      reservations?.filter((el) => nonPaidStatuses.includes(el.status)) || [];
+    try {
+      const greenOrangeReservations =
+        reservations?.filter((el) => nonPaidStatuses.includes(el.status)) || [];
 
-    // * Reservations which have more than 8 weeks till departure date
-    // * Fall in green category
-    const greenReseravtionsNew =
-      greenOrangeReservations?.filter((el) => {
-        const departureDate = new Date(el.trip.startingDate);
-        const currentDate = new Date();
+      // * Reservations which have more than 8 weeks till departure date
+      // * Fall in green category
+      const greenReseravtionsNew =
+        greenOrangeReservations?.filter((el) => {
+          const departureDate = new Date(el.departureDate);
+          // el.trip ? el.trip.startingDate : el.customTrip.startingDate
+          const currentDate = new Date();
 
-        // * 8 Weeks after departure date = > 48 days
-        return daysBetween(departureDate, currentDate) > 48;
-      }) || [];
+          // * 8 Weeks after departure date = > 48 days
+          return daysBetween(departureDate, currentDate) > 48;
+        }) || [];
 
-    const orangeReservationsNew =
-      greenOrangeReservations?.filter((el) => {
-        const departureDate = new Date(el.trip.startingDate);
-        const currentDate = new Date();
+      const orangeReservationsNew =
+        greenOrangeReservations?.filter((el) => {
+          const departureDate = new Date(
+            el.trip ? el.trip.startingDate : el.customTrip.startingDate
+          );
+          const currentDate = new Date();
 
-        // * 8 Weeks before departure date =  <= 48 days
-        return daysBetween(departureDate, currentDate) <= 48;
-      }) || [];
+          // * 8 Weeks before departure date =  <= 48 days
+          return daysBetween(departureDate, currentDate) <= 48;
+        }) || [];
 
-    // * Those reservations , which got archieved since 6 weeks
-    // * till 4 weeks , after that they will move to black list
-    const blueReservationsNew =
-      reservations?.filter((el) => {
-        const departureDate = new Date(el.trip.startingDate);
-        const currentDate = new Date();
+      // * Those reservations , which got archieved since 6 weeks
+      // * till 4 weeks , after that they will move to black list
+      const blueReservationsNew =
+        reservations?.filter((el) => {
+          const departureDate = new Date(
+            // el.trip ? el.trip.startingDate : el.customTrip.startingDate
+            el.departureDate
+          );
+          const currentDate = new Date();
 
-        // * Till 4 Weeks from  departure date =  > 28 days
-        // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
-        // * So thats why I put 2nd condition
-        return (
-          (el.status === 'archived' || nonPaidStatuses.includes(el.status)) &&
-          daysBetween(departureDate, currentDate) >= 28 &&
-          daysBetween(departureDate, currentDate) <= 42
-        );
-      }) || [];
+          // * Till 4 Weeks from  departure date =  > 28 days
+          // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
+          // * So thats why I put 2nd condition
+          return (
+            (el.status === 'archived' || nonPaidStatuses.includes(el.status)) &&
+            daysBetween(departureDate, currentDate) >= 28 &&
+            daysBetween(departureDate, currentDate) <= 42
+          );
+        }) || [];
 
-    // const nonBlackStatus = [
-    //   'reservation-paid',
-    //   'cancelled',
-    //   'cancellation-request',
-    // ];
+      // const nonBlackStatus = [
+      //   'reservation-paid',
+      //   'cancelled',
+      //   'cancellation-request',
+      // ];
 
-    // * Those reservations , which arrive 4 weeks before departure date
-    // * till 2 weeks , after that they move to red List
-    // * OR is archived since 6 weeks and still not recovered
+      // * Those reservations , which arrive 4 weeks before departure date
+      // * till 2 weeks , after that they move to red List
+      // * OR is archived since 6 weeks and still not recovered
 
-    console.log(`reservations?.length`, reservations?.length);
-    const blackReservationsNew =
-      reservations?.filter((el) => {
-        const departureDate = new Date(el.trip.startingDate);
-        const currentDate = new Date();
+      console.log(`reservations?.length`, reservations?.length);
+      const blackReservationsNew =
+        reservations?.filter((el) => {
+          const departureDate = new Date(
+            // el.trip ? el.trip.startingDate : el.customTrip.startingDate
+            el.departureDate
+          );
+          const currentDate = new Date();
 
-        // * Till 2 Weeks from  departure date =  > 14 days
-        // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
-        // * So thats why I put 2nd condition
+          // * Till 2 Weeks from  departure date =  > 14 days
+          // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
+          // * So thats why I put 2nd condition
 
-        console.log(`status cond`, nonPaidStatuses.includes(el.status));
+          console.log(`status cond`, nonPaidStatuses.includes(el.status));
 
-        console.log(`cond 2.1`, daysBetween(departureDate, currentDate) < 28);
-        console.log(`cond 2.2`, daysBetween(departureDate, currentDate) > 14);
+          console.log(`cond 2.1`, daysBetween(departureDate, currentDate) < 28);
+          console.log(`cond 2.2`, daysBetween(departureDate, currentDate) > 14);
 
-        return (
-          (el.status === 'archived' || nonPaidStatuses.includes(el.status)) &&
-          daysBetween(departureDate, currentDate) < 28 &&
-          daysBetween(departureDate, currentDate) > 14
-        );
-      }) || [];
+          return (
+            (el.status === 'archived' || nonPaidStatuses.includes(el.status)) &&
+            daysBetween(departureDate, currentDate) < 28 &&
+            daysBetween(departureDate, currentDate) > 14
+          );
+        }) || [];
 
-    // ! Unrecoverable Reservations (status 'cancelled')
-    // ! Either cancelled by staffer , or black reservations with less than 2 weeks
-    // * Note : Reservations status will change automatically from backend
-    // * When 2 weeks left ....
-    const redReservationsNew =
-      reservations?.filter((el) => el.status === 'cancelled') || [];
+      // ! Unrecoverable Reservations (status 'cancelled')
+      // ! Either cancelled by staffer , or black reservations with less than 2 weeks
+      // * Note : Reservations status will change automatically from backend
+      // * When 2 weeks left ....
+      const redReservationsNew =
+        reservations?.filter((el) => el.status === 'cancelled') || [];
 
-    // * Cancellation Requests by client
-    const greyReservationsNew =
-      reservations?.filter((el) => el.status === 'cancellation-request') || [];
+      // * Cancellation Requests by client
+      const greyReservationsNew =
+        reservations?.filter((el) => el.status === 'cancellation-request') ||
+        [];
 
-    // * Reservations paid / Finalized
-    const whiteReservationsNew =
-      reservations?.filter((el) => el.status === 'reservation-paid') || [];
+      // * Reservations paid / Finalized
+      const whiteReservationsNew =
+        reservations?.filter((el) => el.status === 'reservation-paid') || [];
 
-    setGreenReseravtions(greenReseravtionsNew);
-    setOrangeReservations(orangeReservationsNew);
-    setBlueReservations(blueReservationsNew);
-    setBlackReservations(blackReservationsNew);
-    setGreyReservations(greyReservationsNew);
-    setWhiteReservations(whiteReservationsNew);
-    setRedReservations(redReservationsNew);
+      setGreenReseravtions(greenReseravtionsNew);
+      setOrangeReservations(orangeReservationsNew);
+      setBlueReservations(blueReservationsNew);
+      setBlackReservations(blackReservationsNew);
+      setGreyReservations(greyReservationsNew);
+      setWhiteReservations(whiteReservationsNew);
+      setRedReservations(redReservationsNew);
+    } catch (err) {
+      console.log(`err`, err);
+    }
   }, [reservations]);
 
   useEffect(() => {
@@ -350,11 +364,21 @@ const Reservations = () => {
         <Box
           style={{
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'flex-end',
             alignItems: 'center',
             width: '100%',
           }}
         >
+          <Button
+            onClick={fetchReservations}
+            variant='contained'
+            color='primary'
+            endIcon={<SyncIcon />}
+            size='small'
+            sx={{ marginRight: 'auto' }}
+          >
+            Fetch
+          </Button>
           <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
             Search Reservation
           </Typography>
@@ -401,28 +425,38 @@ const Reservations = () => {
                         </TableCell>
                         <TableCell align='center'>{purchase.status}</TableCell>
                         <TableCell align='center'>
-                          {purchase.travelers?.map((traveler) => (
-                            <>
-                              {' '}
-                              {`${traveler.firstName} ${traveler.lastName}`}{' '}
-                              <br />{' '}
-                            </>
-                          ))}
+                          {purchase.trip ? (
+                            purchase.travelers?.map((traveler) => (
+                              <React.Fragment key={traveler._id}>
+                                {' '}
+                                {`${traveler.firstName} ${traveler.lastName}`}{' '}
+                                <br />{' '}
+                              </React.Fragment>
+                            ))
+                          ) : (
+                            <>{purchase?.customTrip?.fullName}</>
+                          )}
                         </TableCell>
                         <TableCell align='center'>
-                          {purchase.travelers?.map((traveler) => (
-                            <>
-                              {traveler.email}
-                              <br />
-                            </>
-                          ))}
+                          {purchase.trip ? (
+                            purchase.travelers?.map((traveler) => (
+                              <>
+                                {traveler.email}
+                                <br />
+                              </>
+                            ))
+                          ) : (
+                            <> {purchase.email} </>
+                          )}
                         </TableCell>
                         <TableCell align='center'>{purchase.phone}</TableCell>
                         <TableCell align='center'>
                           <Button
-                            startIcon={<Edit />}
+                            endIcon={<Edit />}
                             onClick={handleClick.bind(this, purchase._id)}
-                          ></Button>
+                          >
+                            Edit
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))

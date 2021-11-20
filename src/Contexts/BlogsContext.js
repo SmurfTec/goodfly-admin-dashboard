@@ -16,11 +16,11 @@ export const BlogsProvider = ({ children }) => {
     blogs,
     setBlogs,
     pushBlog,
-    removeBlog,
     filterBlog,
     updateBlog,
+    removeBlog,
     clearBlogs,
-  ] = useArray();
+  ] = useArray([], '_id');
 
   useEffect(() => {
     // * If user is logged In , only then fetch data
@@ -56,10 +56,32 @@ export const BlogsProvider = ({ children }) => {
     }
   };
 
+  // * Create New Blog
+  const modifyBlog = async (id, updatedBody) => {
+    try {
+      const resData = await makeReq(
+        `/blogs/${id}`,
+        { body: { ...updatedBody } },
+        'PATCH'
+      );
+
+      updateBlog(id, resData.blog);
+      toast.success('Blog Updated Successfully !');
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
+  const getBlogFromId = (id) => {
+    if (!blogs) return undefined;
+
+    return blogs.find((el) => el._id === id);
+  };
+
   return (
     <BlogsContext.Provider
       displayName='Blogs Context'
-      value={{ blogs, createNewBlog }}
+      value={{ blogs, createNewBlog, modifyBlog, getBlogFromId }}
     >
       {children}
     </BlogsContext.Provider>

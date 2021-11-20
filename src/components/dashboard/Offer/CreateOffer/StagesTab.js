@@ -111,6 +111,16 @@ const StagesTab = memo(({ value, classes, handleSubmit, offer }) => {
                   columnGap: '20px',
                 }}
               >
+                {stages?.length > 0 && (
+                  <Typography
+                    sx={{
+                      marginRight: 'auto',
+                    }}
+                    variant='h5'
+                  >
+                    Stage {currentStage + 1}
+                  </Typography>
+                )}
                 <Button
                   variant='contained'
                   color='primary'

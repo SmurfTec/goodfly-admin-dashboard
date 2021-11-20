@@ -45,6 +45,7 @@ import { TabPanel, a11yProps } from '../../common/TabPanel';
 import { useParams } from 'react-router';
 import { ReservationsContext } from 'Contexts/ReservationsContext';
 import OfferView from '../Offer/OfferView';
+import CustomerTripView from './CustomTripView';
 import LoadingOverlay from 'react-loading-overlay';
 import { useArray, useTextInput, useToggleInput } from 'hooks';
 import v4 from 'uuid/dist/v4';
@@ -54,6 +55,7 @@ import { toast } from 'react-toastify';
 import { CustomersContext } from 'Contexts/CustomersContext';
 import PaymentsTable from './paymentsTable';
 import useStyles from './styles/detailReservation';
+import { Link } from 'react-router-dom';
 
 const DetailReservation = () => {
   const classes = useStyles();
@@ -378,7 +380,12 @@ const DetailReservation = () => {
                 index={0}
                 style={{ backgroundColor: '#f2f2f2' }}
               >
-                <OfferView offer={reservation.trip} />
+                {reservation &&
+                  (reservation.trip ? (
+                    <OfferView offer={reservation.trip} />
+                  ) : (
+                    <CustomerTripView offer={reservation.customTrip} />
+                  ))}
               </TabPanel>
               <TabPanel
                 value={value}
@@ -491,12 +498,24 @@ const DetailReservation = () => {
                   <Grid item md={5}>
                     <Box className={classes.inputBox}>
                       <Typography variant='h5' className={classes.typo}>
-                        Name
+                        firstName
                       </Typography>
                       <TextField
                         hiddenLabel
                         id='filled-hidden-label-small'
-                        value={reservation.visitor.name}
+                        value={reservation.visitor.firstName}
+                        size='small'
+                        className={classes.textInput}
+                      />
+                    </Box>{' '}
+                    <Box className={classes.inputBox}>
+                      <Typography variant='h5' className={classes.typo}>
+                        Last Name
+                      </Typography>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        value={reservation.visitor.lastName}
                         size='small'
                         className={classes.textInput}
                       />
@@ -509,18 +528,6 @@ const DetailReservation = () => {
                         hiddenLabel
                         id='filled-hidden-label-small'
                         value={reservation.visitor.spouseName}
-                        size='small'
-                        className={classes.textInput}
-                      />
-                    </Box>{' '}
-                    <Box className={classes.inputBox}>
-                      <Typography variant='h5' className={classes.typo}>
-                        First Name
-                      </Typography>
-                      <TextField
-                        hiddenLabel
-                        id='filled-hidden-label-small'
-                        value={reservation.visitor.firstName}
                         size='small'
                         className={classes.textInput}
                       />

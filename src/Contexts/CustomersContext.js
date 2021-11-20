@@ -55,7 +55,7 @@ export const CustomersProvider = ({ children }) => {
   const modifyCustomer = async (id, updatedCustomer) => {
     try {
       const resData = await makeReq(
-        `/users/${id}`,
+        `/users/${id}?isVisitor=true`,
         { body: { ...updatedCustomer } },
         'PATCH'
       );

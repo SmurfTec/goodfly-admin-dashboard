@@ -15,134 +15,11 @@ import {
 import v4 from 'uuid/dist/v4';
 
 import { Search as SearchIcon } from 'react-feather';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { BlogsContext } from 'Contexts/BlogsContext';
-
-// let blogs = [
-//   {
-//     id: 1,
-//     title: 'zaincl',
-//     image: 'https://picsum.photos/200/300?random=2',
-//     date: '12/12/12',
-//     theme: ' type theme ',
-//     description: ' description description',
-//   },
-//   {
-//     id: 2,
-//     title: 'zainal',
-//     image: 'https://picsum.photos/200/300?random=2',
-//     date: '12/12/12',
-//     theme: ' type theme ',
-//     description: ' description description',
-//   },
-//   {
-//     id: 3,
-//     title: 'zainbl',
-//     image: 'https://picsum.photos/200/300?random=2',
-//     date: '12/12/12',
-//     theme: ' type theme ',
-//     description: ' description description',
-//   },
-//   {
-//     id: 4,
-//     title: 'sohail',
-//     image: 'https://picsum.photos/200/300?random=2',
-//     date: '12/12/12',
-//     theme: ' type theme ',
-//     description: ' description description',
-//   },
-//   {
-//     id: 5,
-//     title: 'umar',
-//     image: 'https://picsum.photos/200/300?random=2',
-//     date: '12/12/12',
-//     theme: ' type theme ',
-//     description: ' description description',
-//   },
-//   {
-//     id: 6,
-//     title: 'ali',
-//     image: 'https://picsum.photos/200/300?random=2',
-//     date: '12/12/12',
-//     theme: ' type theme ',
-//     description: ' description description',
-//   },
-//   {
-//     id: 7,
-//     title: 'ali',
-//     image: 'https://picsum.photos/200/300?random=2',
-//     date: '12/12/12',
-//     theme: ' type theme ',
-//     description: ' description description',
-//   },
-//   {
-//     id: 8,
-//     title: 'ali',
-//     image: 'https://picsum.photos/200/300?random=2',
-//     date: '12/12/12',
-//     theme: ' type theme ',
-//     description: ' description description',
-//   },
-//   {
-//     id: 9,
-//     title: 'ali',
-//     image: 'https://picsum.photos/200/300?random=2',
-//     date: '12/12/12',
-//     theme: ' type theme ',
-//     description: ' description description',
-//   },
-//   {
-//     id: 10,
-//     title: 'ali',
-//     image: 'https://picsum.photos/200/300?random=2',
-//     date: '12/12/12',
-//     theme: ' type theme ',
-//     description: ' description description',
-//   },
-//   {
-//     id: 11,
-//     title: 'ali',
-//     image: 'https://picsum.photos/200/300?random=2',
-//     date: '12/12/12',
-//     theme: ' type theme ',
-//     description: ' description description',
-//   },
-//   {
-//     id: 12,
-//     title: 'ali',
-//     image: 'https://picsum.photos/200/300?random=2',
-//     date: '12/12/12',
-//     theme: ' type theme ',
-//     description: ' description description',
-//   },
-//   {
-//     id: 13,
-//     title: 'ali',
-//     image: 'https://picsum.photos/200/300?random=2',
-//     date: '12/12/12',
-//     theme: ' type theme ',
-//     description: ' description description',
-//   },
-//   {
-//     id: 14,
-//     title: 'ali',
-//     image: 'https://picsum.photos/200/300?random=2',
-//     date: '12/12/12',
-//     theme: ' type theme ',
-//     description: ' description description',
-//   },
-//   {
-//     id: 15,
-//     title: 'ali',
-//     image: 'https://picsum.photos/200/300?random=2',
-//     date: '12/12/12',
-//     theme: ' type theme ',
-//     description: ' description description',
-//   },
-// ];
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -173,6 +50,8 @@ const Blogs = () => {
   const theme = useTheme();
   const lgDown = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const navigate = useNavigate();
+
   const [filter, setFilter] = useState('');
   const [filteredBlogs, setFilteredBlogs] = useState([]);
   const [page, setPage] = React.useState(0);
@@ -192,7 +71,11 @@ const Blogs = () => {
     setPage(0);
   };
 
-  const handleClick = () => {};
+  const handleClick = (e) => {
+    const { blogid } = e.currentTarget.dataset;
+
+    navigate(`/app/blogs/${blogid}`);
+  };
   const handleSearch = (e) => {
     const data = e.target.value;
     setFilter(data);
@@ -270,15 +153,17 @@ const Blogs = () => {
               .map((blog) => (
                 <Grid item lg={3}>
                   <Card className={classes.root} key={blog.id}>
-                    <CardActionArea>
+                    <CardActionArea
+                      onClick={handleClick}
+                      data-blogid={blog._id}
+                    >
                       <CardMedia
                         className={classes.media}
                         image={blog.images?.[0]}
                         title={blog.title}
-                        onClick={handleClick}
                       />
                       <CardContent>
-                        <Box onClick={handleClick}>
+                        <Box>
                           <Box
                             style={{
                               display: 'grid',

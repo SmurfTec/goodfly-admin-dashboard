@@ -112,7 +112,7 @@ const OfferView = ({ offer }) => {
             <StagesTab stages={offer?.stages} />
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
-            <FormalitiesTab formalities={offer?.formalities} />
+            <FormalitiesTab formality={offer?.formality} />
           </TabPanel>
         </Box>
       </Box>

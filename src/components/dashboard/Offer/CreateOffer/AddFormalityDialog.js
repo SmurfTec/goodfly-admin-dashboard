@@ -7,23 +7,33 @@ import {
   TextField,
   Button,
   Box,
+  Typography,
 } from '@material-ui/core';
 import { useManyInputs } from 'hooks';
+import { Editor } from '@tinymce/tinymce-react';
 
 const AddFormalityDialog = ({ open, toggleDialog, submit }) => {
   const initialState = {
     title: '',
-    subtitle: '',
-    description: '',
+    content: '',
   };
-  const [state, handleTxtChange, , , resetState] = useManyInputs(initialState);
+  const [state, handleTxtChange, , , resetState, setState] =
+    useManyInputs(initialState);
+
+  const handleEditorChange = (e, editor) => {
+    // console.clear();
+    let newContent = editor.getContent();
+    // if (content !== state.content)
+    setState((st) => ({ ...st, content: newContent }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    resetState();
 
     submit(state);
-    resetState();
   };
+
   return (
     <Dialog open={open} fullWidth onClose={toggleDialog}>
       <form onSubmit={handleSubmit}>
@@ -42,34 +52,32 @@ const AddFormalityDialog = ({ open, toggleDialog, submit }) => {
             onChange={handleTxtChange}
             value={state.title}
           />
-          <TextField
-            type='text'
-            placeholder='Subtitle '
-            name='subtitle'
-            size='small'
-            style={{
-              backgroundColor: '#fff',
-              width: '100%',
-              margin: '0.5rem 0rem 1rem',
+          <Typography sx={{ mt: 2, mb: 2 }} variant='h5'>
+            Description
+          </Typography>
+          <Editor
+            initialValue=''
+            init={{
+              height: 500,
+              menubar: false,
+              plugins: [
+                'advlist autolink lists link',
+                'charmap preview anchor help',
+                'searchreplace visualblocks code',
+                'insertdatetime paste wordcount',
+              ],
+              toolbar:
+                'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+              content_style:
+                'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
             }}
-            required
-            onChange={handleTxtChange}
-            value={state.subtitle}
-          />
-          <TextField
-            type='text'
-            placeholder='Description of Formality '
-            name='description'
-            multiline
-            rows={10}
-            style={{
-              backgroundColor: '#fff',
-              width: '100%',
-              marginTop: '1rem',
-            }}
-            required
-            onChange={handleTxtChange}
-            value={state.description}
+            apiKey='xof67rwsnw3lkcm0cgnxpki7y4onajon4fxcahqdpmog5qba'
+            // onChange={handleEditorChange}
+            onEditorChange={handleEditorChange}
+            value={state.content}
           />
         </DialogContent>
         <DialogActions>

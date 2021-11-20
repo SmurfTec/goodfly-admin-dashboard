@@ -16,6 +16,7 @@ import {
   RadioGroup,
   MenuItem,
   Radio,
+  Switch,
 } from '@material-ui/core';
 
 import Autocomplete from '@mui/material/Autocomplete';
@@ -31,6 +32,7 @@ import { countries, regions } from 'Utils/constants';
 const OffersTabs = ({ classes, value, handleNext, offer }) => {
   const initialState = {
     image: '',
+    upload: false,
     title: '',
     country: 'Albania',
     region: 'asis',
@@ -54,8 +56,14 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
     },
   };
 
-  const [state, handleTxtChange, , changeInput, resetState, setState] =
-    useManyInputs(initialState);
+  const [
+    state,
+    handleTxtChange,
+    handleToggleChange,
+    changeInput,
+    resetState,
+    setState,
+  ] = useManyInputs(initialState);
 
   useEffect(() => {
     if (!offer) return;
@@ -152,13 +160,24 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!state.image) toast.error('Offer Must have an Image');
-    else handleNext(state, resetState);
-  };
+    if (!state.image) {
+      toast.error('Offer Must have an Image');
+      return;
+    }
+    if (
+      state.isDates === 'yes' &&
+      state.startingDate < getMuiDateFormat(new Date())
+    ) {
+      toast.error('Starting date must NOT be in past');
+      return;
+    }
+    if (state.isDates === 'yes' && state.startingDate >= state.endingDate) {
+      toast.error('Starting date must be less than Ending Date');
+      return;
+    }
 
-  useEffect(() => {
-    console.log(`state`, state);
-  }, [state]);
+    handleNext(state, resetState);
+  };
 
   // return <h1>Returned</h1>;
   return (
@@ -228,6 +247,18 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                 margin: '3rem 1rem 1rem',
               }}
             >
+              <FormControlLabel
+                sx={{ marginLeft: 'auto', marginBottom: 2 }}
+                control={
+                  <Switch
+                    checked={state.upload}
+                    onChange={handleToggleChange}
+                    name='upload'
+                    color='primary'
+                  />
+                }
+                label='upload'
+              />
               <FormControl
                 size='small'
                 style={{
@@ -276,7 +307,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   placeholder='Price'
                   size='small'
                   type='number'
-                  inputProps={{ min: 0 }}
+                  inputProps={{ min: 100 }}
                   className={classes.textInput}
                   name='price'
                   value={state.price}
