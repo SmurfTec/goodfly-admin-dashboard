@@ -498,12 +498,24 @@ const DetailReservation = () => {
                   <Grid item md={5}>
                     <Box className={classes.inputBox}>
                       <Typography variant='h5' className={classes.typo}>
-                        Name
+                        firstName
                       </Typography>
                       <TextField
                         hiddenLabel
                         id='filled-hidden-label-small'
-                        value={reservation.visitor.name}
+                        value={reservation.visitor.firstName}
+                        size='small'
+                        className={classes.textInput}
+                      />
+                    </Box>{' '}
+                    <Box className={classes.inputBox}>
+                      <Typography variant='h5' className={classes.typo}>
+                        Last Name
+                      </Typography>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        value={reservation.visitor.lastName}
                         size='small'
                         className={classes.textInput}
                       />
@@ -516,18 +528,6 @@ const DetailReservation = () => {
                         hiddenLabel
                         id='filled-hidden-label-small'
                         value={reservation.visitor.spouseName}
-                        size='small'
-                        className={classes.textInput}
-                      />
-                    </Box>{' '}
-                    <Box className={classes.inputBox}>
-                      <Typography variant='h5' className={classes.typo}>
-                        First Name
-                      </Typography>
-                      <TextField
-                        hiddenLabel
-                        id='filled-hidden-label-small'
-                        value={reservation.visitor.firstName}
                         size='small'
                         className={classes.textInput}
                       />

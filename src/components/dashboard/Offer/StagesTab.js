@@ -28,7 +28,11 @@ const StagesTab = ({ stages }) => {
             <React.Fragment key={stage._id}>
               <Grid container>
                 <Grid item sm={3} lg={2}>
-                  <img src={stage?.images[0]} alt='data' />
+                  <img
+                    style={{ width: '100%' }}
+                    src={stage?.images[0]?.src}
+                    alt='data'
+                  />
                   <Box
                     style={{
                       width: 190,
@@ -40,7 +44,7 @@ const StagesTab = ({ stages }) => {
                   >
                     {stage.images.slice(1, stage.images.length).map((el) => (
                       <img
-                        src={el}
+                        src={el?.src}
                         style={{ marginBottom: 10, width: 88 }}
                         alt='data'
                       />
@@ -50,9 +54,7 @@ const StagesTab = ({ stages }) => {
                 <Grid item sm={2} lg={1}></Grid>
                 <Grid item sm={7} lg={9}>
                   <Typography variant='h5' textAlign='left' gutterBottom>
-                    {`${new Date(stage.date).toDateString()} Day : ${idx} ${
-                      stage.location
-                    }`}
+                    {`Stage : ${idx + 1} ${stage.location}`}
                   </Typography>
                   <Typography variant='h6' textAlign='left' fontWeight='normal'>
                     {stage.description}

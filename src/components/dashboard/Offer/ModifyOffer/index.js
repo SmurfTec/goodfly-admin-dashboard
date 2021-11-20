@@ -12,6 +12,7 @@ import {
 } from 'Utils/objectMethods';
 import { a11yProps } from 'components/common/TabPanel';
 import { useParams } from 'react-router';
+import { handleCatch, makeReq } from 'Utils/makeReq';
 
 const useStyles = makeStyles((theme) => ({
   options: {
@@ -142,6 +143,7 @@ const useStyles = makeStyles((theme) => ({
 const ModifyOffer = () => {
   const classes = useStyles();
   const { id } = useParams();
+  const [formalities, setFormalities] = useState([]);
 
   const { updateOffer, getOfferById, offers } = useContext(OffersContext);
 
@@ -152,6 +154,17 @@ const ModifyOffer = () => {
   useEffect(() => {
     setState(getOfferById(id));
   }, [getOfferById, offers, id]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const resData = await makeReq(`/formalities`);
+        setFormalities(resData.formalities);
+      } catch (err) {
+        handleCatch(err);
+      }
+    })();
+  }, []);
 
   const gotoNextStep = () => {
     setValue((st) => st + 1);
@@ -187,14 +200,17 @@ const ModifyOffer = () => {
       formalities: data,
     };
 
-    // * Fix Services
-    let servicesArr = Object.entries(newOffer.services);
-    servicesArr = servicesArr.filter(([key, value]) => !!value);
-    servicesArr = servicesArr.map(([key, val]) => key);
-    newOffer = {
-      ...newOffer,
-      services: servicesArr,
-    };
+    // // * Fix Services
+    // console.log(`services before`, newOffer.services);
+    // let servicesArr = Object.entries(newOffer.services);
+    // servicesArr = servicesArr.filter(([key, value]) => !!value);
+    // servicesArr = servicesArr.map(([key, val]) => key);
+    // newOffer = {
+    //   ...newOffer,
+    //   services: servicesArr,
+    // };
+
+    // console.log(`new services`, servicesArr);
 
     // * If No dates, no need to send starting and ending date
     if (newOffer.isDates === 'no') {
@@ -281,6 +297,8 @@ const ModifyOffer = () => {
               classes={classes}
               handleNext={validateFormalitiesTab}
               offer={state}
+              formalities={formalities}
+              offerFormality={state?.formality}
             />
           </Box>
         </Box>

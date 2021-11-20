@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Box, Tab, Tabs } from '@material-ui/core';
 import OffersTabs from './OffersTabs';
@@ -7,6 +7,7 @@ import FormalitiesTab from './FormalitiesTab';
 import { OffersContext } from 'Contexts/OffersContext';
 import { removeKeyIncludingString } from 'Utils/objectMethods';
 import { a11yProps } from 'components/common/TabPanel';
+import { handleCatch, makeReq } from 'Utils/makeReq';
 
 const useStyles = makeStyles((theme) => ({
   options: {
@@ -137,36 +138,49 @@ const useStyles = makeStyles((theme) => ({
 const CreateOffer = () => {
   const classes = useStyles();
   const { createOffer } = useContext(OffersContext);
+  const [formalities, setFormalities] = useState([]);
 
+  // TODO Edit it to 0
   const [value, setValue] = useState(0);
 
   const [state, setState] = useState({});
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const resData = await makeReq(`/formalities`);
+        setFormalities(resData.formalities);
+      } catch (err) {
+        handleCatch(err);
+      }
+    })();
+  }, []);
 
   const gotoNextStep = () => {
     setValue((st) => st + 1);
   };
 
   const validateOffersTab = (data, resetData) => {
-    console.log(`data`, data);
+    // console.log(`data`, data);
     setState(data);
     gotoNextStep();
   };
 
   const validateStagesTab = (data, resetData) => {
-    console.log(`data`, data);
+    // console.log(`data`, data);
     setState((st) => ({ ...st, stages: data }));
     gotoNextStep();
   };
 
   const validateFormalitiesTab = (data, resetData) => {
-    console.log(`data`, data);
+    // console.log(`data`, data);
     // setState((st) => ({ ...st, formalities: data }));
     let newOffer = {
       ...state,
-      formalities: data,
+      formality: data.formality,
     };
 
-    console.log(`newOffer before`, newOffer);
+    // console.log(`newOffer before`, newOffer);
 
     // * Fix Services
     let servicesArr = Object.entries(newOffer.services);
@@ -193,11 +207,11 @@ const CreateOffer = () => {
     // * Change Country and Region from  { code: 'AD', label: 'Andorra', phone: '376' } to 'Andorra'
     newOffer.country = newOffer.country.label;
     newOffer.region = newOffer.region.label;
-    console.log(`newOffer.region.label`, newOffer.region.label);
+    // console.log(`newOffer.region.label`, newOffer.region.label);
 
-    console.log(`newOffer after`, newOffer);
+    // console.log(`newOffer after`, newOffer);
 
-    console.log(`newOffer after`, newOffer);
+    // console.log(`newOffer after`, newOffer);
     createOffer(newOffer);
     // gotoNextStep();
   };
@@ -266,6 +280,7 @@ const CreateOffer = () => {
               value={value}
               classes={classes}
               handleNext={validateFormalitiesTab}
+              formalities={formalities}
             />
           </Box>
         </Box>

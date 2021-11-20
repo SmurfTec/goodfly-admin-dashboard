@@ -67,7 +67,7 @@ const Offers = () => {
   return (
     <div style={{ marginTop: '3rem' }}>
       <Typography variant='h5' m={2}>
-        Offers Mangment
+        Offers Management
       </Typography>
       <Grid container>
         <Grid item sm={10}>

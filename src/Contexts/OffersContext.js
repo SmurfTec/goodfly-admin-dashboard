@@ -87,7 +87,7 @@ export const OffersProvider = ({ children }) => {
     try {
       const { trip } = await makeReq(`/trips`, { body: newOffer }, 'POST');
 
-      pushOffer(trip);
+      setOffers([...offers, trip]);
       toast.success('Offer Created Sucessfully !');
       navigate('/app/offers');
     } catch (err) {

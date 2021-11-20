@@ -20,17 +20,19 @@ export const ReservationsProvider = ({ children }) => {
     clearReservations,
   ] = useArray([], '_id');
 
+  const fetchReservations = async () => {
+    try {
+      const resData = await makeReq(`/purchases`);
+      setReservations(resData.purchases);
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
   useEffect(() => {
     // * If user is logged In , only then fetch data
     if (user) {
-      (async () => {
-        try {
-          const resData = await makeReq(`/purchases`);
-          setReservations(resData.purchases);
-        } catch (err) {
-          handleCatch(err);
-        }
-      })();
+      fetchReservations();
     }
     // * Clear the State after user is logged Out
     else {
@@ -95,6 +97,7 @@ export const ReservationsProvider = ({ children }) => {
         deleteReservation,
         modifyReservation,
         makePayment,
+        fetchReservations,
       }}
     >
       {children}

@@ -160,13 +160,24 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!state.image) toast.error('Offer Must have an Image');
-    else handleNext(state, resetState);
-  };
+    if (!state.image) {
+      toast.error('Offer Must have an Image');
+      return;
+    }
+    if (
+      state.isDates === 'yes' &&
+      state.startingDate < getMuiDateFormat(new Date())
+    ) {
+      toast.error('Starting date must NOT be in past');
+      return;
+    }
+    if (state.isDates === 'yes' && state.startingDate >= state.endingDate) {
+      toast.error('Starting date must be less than Ending Date');
+      return;
+    }
 
-  useEffect(() => {
-    console.log(`state`, state);
-  }, [state]);
+    handleNext(state, resetState);
+  };
 
   // return <h1>Returned</h1>;
   return (
@@ -296,7 +307,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   placeholder='Price'
                   size='small'
                   type='number'
-                  inputProps={{ min: 0 }}
+                  inputProps={{ min: 100 }}
                   className={classes.textInput}
                   name='price'
                   value={state.price}
