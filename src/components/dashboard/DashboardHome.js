@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 // * MUI ----------------
 import {
@@ -41,9 +41,22 @@ import useStyles from './DashboardHomeStyles';
 import { ReactSVG } from 'react-svg';
 import useTextInput from 'hooks/useTextInput';
 import CreateCard from './CreateCard';
+import { AuthContext } from 'Contexts/AuthContext';
+import { OrderContext } from 'Contexts/OrderContext';
+import { OffersContext } from 'Contexts/OffersContext';
+import { ReservationsContext } from 'Contexts/ReservationsContext';
+import { CustomersContext } from 'Contexts/CustomersContext';
 
 const DashboardHome = () => {
   const classes = useStyles();
+  const { user } = useContext(AuthContext);
+  const { customers } = useContext(CustomersContext);
+  const { orders } = useContext(OrderContext);
+  const { offers, customOffers } = useContext(OffersContext);
+  const { reservations } = useContext(ReservationsContext);
+
+  // TODO add mesages, comments...
+
   const [clientNumber, handleTxtChange] = useTextInput('');
   const [searchBy, setSearchBy] = useState('plane');
 
@@ -53,18 +66,12 @@ const DashboardHome = () => {
 
   return (
     <Container>
-      <Box sx={{ maxWidth: 900 }} mb={8}>
+      <Box sx={{ maxWidth: 900 }} mb={8} mt={2}>
         <Typography variant='h5' color='textSecondary' gutterBottom>
-          Welcome to goodgly Dashboard . you staffer
+          Welcome to goodgly Dashboard . {user?.fullName}
         </Typography>
-        <Typography
-          variant='h5'
-          fontWeight='normal'
-          color='textSecondary'
-        >
-          Welcome to goodgly Dashboard . you staffer Welcome to
-          goodgly Dashboard . you staffer Welcome to goodgly Dashboard
-          . you staffer Welcome to goodgly Dashboard . you staffer
+        <Typography variant='h5' fontWeight='normal' color='textSecondary'>
+          Welcome to goodfly Dashboard . Hope you are going good .
         </Typography>
       </Box>
       <Box
@@ -86,10 +93,7 @@ const DashboardHome = () => {
           <Box className={classes.MiniCard}>
             <Box className={classes.image}>
               <Box>
-                <Add
-                  size={35}
-                  style={{ color: '#cccccc', fontSize: '90px' }}
-                />
+                <Add size={35} style={{ color: '#cccccc', fontSize: '90px' }} />
                 {/* <Icon size={35} style={{ color: '#fff' }} /> */}
               </Box>
               <Typography style={{ color: '#fff' }}>
@@ -138,7 +142,7 @@ const DashboardHome = () => {
             borderRadius: '0.5rem',
           }}
         >
-          <LineChart />
+          <LineChart reservations={reservations} orders={orders} />
         </Grid>
         <Grid
           sx={{
@@ -166,19 +170,19 @@ const DashboardHome = () => {
               <Typography variant='h5' color='InfoText'>
                 Reservations
               </Typography>
-              <Badge badgeContent={42} color='primary' />
+              <Badge badgeContent={orders?.length || 0} color='primary' />
             </Box>
             <Box className={classes.InfoItem}>
               <Typography variant='h5' color='InfoText'>
                 Tailor-Made Trips
               </Typography>
-              <Badge badgeContent={12} color='primary' />
+              <Badge badgeContent={customOffers?.length || 0} color='primary' />
             </Box>
             <Box className={classes.InfoItem}>
               <Typography variant='h5' color='InfoText'>
                 Store Orders
               </Typography>
-              <Badge badgeContent={23} color='primary' />
+              <Badge badgeContent={reservations?.length || 0} color='primary' />
             </Box>
             <Box className={classes.InfoItem}>
               <Typography variant='h5' color='InfoText'>
@@ -222,7 +226,7 @@ const DashboardHome = () => {
                 color='primary'
                 startIcon={<Person />}
               >
-                2578
+                {customers?.length || 0}
               </Button>
             </Box>
             <Box className={classes.InfoButton}>
@@ -234,7 +238,7 @@ const DashboardHome = () => {
                 color='primary'
                 startIcon={<Work />}
               >
-                2328
+                {orders?.length || 0}
               </Button>
             </Box>
           </Box>
@@ -300,11 +304,7 @@ const DashboardHome = () => {
               exclusive
               onChange={handleChange}
             >
-              <ToggleButton
-                sx={{ border: 0 }}
-                value='plane'
-                aria-label='plane'
-              >
+              <ToggleButton sx={{ border: 0 }} value='plane' aria-label='plane'>
                 <Button
                   disableRipple
                   fullWidth
@@ -313,18 +313,13 @@ const DashboardHome = () => {
                   variant='outlined'
                   sx={{
                     color: searchBy === 'plane' ? '#46B9F6' : '#000',
-                    borderColor:
-                      searchBy === 'plane' ? '#46B9F6' : '#000',
+                    borderColor: searchBy === 'plane' ? '#46B9F6' : '#000',
                   }}
                 >
                   Search for a plane ticket
                 </Button>
               </ToggleButton>
-              <ToggleButton
-                sx={{ border: 0 }}
-                value='boat'
-                aria-label='boat'
-              >
+              <ToggleButton sx={{ border: 0 }} value='boat' aria-label='boat'>
                 <Button
                   disableRipple
                   fullWidth
@@ -333,8 +328,7 @@ const DashboardHome = () => {
                   variant='outlined'
                   sx={{
                     color: searchBy === 'boat' ? '#46B9F6' : '#000',
-                    borderColor:
-                      searchBy === 'boat' ? '#46B9F6' : '#000',
+                    borderColor: searchBy === 'boat' ? '#46B9F6' : '#000',
                   }}
                 >
                   Find a boat ticket
@@ -352,8 +346,7 @@ const DashboardHome = () => {
                   size={'small'}
                   variant='outlined'
                   sx={{
-                    color:
-                      searchBy === 'reservation' ? '#46B9F6' : '#000',
+                    color: searchBy === 'reservation' ? '#46B9F6' : '#000',
                     borderColor:
                       searchBy === 'reservation' ? '#46B9F6' : '#000',
                   }}
@@ -373,10 +366,8 @@ const DashboardHome = () => {
                   size={'small'}
                   variant='outlined'
                   sx={{
-                    color:
-                      searchBy === 'vehicle' ? '#46B9F6' : '#000',
-                    borderColor:
-                      searchBy === 'vehicle' ? '#46B9F6' : '#000',
+                    color: searchBy === 'vehicle' ? '#46B9F6' : '#000',
+                    borderColor: searchBy === 'vehicle' ? '#46B9F6' : '#000',
                   }}
                 >
                   Find a vehicle rental
