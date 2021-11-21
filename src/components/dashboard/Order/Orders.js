@@ -160,7 +160,7 @@ const Orders = () => {
                           {row._id}
                         </TableCell>
                         <TableCell align='right'>
-                          {row.date}
+                          {new Date(row.createdAt).toDateString()}
                         </TableCell>
                         <TableCell align='right'>
                           {row.status}

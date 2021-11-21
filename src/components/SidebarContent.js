@@ -74,27 +74,27 @@ const NavItems = [
       },
     ],
   },
-  {
-    id: '/categories',
-    labelText: 'Categories',
-    icon: Folder,
-    children: [
-      {
-        id: '/categories',
-        labelText: 'Category Management',
-        icon: FiberManualRecord,
-        color: '#1a73e8',
-        bgColor: '#e8f0fe',
-      },
-      {
-        id: '11',
-        labelText: 'Sub Category Management',
-        icon: FiberManualRecord,
-        color: '#1a73e8',
-        bgColor: '#e8f0fe',
-      },
-    ],
-  },
+  // {
+  //   id: '/categories',
+  //   labelText: 'Categories',
+  //   icon: Folder,
+  //   children: [
+  //     {
+  //       id: '/categories',
+  //       labelText: 'Category Management',
+  //       icon: FiberManualRecord,
+  //       color: '#1a73e8',
+  //       bgColor: '#e8f0fe',
+  //     },
+  //     {
+  //       id: '11',
+  //       labelText: 'Sub Category Management',
+  //       icon: FiberManualRecord,
+  //       color: '#1a73e8',
+  //       bgColor: '#e8f0fe',
+  //     },
+  //   ],
+  // },
   {
     id: '/products',
     labelText: 'Shop',

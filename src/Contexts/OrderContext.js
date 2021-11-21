@@ -44,11 +44,7 @@ export const OrderProvider = ({ children }) => {
         'PATCH'
       );
       toast.success('Order Updated Successfully !');
-      // Update Order in the context array
       updateOrder(id, resData.order);
-      // setTimeout(() => {
-      //   navigate('/app/staffers');
-      // }, 2000);
     } catch (err) {
       handleCatch(err);
     }

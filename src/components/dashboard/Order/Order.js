@@ -37,11 +37,11 @@ import {
   Printer as PrintIcon,
   Play as PlayIcon,
 } from 'react-feather';
+
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { a11yProps, TabPanel } from 'components/common/TabPanel';
 import { toast } from 'react-toastify';
-import useManyInputs from 'hooks/useManyInputs';
 import { OrderContext } from 'Contexts/OrderContext';
 import { useParams } from 'react-router';
 
@@ -57,23 +57,7 @@ const rows = [
     'GF12333',
     '11/07/2021'
   ),
-  createData(
-    'Muhammadali',
-    ' ali@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-
-  createData(
-    'Muhammadumer',
-    ' umer@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
 ];
-const products = [1, 2, 3, 4, 5];
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -142,7 +126,7 @@ const styles = makeStyles((theme) => ({
   address: {
     width: '100%',
     textAlign: 'center',
-    margin: '1rem',
+    margin: '0rem 0.5rem 0.5rem',
   },
 }));
 
@@ -173,8 +157,15 @@ const Order = () => {
     console.log('order :>> ', order);
     if (!order || order === 'loading') setLoading(true);
     setSingleOrder(order);
+    setOrderStatus(order.status);
   }, [id, orders]);
+
   console.log('singleOrder :>> ', singleOrder);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    modifyOrder(id, { status: orderStatus });
+  };
 
   const handleOrderStatus = (event) => {
     setOrderStatus(event.target.value);
@@ -203,7 +194,7 @@ const Order = () => {
   return (
     <div style={{ marginTop: '3rem' }}>
       <Typography variant='h4' m={3}>
-        Order REf : GF125487
+        Order REf : {singleOrder?._id}
       </Typography>
       <Box className={classes.main}>
         <Box sx={{ width: '100%' }}>
@@ -243,9 +234,15 @@ const Order = () => {
                     value={orderStatus}
                     onChange={handleOrderStatus}
                   >
-                    <MenuItem value=''>One</MenuItem>
-                    <MenuItem value=''>Two</MenuItem>
-                    <MenuItem value=''>Three</MenuItem>
+                    <MenuItem value='unpaid' disabled>
+                      Unpaid
+                    </MenuItem>
+                    <MenuItem value='paid' disabled>
+                      Paid
+                    </MenuItem>
+                    <MenuItem value='inProgress'>InProgress</MenuItem>
+                    <MenuItem value='dispatched'>Dispatched</MenuItem>
+                    <MenuItem value='delivered'>Delivered</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
@@ -263,7 +260,10 @@ const Order = () => {
                   <SidebarIcon className={classes.icons} />
                   <PrintIcon className={classes.icons} />
                   <Trash2Icon className={classes.icons} />
-                  <PlayIcon className={classes.icons} />
+                  <PlayIcon
+                    className={classes.icons}
+                    onClick={handleSubmit}
+                  />
                 </Box>
               </Box>
             </Tabs>
@@ -273,15 +273,15 @@ const Order = () => {
 
           <Box className={classes.options}>
             <TabPanel value={value} index={0}>
-              {products &&
-                products.map((p, index) => (
+              {singleOrder &&
+                singleOrder.orderItems.map((order, index) => (
                   <Box
                     style={{
                       display: 'flex',
                       justifyContent: 'left',
                       margin: '1.5rem 1rem 1rem',
                     }}
-                    key={p.index}
+                    key={order.index}
                   >
                     <Box
                       style={{
@@ -294,7 +294,7 @@ const Order = () => {
                           height: '9.5rem',
                           width: lgDown ? '7rem' : '8rem',
                         }}
-                        image='https://picsum.photos/200/300?random=2'
+                        image={order.product.images[0].image}
                         title='product'
                       />
                       <Box
@@ -311,7 +311,7 @@ const Order = () => {
                           }}
                         >
                           <Typography variant='h5' m={1}>
-                            productname - ref code
+                            {order.product.name} - {order._id}
                           </Typography>
 
                           <Box
@@ -322,7 +322,7 @@ const Order = () => {
                             }}
                           >
                             <Typography variant='text'>
-                              Status
+                              {order.status}
                             </Typography>
                             <Switch
                               checked={statusSwitch}
@@ -334,19 +334,18 @@ const Order = () => {
                             />
                           </Box>
                         </Box>
-                        <Box
-                          style={{
-                            backgroundColor: '#f2f2f2',
-                            height: '7rem',
-                            display: 'inline-block',
-                            padding: '3%',
-                          }}
-                        >
-                          <Typography variant='text'>
-                            The variant="fullWidth" prop should be
-                            used for smaller views. This demo also
-                            uses
-                          </Typography>
+                        <Box style={{ backgroundColor: '#f2f2f2' }}>
+                          <Box
+                            style={{
+                              height: '7rem',
+                              display: 'inline-block',
+                              padding: '3%',
+                            }}
+                          >
+                            <Typography variant='text'>
+                              {order.product.description}
+                            </Typography>
+                          </Box>
                         </Box>
                       </Box>
                     </Box>
@@ -357,15 +356,14 @@ const Order = () => {
                       ml={5}
                     >
                       <Typography variant='h5' m={2}>
-                        {' '}
-                        Order Quantity:{' '}
+                        Order Quantity:
                       </Typography>
                       <Typography
                         variant='h1'
                         m={2}
                         style={{ textAlign: 'center' }}
                       >
-                        1
+                        {order.quantity}
                       </Typography>
                     </Box>
                   </Box>
@@ -373,8 +371,7 @@ const Order = () => {
             </TabPanel>
             <TabPanel value={value} index={1}>
               <Typography variant='h5'>
-                {' '}
-                Client Ref :1205489
+                Client Ref :{singleOrder?.visitor._id}
               </Typography>
               <Box
                 mt={3}
@@ -387,28 +384,28 @@ const Order = () => {
                 <TextField
                   id='standard-helperText'
                   label='name'
-                  placeholder='Muhammad Zain'
+                  value={singleOrder?.visitor.firstName}
                   variant='outlined'
                   inputProps={{ readOnly: true }}
                 />
                 <TextField
                   id='standard-helperText'
                   label='firstname'
-                  placeholder='Muhammad'
+                  value={singleOrder?.visitor.lastName}
                   variant='outlined'
                   inputProps={{ readOnly: true }}
                 />
                 <TextField
                   id='standard-helperText'
                   label='email'
-                  placeholder='Muhammadzain8@gmail.com'
+                  value={singleOrder?.visitor.email}
                   variant='outlined'
                   inputProps={{ readOnly: true }}
                 />
                 <TextField
                   id='standard-helperText'
                   label='Telephone'
-                  placeholder='+33 600 00 000'
+                  value={singleOrder?.visitor.telephoneNumber}
                   variant='outlined'
                   inputProps={{ readOnly: true }}
                 />
@@ -433,11 +430,23 @@ const Order = () => {
                     variant='h4'
                     className={classes.address}
                   >
-                    Shipping Address{' '}
+                    Shipping Address
                   </Typography>
                   <Typography className={classes.address}>
-                    Text fields allow users to enter text into a UI.
-                    They typically appear in forms and dialogs.
+                    <b>Address:</b>{' '}
+                    {singleOrder?.shippingAddress.address}
+                  </Typography>
+                  <Typography className={classes.address}>
+                    <b>country:</b>
+                    {singleOrder?.shippingAddress.country}
+                  </Typography>
+                  <Typography className={classes.address}>
+                    <b>city:</b>
+                    {singleOrder?.shippingAddress.city}
+                  </Typography>
+                  <Typography className={classes.address}>
+                    <b>postalCode:</b>
+                    {singleOrder?.shippingAddress.postalCode}
                   </Typography>
                 </Box>
                 <Box
@@ -453,11 +462,23 @@ const Order = () => {
                     variant='h4'
                     className={classes.address}
                   >
-                    Billing Address{' '}
+                    Billing Address
                   </Typography>
                   <Typography className={classes.address}>
-                    Text fields allow users to enter text into a UI.
-                    They typically appear in forms and dialogs.
+                    <b>Address:</b>{' '}
+                    {singleOrder?.shippingAddress.address}
+                  </Typography>
+                  <Typography className={classes.address}>
+                    <b>country:</b>
+                    {singleOrder?.shippingAddress.country}
+                  </Typography>
+                  <Typography className={classes.address}>
+                    <b>city:</b>
+                    {singleOrder?.shippingAddress.city}
+                  </Typography>
+                  <Typography className={classes.address}>
+                    <b>postalCode:</b>
+                    {singleOrder?.shippingAddress.postalCode}
                   </Typography>
                 </Box>
               </Box>
@@ -474,62 +495,25 @@ const Order = () => {
                   justifyContent: 'space-around',
                 }}
               >
-                <FormControl
-                  fullWidth
-                  size='small'
-                  style={{
-                    width: '35%',
-                    backgroundColor: '#fff',
-                    marginBottom: 7,
-                  }}
-                >
-                  <InputLabel id='demo-simple-select-label'>
-                    Delivery Method
-                  </InputLabel>
-
-                  <Select
-                    labelId='demo-simple-select-label'
-                    id='demo-simple-select'
-                    value={deliveryMethod}
-                    label='Delivery Method'
-                    onChange={handleDeliveryMethod}
-                  >
-                    <MenuItem value={10}>One</MenuItem>
-                    <MenuItem value={20}>Two</MenuItem>
-                    <MenuItem value={30}>Three</MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl
-                  fullWidth
-                  size='small'
-                  style={{
-                    width: '30%',
-                    backgroundColor: '#fff',
-                    marginBottom: 7,
-                  }}
-                >
-                  <InputLabel id='demo-simple-select-label'>
-                    Relay Point
-                  </InputLabel>
-
-                  <Select
-                    labelId='demo-simple-select-label'
-                    id='demo-simple-select'
-                    value={relayPoints}
-                    label='RelayPoints'
-                    onChange={handleRelayPoints}
-                  >
-                    <MenuItem value={10}>One</MenuItem>
-                    <MenuItem value={20}>Two</MenuItem>
-                    <MenuItem value={30}>Three</MenuItem>
-                  </Select>
-                </FormControl>
+                <TextField
+                  id='standard-helperText'
+                  label='Delivery Method'
+                  value={singleOrder?.deliveryMethod}
+                  variant='outlined'
+                  inputProps={{ readOnly: true }}
+                />
+                <TextField
+                  id='standard-helperText'
+                  label='Relay Point'
+                  value={singleOrder?.relayPoint}
+                  inputProps={{ readOnly: true }}
+                />
 
                 <Button
                   variant='contained'
                   style={{ width: '12rem' }}
                 >
-                  Add a Carrier{' '}
+                  Add a Carrier
                 </Button>
               </Box>
               <Box
@@ -552,7 +536,7 @@ const Order = () => {
                     variant='h4'
                     className={classes.address}
                   >
-                    Shipping Address{' '}
+                    Shipping Address
                   </Typography>
                   <Typography className={classes.address}>
                     Text fields allow users to enter text into a UI.
@@ -572,7 +556,7 @@ const Order = () => {
                     variant='h4'
                     className={classes.address}
                   >
-                    Billing Address{' '}
+                    Billing Address
                   </Typography>
                   <Typography className={classes.address}>
                     Text fields allow users to enter text into a UI.
@@ -593,7 +577,7 @@ const Order = () => {
                 >
                   Download the packaging Slip
                 </Button>
-                <Button variant='contained'>
+                <Button variant='contained' onClick={handleSubmit}>
                   Validate the Modifications
                 </Button>
               </Box>
@@ -640,30 +624,13 @@ const Order = () => {
                           {row.protein}
                         </TableCell>
                         <TableCell align='right'>
-                          <Button>Detail</Button>{' '}
-                        </TableCell>
-                        <TableCell align='right'>
-                          <Button>Edit</Button>{' '}
+                          <Button>Detail</Button>
                         </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
               </TableContainer>
-              <Box
-                style={{
-                  display: 'flex',
-                  justifyContent: 'right',
-                  margin: '1rem',
-                }}
-              >
-                <Button
-                  variant='contained'
-                  onClick={openManulPayment}
-                >
-                  Add a Manual Payment
-                </Button>
-              </Box>
             </TabPanel>
           </Box>
         </Box>
