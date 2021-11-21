@@ -22,13 +22,36 @@ export const BlogsProvider = ({ children }) => {
     clearBlogs,
   ] = useArray([], '_id');
 
+  const [
+    blogComments,
+    setBlogComments,
+    pushBlogComment,
+    filterBlogComment,
+    updateBlogComment,
+    removeBlogComment,
+    clearBlogComments,
+  ] = useArray([], '_id');
+
+  const fetchBlogs = async () => {
+    const resData = await makeReq(`/blogs`);
+    setBlogs(resData.blogs);
+  };
+
+  const fetchComments = async () => {
+    try {
+      const resData = await makeReq(`/blogs/comments`);
+      // console.log(`resData`, resData);
+      setBlogComments(resData.comments);
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
   useEffect(() => {
-    // * If user is logged In , only then fetch data
+    // * If user is logged In , only then fetch blogs
     if (user) {
-      (async () => {
-        const resData = await makeReq(`/blogs`);
-        setBlogs(resData.blogs);
-      })();
+      fetchBlogs();
+      fetchComments();
     }
     // * Clear the State after user is logged Out
     else {
@@ -56,7 +79,7 @@ export const BlogsProvider = ({ children }) => {
     }
   };
 
-  // * Create New Blog
+  // * Modify New Blog
   const modifyBlog = async (id, updatedBody) => {
     try {
       const resData = await makeReq(
@@ -72,6 +95,22 @@ export const BlogsProvider = ({ children }) => {
     }
   };
 
+  // * Modify Blog Comment
+  const modifyBlogComment = async (id, updatedBody) => {
+    try {
+      const resData = await makeReq(
+        `/blogs/comments/${id}`,
+        { body: { ...updatedBody } },
+        'PATCH'
+      );
+
+      updateBlogComment(id, resData.comment);
+      toast.success('Comment Updated Successfully !');
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
   const getBlogFromId = (id) => {
     if (!blogs) return undefined;
 
@@ -81,7 +120,14 @@ export const BlogsProvider = ({ children }) => {
   return (
     <BlogsContext.Provider
       displayName='Blogs Context'
-      value={{ blogs, createNewBlog, modifyBlog, getBlogFromId }}
+      value={{
+        blogs,
+        createNewBlog,
+        modifyBlog,
+        getBlogFromId,
+        blogComments,
+        modifyBlogComment,
+      }}
     >
       {children}
     </BlogsContext.Provider>
