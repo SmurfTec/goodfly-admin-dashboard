@@ -30,6 +30,8 @@ import ProductComments from './ProductComments';
 import { BlogsContext } from 'Contexts/BlogsContext';
 import { useToggleInput } from 'hooks';
 import { useNavigate } from 'react-router';
+import { ProductContext } from 'Contexts/ProductContext';
+import { OffersContext } from 'Contexts/OffersContext';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -125,8 +127,12 @@ const Comments = () => {
   const navigate = useNavigate();
   const classes = styles();
   const { blogComments, modifyBlogComment } = useContext(BlogsContext);
+  const { productComments, modifyProductComment } = useContext(ProductContext);
+  const { offerComments, modifyOfferComment } = useContext(OffersContext);
 
   const [blogReviews, setBlogReviews] = useState();
+  const [productReviews, setProductReviews] = useState();
+  const [offerReviews, setOfferReviews] = useState();
 
   const [value, setValue] = React.useState(0);
 
@@ -135,7 +141,9 @@ const Comments = () => {
   // * get Comments from Contexes
   useEffect(() => {
     setBlogReviews(blogComments);
-  }, [blogComments]);
+    setProductReviews(productComments);
+    setOfferReviews(offerComments);
+  }, [blogComments, productComments]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -155,10 +163,12 @@ const Comments = () => {
     Math.min(rowsPerPage, (blogComments?.length || 0) - page * rowsPerPage);
 
   const emptyTourRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    rowsPerPage -
+    Math.min(rowsPerPage, (offerComments?.length || 0) - page * rowsPerPage);
 
   const emptyProductRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    rowsPerPage -
+    Math.min(rowsPerPage, (productReviews?.length || 0) - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -184,20 +194,33 @@ const Comments = () => {
     toggleDialogOpen();
   };
 
-  const handleShowTourComment = (comment) => {
+  const handleShowOfferComment = (comment) => {
     setDialogDetails({
       ...comment,
       user: comment.visitor,
-      source: comment.trip,
+      source: {
+        title: comment.trip.name,
+        url: `/app/offers/${comment.trip._id}`,
+        image: comment.trip.image,
+        createdAt: comment.createdAt,
+        text: comment.comment,
+      },
     });
+    toggleDialogOpen();
   };
-
   const handleShowProductComment = (comment) => {
     setDialogDetails({
       ...comment,
       user: comment.visitor,
-      source: comment.product,
+      source: {
+        title: comment.product.name,
+        url: `/app/products/${comment.product._id}`,
+        image: comment.product.images?.[0]?.image,
+        createdAt: comment.createdAt,
+        text: comment.comment,
+      },
     });
+    toggleDialogOpen();
   };
 
   return (
@@ -239,24 +262,28 @@ const Comments = () => {
           <Box className={classes.options}>
             <TabPanel value={value} index={0}>
               <TourComments
-                comments={rows}
+                comments={offerReviews}
                 classes={classes}
                 page={page}
                 handleChangePage={handleChangePage}
                 handleChangeRowsPerPage={handleChangeRowsPerPage}
                 emptyRows={emptyTourRows}
                 rowsPerPage={rowsPerPage}
+                updateRow={modifyOfferComment}
+                showComment={handleShowOfferComment}
               />
             </TabPanel>
             <TabPanel value={value} index={1}>
               <ProductComments
-                comments={rows}
+                comments={productReviews}
                 classes={classes}
                 page={page}
                 handleChangePage={handleChangePage}
                 handleChangeRowsPerPage={handleChangeRowsPerPage}
                 emptyRows={emptyProductRows}
                 rowsPerPage={rowsPerPage}
+                updateRow={modifyProductComment}
+                showComment={handleShowProductComment}
               />
             </TabPanel>
             <TabPanel value={value} index={2}>
@@ -333,9 +360,7 @@ const Comments = () => {
                   <Typography
                     varaint='text'
                     color='primary'
-                    onClick={() =>
-                      navigate(`/app/${dialogDetails?.source?.url}`)
-                    }
+                    onClick={() => navigate(`/${dialogDetails?.source?.url}`)}
                   >
                     Show page
                   </Typography>

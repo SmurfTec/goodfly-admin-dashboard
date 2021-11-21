@@ -21,18 +21,37 @@ export const ProductProvider = ({ children }) => {
     clearProducts,
   ] = useArray('loading', '_id');
 
+  const [
+    productComments,
+    setProductComments,
+    pushProductComment,
+    filterProductComment,
+    updateProductComment,
+    removeProductComment,
+    clearProductComments,
+  ] = useArray([], '_id');
+
+  const fetchProducts = async () => {
+    // If user is logged In , only then fetch data
+
+    const resData = await makeReq('/products');
+    setProducts(resData.products);
+  };
+
+  const fetchProductReviews = async () => {
+    const resData = await makeReq(`/products/comments`);
+    setProductComments(resData.comments);
+  };
+
   useEffect(() => {
-    (async () => {
-      // If user is logged In , only then fetch data
-      if (user) {
-        const resData = await makeReq('/products');
-        setProducts(resData.products);
-      }
-      // Clear the State after user is logged Out
-      else {
-        setProducts('loading');
-      }
-    })();
+    if (user) {
+      fetchProducts();
+      fetchProductReviews();
+    }
+    // Clear the State after user is logged Out
+    else {
+      setProducts('loading');
+    }
   }, [user]);
 
   const deleteProduct = async (id) => {
@@ -65,9 +84,7 @@ export const ProductProvider = ({ children }) => {
   };
 
   const getProductById = (id) =>
-    products === 'loading'
-      ? 'loading'
-      : products?.find((el) => el._id === id);
+    products === 'loading' ? 'loading' : products?.find((el) => el._id === id);
 
   // Create New Product
   const createNewProduct = async (newProduct, resetForm) => {
@@ -88,6 +105,23 @@ export const ProductProvider = ({ children }) => {
       handleCatch(err);
     }
   };
+
+  // * Modify Blog Comment
+  const modifyProductComment = async (id, updatedBody) => {
+    try {
+      const resData = await makeReq(
+        `/products/comments/${id}`,
+        { body: { ...updatedBody } },
+        'PATCH'
+      );
+
+      updateProductComment(id, resData.comment);
+      toast.success('Comment Updated Successfully !');
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
   return (
     <ProductContext.Provider
       displayName='Product Context'
@@ -97,6 +131,8 @@ export const ProductProvider = ({ children }) => {
         getProductById,
         modifyProduct,
         createNewProduct,
+        productComments,
+        modifyProductComment,
       }}
     >
       {children}

@@ -31,20 +31,54 @@ export const OffersProvider = ({ children }) => {
     clearCustomOffers,
   ] = useArray();
 
+  const [
+    offerComments,
+    setOfferComments,
+    pushOfferComment,
+    filterOfferComment,
+    updateOfferComment,
+    removeOfferComment,
+    clearOfferComments,
+  ] = useArray([], '_id');
+
+  const fetchTrips = async () => {
+    try {
+      const resData1 = await makeReq(`/trips`);
+      const resData2 = await makeReq(`/trips/customTrip`);
+
+      setOffers(resData1.trips);
+      setCustomOffers(resData2.trips);
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
+  const fetchCustomTrips = async () => {
+    try {
+      const resData2 = await makeReq(`/trips/customTrip`);
+
+      setCustomOffers(resData2.trips);
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
+  const fetchTripsComments = async () => {
+    try {
+      const resData2 = await makeReq(`/trips/comments`);
+
+      setCustomOffers(resData2.comments);
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
   useEffect(() => {
     // * If user is logged In , only then fetch data
     if (user) {
-      (async () => {
-        try {
-          const resData1 = await makeReq(`/trips`);
-          const resData2 = await makeReq(`/trips/customTrip`);
-
-          setOffers(resData1.trips);
-          setCustomOffers(resData2.trips);
-        } catch (err) {
-          handleCatch(err);
-        }
-      })();
+      fetchTrips();
+      fetchCustomTrips();
+      fetchTripsComments();
     }
     // * Clear the State after user is logged Out
     else {
@@ -130,6 +164,22 @@ export const OffersProvider = ({ children }) => {
     }
   };
 
+  // * Modify Offer Comment
+  const modifyOfferComment = async (id, updatedBody) => {
+    try {
+      const resData = await makeReq(
+        `/trips/comments/${id}`,
+        { body: { ...updatedBody } },
+        'PATCH'
+      );
+
+      updateOfferComment(id, resData.comment);
+      toast.success('Comment Updated Successfully !');
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
   return (
     <OffersContext.Provider
       displayName='Offers Context'
@@ -142,6 +192,8 @@ export const OffersProvider = ({ children }) => {
         updateOffer,
         customOffers,
         updateCustomOffer,
+        offerComments,
+        modifyOfferComment,
       }}
     >
       {children}
