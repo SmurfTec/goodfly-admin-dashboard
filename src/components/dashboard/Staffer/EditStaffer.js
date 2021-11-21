@@ -92,7 +92,6 @@ const EditStaffer = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(`state`, state);
     modifyStaffer(id, { ...state });
   };
 

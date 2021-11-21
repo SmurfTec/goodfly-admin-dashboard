@@ -34,10 +34,31 @@ export const OrderProvider = ({ children }) => {
     })();
   }, [user]);
 
+  // Update order
+  const modifyOrder = async (id, updatedOrder) => {
+    // console.log(`updatedOrder`, updatedOrder);
+    try {
+      const resData = await makeReq(
+        `/orders/${id}`,
+        { body: { ...updatedOrder } },
+        'PATCH'
+      );
+      toast.success('Order Updated Successfully !');
+      updateOrder(id, resData.order);
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
+  const getOrderById = (id) =>
+    orders === 'loading'
+      ? 'loading'
+      : orders?.find((el) => el._id === id);
+
   return (
     <OrderContext.Provider
       displayName='Order Context'
-      value={{ orders }}
+      value={{ orders, getOrderById, modifyOrder }}
     >
       {children}
     </OrderContext.Provider>
