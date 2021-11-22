@@ -7,6 +7,10 @@ import {
   TextField,
   Button,
   Avatar,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@material-ui/core';
 import useManyInputs from 'hooks/useManyInputs';
 
@@ -18,11 +22,11 @@ import LoadingOverlay from 'react-loading-overlay';
 import useToggleInput from 'hooks/useToggleInput';
 import { AuthContext } from 'Contexts/AuthContext';
 import { makeReq } from 'utils/makeReq';
+import { useTextInput } from 'hooks';
 
 const Profile = () => {
   const classes = useStyles();
-  const { user, updateMe } = useContext(AuthContext);
-
+  const { user, updateMe, changeMyPassword } = useContext(AuthContext);
   const initialState = {
     firstName: user.firstName || '',
     lastName: user.lastName || '',
@@ -34,6 +38,13 @@ const Profile = () => {
     snapChatProfile: user.snapChatProfile || '',
     photp: user.photp || '',
   };
+
+  const [passwordState, handlePassChange, , , resetPassState] = useManyInputs({
+    password: '',
+    passwordConfirm: '',
+  });
+
+  const [isPassDialogOpen, togglePassOpen] = useToggleInput(false);
 
   const [
     state,
@@ -47,13 +58,24 @@ const Profile = () => {
   const [isImageUploading, toggleImageUploading] = useToggleInput(false);
   const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
+  const handleUpdatePass = (e) => {
+    e.preventDefault();
+    if (passwordState.password !== passwordState.passwordConfirm) {
+      toast.error('Password must be Same');
+      return;
+    }
+    changeMyPassword({ ...passwordState });
+    togglePassOpen(false);
+    resetPassState();
+  };
+
   useEffect(() => {
     setState({ ...user });
   }, [user]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`state`, state);
+    // console.log(`state`, state);
     updateMe(state, setState);
   };
 
@@ -68,7 +90,7 @@ const Profile = () => {
         let reader = new FileReader();
         reader.readAsDataURL(selectedFile);
         reader.onloadend = async (e) => {
-          console.log(`result onLoadEnd`, e.target.result);
+          // console.log(`result onLoadEnd`, e.target.result);
           const file = e.target.result;
 
           // TODO  Delete Image from cloudinary if it exists on this user
@@ -86,7 +108,7 @@ const Profile = () => {
             formData
           );
           const uploadedImage = res.data.url;
-          console.log(`res`, res);
+          // console.log(`res`, res);
 
           setUploadingText('Updating Image ...');
 
@@ -95,7 +117,7 @@ const Profile = () => {
             { body: { photo: uploadedImage } },
             'PATCH'
           );
-          console.log(`resData`, resData);
+          // console.log(`resData`, resData);
 
           changeInput('photo', uploadedImage);
 
@@ -108,7 +130,7 @@ const Profile = () => {
       toast(
         err?.response?.data?.message || err.message || 'Something Went Wrong'
       );
-      console.log(`err`, err);
+      // console.log(`err`, err);
     }
   };
 
@@ -341,6 +363,7 @@ const Profile = () => {
                     <Button
                       variant='contained'
                       style={{ marginTop: 15, width: 150 }}
+                      onClick={togglePassOpen}
                     >
                       Set New Pass
                     </Button>
@@ -376,6 +399,61 @@ const Profile = () => {
           </Grid>
         </form>
       </Box>
+      <Dialog
+        open={isPassDialogOpen}
+        onClose={togglePassOpen}
+        style={{
+          border: '1px solid red',
+        }}
+      >
+        <DialogTitle>
+          <Typography variant='h4'>Changing the Paasword</Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Box
+            className={classes.form}
+            style={{ margin: '1rem', padding: 'o.2rem' }}
+            overlayStyle={{ backgroundColor: 'transparent' }}
+          >
+            <TextField
+              autoFocus
+              margin='dense'
+              id='name'
+              label='New Password'
+              type='password'
+              name='password'
+              value={passwordState.password}
+              onChange={handlePassChange}
+              fullWidth
+              style={{ width: '40rem', marginRight: '2rem' }}
+            />
+            <TextField
+              autoFocus
+              margin='dense'
+              id='name'
+              label='Confirm new password'
+              name='passwordConfirm'
+              value={passwordState.passwordConfirm}
+              onChange={handlePassChange}
+              type='password'
+              fullWidth
+              style={{ width: '40rem', marginRight: '2rem' }}
+            />
+          </Box>
+        </DialogContent>
+
+        <DialogActions
+          className={classes.form}
+          style={{ margin: '1rem', justifyContent: 'right' }}
+        >
+          <Button variant='outlined' onClick={togglePassOpen}>
+            Cancel
+          </Button>
+          <Button variant='contained' onClick={handleUpdatePass}>
+            Update
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

@@ -46,14 +46,16 @@ import { OrderContext } from 'Contexts/OrderContext';
 import { OffersContext } from 'Contexts/OffersContext';
 import { ReservationsContext } from 'Contexts/ReservationsContext';
 import { CustomersContext } from 'Contexts/CustomersContext';
+import { ProductContext } from 'Contexts/ProductContext';
 
 const DashboardHome = () => {
   const classes = useStyles();
   const { user } = useContext(AuthContext);
   const { customers } = useContext(CustomersContext);
   const { orders } = useContext(OrderContext);
-  const { offers, customOffers } = useContext(OffersContext);
+  const { offers, customOffers, offerComments } = useContext(OffersContext);
   const { reservations } = useContext(ReservationsContext);
+  const { productComments } = useContext(ProductContext);
 
   // TODO add mesages, comments...
 
@@ -186,9 +188,12 @@ const DashboardHome = () => {
             </Box>
             <Box className={classes.InfoItem}>
               <Typography variant='h5' color='InfoText'>
-                Opinions
+                Product Reviews
               </Typography>
-              <Badge badgeContent={45} color='primary' />
+              <Badge
+                badgeContent={productComments?.length || 0}
+                color='primary'
+              />
             </Box>
             <Box className={classes.InfoItem}>
               <Typography variant='h5' color='InfoText'>
@@ -198,9 +203,9 @@ const DashboardHome = () => {
             </Box>
             <Box className={classes.InfoItem}>
               <Typography variant='h5' color='InfoText'>
-                Comments
+                Offer Reviews
               </Typography>
-              <Badge badgeContent={112} color='primary' />
+              <Badge badgeContent={0} color='primary' />
             </Box>
           </Box>
         </Grid>

@@ -276,9 +276,7 @@ const EditStaffer = () => {
           }}
         >
           <DialogTitle>
-            <Typography variant='h4'>
-              Changing the Paasword
-            </Typography>
+            <Typography variant='h4'>Changing the Paasword</Typography>
           </DialogTitle>
           <DialogContent>
             <Box

@@ -126,6 +126,15 @@ const VisitorProfile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`state`, state);
+    if (new Date(state.dateOfBirth) > new Date()) {
+      toast.error('Date of Birth must be in past');
+      return;
+    }
+
+    if (new Date(state.dateOfIssue) > new Date()) {
+      toast.error('Date of Issue must be in past');
+      return;
+    }
     createNewCustomer(state, resetState);
   };
 
@@ -258,7 +267,7 @@ const VisitorProfile = () => {
                   }}
                 >
                   <Typography variant='h4'> Client Profile</Typography>
-                  <div style={{ display: 'flex' }}>
+                  {/* <div style={{ display: 'flex' }}>
                     <Typography variant='h5' style={{ margin: '0px 10px 0px' }}>
                       Number
                     </Typography>
@@ -272,7 +281,7 @@ const VisitorProfile = () => {
                     >
                       0001
                     </Paper>
-                  </div>
+                  </div> */}
                 </Box>
                 <Box
                   style={{
@@ -660,6 +669,7 @@ const VisitorProfile = () => {
                     width: '10rem',
                     height: '8rem',
                     borderRadius: '50%',
+                    marginBottom: '2rem',
                   }}
                   src={state.photo}
                   title='Live from space album cover'

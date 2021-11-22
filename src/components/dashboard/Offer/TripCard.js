@@ -14,6 +14,7 @@ const styles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     minHeight: 206,
+    maxHeight: 206,
   },
   details: {
     display: 'flex',
@@ -39,7 +40,7 @@ const styles = makeStyles((theme) => ({
 
 const TripCard = ({ trip }) => {
   const navigate = useNavigate();
-  const { _id, title, upload, image, services, price } = trip;
+  const { _id, title, upload, image, description, price } = trip;
 
   const classes = styles();
 
@@ -49,7 +50,9 @@ const TripCard = ({ trip }) => {
 
   return (
     <>
-      <Typography variant='h5'>{title.toUpperCase()}</Typography>
+      <Typography variant='h5' sx={{ marginBottom: 1 }}>
+        {title.toUpperCase()}
+      </Typography>
       <Card className={classes.root}>
         <CardMedia className={classes.cover} image={image} title={title} />
         <CardActionArea onClick={handleClick}>
@@ -58,11 +61,15 @@ const TripCard = ({ trip }) => {
               <Typography component='h5' variant='h5'>
                 {title.toUpperCase()}
               </Typography>
-              {services.slice(0, 3).map((service) => (
+              {/* {services.slice(0, 3).map((service) => (
                 <Typography variant='subtitle1' color='textSecondary'>
                   {service}
                 </Typography>
-              ))}
+              ))} */}
+              <Typography variant='subtitle1' color='textSecondary'>
+                {description.slice(0, 48)}...
+              </Typography>
+
               <Box
                 style={{
                   display: 'flex',
