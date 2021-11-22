@@ -22,7 +22,7 @@ import v4 from 'uuid/dist/v4';
 import { ReservationsContext } from 'Contexts/ReservationsContext';
 import { Edit } from '@mui/icons-material';
 import { useNavigate } from 'react-router';
-import { daysBetween } from 'Utils/dateMethods';
+import { daysBetween } from 'utils/dateMethods';
 
 const styles = makeStyles((theme) => ({
   main: {

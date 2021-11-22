@@ -15,7 +15,7 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core';
-import getInitials from '../../Utils/getInitials';
+import getInitials from '../../utils/getInitials';
 
 const CustomerListResults = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -26,9 +26,7 @@ const CustomerListResults = ({ customers, ...rest }) => {
     let newSelectedCustomerIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = customers.map(
-        (customer) => customer.id
-      );
+      newSelectedCustomerIds = customers.map((customer) => customer.id);
     } else {
       newSelectedCustomerIds = [];
     }
@@ -80,9 +78,7 @@ const CustomerListResults = ({ customers, ...rest }) => {
               <TableRow>
                 <TableCell padding='checkbox'>
                   <Checkbox
-                    checked={
-                      selectedCustomerIds.length === customers.length
-                    }
+                    checked={selectedCustomerIds.length === customers.length}
                     color='primary'
                     indeterminate={
                       selectedCustomerIds.length > 0 &&
@@ -103,19 +99,12 @@ const CustomerListResults = ({ customers, ...rest }) => {
                 <TableRow
                   hover
                   key={customer.id}
-                  selected={
-                    selectedCustomerIds.indexOf(customer.id) !== -1
-                  }
+                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
                 >
                   <TableCell padding='checkbox'>
                     <Checkbox
-                      checked={
-                        selectedCustomerIds.indexOf(customer.id) !==
-                        -1
-                      }
-                      onChange={(event) =>
-                        handleSelectOne(event, customer.id)
-                      }
+                      checked={selectedCustomerIds.indexOf(customer.id) !== -1}
+                      onChange={(event) => handleSelectOne(event, customer.id)}
                       value='true'
                     />
                   </TableCell>

@@ -1,7 +1,7 @@
 import useArray from 'hooks/useArray';
 import React, { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router';
-import { handleCatch, makeReq } from 'Utils/makeReq';
+import { handleCatch, makeReq } from 'utils/makeReq';
 import { AuthContext } from './AuthContext';
 import { toast } from 'react-toastify';
 

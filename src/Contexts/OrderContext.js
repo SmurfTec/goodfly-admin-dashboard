@@ -1,6 +1,6 @@
 import useArray from 'hooks/useArray';
 import React, { useState, useEffect, useContext } from 'react';
-import { makeReq, handleCatch } from 'Utils/makeReq';
+import { makeReq, handleCatch } from 'utils/makeReq';
 import { AuthContext } from './AuthContext';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
@@ -51,9 +51,7 @@ export const OrderProvider = ({ children }) => {
   };
 
   const getOrderById = (id) =>
-    orders === 'loading'
-      ? 'loading'
-      : orders?.find((el) => el._id === id);
+    orders === 'loading' ? 'loading' : orders?.find((el) => el._id === id);
 
   return (
     <OrderContext.Provider

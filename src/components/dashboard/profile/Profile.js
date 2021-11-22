@@ -17,7 +17,7 @@ import axios from 'axios';
 import LoadingOverlay from 'react-loading-overlay';
 import useToggleInput from 'hooks/useToggleInput';
 import { AuthContext } from 'Contexts/AuthContext';
-import { makeReq } from 'Utils/makeReq';
+import { makeReq } from 'utils/makeReq';
 
 const Profile = () => {
   const classes = useStyles();

@@ -9,10 +9,10 @@ import {
   objectFilter,
   removeEntriesWithValue,
   removeKeyIncludingString,
-} from 'Utils/objectMethods';
+} from 'utils/objectMethods';
 import { a11yProps } from 'components/common/TabPanel';
 import { useParams } from 'react-router';
-import { handleCatch, makeReq } from 'Utils/makeReq';
+import { handleCatch, makeReq } from 'utils/makeReq';
 
 const useStyles = makeStyles((theme) => ({
   options: {

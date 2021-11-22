@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { makeReq, handleCatch } from 'Utils/makeReq';
+import { makeReq, handleCatch } from 'utils/makeReq';
 
 export const LOCALSTORAGE_TOKEN_KEY = 'admin-token';
 

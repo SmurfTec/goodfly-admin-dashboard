@@ -2,9 +2,9 @@ import useArray from 'hooks/useArray';
 import React, { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { handleCatch, makeReq } from 'Utils/makeReq';
+import { handleCatch, makeReq } from 'utils/makeReq';
 import { AuthContext } from './AuthContext';
-import { removeKeyIncludingString } from 'Utils/objectMethods';
+import { removeKeyIncludingString } from 'utils/objectMethods';
 
 export const StaffersContext = React.createContext();
 
@@ -92,9 +92,7 @@ export const StaffersProvider = ({ children }) => {
     }
   };
   const getStafferById = (id) =>
-    staffers === 'loading'
-      ? 'loading'
-      : staffers?.find((el) => el._id === id);
+    staffers === 'loading' ? 'loading' : staffers?.find((el) => el._id === id);
 
   // Create New Staffer
   const createNewStaffer = async (newStafferProfile, resetForm) => {
