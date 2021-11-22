@@ -2,11 +2,11 @@ import { LOCALSTORAGE_TOKEN_KEY } from 'Contexts/AuthContext';
 import { toast } from 'react-toastify';
 
 // * Development URLs
-const API_BASE_URL = `http://localhost:7000/api`;
+// const API_BASE_URL = `http://localhost:7000/api`;
 // const API_BASE_URL = `https://17ae-39-40-58-247.ngrok.io/api`;
 
 // * Production URLs
-// const API_BASE_URL = `https://goodfly-api.herokuapp.com/api`;
+const API_BASE_URL = `https://goodfly-api.herokuapp.com/api`;
 
 const handleCatch = (err) => {
   // console.log('**********');
