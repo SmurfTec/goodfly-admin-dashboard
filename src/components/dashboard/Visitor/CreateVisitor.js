@@ -279,10 +279,7 @@ const VisitorProfile = () => {
                     margin: '10px 0px 30px ',
                   }}
                 >
-                  <Typography variant='h4'>
-                    {' '}
-                    Client Profile
-                  </Typography>
+                  <Typography variant='h4'>Client Profile</Typography>
                   <div style={{ display: 'flex' }}>
                     <Typography
                       variant='h5'
@@ -300,7 +297,7 @@ const VisitorProfile = () => {
                     >
                       0001
                     </Paper>
-                  </div>{' '}
+                  </div>
                 </Box>
                 <Box
                   style={{
@@ -881,11 +878,11 @@ const VisitorProfile = () => {
                                   </Typography>
                                 </Box>
                               </Box>
-                            </label>{' '}
+                            </label>
                           </Box>
                         </Box>
                       </Box>
-                    </LoadingOverlay>{' '}
+                    </LoadingOverlay>
                   </Grid>
                 </Grid>
               </Box>

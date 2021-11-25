@@ -7,8 +7,8 @@ import {
 
 import socketIo from 'socket.io-client';
 import { AuthContext } from './AuthContext';
-import { API_BASE_ORIGIN } from 'Utils/makeReq';
-import { makeReq, handleCatch } from 'Utils/makeReq';
+import { API_BASE_ORIGIN } from 'utils/makeReq';
+import { makeReq, handleCatch } from 'utils/makeReq';
 import useArray from 'hooks/useArray';
 import { toast } from 'react-toastify';
 
