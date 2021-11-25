@@ -258,7 +258,7 @@ StyledTreeItem.propTypes = {
 
 const useStyles = makeStyles({
   root: {
-    height: 550,
+    height: 450,
     flexGrow: 1,
     maxWidth: 400,
   },

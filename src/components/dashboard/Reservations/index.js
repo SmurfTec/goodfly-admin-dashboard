@@ -83,7 +83,13 @@ const filterButtons = [
   },
 ];
 
-const FilterButton = ({ currentStatus, text, handleFilter, status, color }) => (
+const FilterButton = ({
+  currentStatus,
+  text,
+  handleFilter,
+  status,
+  color,
+}) => (
   <Button
     data-statusfilter={status}
     onClick={handleFilter}
@@ -112,7 +118,10 @@ const FilterButton = ({ currentStatus, text, handleFilter, status, color }) => (
 );
 
 const Reservations = () => {
-  const { reservations, fetchReservations } = useContext(ReservationsContext);
+  const { reservations, fetchReservations } = useContext(
+    ReservationsContext
+  );
+  console.log(`reservations`, reservations);
   const classes = styles();
   const [filter, setFilter] = useState('');
   const [page, setPage] = useState(0);
@@ -134,7 +143,10 @@ const Reservations = () => {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     rowsPerPage -
-    Math.min(rowsPerPage, (reservations?.length || 0) - page * rowsPerPage);
+    Math.min(
+      rowsPerPage,
+      (reservations?.length || 0) - page * rowsPerPage
+    );
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -154,7 +166,9 @@ const Reservations = () => {
     setCurrentReservations(
       reservations?.filter(
         (el) =>
-          el.visitor.fullName.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+          el.visitor.fullName
+            .toLowerCase()
+            .indexOf(filter.toLowerCase()) !== -1
       )
       // reservations || []
     );
@@ -171,7 +185,9 @@ const Reservations = () => {
 
     try {
       const greenOrangeReservations =
-        reservations?.filter((el) => nonPaidStatuses.includes(el.status)) || [];
+        reservations?.filter((el) =>
+          nonPaidStatuses.includes(el.status)
+        ) || [];
 
       // * Reservations which have more than 8 weeks till departure date
       // * Fall in green category
@@ -188,7 +204,9 @@ const Reservations = () => {
       const orangeReservationsNew =
         greenOrangeReservations?.filter((el) => {
           const departureDate = new Date(
-            el.trip ? el.trip.startingDate : el.customTrip.startingDate
+            el.trip
+              ? el.trip.startingDate
+              : el.customTrip.startingDate
           );
           const currentDate = new Date();
 
@@ -210,7 +228,8 @@ const Reservations = () => {
           // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
           // * So thats why I put 2nd condition
           return (
-            (el.status === 'archived' || nonPaidStatuses.includes(el.status)) &&
+            (el.status === 'archived' ||
+              nonPaidStatuses.includes(el.status)) &&
             daysBetween(departureDate, currentDate) >= 28 &&
             daysBetween(departureDate, currentDate) <= 42
           );
@@ -239,13 +258,23 @@ const Reservations = () => {
           // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
           // * So thats why I put 2nd condition
 
-          console.log(`status cond`, nonPaidStatuses.includes(el.status));
+          console.log(
+            `status cond`,
+            nonPaidStatuses.includes(el.status)
+          );
 
-          console.log(`cond 2.1`, daysBetween(departureDate, currentDate) < 28);
-          console.log(`cond 2.2`, daysBetween(departureDate, currentDate) > 14);
+          console.log(
+            `cond 2.1`,
+            daysBetween(departureDate, currentDate) < 28
+          );
+          console.log(
+            `cond 2.2`,
+            daysBetween(departureDate, currentDate) > 14
+          );
 
           return (
-            (el.status === 'archived' || nonPaidStatuses.includes(el.status)) &&
+            (el.status === 'archived' ||
+              nonPaidStatuses.includes(el.status)) &&
             daysBetween(departureDate, currentDate) < 28 &&
             daysBetween(departureDate, currentDate) > 14
           );
@@ -260,12 +289,15 @@ const Reservations = () => {
 
       // * Cancellation Requests by client
       const greyReservationsNew =
-        reservations?.filter((el) => el.status === 'cancellation-request') ||
-        [];
+        reservations?.filter(
+          (el) => el.status === 'cancellation-request'
+        ) || [];
 
       // * Reservations paid / Finalized
       const whiteReservationsNew =
-        reservations?.filter((el) => el.status === 'reservation-paid') || [];
+        reservations?.filter(
+          (el) => el.status === 'reservation-paid'
+        ) || [];
 
       setGreenReseravtions(greenReseravtionsNew);
       setOrangeReservations(orangeReservationsNew);
@@ -379,7 +411,10 @@ const Reservations = () => {
           >
             Fetch
           </Button>
-          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+          <Typography
+            variant='text'
+            style={{ margin: '0px 3px 0px' }}
+          >
             Search Reservation
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -413,7 +448,10 @@ const Reservations = () => {
             <TableBody>
               {currentReservations
                 ? currentReservations
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
                     .map((purchase) => (
                       <TableRow key={v4()}>
                         <TableCell component='th' scope='row'>
@@ -421,9 +459,13 @@ const Reservations = () => {
                           {purchase._id.slice(5)}
                         </TableCell>
                         <TableCell align='center'>
-                          {new Date(purchase.createdAt).toLocaleDateString()}
+                          {new Date(
+                            purchase.createdAt
+                          ).toLocaleDateString()}
                         </TableCell>
-                        <TableCell align='center'>{purchase.status}</TableCell>
+                        <TableCell align='center'>
+                          {purchase.status}
+                        </TableCell>
                         <TableCell align='center'>
                           {purchase.trip ? (
                             purchase.travelers?.map((traveler) => (
@@ -449,11 +491,16 @@ const Reservations = () => {
                             <> {purchase.email} </>
                           )}
                         </TableCell>
-                        <TableCell align='center'>{purchase.phone}</TableCell>
+                        <TableCell align='center'>
+                          {purchase.phone}
+                        </TableCell>
                         <TableCell align='center'>
                           <Button
                             endIcon={<Edit />}
-                            onClick={handleClick.bind(this, purchase._id)}
+                            onClick={handleClick.bind(
+                              this,
+                              purchase._id
+                            )}
                           >
                             Edit
                           </Button>

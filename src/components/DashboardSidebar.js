@@ -117,7 +117,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            mt: 3,
+            mt: 1,
           }}
         >
           <Avatar
@@ -125,7 +125,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
             src={
               user.photo ? user.photo : '/static/images/avatar/3.jpg'
             }
-            sx={{ width: 100, height: 100 }}
+            sx={{ width: 100, height: 100, borderRadius: '50%' }}
           />
           <NavItem
             href='/logout'

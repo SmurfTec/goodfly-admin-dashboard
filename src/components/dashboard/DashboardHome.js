@@ -70,7 +70,11 @@ const DashboardHome = () => {
         <Typography variant='h5' color='textSecondary' gutterBottom>
           Welcome to goodgly Dashboard . {user?.fullName}
         </Typography>
-        <Typography variant='h5' fontWeight='normal' color='textSecondary'>
+        <Typography
+          variant='h5'
+          fontWeight='normal'
+          color='textSecondary'
+        >
           Welcome to goodfly Dashboard . Hope you are going good .
         </Typography>
       </Box>
@@ -93,7 +97,10 @@ const DashboardHome = () => {
           <Box className={classes.MiniCard}>
             <Box className={classes.image}>
               <Box>
-                <Add size={35} style={{ color: '#cccccc', fontSize: '90px' }} />
+                <Add
+                  size={35}
+                  style={{ color: '#cccccc', fontSize: '90px' }}
+                />
                 {/* <Icon size={35} style={{ color: '#fff' }} /> */}
               </Box>
               <Typography style={{ color: '#fff' }}>
@@ -140,6 +147,7 @@ const DashboardHome = () => {
           sx={{
             backgroundColor: '#f2f2f2',
             borderRadius: '0.5rem',
+            height: 290,
           }}
         >
           <LineChart reservations={reservations} orders={orders} />
@@ -148,7 +156,7 @@ const DashboardHome = () => {
           sx={{
             paddingTop: '0px !important',
             paddingBottom: '0px !important',
-            minHeight: '380px',
+            minHeight: '290px',
             borderRadius: '0.5rem',
           }}
           item
@@ -160,9 +168,10 @@ const DashboardHome = () => {
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
-              rowGap: '20px',
+              rowGap: '18px',
               background: '#f2f2f2f2',
               padding: '19px 20px',
+              borderRadius: '0.5rem',
               height: '100%',
             }}
           >
@@ -170,37 +179,63 @@ const DashboardHome = () => {
               <Typography variant='h5' color='InfoText'>
                 Reservations
               </Typography>
-              <Badge badgeContent={orders?.length || 0} color='primary' />
+
+              <Badge
+                badgeContent={orders?.length || 0}
+                className={classes.Badge}
+                style={{ border: '2px solid red' }}
+                color='primary'
+              />
             </Box>
             <Box className={classes.InfoItem}>
               <Typography variant='h5' color='InfoText'>
                 Tailor-Made Trips
               </Typography>
-              <Badge badgeContent={customOffers?.length || 0} color='primary' />
+              <Badge
+                badgeContent={customOffers?.length || 0}
+                color='primary'
+                className={classes.Badge}
+              />
             </Box>
             <Box className={classes.InfoItem}>
               <Typography variant='h5' color='InfoText'>
                 Store Orders
               </Typography>
-              <Badge badgeContent={reservations?.length || 0} color='primary' />
+              <Badge
+                badgeContent={reservations?.length || 0}
+                color='primary'
+                className={classes.Badge}
+              />
             </Box>
             <Box className={classes.InfoItem}>
               <Typography variant='h5' color='InfoText'>
-                Opinions
+                Product Reviews
               </Typography>
-              <Badge badgeContent={45} color='primary' />
+              <Badge
+                badgeContent={45}
+                color='primary'
+                className={classes.Badge}
+              />
             </Box>
             <Box className={classes.InfoItem}>
               <Typography variant='h5' color='InfoText'>
-                Messages
+                Travels Reviews
               </Typography>
-              <Badge badgeContent={122} color='primary' />
+              <Badge
+                badgeContent={122}
+                color='primary'
+                className={classes.Badge}
+              />
             </Box>
             <Box className={classes.InfoItem}>
               <Typography variant='h5' color='InfoText'>
-                Comments
+                Blog Comments
               </Typography>
-              <Badge badgeContent={112} color='primary' />
+              <Badge
+                badgeContent={112}
+                color='primary'
+                className={classes.Badge}
+              />
             </Box>
           </Box>
         </Grid>
@@ -209,69 +244,78 @@ const DashboardHome = () => {
         <Grid
           item
           xs={12}
-          sm={7}
+          sm={6}
           sx={{
             display: 'flex',
             backgroundColor: '#f2f2f2',
             borderRadius: '0.5rem',
           }}
         >
-          <Box className={classes.InfoButtonGrid}>
-            <Box className={classes.InfoButton}>
-              <Typography variant='h5'>Goodfly Clients</Typography>
-              <Button
-                size='large'
-                variant='contained'
-                fullWidth
-                color='primary'
-                startIcon={<Person />}
-              >
-                {customers?.length || 0}
-              </Button>
+          <Box
+            style={{
+              padding: '0.5rem',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Box className={classes.InfoButtonGrid}>
+              <Box className={classes.InfoButton}>
+                <Typography variant='h5'>Goodfly Clients</Typography>
+                <Button
+                  size='large'
+                  variant='contained'
+                  fullWidth
+                  color='primary'
+                  startIcon={<Person />}
+                >
+                  {customers?.length || 0}
+                </Button>
+              </Box>
+              <Box className={classes.InfoButton}>
+                <Typography variant='h5'>Store Orders</Typography>
+                <Button
+                  size='large'
+                  variant='contained'
+                  fullWidth
+                  color='primary'
+                  startIcon={<Work />}
+                >
+                  {orders?.length || 0}
+                </Button>
+              </Box>
             </Box>
-            <Box className={classes.InfoButton}>
-              <Typography variant='h5'>Store Orders</Typography>
-              <Button
-                size='large'
-                variant='contained'
-                fullWidth
-                color='primary'
-                startIcon={<Work />}
-              >
-                {orders?.length || 0}
-              </Button>
-            </Box>
-          </Box>
-          <Box className={classes.FollowersGrid}>
-            <Typography variant='h5'>Followers</Typography>
-            <Box py={2} px={3} className={classes.SocialIcons}>
-              <Box>
-                <Typography variant='h6'>10.1K</Typography>
-                <ReactSVG src={fbSvg} />
-              </Box>
-              <Box>
-                <Typography variant='h6'>10.1K</Typography>
-                <ReactSVG src={instagramSvg} />
-              </Box>
-              <Box>
-                <Typography variant='h6'>10.1K</Typography>
-                <ReactSVG src={snapchatSvg} />
-              </Box>
-              <Box>
-                <Typography variant='h6'>10.1K</Typography>
-                <ReactSVG src={pinterestSvg} />
-              </Box>
-              <Box>
-                <Typography variant='h6'>10.1K</Typography>
-                <ReactSVG src={telegramSvg} />
-              </Box>
-              <Box>
-                <Typography variant='h6'>10.1K</Typography>
-                <ReactSVG src={twitterSvg} />
-              </Box>
-              <Box>
-                <Typography variant='h6'>10.1K</Typography>
-                <ReactSVG src={youtubeSvg} />
+            <Box className={classes.FollowersGrid}>
+              <Typography variant='h5'>Followers</Typography>
+              <Box py={2} px={3} className={classes.SocialIcons}>
+                <Box>
+                  <ReactSVG src={fbSvg} />
+                  <Typography variant='h6'>10.1K</Typography>
+                </Box>
+                <Box>
+                  <ReactSVG src={instagramSvg} />
+                  <Typography variant='h6'>10.1K</Typography>
+                </Box>
+                <Box>
+                  <ReactSVG src={snapchatSvg} />
+                  <Typography variant='h6'>10.1K</Typography>
+                </Box>
+                <Box>
+                  <ReactSVG src={pinterestSvg} />
+                  <Typography variant='h6'>10.1K</Typography>
+                </Box>
+                <Box>
+                  <ReactSVG src={telegramSvg} />
+                  <Typography variant='h6'>10.1K</Typography>
+                </Box>
+                <Box>
+                  <ReactSVG src={twitterSvg} />
+                  <Typography variant='h6'>10.1K</Typography>
+                </Box>
+                <Box>
+                  <ReactSVG src={youtubeSvg} />
+                  <Typography variant='h6'>10.1K</Typography>
+                </Box>
               </Box>
             </Box>
           </Box>
@@ -279,32 +323,37 @@ const DashboardHome = () => {
         <Grid
           item
           xs={12}
-          sm={5}
+          sm={6}
           style={{ paddingTop: 0, borderRadius: '0.5rem' }}
         >
           <Box className={classes.ActionsGrid}>
-            <Box
-              sx={{
-                borderRight: '2px solid #ccc',
-                paddingRight: '13px',
-                paddingTop: '20px',
-              }}
-            >
+            <Box>
+              <Typography variant='h5' style={{ color: '#828282' }}>
+                Find a Client
+              </Typography>
               <TextField
-                variant='standard'
+                hiddenLabel
+                id='filled-hidden-label-small'
+                size='small'
+                className={classes.textInput}
                 color='primary'
                 value={clientNumber}
                 onChange={handleTxtChange}
-                label='Find Client'
-              ></TextField>
+                label='by name or file '
+              />
             </Box>
             <ToggleButtonGroup
               orientation='vertical'
               value={searchBy}
               exclusive
               onChange={handleChange}
+              style={{ borderLeft: '2px solid #ccc' }}
             >
-              <ToggleButton sx={{ border: 0 }} value='plane' aria-label='plane'>
+              <ToggleButton
+                sx={{ border: 0 }}
+                value='plane'
+                aria-label='plane'
+              >
                 <Button
                   disableRipple
                   fullWidth
@@ -313,13 +362,18 @@ const DashboardHome = () => {
                   variant='outlined'
                   sx={{
                     color: searchBy === 'plane' ? '#46B9F6' : '#000',
-                    borderColor: searchBy === 'plane' ? '#46B9F6' : '#000',
+                    borderColor:
+                      searchBy === 'plane' ? '#46B9F6' : '#000',
                   }}
                 >
-                  Search for a plane ticket
+                  Find a plane ticket
                 </Button>
               </ToggleButton>
-              <ToggleButton sx={{ border: 0 }} value='boat' aria-label='boat'>
+              <ToggleButton
+                sx={{ border: 0 }}
+                value='boat'
+                aria-label='boat'
+              >
                 <Button
                   disableRipple
                   fullWidth
@@ -328,7 +382,8 @@ const DashboardHome = () => {
                   variant='outlined'
                   sx={{
                     color: searchBy === 'boat' ? '#46B9F6' : '#000',
-                    borderColor: searchBy === 'boat' ? '#46B9F6' : '#000',
+                    borderColor:
+                      searchBy === 'boat' ? '#46B9F6' : '#000',
                   }}
                 >
                   Find a boat ticket
@@ -346,7 +401,8 @@ const DashboardHome = () => {
                   size={'small'}
                   variant='outlined'
                   sx={{
-                    color: searchBy === 'reservation' ? '#46B9F6' : '#000',
+                    color:
+                      searchBy === 'reservation' ? '#46B9F6' : '#000',
                     borderColor:
                       searchBy === 'reservation' ? '#46B9F6' : '#000',
                   }}
@@ -366,8 +422,10 @@ const DashboardHome = () => {
                   size={'small'}
                   variant='outlined'
                   sx={{
-                    color: searchBy === 'vehicle' ? '#46B9F6' : '#000',
-                    borderColor: searchBy === 'vehicle' ? '#46B9F6' : '#000',
+                    color:
+                      searchBy === 'vehicle' ? '#46B9F6' : '#000',
+                    borderColor:
+                      searchBy === 'vehicle' ? '#46B9F6' : '#000',
                   }}
                 >
                   Find a vehicle rental

@@ -126,9 +126,12 @@ const styles = makeStyles((theme) => ({
 const Comments = () => {
   const navigate = useNavigate();
   const classes = styles();
-  const { blogComments, modifyBlogComment } = useContext(BlogsContext);
-  const { productComments, modifyProductComment } = useContext(ProductContext);
-  const { offerComments, modifyOfferComment } = useContext(OffersContext);
+  const { blogComments, modifyBlogComment } =
+    useContext(BlogsContext);
+  const { productComments, modifyProductComment } =
+    useContext(ProductContext);
+  const { offerComments, modifyOfferComment } =
+    useContext(OffersContext);
 
   const [blogReviews, setBlogReviews] = useState();
   const [productReviews, setProductReviews] = useState();
@@ -160,15 +163,24 @@ const Comments = () => {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyBlogRows =
     rowsPerPage -
-    Math.min(rowsPerPage, (blogComments?.length || 0) - page * rowsPerPage);
+    Math.min(
+      rowsPerPage,
+      (blogComments?.length || 0) - page * rowsPerPage
+    );
 
   const emptyTourRows =
     rowsPerPage -
-    Math.min(rowsPerPage, (offerComments?.length || 0) - page * rowsPerPage);
+    Math.min(
+      rowsPerPage,
+      (offerComments?.length || 0) - page * rowsPerPage
+    );
 
   const emptyProductRows =
     rowsPerPage -
-    Math.min(rowsPerPage, (productReviews?.length || 0) - page * rowsPerPage);
+    Math.min(
+      rowsPerPage,
+      (productReviews?.length || 0) - page * rowsPerPage
+    );
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -302,113 +314,6 @@ const Comments = () => {
           </Box>
         </Box>
       </Box>
-
-      {/*  Dialog */}
-
-      <Button onClick={toggleDialogOpen}> Dialog ????</Button>
-
-      <div>
-        <Dialog open={isDialogOpen} fullWidth onClose={toggleDialogOpen}>
-          <DialogTitle>
-            <Typography variant='h5'>
-              Comment {new Date(dialogDetails?.createdAt).toLocaleDateString()}
-            </Typography>
-          </DialogTitle>
-          <DialogContent>
-            <Box className={classes.flexBetween}>
-              <Box className={classes.flexBetween} style={{ margin: 0 }}>
-                <Avatar
-                  alt='Cindy Baker'
-                  src={
-                    dialogDetails?.user?.photo || '/static/images/avatar/3.jpg'
-                  }
-                  sx={{ width: 70, height: 70 }}
-                  style={{ margin: '1rem 0.5rem 1rem 0rem' }}
-                />
-                <Box style={{ display: 'inline-grid' }}>
-                  <Typography variant='h5'>
-                    {' '}
-                    {dialogDetails?.user.fullName}
-                  </Typography>
-                  <Typography variant='text'>
-                    Client {dialogDetails?._id}
-                  </Typography>
-                  <Typography
-                    varaint='text'
-                    color='primary'
-                    onClick={() =>
-                      navigate(`/app/customers/edit/${dialogDetails?.user._id}`)
-                    }
-                  >
-                    Show customer
-                  </Typography>
-                </Box>
-              </Box>
-              <Box className={classes.flexBetween} style={{ margin: 0 }}>
-                <Box
-                  style={{
-                    display: 'inline-grid',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Typography variant='h5'>
-                    {dialogDetails?.source?.title}
-                  </Typography>
-                  <Typography variant='text'>
-                    Id {dialogDetails?.source?._id}
-                  </Typography>
-                  <Typography
-                    varaint='text'
-                    color='primary'
-                    onClick={() => navigate(`/${dialogDetails?.source?.url}`)}
-                  >
-                    Show page
-                  </Typography>
-                </Box>
-                <Avatar
-                  alt='Cindy Baker'
-                  src={
-                    dialogDetails?.source?.image ||
-                    '/static/images/avatar/3.jpg'
-                  }
-                  sx={{ width: 70, height: 70 }}
-                  style={{ margin: '1rem 1rem 1rem 0.5rem' }}
-                />
-              </Box>
-            </Box>
-            <Box style={{ display: 'inline-grid' }}>
-              {/* <Typography variant='text'>
-                {' '}
-                {new Date(
-                  dialogDetails?.source?.createdAt
-                ).toLocaleDateString()}
-              </Typography> */}
-              <Typography variant='text' mt={2} style={{ minHeight: '5rem' }}>
-                {dialogDetails?.source?.text}
-              </Typography>
-            </Box>
-          </DialogContent>
-          <Divider />
-          <DialogActions className={classes.flexBetween}>
-            {/* <Box>
-              <Button mr={1} style={{ color: 'green' }}>
-                Approve
-              </Button>
-              <Button mr={1}>Reply</Button>
-              <Button mr={1}>Modify</Button>
-              <Button mr={1}>Undesirable</Button>
-              <Button mr={1} style={{ color: 'red' }}>
-                Basket
-              </Button>
-            </Box> */}
-            <Box>
-              <Button variant='outlined' onClick={toggleDialogOpen}>
-                Cancel
-              </Button>
-            </Box>
-          </DialogActions>
-        </Dialog>
-      </div>
     </div>
   );
 };

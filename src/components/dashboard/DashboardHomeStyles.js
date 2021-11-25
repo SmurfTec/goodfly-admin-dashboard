@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     rowGap: '20px',
     flexBasis: '30%',
+    minWidth: '9rem',
   },
   InfoButton: {
     textAlign: 'center',
@@ -68,16 +69,40 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiBox-root': {
       flexBasis: '50%',
       display: 'flex',
-      justifyContent: 'space-around',
       alignItems: 'center',
+      columnGap: 5,
     },
   },
   ActionsGrid: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-evenly',
+    padding: '0.5rem',
     columnGap: 10,
     backgroundColor: '#f2f2f2',
     paddingInline: 20,
+    borderRadius: '0.5rem',
+  },
+  Badge: {
+    '& .MuiBadge-badge': {
+      borderRadius: '50%',
+      height: 25,
+      width: 25,
+    },
+  },
+
+  mainBox: {
+    backgroundColor: '#f2f2f2',
+    borderRadius: '10px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 25,
+    padding: 20,
+  },
+  textInput: {
+    backgroundColor: '#fff',
+    marginTop: '8px',
   },
 }));
 

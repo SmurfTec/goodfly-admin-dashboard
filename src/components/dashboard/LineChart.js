@@ -65,9 +65,9 @@ const LineChart = ({ reservations, orders }) => {
           'Nov',
           'Dec',
         ],
-        title: {
-          text: 'Months',
-        },
+        // title: {
+        //   text: 'Months',
+        // },
       },
       yaxis: {
         // title: {
@@ -98,8 +98,12 @@ const LineChart = ({ reservations, orders }) => {
       console.log('here');
       reservations?.forEach((reservation) => {
         console.log('inside forEach');
-        let reservationMonth = new Date(reservation.createdAt).getMonth();
-        let reservationYear = new Date(reservation.createdAt).getFullYear();
+        let reservationMonth = new Date(
+          reservation.createdAt
+        ).getMonth();
+        let reservationYear = new Date(
+          reservation.createdAt
+        ).getFullYear();
         console.log(`reservationMonth`, reservationMonth);
         console.log(`reservationYear`, reservationYear);
         if (reservationYear === currentYear)
@@ -139,7 +143,7 @@ const LineChart = ({ reservations, orders }) => {
       options={chartData.options}
       series={chartData.series.length > 0 ? chartData.series : []}
       type='line'
-      height={350}
+      height={280}
     />
   );
 };

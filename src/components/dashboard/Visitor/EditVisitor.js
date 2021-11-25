@@ -89,8 +89,12 @@ const EditVisitor = () => {
   const classes = styles();
 
   const [ok, setOk] = React.useState(true);
-  const { getCustomerById, customers, modifyCustomer } =
-    useContext(CustomersContext);
+  const {
+    getCustomerById,
+    customers,
+    modifyCustomer,
+    deleteCustomer,
+  } = useContext(CustomersContext);
   const { id } = useParams();
 
   const initialState = {
@@ -119,9 +123,6 @@ const EditVisitor = () => {
   };
 
   const [loading, setLoading] = useState(true);
-
-  const [modifyImageId, setModifyImageId] = useState();
-
   const [isImageUploading, toggleImageUploading] =
     useToggleInput(false);
   const [uploadingText, setUploadingText] = useState(
@@ -164,6 +165,9 @@ const EditVisitor = () => {
     console.log(`state`, state);
     modifyCustomer(id, state);
   };
+  const handleDeleteCustomer = () => {
+    deleteCustomer(id);
+  };
 
   const deleteAttachment = (id) => {
     changeInput(
@@ -171,25 +175,6 @@ const EditVisitor = () => {
       state.attachments.filter((el) => el._id !== id)
     );
   };
-
-  const handleModify = (id) => {
-    setModifyImageId(id);
-  };
-
-  const modifyImage = async (e) => {
-    const file = e.target.files[0];
-    try {
-      const convert64 = await convertTobase64(file);
-
-      changeInput(
-        'attachments',
-        state.attachment.map((el) =>
-          el._id === modifyImageId ? { ...el, image: convert64 } : el
-        )
-      );
-    } catch (err) {}
-  };
-
   const handleImage = async (e) => {
     setUploadingText('Uploading Image ...');
     toggleImageUploading();
@@ -241,21 +226,6 @@ const EditVisitor = () => {
     }
   };
 
-  const convertTobase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onloadend = () => {
-        console.log(`fileReader.result`, fileReader.result);
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        console.log(`error`, error);
-        reject(error);
-      };
-    });
-  };
-
   return (
     <div style={{ backgroundColor: '#fff', overflow: 'hidden' }}>
       {loading ? (
@@ -272,8 +242,9 @@ const EditVisitor = () => {
                 border: '1px solid rec',
                 colorwidth: 150,
               }}
+              onClick={handleDeleteCustomer}
             >
-              To Detelte
+              To Delete
             </Button>
             <Button
               // onClick={handleSubmit}
@@ -357,7 +328,7 @@ const EditVisitor = () => {
                       {' '}
                       Client Profile
                     </Typography>
-                    <div style={{ display: 'flex' }}>
+                    <Box style={{ display: 'flex' }}>
                       <Typography
                         variant='h5'
                         style={{ margin: '0px 10px 0px' }}
@@ -367,16 +338,16 @@ const EditVisitor = () => {
                       </Typography>
                       <Paper
                         style={{
-                          width: 70,
+                          width: '100%',
                           height: 25,
                           textAlign: 'right',
                           padding: 4,
                         }}
                       >
-                        {' '}
-                        0001
+                        {/* {state._id} */}
+                        {new Date().valueOf()}
                       </Paper>
-                    </div>
+                    </Box>
                   </Box>
                   <Box
                     style={{
@@ -861,25 +832,6 @@ const EditVisitor = () => {
                             alignItems: 'center',
                           }}
                         >
-                          <input
-                            accept='image/*'
-                            style={{ display: 'none' }}
-                            id='modify-button-file'
-                            // onChange={handleImage}
-                            onChange={modifyImage}
-                            type='file'
-                            name='photo'
-                          />
-                          <label
-                            htmlFor='modify-button-file'
-                            style={{ cursor: 'pointer' }}
-                            onClick={handleModify.bind(
-                              this,
-                              attachment._id
-                            )}
-                          >
-                            <Button>modify</Button>
-                          </label>
                           <Button
                             onClick={deleteAttachment.bind(
                               this,

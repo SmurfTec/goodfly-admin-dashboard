@@ -20,38 +20,41 @@ import { OffersProvider } from 'Contexts/OffersContext';
 import { ReservationsProvider } from 'Contexts/ReservationsContext';
 import { ProductProvider } from 'Contexts/ProductContext';
 import { OrderProvider } from 'Contexts/OrderContext';
+import { SocketProvider } from 'Contexts/SocketContext';
 
 // * -------------------------------- * //
 
 ReactDOM.render(
   <BrowserRouter>
     <AuthProvider>
-      <StaffersProvider>
-        <CustomersProvider>
-          <OrderProvider>
-            <ProductProvider>
-              <BlogsProvider>
-                <OffersProvider>
-                  <ReservationsProvider>
-                    <ToastContainer
-                      position='top-right'
-                      autoClose={3000}
-                      hideProgressBar
-                      newestOnTop={true}
-                      closeOnClick
-                      rtl={false}
-                      pauseOnFocusLoss
-                      draggable
-                      pauseOnHover
-                    />
-                    <App />
-                  </ReservationsProvider>
-                </OffersProvider>
-              </BlogsProvider>
-            </ProductProvider>
-          </OrderProvider>
-        </CustomersProvider>
-      </StaffersProvider>
+      <SocketProvider>
+        <StaffersProvider>
+          <CustomersProvider>
+            <OrderProvider>
+              <ProductProvider>
+                <BlogsProvider>
+                  <OffersProvider>
+                    <ReservationsProvider>
+                      <ToastContainer
+                        position='top-right'
+                        autoClose={3000}
+                        hideProgressBar
+                        newestOnTop={true}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                      />
+                      <App />
+                    </ReservationsProvider>
+                  </OffersProvider>
+                </BlogsProvider>
+              </ProductProvider>
+            </OrderProvider>
+          </CustomersProvider>
+        </StaffersProvider>
+      </SocketProvider>
     </AuthProvider>
   </BrowserRouter>,
   document.getElementById('root')

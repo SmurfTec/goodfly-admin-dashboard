@@ -539,8 +539,20 @@ const Order = () => {
                     Shipping Address
                   </Typography>
                   <Typography className={classes.address}>
-                    Text fields allow users to enter text into a UI.
-                    They typically appear in forms and dialogs.
+                    <b>Address:</b>{' '}
+                    {singleOrder?.shippingAddress.address}
+                  </Typography>
+                  <Typography className={classes.address}>
+                    <b>country:</b>
+                    {singleOrder?.shippingAddress.country}
+                  </Typography>
+                  <Typography className={classes.address}>
+                    <b>city:</b>
+                    {singleOrder?.shippingAddress.city}
+                  </Typography>
+                  <Typography className={classes.address}>
+                    <b>postalCode:</b>
+                    {singleOrder?.shippingAddress.postalCode}
                   </Typography>
                 </Box>
                 <Box
@@ -559,8 +571,20 @@ const Order = () => {
                     Billing Address
                   </Typography>
                   <Typography className={classes.address}>
-                    Text fields allow users to enter text into a UI.
-                    They typically appear in forms and dialogs.
+                    <b>Address:</b>{' '}
+                    {singleOrder?.shippingAddress.address}
+                  </Typography>
+                  <Typography className={classes.address}>
+                    <b>country:</b>
+                    {singleOrder?.shippingAddress.country}
+                  </Typography>
+                  <Typography className={classes.address}>
+                    <b>city:</b>
+                    {singleOrder?.shippingAddress.city}
+                  </Typography>
+                  <Typography className={classes.address}>
+                    <b>postalCode:</b>
+                    {singleOrder?.shippingAddress.postalCode}
                   </Typography>
                 </Box>
               </Box>
@@ -604,7 +628,6 @@ const Order = () => {
                       <TableCell align='right'>
                         Transaction Status
                       </TableCell>
-                      <TableCell align='right'>Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -622,9 +645,6 @@ const Order = () => {
                         </TableCell>
                         <TableCell align='right'>
                           {row.protein}
-                        </TableCell>
-                        <TableCell align='right'>
-                          <Button>Detail</Button>
                         </TableCell>
                       </TableRow>
                     ))}

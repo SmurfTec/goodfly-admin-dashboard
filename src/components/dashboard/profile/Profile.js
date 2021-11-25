@@ -32,7 +32,7 @@ const Profile = () => {
     instagramProfile: user.instagramProfile || '',
     twitterProfile: user.twitterProfile || '',
     snapChatProfile: user.snapChatProfile || '',
-    photp: user.photp || '',
+    photo: user.photo || '',
   };
 
   const [
@@ -44,8 +44,11 @@ const Profile = () => {
     setState,
   ] = useManyInputs(initialState);
 
-  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState('Uploading Image...');
+  const [isImageUploading, toggleImageUploading] =
+    useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState(
+    'Uploading Image...'
+  );
 
   useEffect(() => {
     setState({ ...user });
@@ -106,7 +109,9 @@ const Profile = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message || err.message || 'Something Went Wrong'
+        err?.response?.data?.message ||
+          err.message ||
+          'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -126,7 +131,13 @@ const Profile = () => {
 
         <form id='profileForm' onSubmit={handleSubmit}>
           <Grid container>
-            <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
+            <Grid
+              item
+              xs={12}
+              sm={7}
+              md={7}
+              style={{ minHeight: 400 }}
+            >
               <Box className={classes.mainBox}>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
@@ -171,10 +182,10 @@ const Profile = () => {
                     defaultValue='muhammadzain8@gmail.com'
                     size='small'
                     className={classes.textInput}
+                    inputProps={{ readOnly: true }}
                     placeholder='Your Email'
                     name='email'
                     value={state.email}
-                    onChange={handleTxtChange}
                     required
                   />
                 </Box>
@@ -262,7 +273,13 @@ const Profile = () => {
                 </Box>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={5} md={5} className={classes.account}>
+            <Grid
+              item
+              xs={12}
+              sm={5}
+              md={5}
+              className={classes.account}
+            >
               <Box className={classes.mainBox}>
                 <Typography variant='h5' style={{ width: '100%' }}>
                   Account managment
@@ -335,7 +352,10 @@ const Profile = () => {
                   </LoadingOverlay>
 
                   <Box style={{ marginBottom: 65 }}>
-                    <Typography variant='h5' style={{ width: '100%' }}>
+                    <Typography
+                      variant='h5'
+                      style={{ width: '100%' }}
+                    >
                       New Password
                     </Typography>
                     <Button
@@ -355,13 +375,6 @@ const Profile = () => {
                   width: '100%',
                 }}
               >
-                <Button
-                  variant='contained'
-                  size='medium'
-                  style={{ backgroundColor: 'red', width: 150 }}
-                >
-                  Delete
-                </Button>
                 <Button
                   type='submit'
                   id='profileForm'

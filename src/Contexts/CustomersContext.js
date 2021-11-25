@@ -46,6 +46,7 @@ export const CustomersProvider = ({ children }) => {
       await makeReq(`/users/${id}`, {}, 'DELETE');
       toast.success('Customer Deleted Successfully !');
       removeCustomer(id);
+      navigate('/app/customers');
     } catch (err) {
       handleCatch(err);
     }
@@ -87,9 +88,7 @@ export const CustomersProvider = ({ children }) => {
 
       pushCustomer(resData.user);
       toast.success('Customer Created Successfully !');
-      setTimeout(() => {
-        navigate('/app/customers');
-      }, 2000);
+      navigate('/app/customers');
     } catch (err) {
       handleCatch(err);
     }
