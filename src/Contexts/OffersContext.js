@@ -1,6 +1,6 @@
 import useArray from 'hooks/useArray';
 import React, { useState, useEffect, useContext, memo } from 'react';
-import { handleCatch, makeReq } from 'Utils/makeReq';
+import { handleCatch, makeReq } from 'utils/makeReq';
 import { AuthContext } from './AuthContext';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -47,7 +47,6 @@ export const OffersProvider = ({ children }) => {
       const resData2 = await makeReq(`/trips/customTrip`);
 
       setOffers(resData1.trips);
-      setCustomOffers(resData2.trips);
     } catch (err) {
       handleCatch(err);
     }
@@ -67,7 +66,7 @@ export const OffersProvider = ({ children }) => {
     try {
       const resData2 = await makeReq(`/trips/comments`);
 
-      setCustomOffers(resData2.comments);
+      setOfferComments(resData2.comments);
     } catch (err) {
       handleCatch(err);
     }

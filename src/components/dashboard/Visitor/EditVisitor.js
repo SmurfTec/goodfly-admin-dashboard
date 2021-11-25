@@ -24,7 +24,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import useToggleInput from 'hooks/useToggleInput';
 import LoadingOverlay from 'react-loading-overlay';
-import { getMuiDateFormat } from 'Utils/dateMethods';
+import { getMuiDateFormat } from 'utils/dateMethods';
 
 // import Carousel from 'react-material-ui-carousel';
 
@@ -123,6 +123,7 @@ const EditVisitor = () => {
   };
 
   const [loading, setLoading] = useState(true);
+
   const [isImageUploading, toggleImageUploading] =
     useToggleInput(false);
   const [uploadingText, setUploadingText] = useState(

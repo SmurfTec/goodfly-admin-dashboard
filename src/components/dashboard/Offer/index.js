@@ -32,10 +32,10 @@ const styles = makeStyles((theme) => ({
   imgBackground: {
     backgroundColor: '#808080',
     borderRadius: '10px',
-    width: '9rem',
+    width: '10rem',
     marginBottom: '1rem',
     [theme.breakpoints.down('lg')]: {
-      width: '6.5rem',
+      width: '9rem',
     },
   },
   image: {
@@ -69,8 +69,8 @@ const Offers = () => {
       <Typography variant='h5' m={2}>
         Offers Management
       </Typography>
-      <Grid container>
-        <Grid item sm={10}>
+      <Grid container sx={{ paddingBottom: '20px' }}>
+        <Grid item sm={9}>
           {/* TODO - Fetch Categories and then map them */}
 
           <OffersCarousel
@@ -89,7 +89,7 @@ const Offers = () => {
             title='excursions'
           />
         </Grid>
-        <Grid item sm={2}>
+        <Grid item sm={3}>
           <Box
             className={classes.boxBack}
             style={{
@@ -115,8 +115,8 @@ const Offers = () => {
             </Box>
             <Box
               className={classes.imgBackground}
-              // component={Link}
-              // to='/app/offers/createoffer'
+              component={Link}
+              to='/app/offers/archieves'
             >
               <Box className={classes.image}>
                 <Box>

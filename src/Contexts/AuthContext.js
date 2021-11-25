@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { makeReq, handleCatch } from 'Utils/makeReq';
+import { makeReq, handleCatch } from 'utils/makeReq';
 
 export const LOCALSTORAGE_TOKEN_KEY = 'admin-token';
 
@@ -79,6 +79,23 @@ export const AuthProvider = ({ children }) => {
     // }, 1000);
   };
 
+  // Update Staffer
+  const changeMyPassword = async (updatedPassword) => {
+    console.log(`updatedPassword`, updatedPassword);
+
+    try {
+      const resData = await makeReq(
+        `/users/updatepassword/${user._id}`,
+        { body: { ...updatedPassword } },
+        'PATCH'
+      );
+      toast.success('Password Updated Successfully !');
+      setUser(resData.user);
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
   return (
     <AuthContext.Provider
       displayName='Auth Context'
@@ -90,6 +107,7 @@ export const AuthProvider = ({ children }) => {
         setUser,
         signInUser,
         updateMe,
+        changeMyPassword,
       }}
     >
       {children}

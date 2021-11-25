@@ -5,9 +5,9 @@ import OffersTabs from './OffersTabs';
 import StagesTab from './StagesTab';
 import FormalitiesTab from './FormalitiesTab';
 import { OffersContext } from 'Contexts/OffersContext';
-import { removeKeyIncludingString } from 'Utils/objectMethods';
+import { removeKeyIncludingString } from 'utils/objectMethods';
 import { a11yProps } from 'components/common/TabPanel';
-import { handleCatch, makeReq } from 'Utils/makeReq';
+import { handleCatch, makeReq } from 'utils/makeReq';
 
 const useStyles = makeStyles((theme) => ({
   options: {

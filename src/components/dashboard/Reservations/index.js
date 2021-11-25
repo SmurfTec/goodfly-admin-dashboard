@@ -22,7 +22,7 @@ import v4 from 'uuid/dist/v4';
 import { ReservationsContext } from 'Contexts/ReservationsContext';
 import { Edit } from '@mui/icons-material';
 import { useNavigate } from 'react-router';
-import { daysBetween } from 'Utils/dateMethods';
+import { daysBetween } from 'utils/dateMethods';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -164,12 +164,15 @@ const Reservations = () => {
   //  filtered
   useEffect(() => {
     setCurrentReservations(
-      reservations?.filter(
-        (el) =>
+      reservations?.filter((el) => {
+        console.clear();
+        console.log(`el`, el);
+        return (
           el.visitor.fullName
             .toLowerCase()
             .indexOf(filter.toLowerCase()) !== -1
-      )
+        );
+      })
       // reservations || []
     );
   }, [filter]);
@@ -245,7 +248,7 @@ const Reservations = () => {
       // * till 2 weeks , after that they move to red List
       // * OR is archived since 6 weeks and still not recovered
 
-      console.log(`reservations?.length`, reservations?.length);
+      // console.log(`reservations?.length`, reservations?.length);
       const blackReservationsNew =
         reservations?.filter((el) => {
           const departureDate = new Date(
@@ -258,19 +261,10 @@ const Reservations = () => {
           // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
           // * So thats why I put 2nd condition
 
-          console.log(
-            `status cond`,
-            nonPaidStatuses.includes(el.status)
-          );
+          // console.log(`status cond`, nonPaidStatuses.includes(el.status));
 
-          console.log(
-            `cond 2.1`,
-            daysBetween(departureDate, currentDate) < 28
-          );
-          console.log(
-            `cond 2.2`,
-            daysBetween(departureDate, currentDate) > 14
-          );
+          // console.log(`cond 2.1`, daysBetween(departureDate, currentDate) < 28);
+          // console.log(`cond 2.2`, daysBetween(departureDate, currentDate) > 14);
 
           return (
             (el.status === 'archived' ||

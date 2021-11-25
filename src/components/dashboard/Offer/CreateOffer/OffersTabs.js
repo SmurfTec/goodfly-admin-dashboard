@@ -26,16 +26,16 @@ import { useManyInputs, useToggleInput } from 'hooks';
 import LoadingOverlay from 'react-loading-overlay';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { getMuiDateFormat } from 'Utils/dateMethods';
-import { countries, regions } from 'Utils/constants';
+import { getMuiDateFormat } from 'utils/dateMethods';
+import { countries, regions } from 'utils/constants';
 
 const OffersTabs = ({ classes, value, handleNext, offer }) => {
   const initialState = {
     image: '',
     upload: false,
     title: '',
-    country: 'Albania',
-    region: 'asis',
+    country: null,
+    region: null,
     description: '',
     isDates: 'no',
     price: '',

@@ -12,7 +12,7 @@ import {
 } from 'react-feather';
 import { Link, useParams } from 'react-router-dom';
 import { OffersContext } from 'Contexts/OffersContext';
-import { getMuiDateFormat } from 'Utils/dateMethods';
+import { getMuiDateFormat } from 'utils/dateMethods';
 import { useManyInputs, useToggleInput } from 'hooks';
 import { ConfirmDialog } from '../Dialogs';
 

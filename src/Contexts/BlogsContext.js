@@ -1,6 +1,6 @@
 import useArray from 'hooks/useArray';
 import React, { useState, useEffect, useContext, memo } from 'react';
-import { handleCatch, makeReq } from 'Utils/makeReq';
+import { handleCatch, makeReq } from 'utils/makeReq';
 import { AuthContext } from './AuthContext';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';

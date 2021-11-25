@@ -9,7 +9,7 @@ import axios from 'axios';
 
 import { toast } from 'react-toastify';
 
-import { API_BASE_URL } from 'Utils/makeReq';
+import { API_BASE_URL } from 'utils/makeReq';
 import { AuthContext } from 'Contexts/AuthContext';
 
 const Login = () => {

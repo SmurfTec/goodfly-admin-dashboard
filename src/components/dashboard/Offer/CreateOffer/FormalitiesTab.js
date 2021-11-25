@@ -13,7 +13,7 @@ import AddFormalityDialog from './AddFormalityDialog';
 import { TabPanel } from '../../../common/TabPanel';
 
 import v4 from 'uuid/dist/v4';
-import { makeReq } from 'Utils/makeReq';
+import { makeReq } from 'utils/makeReq';
 import { toast } from 'react-toastify';
 import parse from 'html-react-parser';
 

@@ -25,7 +25,7 @@ import useTextInput from 'hooks/useTextInput';
 
 import { BlogsContext } from 'Contexts/BlogsContext';
 import { useParams } from 'react-router';
-import { getMuiDateFormat } from 'Utils/dateMethods';
+import { getMuiDateFormat } from 'utils/dateMethods';
 
 const styles = makeStyles((theme) => ({
   image: {

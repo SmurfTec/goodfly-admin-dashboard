@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { handleCatch, makeReq } from 'Utils/makeReq';
+import { handleCatch, makeReq } from 'utils/makeReq';
 import { AuthContext } from './AuthContext';
 
 export const CustomersContext = React.createContext();
