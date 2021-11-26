@@ -13,6 +13,10 @@ import {
   Radio,
   CardMedia,
   Switch,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@material-ui/core';
 import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
@@ -25,6 +29,8 @@ import axios from 'axios';
 import useToggleInput from 'hooks/useToggleInput';
 import LoadingOverlay from 'react-loading-overlay';
 import { getMuiDateFormat } from 'utils/dateMethods';
+import { makeReq, handleCatch } from 'utils/makeReq';
+import SendEmail from 'utils/SendEmail';
 
 // import Carousel from 'react-material-ui-carousel';
 
@@ -121,6 +127,8 @@ const EditVisitor = () => {
     passportPlaceOfIssue: '',
     loyaltyPoints: 0,
   };
+
+  const [isOpen, toggleInput] = useToggleInput(false);
 
   const [loading, setLoading] = useState(true);
 
@@ -259,7 +267,6 @@ const EditVisitor = () => {
             </Button>
             <Box mb={3}>
               <Typography variant='h5' mb={1}>
-                {' '}
                 Contact to Client
               </Typography>
               <Button
@@ -269,16 +276,17 @@ const EditVisitor = () => {
                   color: 'black',
                   border: '1px solid #111111',
                   backgroundColor: '#c6c6c6',
-                  width: 180,
+                  width: '100%',
+                  minHeight: '2rem',
                 }}
+                onClick={toggleInput}
               >
-                {state.telephoneLineNumber}
-              </Button>{' '}
+                {state.email}
+              </Button>
             </Box>
             <Box style={{ width: 155 }}>
               <Typography variant='h5'>
-                {' '}
-                N Fidelite{' '}
+                N Fidelite
                 <b
                   style={{
                     fontSize: 28,
@@ -288,7 +296,7 @@ const EditVisitor = () => {
                   }}
                 >
                   827
-                </b>{' '}
+                </b>
               </Typography>
             </Box>
             <Box>
@@ -326,7 +334,6 @@ const EditVisitor = () => {
                     }}
                   >
                     <Typography variant='h4'>
-                      {' '}
                       Client Profile
                     </Typography>
                     <Box style={{ display: 'flex' }}>
@@ -334,8 +341,7 @@ const EditVisitor = () => {
                         variant='h5'
                         style={{ margin: '0px 10px 0px' }}
                       >
-                        {' '}
-                        Number{' '}
+                        Number
                       </Typography>
                       <Paper
                         style={{
@@ -345,8 +351,7 @@ const EditVisitor = () => {
                           padding: 4,
                         }}
                       >
-                        {/* {state._id} */}
-                        {new Date().valueOf()}
+                        {state._id}
                       </Paper>
                     </Box>
                   </Box>
@@ -398,6 +403,7 @@ const EditVisitor = () => {
                       size='small'
                       className={classes.textInput}
                       name='firstName'
+                      type='text'
                       value={state.firstName}
                       onChange={handleTxtChange}
                       required
@@ -413,6 +419,7 @@ const EditVisitor = () => {
                       size='small'
                       className={classes.textInput}
                       name='lastName'
+                      type='text'
                       value={state.lastName}
                       onChange={handleTxtChange}
                       required
@@ -428,6 +435,7 @@ const EditVisitor = () => {
                       size='small'
                       className={classes.textInput}
                       name='spouseName'
+                      type='text'
                       value={state.spouseName}
                       onChange={handleTxtChange}
                       required
@@ -443,15 +451,15 @@ const EditVisitor = () => {
                       size='small'
                       className={classes.textInput}
                       name='email'
+                      type='email'
                       value={state.email}
                       onChange={handleTxtChange}
                       required
                     />
-                  </Box>{' '}
+                  </Box>
                   <Box className={classes.inputBox}>
                     <Typography variant='h5' className={classes.typo}>
-                      {' '}
-                      Mobile{' '}
+                      Mobile
                     </Typography>
                     <TextField
                       hiddenLabel
@@ -459,15 +467,15 @@ const EditVisitor = () => {
                       size='small'
                       className={classes.textInput}
                       name='telephoneNumber'
+                      type='number'
                       value={state.telephoneNumber}
                       onChange={handleTxtChange}
                       required
                     />
-                  </Box>{' '}
+                  </Box>
                   <Box className={classes.inputBox}>
                     <Typography variant='h5' className={classes.typo}>
-                      {' '}
-                      TelePhone{' '}
+                      TelePhone
                     </Typography>
                     <TextField
                       hiddenLabel
@@ -475,15 +483,15 @@ const EditVisitor = () => {
                       size='small'
                       className={classes.textInput}
                       name='telephoneLineNumber'
+                      type='number'
                       value={state.telephoneLineNumber}
                       onChange={handleTxtChange}
                       required
                     />
-                  </Box>{' '}
+                  </Box>
                   <Box className={classes.inputBox}>
                     <Typography variant='h5' className={classes.typo}>
-                      {' '}
-                      Address{' '}
+                      Address
                     </Typography>
                     <TextField
                       hiddenLabel
@@ -491,6 +499,7 @@ const EditVisitor = () => {
                       size='small'
                       className={classes.textInput}
                       name='address'
+                      type='text'
                       value={state.address}
                       onChange={handleTxtChange}
                       required
@@ -498,7 +507,6 @@ const EditVisitor = () => {
                   </Box>
                   <Box className={classes.inputBox}>
                     <Typography variant='h5' className={classes.typo}>
-                      {' '}
                       Additional Address
                     </Typography>
                     <TextField
@@ -507,58 +515,67 @@ const EditVisitor = () => {
                       size='small'
                       className={classes.textInput}
                       name='additionalAddress'
+                      type='text'
                       value={state.additionalAddress}
                       onChange={handleTxtChange}
                       required
                     />
-                  </Box>{' '}
+                  </Box>
                   <Box
                     className={classes.inputBox}
                     style={{ marginBottom: 5 }}
                   >
-                    <Typography variant='h5' className={classes.typo}>
-                      {' '}
-                      Postal Code{' '}
+                    <Typography variant='h5' style={{ width: '30%' }}>
+                      Postal Code
                     </Typography>
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
+                    <Box
                       style={{
-                        backgroundColor: '#fff',
-                        width: '30%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        width: '97%',
                       }}
-                      name='postalCode'
-                      value={state.postalCode}
-                      onChange={handleTxtChange}
-                      required
-                    />
-                    <Typography
-                      variant='h5'
-                      className={classes.typo}
-                      style={{ textAlign: 'center' }}
                     >
-                      {' '}
-                      City{' '}
-                    </Typography>
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
-                      style={{
-                        backgroundColor: '#fff',
-                        width: '40%',
-                      }}
-                      name='city'
-                      value={state.city}
-                      onChange={handleTxtChange}
-                      required
-                    />
-                  </Box>{' '}
+                      <TextField
+                        type='number'
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        placeholder='46000'
+                        size='small'
+                        style={{
+                          backgroundColor: '#fff',
+                          width: '8rem',
+                        }}
+                        name='postalCode'
+                        value={state.postalCode}
+                        onChange={handleTxtChange}
+                        required
+                      />
+                      <Typography
+                        variant='h5'
+                        style={{ textAlign: 'center' }}
+                      >
+                        City
+                      </Typography>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        placeholder='Islamabad'
+                        size='small'
+                        style={{
+                          backgroundColor: '#fff',
+                          width: '8rem',
+                        }}
+                        name='city'
+                        value={state.city}
+                        onChange={handleTxtChange}
+                        required
+                      />
+                    </Box>
+                  </Box>
                   <Box className={classes.inputBox}>
                     <Typography variant='h5' className={classes.typo}>
-                      {' '}
-                      Country{' '}
+                      Country
                     </Typography>
                     <TextField
                       hiddenLabel
@@ -566,6 +583,7 @@ const EditVisitor = () => {
                       size='small'
                       className={classes.textInput}
                       name='country'
+                      type='text'
                       value={state.country}
                       onChange={handleTxtChange}
                       required
@@ -573,8 +591,7 @@ const EditVisitor = () => {
                   </Box>
                   <Box className={classes.inputBox}>
                     <Typography variant='h5' className={classes.typo}>
-                      {' '}
-                      Birth Date{' '}
+                      Birth Date
                     </Typography>
                     <TextField
                       hiddenLabel
@@ -589,8 +606,7 @@ const EditVisitor = () => {
                   </Box>
                   <Box className={classes.inputBox}>
                     <Typography variant='h5' className={classes.typo}>
-                      {' '}
-                      Nationality{' '}
+                      Nationality
                     </Typography>
                     <TextField
                       hiddenLabel
@@ -598,6 +614,7 @@ const EditVisitor = () => {
                       size='small'
                       className={classes.textInput}
                       name='nationality'
+                      type='text'
                       value={state.nationality}
                       onChange={handleTxtChange}
                       required
@@ -605,8 +622,7 @@ const EditVisitor = () => {
                   </Box>
                   <Box className={classes.inputBox}>
                     <Typography variant='h5' className={classes.typo}>
-                      {' '}
-                      Passport No{' '}
+                      Passport No
                     </Typography>
                     <TextField
                       hiddenLabel
@@ -614,6 +630,7 @@ const EditVisitor = () => {
                       size='small'
                       className={classes.textInput}
                       name='passportNumber'
+                      type='text'
                       value={state.passportNumber}
                       onChange={handleTxtChange}
                       required
@@ -621,8 +638,7 @@ const EditVisitor = () => {
                   </Box>
                   <Box className={classes.inputBox}>
                     <Typography variant='h5' className={classes.typo}>
-                      {' '}
-                      Deliverance date{' '}
+                      Deliverance date
                     </Typography>
                     <TextField
                       hiddenLabel
@@ -638,8 +654,7 @@ const EditVisitor = () => {
                   </Box>
                   <Box className={classes.inputBox}>
                     <Typography variant='h5' className={classes.typo}>
-                      {' '}
-                      place of delivery{' '}
+                      place of delivery
                     </Typography>
                     <TextField
                       hiddenLabel
@@ -647,6 +662,7 @@ const EditVisitor = () => {
                       size='small'
                       className={classes.textInput}
                       name='passportPlaceOfIssue'
+                      type='date'
                       value={state.passportPlaceOfIssue}
                       onChange={handleTxtChange}
                       required
@@ -684,6 +700,7 @@ const EditVisitor = () => {
                         size='small'
                         className={classes.textInput}
                         name='facebookProfile'
+                        type='text'
                         value={state.facebookProfile}
                         onChange={handleTxtChange}
                       />
@@ -696,6 +713,7 @@ const EditVisitor = () => {
                         size='small'
                         className={classes.textInput}
                         name='instagramProfile'
+                        type='text'
                         value={state.instagramProfile}
                         onChange={handleTxtChange}
                       />
@@ -708,6 +726,7 @@ const EditVisitor = () => {
                         size='small'
                         className={classes.textInput}
                         name='twitterProfile'
+                        type='text'
                         value={state.twitterProfile}
                         onChange={handleTxtChange}
                       />
@@ -720,6 +739,7 @@ const EditVisitor = () => {
                         size='small'
                         className={classes.textInput}
                         name='snapChatProfile'
+                        type='text'
                         value={state.snapChatProfile}
                         onChange={handleTxtChange}
                       />
@@ -752,8 +772,7 @@ const EditVisitor = () => {
                       variant='text'
                       style={{ color: '#c6c6c6', margin: 10 }}
                     >
-                      {' '}
-                      Fake order details{' '}
+                      Fake order details
                     </Typography>
                   </Box>
                 </Box>
@@ -761,7 +780,7 @@ const EditVisitor = () => {
                   className={classes.mainBox}
                   style={{
                     padding: 10,
-                    margin: '40px 10px 0px 0px ',
+                    margin: '30px 10px 0px 0px ',
                   }}
                 >
                   <Typography
@@ -906,17 +925,19 @@ const EditVisitor = () => {
                                 </Typography>
                               </Box>
                             </Box>
-                          </label>{' '}
+                          </label>
                         </Box>
                       </Box>
                     </Box>
-                  </LoadingOverlay>{' '}
+                  </LoadingOverlay>
                 </Grid>
               </Grid>
             </Box>
           </form>
         </Box>
       )}
+
+      <SendEmail id={id} open={isOpen} toggleDialog={toggleInput} />
     </div>
   );
 };
