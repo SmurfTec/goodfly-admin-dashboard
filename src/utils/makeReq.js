@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 
 // * Production URLs
 const API_BASE_URL = `https://goodfly-api.herokuapp.com/api`;
-// const API_BASE_ORIGIN = `https://goodfly-api.herokuapp.com`;
+const API_BASE_ORIGIN = `https://goodfly-api.herokuapp.com`;
 
 const handleCatch = (err) => {
   // console.log('**********');
