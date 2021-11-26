@@ -71,7 +71,7 @@ export const SocketProvider = (props) => {
 
       //* update notifications
 
-      setNotifications([...notifications, data.newNotification]);
+      setNotifications([data.newNotification, ...notifications]);
     });
   }, [socket, user]);
 

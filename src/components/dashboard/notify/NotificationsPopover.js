@@ -32,16 +32,16 @@ import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import { makeStyles } from '@material-ui/styles';
 import { ShoppingBag } from 'react-feather';
 
-import orderImg from 'Assets/img/order.svg';
-import offerImg from 'Assets/img/smallOffer.png';
 import { ShoppingBagOutlined } from '@material-ui/icons';
 import FlightTakeoffIcon from '@mui/icons-material/Flight';
 
 const useStyles = makeStyles((theme) => ({
-  '& .MuiBadge-badge': {
-    borderRadius: '50%',
-    height: 25,
-    width: 25,
+  badge: {
+    '& .MuiBadge-badge': {
+      borderRadius: '50%',
+      height: 25,
+      width: 25,
+    },
   },
 }));
 // ----------------------------------------------------------------------
@@ -161,7 +161,6 @@ const NotificationsPopover = () => {
       (item) => item.isRead === false
     ).length;
 
-    console.log(`unread`, unread);
     return unread;
   }, [localNotifications]);
 
@@ -261,7 +260,7 @@ const NotificationsPopover = () => {
               </ListSubheader>
             }
           >
-            {notifications.map(
+            {localNotifications.map(
               (notification) =>
                 notification.isRead === false && (
                   <NotificationItem
@@ -283,7 +282,7 @@ const NotificationsPopover = () => {
               </ListSubheader>
             }
           >
-            {notifications.map(
+            {localNotifications.map(
               (notification) =>
                 notification.isRead === true && (
                   <NotificationItem
