@@ -31,7 +31,7 @@ import LoadingOverlay from 'react-loading-overlay';
 import { getMuiDateFormat } from 'utils/dateMethods';
 import { makeReq, handleCatch } from 'utils/makeReq';
 import SendEmail from 'utils/SendEmail';
-
+import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
 // import Carousel from 'react-material-ui-carousel';
 
 const styles = makeStyles((theme) => ({
@@ -99,6 +99,7 @@ const EditVisitor = () => {
     getCustomerById,
     customers,
     modifyCustomer,
+    verifyVisitor,
     deleteCustomer,
   } = useContext(CustomersContext);
   const { id } = useParams();
@@ -126,6 +127,7 @@ const EditVisitor = () => {
     passportDateOfIssue: '',
     passportPlaceOfIssue: '',
     loyaltyPoints: 0,
+    isVerified: false,
   };
 
   const [isOpen, toggleInput] = useToggleInput(false);
@@ -165,6 +167,9 @@ const EditVisitor = () => {
     }
   }, [id, customers]);
 
+  const handleVerify = () => {
+    verifyVisitor(id);
+  };
   const toggle = (event) => {
     setOk(event.target.ok);
   };
@@ -261,7 +266,6 @@ const EditVisitor = () => {
               type='submit'
               variant='outlined'
               size='medium'
-              style={{ width: 150 }}
             >
               To Modify
             </Button>
@@ -313,6 +317,24 @@ const EditVisitor = () => {
                 </b>
                 Points
               </Typography>
+            </Box>
+            <Box>
+              {state.isVerified === false ? (
+                <Button variant='outlined' onClick={handleVerify}>
+                  Verify
+                </Button>
+              ) : (
+                <Button
+                  variant='outlined'
+                  endIcon={
+                    <AssignmentTurnedInOutlinedIcon
+                      style={{ color: 'green' }}
+                    />
+                  }
+                >
+                  Verified
+                </Button>
+              )}
             </Box>
           </Box>
           <form onSubmit={handleSubmit} id='customerForm'>
