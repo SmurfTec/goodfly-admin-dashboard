@@ -10,7 +10,6 @@ import { AuthContext } from './AuthContext';
 import { API_BASE_ORIGIN } from 'utils/makeReq';
 import { makeReq, handleCatch } from 'utils/makeReq';
 import useArray from 'hooks/useArray';
-import { toast } from 'react-toastify';
 
 export const SocketContext = createContext();
 
@@ -40,6 +39,19 @@ export const SocketProvider = (props) => {
       }
     })();
   }, [user]);
+
+  const makeNotficationsAsRead = async () => {
+    try {
+      const resData = await makeReq(
+        '/users/read-my-notifications',
+        {},
+        'PATCH'
+      );
+    } catch (err) {
+      handleCatch(err);
+    }
+    console.log('makenotificationRead');
+  };
 
   //* socket connection
   useEffect(() => {
@@ -73,7 +85,9 @@ export const SocketProvider = (props) => {
   }, [socket, user]);
 
   return (
-    <SocketContext.Provider value={{ socket }}>
+    <SocketContext.Provider
+      value={{ socket, notifications, makeNotficationsAsRead }}
+    >
       {props.children}
     </SocketContext.Provider>
   );
