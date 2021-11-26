@@ -97,7 +97,7 @@ const FilterButton = ({
     style={{
       // color: `${color}`,
       // border: `1px solid ${color}`,
-      minWidth: '9rem',
+      minWidth: '8rem',
     }}
     sx={{
       // '&.MuiButton-root': {

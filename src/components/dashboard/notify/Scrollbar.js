@@ -8,8 +8,8 @@ import { Box } from '@material-ui/core';
 
 const RootStyle = styled('div')({
   flexGrow: 1,
-  height: '100%',
-  overflow: 'hidden',
+  height: '500px',
+  overflowY: 'scroll',
 });
 
 const SimpleBarStyle = styled(SimpleBarReact)(({ theme }) => ({
@@ -56,12 +56,7 @@ export default function Scrollbar({ children, sx, ...other }) {
 
   return (
     <RootStyle>
-      <SimpleBarStyle
-        timeout={500}
-        clickOnTrack={false}
-        sx={sx}
-        {...other}
-      >
+      <SimpleBarStyle timeout={500} clickOnTrack={false} sx={sx} {...other}>
         {children}
       </SimpleBarStyle>
     </RootStyle>

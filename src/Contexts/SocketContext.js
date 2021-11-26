@@ -1,9 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 import socketIo from 'socket.io-client';
 import { AuthContext } from './AuthContext';
@@ -20,11 +15,11 @@ export const SocketProvider = (props) => {
   const [
     notifications,
     setNotifications,
-    pushNotification,
-    filterNotification,
-    updateNotification,
-    removeNotification,
-    clearNotifications,
+    // pushNotification,
+    // filterNotification,
+    // updateNotification,
+    // removeNotification,
+    // clearNotifications,
   ] = useArray([], '_id');
 
   //* get notification
@@ -42,11 +37,7 @@ export const SocketProvider = (props) => {
 
   const makeNotficationsAsRead = async () => {
     try {
-      const resData = await makeReq(
-        '/users/read-my-notifications',
-        {},
-        'PATCH'
-      );
+      await makeReq('/users/read-my-notifications', {}, 'PATCH');
     } catch (err) {
       handleCatch(err);
     }

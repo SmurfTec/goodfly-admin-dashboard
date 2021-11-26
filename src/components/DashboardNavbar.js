@@ -10,7 +10,6 @@ import {
   Typography,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import PersonIcon from '@material-ui/icons/Person';
 import { AuthContext } from 'Contexts/AuthContext';
 import NotificationsPopover from './dashboard/notify/NotificationsPopover';
@@ -28,11 +27,7 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
         }}
       >
         <Box sx={{ flexGrow: 1, maxWidth: 256 }} />
-        <Box
-          display='flex'
-          justifyContent='space-around'
-          alignItems='center'
-        >
+        <Box display='flex' justifyContent='space-around' alignItems='center'>
           <PersonIcon />
           <Box display='flex' columnGap={1}>
             <Typography variant='h5'>{user.role}</Typography>
@@ -47,23 +42,12 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
           }}
         >
           <Hidden mdDown>
-            <IconButton color='inherit' size='large'>
-              <Badge
-                badgeContent={notifications.length}
-                color='primary'
-                variant='dot'
-              >
-                <NotificationsPopover />
-              </Badge>
-            </IconButton>
+            <NotificationsPopover />
+
             <Typography>{new Date().toDateString()}</Typography>
           </Hidden>
           <Hidden mdUp>
-            <IconButton
-              color='inherit'
-              onClick={onMobileNavOpen}
-              size='large'
-            >
+            <IconButton color='inherit' onClick={onMobileNavOpen} size='large'>
               <MenuIcon />
             </IconButton>
           </Hidden>

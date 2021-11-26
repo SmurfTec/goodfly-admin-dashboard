@@ -267,63 +267,61 @@ const EditStaffer = () => {
 
       {/*DIALOG FOR PASSWORD UPDATE */}
 
-      <div>
-        <Dialog
-          open={openPass}
-          onClose={handleClosePass}
-          style={{
-            border: '1px solid red',
-          }}
-        >
-          <DialogTitle>
-            <Typography variant='h4'>Changing the Paasword</Typography>
-          </DialogTitle>
-          <DialogContent>
-            <Box
-              className={classes.form}
-              style={{ margin: '1rem', padding: 'o.2rem' }}
-              overlayStyle={{ backgroundColor: 'transparent' }}
-            >
-              <TextField
-                autoFocus
-                margin='dense'
-                id='name'
-                label='New Password'
-                type='password'
-                name='password'
-                value={state.password}
-                onChange={handleTxtChange}
-                fullWidth
-                style={{ width: '40rem', marginRight: '2rem' }}
-              />
-              <TextField
-                autoFocus
-                margin='dense'
-                id='name'
-                label='Confirm new password'
-                name='passwordConfirm'
-                value={state.passwordConfirm}
-                onChange={handleTxtChange}
-                type='password'
-                fullWidth
-                style={{ width: '40rem', marginRight: '2rem' }}
-              />
-            </Box>
-          </DialogContent>
-
-          <DialogActions
+      <Dialog
+        open={openPass}
+        onClose={handleClosePass}
+        style={{
+          border: '1px solid red',
+        }}
+      >
+        <DialogTitle>
+          <Typography variant='h4'>Changing the Paasword</Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Box
             className={classes.form}
-            style={{ margin: '1rem', justifyContent: 'right' }}
+            style={{ margin: '1rem', padding: 'o.2rem' }}
+            overlayStyle={{ backgroundColor: 'transparent' }}
           >
-            <Button variant='outlined' onClick={handleClosePass}>
-              Cancel
-            </Button>
-            <Button variant='contained' onClick={handleUpdatePass}>
-              Update
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+            <TextField
+              autoFocus
+              margin='dense'
+              id='name'
+              label='New Password'
+              type='password'
+              name='password'
+              value={state.password}
+              onChange={handleTxtChange}
+              fullWidth
+              style={{ width: '40rem', marginRight: '2rem' }}
+            />
+            <TextField
+              autoFocus
+              margin='dense'
+              id='name'
+              label='Confirm new password'
+              name='passwordConfirm'
+              value={state.passwordConfirm}
+              onChange={handleTxtChange}
+              type='password'
+              fullWidth
+              style={{ width: '40rem', marginRight: '2rem' }}
+            />
+          </Box>
+        </DialogContent>
+
+        <DialogActions
+          className={classes.form}
+          style={{ margin: '1rem', justifyContent: 'right' }}
+        >
+          <Button variant='outlined' onClick={handleClosePass}>
+            Cancel
+          </Button>
+          <Button variant='contained' onClick={handleUpdatePass}>
+            Update
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import { noCase } from 'change-case';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
 import { Icon } from '@iconify/react';
-import bellFill from '@iconify/icons-eva/bell-fill';
 import clockFill from '@iconify/icons-eva/clock-fill';
 import doneAllFill from '@iconify/icons-eva/done-all-fill';
+
 // material
-import { alpha } from '@material-ui/core/styles';
+import { alpha, useTheme } from '@material-ui/core/styles';
 import {
   Box,
   List,
@@ -28,7 +28,22 @@ import {
 import Scrollbar from './Scrollbar';
 import MenuPopover from './MenuPopover';
 import { SocketContext } from 'Contexts/SocketContext';
+import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
+import { makeStyles } from '@material-ui/styles';
+import { ShoppingBag } from 'react-feather';
 
+import orderImg from 'Assets/img/order.svg';
+import offerImg from 'Assets/img/smallOffer.png';
+import { ShoppingBagOutlined } from '@material-ui/icons';
+import FlightTakeoffIcon from '@mui/icons-material/Flight';
+
+const useStyles = makeStyles((theme) => ({
+  '& .MuiBadge-badge': {
+    borderRadius: '50%',
+    height: 25,
+    width: 25,
+  },
+}));
 // ----------------------------------------------------------------------
 
 // const NOTIFICATIONS = [
@@ -59,55 +74,50 @@ const renderContent = (notification) => {
 
   if (notification.type === 'trip') {
     return {
-      avatar: (
-        <img
-          alt={notification.title}
-          src='/static/icons/ic_notification_package.svg'
-        />
-      ),
       title,
     };
   }
   if (notification.type === 'order') {
     return {
-      avatar: (
-        <img
-          alt={notification.title}
-          src='/static/icons/ic_notification_shipping.svg'
-        />
-      ),
       title,
     };
   }
 
   return {
-    avatar: (
-      <img alt={notification.title} src={notification.avatar} />
-    ),
     title,
   };
 };
 
 const NotificationItem = ({ notification }) => {
-  const { avatar, title } = renderContent(notification);
+  const { title } = renderContent(notification);
+  const theme = useTheme();
 
   return (
     <ListItemButton
-      to='#'
+      to={notification.link}
       disableGutters
       component={RouterLink}
       sx={{
         py: 1.5,
         px: 2.5,
         mt: '1px',
-        ...(notification.isRead && {
+        ...(!notification.isRead && {
           bgcolor: 'action.selected',
         }),
       }}
     >
       <ListItemAvatar>
-        <Avatar sx={{ bgcolor: 'background.neutral' }}>
-          {avatar}
+        <Avatar
+          // className={classes.}
+          sx={{ bgcolor: 'aliceblue' }}
+        >
+          {notification.type === 'trip' ? (
+            <FlightTakeoffIcon style={{ color: theme.palette.primary.main }} />
+          ) : (
+            <ShoppingBagOutlined
+              style={{ color: theme.palette.primary.main }}
+            />
+          )}
         </Avatar>
       </ListItemAvatar>
       <ListItemText
@@ -140,14 +150,21 @@ NotificationItem.propTypes = {
 };
 
 const NotificationsPopover = () => {
+  const classes = useStyles();
+
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
-  const { notifications, makeNotficationsAsRead } =
-    useContext(SocketContext);
+  const { notifications, makeNotficationsAsRead } = useContext(SocketContext);
   const [localNotifications, setLocalNotifications] = useState([]);
-  const totalUnRead = localNotifications?.filter(
-    (item) => item.isRead === true
-  ).length;
+  const totalUnRead = useMemo(() => {
+    let unread = localNotifications.filter(
+      (item) => item.isRead === false
+    ).length;
+
+    console.log(`unread`, unread);
+    return unread;
+  }, [localNotifications]);
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -166,7 +183,7 @@ const NotificationsPopover = () => {
     setLocalNotifications(
       localNotifications.map((el) => ({
         ...el,
-        isRead: false,
+        isRead: true,
       }))
     );
     makeNotficationsAsRead();
@@ -189,8 +206,14 @@ const NotificationsPopover = () => {
           }),
         }}
       >
-        <Badge badgeContent={totalUnRead} color='error'>
-          <Icon icon={bellFill} width={20} height={20} />
+        <Badge
+          badgeContent={totalUnRead}
+          className={classes.badge}
+          // style={{ border: '2px solid red' }}
+          color='primary'
+        >
+          {/* <Icon icon={bellFill} /> */}
+          <NotificationsIcon width={20} height={20} />
         </Badge>
       </IconButton>
 
@@ -210,20 +233,14 @@ const NotificationsPopover = () => {
         >
           <Box sx={{ flexGrow: 1 }}>
             <Typography variant='subtitle1'>Notifications</Typography>
-            <Typography
-              variant='body2'
-              sx={{ color: 'text.secondary' }}
-            >
+            <Typography variant='body2' sx={{ color: 'text.secondary' }}>
               You have {totalUnRead} unread messages
             </Typography>
           </Box>
 
           {totalUnRead > 0 && (
             <Tooltip title=' Mark all as read'>
-              <IconButton
-                color='primary'
-                onClick={handleMarkAllAsRead}
-              >
+              <IconButton color='primary' onClick={handleMarkAllAsRead}>
                 <Icon icon={doneAllFill} width={20} height={20} />
               </IconButton>
             </Tooltip>
@@ -246,7 +263,7 @@ const NotificationsPopover = () => {
           >
             {notifications.map(
               (notification) =>
-                notification.isRead === true && (
+                notification.isRead === false && (
                   <NotificationItem
                     key={notification._id}
                     notification={notification}
@@ -268,7 +285,7 @@ const NotificationsPopover = () => {
           >
             {notifications.map(
               (notification) =>
-                notification.isRead === false && (
+                notification.isRead === true && (
                   <NotificationItem
                     key={notification._id}
                     notification={notification}
