@@ -23,10 +23,12 @@ import {
   AlignJustify as AlignJustifyIcon,
 } from 'react-feather';
 import { makeStyles } from '@material-ui/styles';
-import logo from 'Assets/img/airplane.svg';
+// import logo from 'Assets/img/airplane.svg';
 import NavItem from './NavItem';
 import SidebarContent from './SidebarContent';
 import { AuthContext } from 'Contexts/AuthContext';
+import logo from 'Assets/img/logo.png';
+import { useNavigate } from 'react-router';
 
 // import SidebarContent2 from './SidebarContent2';
 
@@ -42,12 +44,16 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
   const { user } = useContext(AuthContext);
   const classes = useStyles();
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (openMobile && onMobileClose) {
       // onMobileClose();
     }
   }, [location.pathname, openMobile, onMobileClose]);
-
+  const homePage = () => {
+    navigate('/app');
+  };
   const content = (
     <Box
       sx={{
@@ -72,27 +78,14 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         >
           Administration Interface
         </Typography>
-        <Typography
-          variant='h2'
-          noWrap
+        <img
+          src={logo}
           style={{
+            width: 160,
             cursor: 'pointer',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            minWidth: 160,
-            fontWeight: 1000,
           }}
-          color='primary'
-          // onClick={() => history.push('/')}
-        >
-          GOODFLY
-          <img
-            src={logo}
-            style={{ width: 40, height: 50 }}
-            alt='logo'
-          />
-        </Typography>
+          onClick={homePage}
+        />
       </Box>
       {/* <Divider /> */}
       <Typography
