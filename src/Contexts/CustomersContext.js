@@ -61,8 +61,22 @@ export const CustomersProvider = ({ children }) => {
         'PATCH'
       );
       toast.success('Customer Updated Successfully !');
-
       // Update Customer in the context array
+      updateCustomer(id, resData.user);
+      return resData.user;
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
+  const verifyVisitor = async (id) => {
+    try {
+      const resData = await makeReq(
+        `/users/verifyVisitor/${id}`,
+        {},
+        'PATCH'
+      );
+      toast.success('User Verified');
       updateCustomer(id, resData.user);
       return resData.user;
     } catch (err) {
@@ -102,6 +116,7 @@ export const CustomersProvider = ({ children }) => {
         deleteCustomer,
         getCustomerById,
         modifyCustomer,
+        verifyVisitor,
         createNewCustomer,
       }}
     >
