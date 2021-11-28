@@ -41,9 +41,8 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
             alignItems: 'center',
           }}
         >
+          <NotificationsPopover />
           <Hidden mdDown>
-            <NotificationsPopover />
-
             <Typography>{new Date().toDateString()}</Typography>
           </Hidden>
           <Hidden mdUp>

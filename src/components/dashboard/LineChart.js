@@ -95,17 +95,13 @@ const LineChart = ({ reservations, orders }) => {
     // * we have to group reservations in months
 
     if (reservations?.length > 0) {
-      console.log('here');
       reservations?.forEach((reservation) => {
-        console.log('inside forEach');
         let reservationMonth = new Date(
           reservation.createdAt
         ).getMonth();
         let reservationYear = new Date(
           reservation.createdAt
         ).getFullYear();
-        console.log(`reservationMonth`, reservationMonth);
-        console.log(`reservationYear`, reservationYear);
         if (reservationYear === currentYear)
           reservationSeries[reservationMonth]++;
       });
@@ -116,13 +112,9 @@ const LineChart = ({ reservations, orders }) => {
         let orderMonth = new Date(order.createdAt).getMonth();
         let orderYear = new Date(order.createdAt).getFullYear();
 
-        console.log(`orderMonth`, orderMonth);
-        console.log(`orderYear`, orderYear);
         if (orderYear === currentYear) orderSeries[orderMonth]++;
       });
     }
-    console.log(`reservationSeries`, reservationSeries);
-    console.log(`orderSeries`, orderSeries);
     setChartData((st) => ({
       ...st,
       series: [

@@ -74,7 +74,9 @@ const OfferView = ({ offer }) => {
             )}
             {offer ? (
               <Typography variant='h4'>
-                {new Date(offer.startingDate).toDateString()}
+                {offer.startingDate
+                  ? new Date(offer.startingDate).toDateString()
+                  : 'Open Offer'}
               </Typography>
             ) : (
               <Skeleton variant='rect' width='80%' />

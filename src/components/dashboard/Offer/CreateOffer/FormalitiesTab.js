@@ -10,12 +10,14 @@ import { Box } from '@material-ui/system';
 import { useToggleInput, useTextInput } from 'hooks';
 import React, { useEffect, useState } from 'react';
 import AddFormalityDialog from './AddFormalityDialog';
+import UpdateFormalityDialog from './AddFormalityDialog';
 import { TabPanel } from '../../../common/TabPanel';
 
-import v4 from 'uuid/dist/v4';
-import { makeReq } from 'utils/makeReq';
+import { handleCatch, makeReq } from 'utils/makeReq';
 import { toast } from 'react-toastify';
 import parse from 'html-react-parser';
+import { Delete, Edit } from '@material-ui/icons';
+import { ConfirmDialog as ConfirmDelFormality } from '../../Dialogs';
 
 const FormalitiesTab = ({
   value,
@@ -31,6 +33,9 @@ const FormalitiesTab = ({
   const [currentFormality, setCurrentFormality] = useState();
 
   const [isDialogOpen, toggleDialogOpen] = useToggleInput(false);
+  const [isUpdateFormalityOpen, toggleUpdateFormalityOpen] =
+    useToggleInput(false);
+  const [isDelFormalityOpen, toggleDelFormalityOpen] = useToggleInput(false);
 
   const handleAddFormality = async (data) => {
     console.log(`data`, data);
@@ -42,6 +47,27 @@ const FormalitiesTab = ({
       toast.error('Error Creating Formality');
     }
     toggleDialogOpen();
+  };
+  const updateFormality = async (data) => {
+    console.log(`data`, data);
+
+    try {
+      const resData = await makeReq(
+        `/formalities/${currentFormality._id}`,
+        { body: data },
+        'PATCH'
+      );
+      setFormalities((st) =>
+        st.map((el) =>
+          el._id === currentFormality._id ? resData.formality : el
+        )
+      );
+      setCurrentFormality(resData.formality);
+      toast.success('Formality Updated Successfully !');
+    } catch (err) {
+      toast.error('Error Updating Formality');
+    }
+    toggleUpdateFormalityOpen();
   };
 
   const handleSubmit = () => {
@@ -65,6 +91,24 @@ const FormalitiesTab = ({
     handleFormality(e);
 
     setCurrentFormality(selectedItem);
+  };
+
+  const handleDeleteFormality = () => {
+    // console.log(`id`, currentFormality._id);
+    toggleDelFormalityOpen();
+    makeReq(`/formalities/${currentFormality._id}`, {}, 'DELETE')
+      .then(() => {
+        setCurrentFormality(formalities[0]);
+        setFormalities((st) =>
+          st.filter((el) => el._id !== currentFormality._id)
+        );
+        toast.success('Formality Deleted Successfully!');
+      })
+      .catch((err) => handleCatch(err));
+  };
+
+  const handleUpdateFormality = () => {
+    toggleUpdateFormalityOpen();
   };
 
   return (
@@ -131,6 +175,32 @@ const FormalitiesTab = ({
             <Box style={{ paddingLeft: '1.5rem' }}>
               {parse(currentFormality.content.toString())}
             </Box>
+            <Box
+              display='flex'
+              justifyContent='center'
+              alignItems='center'
+              flexWrap='wrap'
+              columnGap='20px'
+            >
+              <Button
+                variant='contained'
+                style={{ width: '8rem' }}
+                onClick={toggleDelFormalityOpen}
+                endIcon={<Delete />}
+                color='error'
+              >
+                {' '}
+                Delete
+              </Button>
+              <Button
+                endIcon={<Edit />}
+                variant='contained'
+                style={{ width: '8rem' }}
+                onClick={handleUpdateFormality}
+              >
+                Update
+              </Button>
+            </Box>
           </Box>
         </Box>
       )}
@@ -155,7 +225,18 @@ const FormalitiesTab = ({
         open={isDialogOpen}
         toggleDialog={toggleDialogOpen}
         submit={handleAddFormality}
-        disabled={!currentFormality}
+      />
+      <UpdateFormalityDialog
+        open={isUpdateFormalityOpen}
+        toggleDialog={toggleUpdateFormalityOpen}
+        submit={updateFormality}
+        formality={currentFormality}
+      />
+      <ConfirmDelFormality
+        open={isDelFormalityOpen}
+        toggleDialog={toggleDelFormalityOpen}
+        success={handleDeleteFormality}
+        dialogTitle='Delete this formality ?'
       />
     </TabPanel>
   );

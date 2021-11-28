@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 // * MUI ----------------
 import {
@@ -47,16 +47,25 @@ import { OffersContext } from 'Contexts/OffersContext';
 import { ReservationsContext } from 'Contexts/ReservationsContext';
 import { CustomersContext } from 'Contexts/CustomersContext';
 import { ProductContext } from 'Contexts/ProductContext';
+import { BlogsContext } from 'Contexts/BlogsContext';
 
 const DashboardHome = () => {
   const classes = useStyles();
   const { user } = useContext(AuthContext);
   const { customers } = useContext(CustomersContext);
   const { orders } = useContext(OrderContext);
-  const { offers, customOffers, offerComments } =
-    useContext(OffersContext);
+  const { offers, customOffers, offerComments } = useContext(OffersContext);
   const { reservations } = useContext(ReservationsContext);
   const { productComments } = useContext(ProductContext);
+  const { blogComments } = useContext(BlogsContext);
+  const [time, setTime] = useState([
+    new Date()
+      .toLocaleTimeString('en-US', { timeZone: 'Europe/Paris' })
+      .split(' ')[0],
+    new Date()
+      .toLocaleTimeString('en-US', { timeZone: 'Asia/Riyadh' })
+      .split(' ')[0],
+  ]);
 
   // TODO add mesages, comments...
 
@@ -67,20 +76,75 @@ const DashboardHome = () => {
     setSearchBy(nextView);
   };
 
+  // * Change Time after 60 Seconds
+  useEffect(() => {
+    const timeIntervel = setInterval(() => {
+      let parisTime = new Date()
+        .toLocaleTimeString('en-US', { timeZone: 'Europe/Paris' })
+        .split(' ')[0];
+      // console.log(`parisTime`, parisTime);
+      let MeccaTime = new Date()
+        .toLocaleTimeString('en-US', { timeZone: 'Asia/Riyadh' })
+        .split(' ')[0];
+      // console.log(`MeccaTime`, MeccaTime);
+      setTime([parisTime, MeccaTime]);
+      // console.log(`[parisTime, MeccaTime]`, [parisTime, MeccaTime]);
+    }, 1000);
+    // }, 1000 * 60);
+
+    return () => clearInterval(timeIntervel);
+  }, []);
+
   return (
-    <Container>
-      <Box sx={{ maxWidth: 900 }} mb={8} mt={2}>
-        <Typography variant='h5' color='textSecondary' gutterBottom>
-          Welcome to goodgly Dashboard . {user?.fullName}
-        </Typography>
-        <Typography
-          variant='h5'
-          fontWeight='normal'
-          color='textSecondary'
+    <Container sx={{ paddingBottom: 5 }}>
+      <Box
+        mb={2}
+        mt={2}
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap-reverse',
+          rowGap: 30,
+        }}
+      >
+        {' '}
+        <Box sx={{ maxWidth: 900 }}>
+          <Typography variant='h5' color='textSecondary' gutterBottom>
+            Welcome to goodgly Dashboard . {user?.fullName}
+          </Typography>
+          <Typography variant='h5' fontWeight='normal' color='textSecondary'>
+            Welcome to goodfly Dashboard . Hope you are going good .
+          </Typography>
+        </Box>
+        <Box
+          style={{
+            backgroundColor: '#666666',
+            padding: '20px',
+            color: '#fff',
+            /* position: absolute; */
+            width: 'fit-content',
+            borderRadius: 20,
+            minWidth: 130,
+            textAlign: 'center',
+            marginLeft: 'auto',
+          }}
         >
-          Welcome to goodfly Dashboard . Hope you are going good .
-        </Typography>
+          <Typography variant='h6' gutterBottom>
+            Paris
+          </Typography>
+          <Typography variant='h4' gutterBottom>
+            {time[0]}
+          </Typography>
+          <Typography variant='h6' gutterBottom>
+            Mecca
+          </Typography>
+          <Typography variant='h4' gutterBottom>
+            {time[1]}
+          </Typography>
+        </Box>
       </Box>
+
       <Box
         display='flex'
         justifyContent='space-evenly'
@@ -100,10 +164,7 @@ const DashboardHome = () => {
           <Box className={classes.MiniCard}>
             <Box className={classes.image}>
               <Box>
-                <Add
-                  size={35}
-                  style={{ color: '#cccccc', fontSize: '90px' }}
-                />
+                <Add size={35} style={{ color: '#cccccc', fontSize: '90px' }} />
                 {/* <Icon size={35} style={{ color: '#fff' }} /> */}
               </Box>
               <Typography style={{ color: '#fff' }}>
@@ -215,7 +276,7 @@ const DashboardHome = () => {
                 Product Reviews
               </Typography>
               <Badge
-                badgeContent={45}
+                badgeContent={productComments?.length || 0}
                 color='primary'
                 className={classes.Badge}
               />
@@ -225,7 +286,7 @@ const DashboardHome = () => {
                 Travels Reviews
               </Typography>
               <Badge
-                badgeContent={122}
+                badgeContent={offerComments?.length || 0}
                 color='primary'
                 className={classes.Badge}
               />
@@ -235,7 +296,7 @@ const DashboardHome = () => {
                 Blog Comments
               </Typography>
               <Badge
-                badgeContent={112}
+                badgeContent={blogComments?.length || 0}
                 color='primary'
                 className={classes.Badge}
               />
@@ -352,11 +413,7 @@ const DashboardHome = () => {
               onChange={handleChange}
               style={{ borderLeft: '2px solid #ccc' }}
             >
-              <ToggleButton
-                sx={{ border: 0 }}
-                value='plane'
-                aria-label='plane'
-              >
+              <ToggleButton sx={{ border: 0 }} value='plane' aria-label='plane'>
                 <Button
                   disableRipple
                   fullWidth
@@ -365,18 +422,13 @@ const DashboardHome = () => {
                   variant='outlined'
                   sx={{
                     color: searchBy === 'plane' ? '#46B9F6' : '#000',
-                    borderColor:
-                      searchBy === 'plane' ? '#46B9F6' : '#000',
+                    borderColor: searchBy === 'plane' ? '#46B9F6' : '#000',
                   }}
                 >
                   Find a plane ticket
                 </Button>
               </ToggleButton>
-              <ToggleButton
-                sx={{ border: 0 }}
-                value='boat'
-                aria-label='boat'
-              >
+              <ToggleButton sx={{ border: 0 }} value='boat' aria-label='boat'>
                 <Button
                   disableRipple
                   fullWidth
@@ -385,8 +437,7 @@ const DashboardHome = () => {
                   variant='outlined'
                   sx={{
                     color: searchBy === 'boat' ? '#46B9F6' : '#000',
-                    borderColor:
-                      searchBy === 'boat' ? '#46B9F6' : '#000',
+                    borderColor: searchBy === 'boat' ? '#46B9F6' : '#000',
                   }}
                 >
                   Find a boat ticket
@@ -404,8 +455,7 @@ const DashboardHome = () => {
                   size={'small'}
                   variant='outlined'
                   sx={{
-                    color:
-                      searchBy === 'reservation' ? '#46B9F6' : '#000',
+                    color: searchBy === 'reservation' ? '#46B9F6' : '#000',
                     borderColor:
                       searchBy === 'reservation' ? '#46B9F6' : '#000',
                   }}
@@ -425,10 +475,8 @@ const DashboardHome = () => {
                   size={'small'}
                   variant='outlined'
                   sx={{
-                    color:
-                      searchBy === 'vehicle' ? '#46B9F6' : '#000',
-                    borderColor:
-                      searchBy === 'vehicle' ? '#46B9F6' : '#000',
+                    color: searchBy === 'vehicle' ? '#46B9F6' : '#000',
+                    borderColor: searchBy === 'vehicle' ? '#46B9F6' : '#000',
                   }}
                 >
                   Find a vehicle rental

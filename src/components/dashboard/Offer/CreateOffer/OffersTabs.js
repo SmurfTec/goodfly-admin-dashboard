@@ -257,7 +257,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                     color='primary'
                   />
                 }
-                label='upload'
+                label='Online'
               />
               <FormControl
                 size='small'

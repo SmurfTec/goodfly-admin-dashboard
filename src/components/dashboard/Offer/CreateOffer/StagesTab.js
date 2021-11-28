@@ -77,6 +77,7 @@ const StagesTab = memo(({ value, classes, handleSubmit, offer }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          // minHeight: 500,
         }}
       >
         <Button

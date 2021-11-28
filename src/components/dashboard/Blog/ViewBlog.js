@@ -317,7 +317,7 @@ const ModifyBlog = () => {
             ],
             toolbar:
               'undo redo | image | formatselect | ' +
-              'bold italic backcolor | alignleft aligncenter ' +
+              'bold italic backcolor forecolor | alignleft aligncenter ' +
               'alignright alignjustify | bullist numlist outdent indent | ' +
               'removeformat | help',
             content_style:

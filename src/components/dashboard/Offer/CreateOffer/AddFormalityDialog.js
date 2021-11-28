@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dialog,
   DialogActions,
@@ -12,13 +12,18 @@ import {
 import { useManyInputs } from 'hooks';
 import { Editor } from '@tinymce/tinymce-react';
 
-const AddFormalityDialog = ({ open, toggleDialog, submit }) => {
+const AddFormalityDialog = ({ open, toggleDialog, submit, formality }) => {
   const initialState = {
     title: '',
     content: '',
   };
   const [state, handleTxtChange, , , resetState, setState] =
     useManyInputs(initialState);
+
+  useEffect(() => {
+    if (formality) setState(formality);
+    else setState(initialState);
+  }, [formality]);
 
   const handleEditorChange = (e, editor) => {
     // console.clear();

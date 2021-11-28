@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
   options: {
     backgroundColor: '#f2f2f2',
     height: '100%',
+    minHeight: 500,
   },
   rootContainer: {
     '&.css-19kzrtu': {

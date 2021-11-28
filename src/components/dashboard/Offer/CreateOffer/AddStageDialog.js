@@ -52,6 +52,10 @@ const AddStageDialog = ({
     useToggleInput(false);
   // const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
+  useEffect(() => {
+    console.log(`state.accomodation`, state.accomodation);
+  }, [state]);
+
   const handleImage = async (e) => {
     const { type } = e.currentTarget.dataset;
 
@@ -95,6 +99,8 @@ const AddStageDialog = ({
 
           setUploadingText('Updating Image ...');
 
+          console.clear();
+          console.log(`state.accomodation`, state.accomodation);
           if (type === 'image')
             changeInput('images', [...state.images, uploadedImage]);
           else if (type === 'state.accomodation')
@@ -121,6 +127,7 @@ const AddStageDialog = ({
   };
 
   useEffect(() => {
+    console.log(`stage`, stage);
     if (stage) setState(stage);
   }, [stage]);
 
@@ -448,37 +455,38 @@ const AddStageDialog = ({
                   </Box>
                 </Grid>
                 <Grid item sm={12} md={8} mt={2}>
-                  <CarouselLayout>
-                    {state.accomodation?.images?.map((image, i) => (
-                      <>
-                        <div
-                          key={image._id}
-                          // className={classes.carouselCard}
-                          style={{
-                            width: '10rem',
-                          }}
-                        >
-                          <CardMedia
-                            className={classes.carouselImages}
-                            image={image.src}
-                            title='Live from space album cover'
-                          />
-                        </div>
-                        <Box>
-                          <Button
-                            style={{ color: 'red' }}
-                            data-type='state.accomodation'
-                            data-id={image._id}
-                            onClick={handleDelete}
+                  {state.accomodation?.images?.length > 0 && (
+                    <CarouselLayout>
+                      {state.accomodation?.images?.map((image, i) => (
+                        <>
+                          <div
+                            key={image._id}
+                            // className={classes.carouselCard}
+                            style={{
+                              width: '10rem',
+                            }}
                           >
-                            {' '}
-                            delete{' '}
-                          </Button>
-                        </Box>
-                      </>
-                    ))}
-                    {/* one */}
-                  </CarouselLayout>
+                            <CardMedia
+                              className={classes.carouselImages}
+                              image={image.src}
+                              title='Live from space album cover'
+                            />
+                          </div>
+                          <Box>
+                            <Button
+                              style={{ color: 'red' }}
+                              data-type='state.accomodation'
+                              data-id={image._id}
+                              onClick={handleDelete}
+                            >
+                              {' '}
+                              delete{' '}
+                            </Button>
+                          </Box>
+                        </>
+                      ))}
+                    </CarouselLayout>
+                  )}
                 </Grid>
                 <Grid item sm={12} md={12} mt={3}>
                   <Box
