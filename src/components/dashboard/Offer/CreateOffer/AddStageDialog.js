@@ -251,16 +251,19 @@ const AddStageDialog = ({
             </Grid>
             <Grid item sm={12} md={12} lg={9}>
               <Grid container sx={{ justifyContent: 'flex-start' }}>
-                <Grid item sm={12} md={4}>
-                  <Box
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'flex-start',
-                      alignItems: 'center',
-                      marginRight: '1rem',
-                    }}
+                <Grid item xs={12}>
+                  <Grid
+                    container
+                    style={
+                      {
+                        // display: 'flex',
+                        // justifyContent: 'flex-start',
+                        // alignItems: 'center',
+                        // marginRight: '1rem',
+                      }
+                    }
                   >
-                    <Box>
+                    <Grid item sm={2}>
                       <Typography variant='h5'>Gallery of the Stage</Typography>
                       <input
                         accept='image/*'
@@ -312,39 +315,42 @@ const AddStageDialog = ({
                           </Box>
                         </LoadingOverlay>
                       </label>
-                    </Box>
-                  </Box>
-                  <CarouselLayout>
-                    {state.images.map((image, i) => (
-                      <>
-                        <div
-                          key={image._id}
-                          style={{
-                            width: '10rem',
-                          }}
-                        >
-                          <CardMedia
-                            className={classes.carouselImages}
-                            image={image.src}
-                            title='Live from space album cover'
-                          />
-                        </div>
-                        <Box>
-                          <Button
-                            style={{ color: 'red' }}
-                            data-type='image'
-                            data-id={image._id}
-                            onClick={handleDelete}
-                          >
-                            {' '}
-                            delete{' '}
-                          </Button>
-                        </Box>
-                      </>
-                    ))}
-                  </CarouselLayout>
+                    </Grid>
+                    <Grid item sm={1} />
+                    <Grid item sm={9} className={classes.carouselGrid}>
+                      <CarouselLayout>
+                        {state.images.map((image, i) => (
+                          <>
+                            <div
+                              key={image._id}
+                              style={{
+                                width: '10rem',
+                              }}
+                            >
+                              <CardMedia
+                                className={classes.carouselImages}
+                                image={image.src}
+                                title='Live from space album cover'
+                              />
+                            </div>
+                            <Box>
+                              <Button
+                                style={{ color: 'red' }}
+                                data-type='image'
+                                data-id={image._id}
+                                onClick={handleDelete}
+                              >
+                                {' '}
+                                delete{' '}
+                              </Button>
+                            </Box>
+                          </>
+                        ))}
+                      </CarouselLayout>
+                    </Grid>
+                  </Grid>
                 </Grid>
-                <Grid item sm={12} md={4} mt={5}>
+                <Grid item sm={12} md={12} mt={5}>
                   <Box
                     style={{
                       marginRight: '1rem',
@@ -353,13 +359,13 @@ const AddStageDialog = ({
                     <Typography variant='h5'>Accommodation</Typography>
                   </Box>
                 </Grid>
-                <Grid item sm={12} md={8} mt={4}>
+                <Grid item sm={12} md={12} mt={4}>
                   <Box>
                     <Box ml={2} style={{ width: '60%' }}>
                       <TextField
                         hiddenLabel
                         id='filled-hidden-label-small'
-                        placeholder='Name of accommodation'
+                        placeholder='Name'
                         size='small'
                         className={classes.textInput}
                         name='name'
@@ -397,7 +403,7 @@ const AddStageDialog = ({
                     </Box>
                   </Box>
                 </Grid>
-                <Grid item sm={12} md={4} mt={4}>
+                <Grid item sm={12} md={12} mt={4}>
                   <Box
                     style={{
                       display: 'flex',
@@ -454,7 +460,13 @@ const AddStageDialog = ({
                     </label>
                   </Box>
                 </Grid>
-                <Grid item sm={12} md={8} mt={2}>
+                <Grid
+                  item
+                  sm={12}
+                  md={8}
+                  mt={2}
+                  className={classes.carouselGrid}
+                >
                   {state.accomodation?.images?.length > 0 && (
                     <CarouselLayout>
                       {state.accomodation?.images?.map((image, i) => (
