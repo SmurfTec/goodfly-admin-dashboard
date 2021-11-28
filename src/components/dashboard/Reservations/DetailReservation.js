@@ -56,6 +56,7 @@ import { CustomersContext } from 'Contexts/CustomersContext';
 import PaymentsTable from './paymentsTable';
 import useStyles from './styles/detailReservation';
 import { Link } from 'react-router-dom';
+import { AddDeparture as AddDepartureDialog } from '../Dialogs';
 
 const DetailReservation = () => {
   const classes = useStyles();
@@ -63,6 +64,8 @@ const DetailReservation = () => {
     useContext(ReservationsContext);
   const { modifyCustomer } = useContext(CustomersContext);
   const { id } = useParams();
+
+  const [isDatesModalOpen, toggleIsDatesModalOpen] = useToggleInput(false);
 
   const [reservation, setReservation] = useState();
   const [
@@ -179,11 +182,20 @@ const DetailReservation = () => {
       ...reservation,
       visitor: updatedCustomer,
     });
+
     modifyReservation(
       reservation._id,
       { ...reservation, visitor: updatedCustomer },
       true
     );
+  };
+
+  const handleAddDates = (dates) => {
+    modifyReservation(reservation._id, {
+      status: reservationStatus,
+      installments,
+      ...dates,
+    });
   };
 
   const handleValidate = () => {
@@ -197,6 +209,11 @@ const DetailReservation = () => {
 
     if (!installments) {
       toast.error('Plz select Installments before validation !');
+      return;
+    }
+
+    if (!reservation.departureDate || !reservation.returnDate) {
+      toggleIsDatesModalOpen();
       return;
     }
 
@@ -750,14 +767,6 @@ const DetailReservation = () => {
                               alignItems: 'center',
                             }}
                           >
-                            {/* <Button
-                              color='primary'
-                              startIcon={<Edit />}
-                              onClick={handleModifyAttachment.bind(
-                                this,
-                                attachment._id
-                              )}
-                            ></Button> */}
                             <Button
                               color='error'
                               startIcon={<Delete />}
@@ -766,13 +775,6 @@ const DetailReservation = () => {
                                 attachment._id
                               )}
                             ></Button>
-                            {/* <Switch
-                              status={ok}
-                              onChange={toggle}
-                              inputProps={{
-                                'aria-label': 'controlled',
-                              }}
-                            /> */}
                           </Box>
                         </div>
                       ))}
@@ -847,6 +849,11 @@ const DetailReservation = () => {
       )}
 
       {/*  Dialog */}
+      <AddDepartureDialog
+        open={isDatesModalOpen}
+        toggleDialog={toggleIsDatesModalOpen}
+        success={handleAddDates}
+      />
     </Container>
   );
 };

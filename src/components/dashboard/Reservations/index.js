@@ -192,10 +192,13 @@ const Reservations = () => {
           nonPaidStatuses.includes(el.status)
         ) || [];
 
+        console.log(`greenOrangeReservations`, greenOrangeReservations)
       // * Reservations which have more than 8 weeks till departure date
       // * Fall in green category
       const greenReseravtionsNew =
         greenOrangeReservations?.filter((el) => {
+          // * Reservations for open offers fall in this category also
+          if(!el.departureDate && !el.returnDate) return true
           const departureDate = new Date(el.departureDate);
           // el.trip ? el.trip.startingDate : el.customTrip.startingDate
           const currentDate = new Date();
@@ -238,11 +241,7 @@ const Reservations = () => {
           );
         }) || [];
 
-      // const nonBlackStatus = [
-      //   'reservation-paid',
-      //   'cancelled',
-      //   'cancellation-request',
-      // ];
+
 
       // * Those reservations , which arrive 4 weeks before departure date
       // * till 2 weeks , after that they move to red List
@@ -261,10 +260,6 @@ const Reservations = () => {
           // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
           // * So thats why I put 2nd condition
 
-          // console.log(`status cond`, nonPaidStatuses.includes(el.status));
-
-          // console.log(`cond 2.1`, daysBetween(departureDate, currentDate) < 28);
-          // console.log(`cond 2.2`, daysBetween(departureDate, currentDate) > 14);
 
           return (
             (el.status === 'archived' ||

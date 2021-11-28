@@ -69,7 +69,12 @@ const ArchieveOffers = () => {
       <Typography variant='h5' m={2}>
         Archieve Offers
       </Typography>
-      <Button variant='contained' component={Link} to='/app/offers'>
+      <Button
+        variant='contained'
+        component={Link}
+        to='/app/offers'
+        sx={{ marginBottom: 2 }}
+      >
         Back to Offers
       </Button>
       {/* TODO - Fetch Categories and then map them */}

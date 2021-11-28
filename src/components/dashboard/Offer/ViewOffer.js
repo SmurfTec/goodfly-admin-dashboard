@@ -72,7 +72,12 @@ const Offer = () => {
 
   return (
     <Container style={{ marginTop: '3rem' }}>
-      <Button variant='outlined' component={Link} to='/app/offers'>
+      <Button
+        variant='outlined'
+        component={Link}
+        to='/app/offers'
+        sx={{ marginBottom: 2 }}
+      >
         Back to offers
       </Button>
       <Box className={classes.header}>
