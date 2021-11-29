@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
   Grid,
@@ -22,17 +21,11 @@ import LoadingOverlay from 'react-loading-overlay';
 import useToggleInput from 'hooks/useToggleInput';
 import { AuthContext } from 'Contexts/AuthContext';
 import { makeReq } from 'utils/makeReq';
-import { useTextInput } from 'hooks';
 
 const Profile = () => {
   const classes = useStyles();
-  const { user, updateMe, changeMyPassword } =
-    useContext(AuthContext);
+  const { user, updateMe, changeMyPassword } = useContext(AuthContext);
 
-  const initialPassSt = {
-    password: '',
-    passwordConfirm: '',
-  };
   const [isPassOpen, togglePassOpen] = useToggleInput(false);
 
   const initialState = {
@@ -47,26 +40,16 @@ const Profile = () => {
     photo: user.photo || '',
   };
 
-  const [passwordState, handlePassChange, , , resetPassState] =
-    useManyInputs({
-      password: '',
-      passwordConfirm: '',
-    });
+  const [passwordState, handlePassChange, , , resetPassState] = useManyInputs({
+    password: '',
+    passwordConfirm: '',
+  });
 
-  const [
-    state,
-    handleTxtChange,
-    handleToggleChange,
-    changeInput,
-    resetState,
-    setState,
-  ] = useManyInputs(initialState);
+  const [state, handleTxtChange, , changeInput, , setState] =
+    useManyInputs(initialState);
 
-  const [isImageUploading, toggleImageUploading] =
-    useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState(
-    'Uploading Image...'
-  );
+  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
   const handleUpdatePass = (e) => {
     e.preventDefault();
@@ -122,7 +105,7 @@ const Profile = () => {
 
           setUploadingText('Updating Image ...');
 
-          const resData = await makeReq(
+          await makeReq(
             `/users/me`,
             { body: { photo: uploadedImage } },
             'PATCH'
@@ -138,9 +121,7 @@ const Profile = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message ||
-          err.message ||
-          'Something Went Wrong'
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
       );
       // console.log(`err`, err);
     }
@@ -160,13 +141,7 @@ const Profile = () => {
 
         <form id='profileForm' onSubmit={handleSubmit}>
           <Grid container>
-            <Grid
-              item
-              xs={12}
-              sm={7}
-              md={7}
-              style={{ minHeight: 400 }}
-            >
+            <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
               <Box className={classes.mainBox}>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
@@ -302,13 +277,7 @@ const Profile = () => {
                 </Box>
               </Box>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={5}
-              md={5}
-              className={classes.account}
-            >
+            <Grid item xs={12} sm={5} md={5} className={classes.account}>
               <Box className={classes.mainBox}>
                 <Typography variant='h5' style={{ width: '100%' }}>
                   Account managment
@@ -382,10 +351,7 @@ const Profile = () => {
                   </LoadingOverlay>
 
                   <Box style={{ marginBottom: 65 }}>
-                    <Typography
-                      variant='h5'
-                      style={{ width: '100%' }}
-                    >
+                    <Typography variant='h5' style={{ width: '100%' }}>
                       New Password
                     </Typography>
                     <Button

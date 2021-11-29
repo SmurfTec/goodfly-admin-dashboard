@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/styles';
 import {
   Box,
   Tab,
@@ -11,23 +10,12 @@ import {
   MenuItem,
   Grid,
   TextField,
-  Table,
-  TableHead,
-  TableRow,
   Paper,
-  TableContainer,
-  TableCell,
-  TableBody,
   Button,
   Radio,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   RadioGroup,
   FormControlLabel,
   CardMedia,
-  Switch,
   Skeleton,
   Container,
 } from '@material-ui/core';
@@ -40,7 +28,6 @@ import {
 } from 'react-feather';
 import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
 
-import FormalitiesTab from '../Offer/FormalitiesTab';
 import { TabPanel, a11yProps } from '../../common/TabPanel';
 import { useParams } from 'react-router';
 import { ReservationsContext } from 'Contexts/ReservationsContext';
@@ -49,13 +36,12 @@ import CustomerTripView from './CustomTripView';
 import LoadingOverlay from 'react-loading-overlay';
 import { useArray, useTextInput, useToggleInput } from 'hooks';
 import v4 from 'uuid/dist/v4';
-import { Delete, Edit } from '@material-ui/icons';
+import { Delete } from '@material-ui/icons';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { CustomersContext } from 'Contexts/CustomersContext';
 import PaymentsTable from './paymentsTable';
 import useStyles from './styles/detailReservation';
-import { Link } from 'react-router-dom';
 import { AddDeparture as AddDepartureDialog } from '../Dialogs';
 
 const DetailReservation = () => {
@@ -68,15 +54,8 @@ const DetailReservation = () => {
   const [isDatesModalOpen, toggleIsDatesModalOpen] = useToggleInput(false);
 
   const [reservation, setReservation] = useState();
-  const [
-    attachments,
-    setAttachments,
-    pushAttachment,
-    filterAttachment,
-    updateAttachment,
-    removeAttachment,
-    clearAttachment,
-  ] = useArray([], '_id');
+  const [attachments, setAttachments, pushAttachment, , , removeAttachment, ,] =
+    useArray([], '_id');
 
   const [value, setValue] = React.useState(0);
   const [reservationStatus, setReservationStatus] = React.useState('');

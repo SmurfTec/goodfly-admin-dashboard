@@ -6,9 +6,6 @@ import {
   Grid,
   Typography,
   CardMedia,
-  List,
-  ListItem,
-  ListItemText,
   Container,
 } from '@material-ui/core';
 import Gallery from 'react-grid-gallery';
@@ -24,10 +21,10 @@ const StagesTab = memo(({ value, classes, handleSubmit, offer }) => {
     stages,
     setStages,
     pushStage,
-    filterStages,
+    ,
     updateStage,
     removeStage,
-    clearStages,
+    ,
   ] = useArray([], '_id');
   const [isDialogOpen, toggleDialogOpen] = useToggleInput(false);
   const [isUpdateDialogOpen, toggleUpdateDialogOpen] = useToggleInput(false);

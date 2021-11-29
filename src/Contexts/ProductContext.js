@@ -15,20 +15,20 @@ export const ProductProvider = ({ children }) => {
     products,
     setProducts,
     pushProduct,
-    filterProduct,
+    ,
     updateProduct,
     removeProduct,
-    clearProducts,
+    ,
   ] = useArray('loading', '_id');
 
   const [
     productComments,
     setProductComments,
-    pushProductComment,
-    filterProductComment,
+    ,
+    ,
     updateProductComment,
-    removeProductComment,
-    clearProductComments,
+    ,
+    ,
   ] = useArray([], '_id');
 
   const fetchProducts = async () => {

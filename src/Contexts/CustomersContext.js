@@ -1,10 +1,7 @@
 import useArray from 'hooks/useArray';
 import React, {
-  useState,
   useEffect,
   useContext,
-  memo,
-  useCallback,
 } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
@@ -21,10 +18,10 @@ export const CustomersProvider = ({ children }) => {
     customers,
     setCustomers,
     pushCustomer,
-    filterCustomers,
+    ,
     updateCustomer,
     removeCustomer,
-    clearCustomers,
+    ,
   ] = useArray('loading', '_id');
 
   useEffect(() => {

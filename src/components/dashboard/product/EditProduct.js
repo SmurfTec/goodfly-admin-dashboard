@@ -12,7 +12,6 @@ import {
   FormControl,
   Switch,
   CardMedia,
-  Paper,
 } from '@material-ui/core';
 import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
 
@@ -138,34 +137,21 @@ const EditProduct = () => {
     isOnline: false,
   };
 
-  const [loading, setLoading] = useState(true);
+  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
-  const [isImageUploading, toggleImageUploading] =
-    useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState(
-    'Uploading Image...'
-  );
-
-  const [
-    state,
-    handleTxtChange,
-    handleToggleChange,
-    changeInput,
-    resetState,
-    setState,
-  ] = useManyInputs(initialState);
+  const [state, handleTxtChange, handleToggleChange, changeInput, , setState] =
+    useManyInputs(initialState);
 
   useEffect(() => {
     const product = getProductById(id);
-    console.log(`product`, product);
-    if (!product || product === 'loading') setLoading(true);
-    else {
-      setState({
-        ...initialState,
-        ...product,
-      });
-      setLoading(false);
-    }
+    // console.log(`product`, product);
+    if (!product || product === 'loading') return;
+
+    setState({
+      ...initialState,
+      ...product,
+    });
   }, [id, products]);
 
   // add new label
@@ -239,9 +225,7 @@ const EditProduct = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message ||
-          err.message ||
-          'Something Went Wrong'
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -260,17 +244,8 @@ const EditProduct = () => {
         </Box>
 
         <Grid container>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={12}
-            style={{ minHeight: 400 }}
-          >
-            <Box
-              className={classes.mainBox}
-              style={{ padding: '5rem' }}
-            >
+          <Grid item xs={12} sm={12} md={12} style={{ minHeight: 400 }}>
+            <Box className={classes.mainBox} style={{ padding: '5rem' }}>
               <Box
                 style={{
                   display: 'flex',
@@ -348,10 +323,7 @@ const EditProduct = () => {
                     {/* <MenuItem value={10}>One</MenuItem>
                     <MenuItem value={20}>Two</MenuItem> */}
                     {productCategories.map((category) => (
-                      <MenuItem
-                        value={category.value}
-                        key={category.id}
-                      >
+                      <MenuItem value={category.value} key={category.id}>
                         {category.value}
                       </MenuItem>
                     ))}
@@ -445,9 +417,7 @@ const EditProduct = () => {
                 style={{ display: 'inline-block' }}
                 mt={1}
               >
-                <Typography variant='h5'>
-                  Description of Product
-                </Typography>
+                <Typography variant='h5'>Description of Product</Typography>
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
@@ -469,11 +439,7 @@ const EditProduct = () => {
                 className={classes.inputBox}
                 style={{ display: 'inline-block' }}
               >
-                <Box
-                  display='flex'
-                  justifyContent='left'
-                  alignItems='center'
-                >
+                <Box display='flex' justifyContent='left' alignItems='center'>
                   <Typography variant='h5' mr={12}>
                     Labels
                   </Typography>
@@ -549,10 +515,7 @@ const EditProduct = () => {
         {/*  product photos  */}
 
         <Box className={classes.mainBox}>
-          <Typography
-            variant='h3'
-            style={{ width: '100%', marginTop: '1rem' }}
-          >
+          <Typography variant='h3' style={{ width: '100%', marginTop: '1rem' }}>
             Products images
           </Typography>
 
@@ -621,14 +584,8 @@ const EditProduct = () => {
                       >
                         <Box className={classes.image}>
                           <Box>
-                            <PlusIcon
-                              size={35}
-                              style={{ color: '#fff' }}
-                            />
-                            <FileIcon
-                              size={35}
-                              style={{ color: '#fff' }}
-                            />
+                            <PlusIcon size={35} style={{ color: '#fff' }} />
+                            <FileIcon size={35} style={{ color: '#fff' }} />
                           </Box>
                           <Box style={{ textAlign: 'center' }}>
                             <Typography style={{ color: '#fff' }}>

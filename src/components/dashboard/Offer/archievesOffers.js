@@ -1,12 +1,7 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import { Typography, Box, Grid, Button, Container } from '@material-ui/core';
-import {
-  Plus as PlusIcon,
-  Archive as ArchiveIcon,
-  Tag as TagIcon,
-} from 'react-feather';
+import { Typography, Button, Container } from '@material-ui/core';
 
 import { Link } from 'react-router-dom';
 import { OffersContext } from 'Contexts/OffersContext';

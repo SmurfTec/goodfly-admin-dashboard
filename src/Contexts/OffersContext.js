@@ -1,5 +1,5 @@
 import useArray from 'hooks/useArray';
-import React, { useState, useEffect, useContext, memo } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { handleCatch, makeReq } from 'utils/makeReq';
 import { AuthContext } from './AuthContext';
 import { toast } from 'react-toastify';
@@ -14,37 +14,36 @@ export const OffersProvider = ({ children }) => {
   const [
     offers,
     setOffers,
-    pushOffer,
-    filterOffer,
+    ,
+    ,
     updateOfferById,
     removeOffer,
-    clearOffers,
+    ,
   ] = useArray();
 
   const [
     customOffers,
     setCustomOffers,
-    pushCustomOffer,
-    filterCustomOffer,
+    ,
+    ,
     updateCustomOfferById,
-    removeCustomOffer,
-    clearCustomOffers,
+    ,
+    ,
   ] = useArray();
 
   const [
     offerComments,
     setOfferComments,
-    pushOfferComment,
-    filterOfferComment,
+    ,
+    ,
     updateOfferComment,
-    removeOfferComment,
-    clearOfferComments,
+    ,
+    ,
   ] = useArray([], '_id');
 
   const fetchTrips = async () => {
     try {
       const resData1 = await makeReq(`/trips`);
-      const resData2 = await makeReq(`/trips/customTrip`);
 
       setOffers(resData1.trips);
     } catch (err) {

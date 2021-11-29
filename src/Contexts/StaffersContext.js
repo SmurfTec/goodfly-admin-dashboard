@@ -16,10 +16,10 @@ export const StaffersProvider = ({ children }) => {
     staffers,
     setStaffers,
     pushStaffer,
-    filterStaffers,
+    ,
     updateStaffer,
     removeStaffer,
-    clearStaffers,
+    ,
   ] = useArray('loading', '_id');
 
   useEffect(() => {

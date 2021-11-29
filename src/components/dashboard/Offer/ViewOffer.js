@@ -3,21 +3,12 @@ import cx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import PropTypes from 'prop-types';
 
-import StagesTab from './StagesTab';
-import FormalitiesTab from './FormalitiesTab';
 import { Link } from 'react-router-dom';
 // import Carousel from 'react-material-ui-carousel';
 
 import {
-  CardMedia,
   Container,
-  Grid,
-  Skeleton,
-  Tab,
-  Tabs,
-  Typography,
 } from '@material-ui/core';
 import { useParams } from 'react-router';
 import { OffersContext } from 'Contexts/OffersContext';

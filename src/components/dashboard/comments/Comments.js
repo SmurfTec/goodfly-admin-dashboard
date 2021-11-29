@@ -1,94 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import PropTypes from 'prop-types';
-import {
-  Box,
-  Tab,
-  Tabs,
-  Typography,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TableRow,
-  TableHead,
-  Avatar,
-  Table,
-  TableContainer,
-  TableCell,
-  TableBody,
-  TablePagination,
-  Paper,
-} from '@material-ui/core';
-import Divider from '@material-ui/core/Divider';
-import v4 from 'uuid/dist/v4';
+import { Box, Tab, Tabs, Typography } from '@material-ui/core';
 import { a11yProps, TabPanel } from 'components/common/TabPanel';
 import TourComments from './TourComments';
 import BlogComments from './BlogComments';
 import ProductComments from './ProductComments';
 import { BlogsContext } from 'Contexts/BlogsContext';
 import { useToggleInput } from 'hooks';
-import { useNavigate } from 'react-router';
 import { ProductContext } from 'Contexts/ProductContext';
 import { OffersContext } from 'Contexts/OffersContext';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData(
-    'muhammadzain8@gmail.com',
-    'aa Set applied to the cell. The prop defaults to the value  in the p  The prop defaults to the value  in the p adding applied to the cell. The prop defaults to the value  in the padding applied to the cell. The prop defaults to the value  in inherited from the parent Table component.',
-
-    'Formule Maroc 2020',
-    '04/06/2019'
-  ),
-  createData(
-    'muhammadzain8@gmail.com',
-    'aa Set applied to the cell. The prop defaults to the value  in the p  The prop defaults to the value  in the p adding applied to the cell. The prop defaults to the value  in the padding applied to the cell. The prop defaults to the value  in inherited from the parent Table component.',
-
-    'Formule Maroc 2020',
-    '04/06/2019'
-  ),
-  createData(
-    'muhammadzain8@gmail.com',
-    'aa Set applied to the cell. The prop defaults to the value  in the p  The prop defaults to the value  in the p adding applied to the cell. The prop defaults to the value  in the padding applied to the cell. The prop defaults to the value  in inherited from the parent Table component.',
-
-    'Formule Maroc 2020',
-    '04/06/2019'
-  ),
-  createData(
-    'muhammadzain8@gmail.com',
-    'aa Set applied to the cell. The prop defaults to the value  in the p  The prop defaults to the value  in the p adding applied to the cell. The prop defaults to the value  in the padding applied to the cell. The prop defaults to the value  in inherited from the parent Table component.',
-
-    'Formule Maroc 2020',
-    '04/06/2019'
-  ),
-  createData(
-    'muhammadzain8@gmail.com',
-    'aa Set applied to the cell. The prop defaults to the value  in the p  The prop defaults to the value  in the p adding applied to the cell. The prop defaults to the value  in the padding applied to the cell. The prop defaults to the value  in inherited from the parent Table component.',
-
-    'Formule Maroc 2020',
-    '04/06/2019'
-  ),
-  createData(
-    'muhammadzain8@gmail.com',
-    'aa Set applied to the cell. The prop defaults to the value  in the p  The prop defaults to the value  in the p adding applied to the cell. The prop defaults to the value  in the padding applied to the cell. The prop defaults to the value  in inherited from the parent Table component.',
-
-    'Formule Maroc 2020',
-    '04/06/2019'
-  ),
-  createData(
-    'muhammadzain8@gmail.com',
-    'aa Set applied to the cell. The prop defaults to the value  in the p  The prop defaults to the value  in the p adding applied to the cell. The prop defaults to the value  in the padding applied to the cell. The prop defaults to the value  in inherited from the parent Table component.',
-
-    'Formule Maroc 2020',
-    '04/06/2019'
-  ),
-];
-const styles = makeStyles((theme) => ({
+const styles = makeStyles(() => ({
   options: {
     backgroundColor: '#f2f2f2',
     padding: '1rem',
@@ -124,14 +46,10 @@ const styles = makeStyles((theme) => ({
 }));
 
 const Comments = () => {
-  const navigate = useNavigate();
   const classes = styles();
-  const { blogComments, modifyBlogComment } =
-    useContext(BlogsContext);
-  const { productComments, modifyProductComment } =
-    useContext(ProductContext);
-  const { offerComments, modifyOfferComment } =
-    useContext(OffersContext);
+  const { blogComments, modifyBlogComment } = useContext(BlogsContext);
+  const { productComments, modifyProductComment } = useContext(ProductContext);
+  const { offerComments, modifyOfferComment } = useContext(OffersContext);
 
   const [blogReviews, setBlogReviews] = useState();
   const [productReviews, setProductReviews] = useState();
@@ -155,32 +73,18 @@ const Comments = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [dialogDetails, setDialogDetails] = useState();
-  //   {
-  //   visitor : {},
-  // source : {title : '' , url : ''}
-  // }
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyBlogRows =
     rowsPerPage -
-    Math.min(
-      rowsPerPage,
-      (blogComments?.length || 0) - page * rowsPerPage
-    );
+    Math.min(rowsPerPage, (blogComments?.length || 0) - page * rowsPerPage);
 
   const emptyTourRows =
     rowsPerPage -
-    Math.min(
-      rowsPerPage,
-      (offerComments?.length || 0) - page * rowsPerPage
-    );
+    Math.min(rowsPerPage, (offerComments?.length || 0) - page * rowsPerPage);
 
   const emptyProductRows =
     rowsPerPage -
-    Math.min(
-      rowsPerPage,
-      (productReviews?.length || 0) - page * rowsPerPage
-    );
+    Math.min(rowsPerPage, (productReviews?.length || 0) - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

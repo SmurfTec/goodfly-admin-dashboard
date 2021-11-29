@@ -12,7 +12,6 @@ import {
   FormControl,
   Switch,
   CardMedia,
-  Paper,
 } from '@material-ui/core';
 import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
 
@@ -117,11 +116,8 @@ const CreateProduct = () => {
   const theme = useTheme();
   const lgDown = useMediaQuery(theme.breakpoints.down('lg'));
 
-  const [isImageUploading, toggleImageUploading] =
-    useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState(
-    'Uploading Image...'
-  );
+  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
   const { createNewProduct } = useContext(ProductContext);
 
@@ -141,13 +137,8 @@ const CreateProduct = () => {
     isOnline: false,
   };
 
-  const [
-    state,
-    handleTxtChange,
-    handleToggleChange,
-    changeInput,
-    resetState,
-  ] = useManyInputs(initialState);
+  const [state, handleTxtChange, handleToggleChange, changeInput, resetState] =
+    useManyInputs(initialState);
 
   const handleLabel = (e) => {
     e.preventDefault();
@@ -217,9 +208,7 @@ const CreateProduct = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message ||
-          err.message ||
-          'Something Went Wrong'
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -238,17 +227,8 @@ const CreateProduct = () => {
         </Box>
 
         <Grid container>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={12}
-            style={{ minHeight: 400 }}
-          >
-            <Box
-              className={classes.mainBox}
-              style={{ padding: '5rem' }}
-            >
+          <Grid item xs={12} sm={12} md={12} style={{ minHeight: 400 }}>
+            <Box className={classes.mainBox} style={{ padding: '5rem' }}>
               <Box
                 style={{
                   display: 'flex',
@@ -326,10 +306,7 @@ const CreateProduct = () => {
                     {/* <MenuItem value={10}>One</MenuItem>
                     <MenuItem value={20}>Two</MenuItem> */}
                     {productCategories.map((category) => (
-                      <MenuItem
-                        value={category.value}
-                        key={category.id}
-                      >
+                      <MenuItem value={category.value} key={category.id}>
                         {category.value}
                       </MenuItem>
                     ))}
@@ -423,9 +400,7 @@ const CreateProduct = () => {
                 style={{ display: 'inline-block' }}
                 mt={1}
               >
-                <Typography variant='h5'>
-                  Description of Product
-                </Typography>
+                <Typography variant='h5'>Description of Product</Typography>
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
@@ -447,11 +422,7 @@ const CreateProduct = () => {
                 className={classes.inputBox}
                 style={{ display: 'inline-block' }}
               >
-                <Box
-                  display='flex'
-                  justifyContent='left'
-                  alignItems='center'
-                >
+                <Box display='flex' justifyContent='left' alignItems='center'>
                   <Typography variant='h5' mr={12}>
                     Labels
                   </Typography>
@@ -525,10 +496,7 @@ const CreateProduct = () => {
         </Grid>
 
         <Box className={classes.mainBox}>
-          <Typography
-            variant='h3'
-            style={{ width: '100%', marginTop: '1rem' }}
-          >
+          <Typography variant='h3' style={{ width: '100%', marginTop: '1rem' }}>
             Products images
           </Typography>
 
@@ -597,14 +565,8 @@ const CreateProduct = () => {
                       >
                         <Box className={classes.image}>
                           <Box>
-                            <PlusIcon
-                              size={35}
-                              style={{ color: '#fff' }}
-                            />
-                            <FileIcon
-                              size={35}
-                              style={{ color: '#fff' }}
-                            />
+                            <PlusIcon size={35} style={{ color: '#fff' }} />
+                            <FileIcon size={35} style={{ color: '#fff' }} />
                           </Box>
                           <Box style={{ textAlign: 'center' }}>
                             <Typography style={{ color: '#fff' }}>

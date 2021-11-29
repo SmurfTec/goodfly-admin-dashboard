@@ -7,7 +7,6 @@ import {
   DialogActions,
   Button,
   Divider,
-  FormCOntrol,
   FormControlLabel,
   Radio,
   TextField,
@@ -42,9 +41,9 @@ const PaymentDetailsDialog = ({
   const [
     state,
     handleTxtChange,
-    handleToggleChange,
-    changeInput,
-    resetState,
+    ,
+    ,
+    ,
     setState,
   ] = useManyInputs(initialState);
 

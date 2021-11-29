@@ -41,7 +41,6 @@ import {
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { a11yProps, TabPanel } from 'components/common/TabPanel';
-import { toast } from 'react-toastify';
 import { OrderContext } from 'Contexts/OrderContext';
 import { useParams } from 'react-router';
 

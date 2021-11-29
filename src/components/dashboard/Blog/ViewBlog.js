@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
@@ -7,7 +7,6 @@ import {
   Button,
   TextField,
   Switch,
-  CardMedia,
 } from '@material-ui/core';
 
 import { Camera as CameraIcon } from 'react-feather';

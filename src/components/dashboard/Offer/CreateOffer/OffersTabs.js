@@ -429,7 +429,6 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                 <RadioGroup
                   row
                   aria-label='Date'
-                  name='row-radio-buttons-group'
                   name='isDates'
                   value={state.isDates}
                   onChange={handleTxtChange}
@@ -454,7 +453,6 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                 <>
                   <TextField
                     type='date'
-                    name='Departure Date'
                     placeholder='Departure Date'
                     size='small'
                     className={classes.dateFields}
@@ -466,7 +464,6 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   <TextField
                     type='date'
                     placeholder='Arrival date'
-                    name='Arrival Date'
                     size='small'
                     className={classes.dateFields}
                     name='endingDate'
@@ -517,7 +514,6 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                 <>
                   <TextField
                     type='text'
-                    name='Departure'
                     placeholder='Departure'
                     size='small'
                     className={classes.dateFields}
@@ -552,7 +548,6 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                     checked={state.services.guide}
                     onChange={handleCheckBox}
                     name='checkedA'
-                    name='guide'
                     // value={state.services.guide}
                   />
                 }
@@ -575,7 +570,6 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   <Checkbox
                     checked={state.services.religiousCourse}
                     onChange={handleCheckBox}
-                    name='checkedC'
                     name='religiousCourse'
                     // value={state.services.religiousCourse}
                   />
@@ -587,7 +581,6 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   <Checkbox
                     checked={state.services.legitimateVisit}
                     onChange={handleCheckBox}
-                    name='checkedD'
                     name='legitimateVisit'
                     // value={state.services.legitimateVisit}
                   />
@@ -599,7 +592,6 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   <Checkbox
                     checked={state.services.internelTransfer}
                     onChange={handleCheckBox}
-                    name='checkedE'
                     name='internelTransfer'
                     // value={state.services.internelTransfer}
                   />
@@ -611,7 +603,6 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   <Checkbox
                     checked={state.services.formalities}
                     onChange={handleCheckBox}
-                    name='checkedF'
                     name='formalities'
                     // value={state.services.formalities}
                   />
@@ -623,7 +614,6 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   <Checkbox
                     checked={state.services.sittingNextToScholors}
                     onChange={handleCheckBox}
-                    name='checkedG'
                     name='sittingNextToScholors'
                     // value={state.services.sittingNextToScholors}
                   />

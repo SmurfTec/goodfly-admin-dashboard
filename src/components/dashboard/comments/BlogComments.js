@@ -75,9 +75,6 @@ const BlogComments = ({
   };
 
   const handleShowRow = (item) => {
-    // const { item } = e.currentTarget.dataset;
-    console.log(`item`, item); // [Object , Object]
-
     showComment(item);
   };
 

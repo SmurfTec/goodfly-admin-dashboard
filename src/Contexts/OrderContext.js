@@ -1,9 +1,8 @@
 import useArray from 'hooks/useArray';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { makeReq, handleCatch } from 'utils/makeReq';
 import { AuthContext } from './AuthContext';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router';
 
 export const OrderContext = React.createContext();
 
@@ -13,11 +12,11 @@ export const OrderProvider = ({ children }) => {
   const [
     orders,
     setOrders,
-    pushOrder,
-    filterOrder,
+    ,
+    ,
     updateOrder,
-    removeOrder,
-    clearOrders,
+    ,
+    ,
   ] = useArray('loading', '_id');
 
   useEffect(() => {

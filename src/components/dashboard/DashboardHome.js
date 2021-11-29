@@ -11,19 +11,15 @@ import {
   TextField,
   ToggleButtonGroup,
   ToggleButton,
-  Icon,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
 import {
   Add,
   Work,
-  ViewList,
   Loyalty,
   Storefront,
   Description,
 } from '@material-ui/icons';
 //  -------------------- //
-import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
 import LineChart from './LineChart';
 import Person from '@material-ui/icons/Person';
 
@@ -54,7 +50,7 @@ const DashboardHome = () => {
   const { user } = useContext(AuthContext);
   const { customers } = useContext(CustomersContext);
   const { orders } = useContext(OrderContext);
-  const { offers, customOffers, offerComments } = useContext(OffersContext);
+  const {  customOffers, offerComments } = useContext(OffersContext);
   const { reservations } = useContext(ReservationsContext);
   const { productComments } = useContext(ProductContext);
   const { blogComments } = useContext(BlogsContext);

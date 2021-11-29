@@ -13,10 +13,6 @@ import {
   Radio,
   CardMedia,
   Switch,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
 } from '@material-ui/core';
 import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
@@ -29,7 +25,6 @@ import axios from 'axios';
 import useToggleInput from 'hooks/useToggleInput';
 import LoadingOverlay from 'react-loading-overlay';
 import { getMuiDateFormat } from 'utils/dateMethods';
-import { makeReq, handleCatch } from 'utils/makeReq';
 import SendEmail from 'utils/SendEmail';
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
 // import Carousel from 'react-material-ui-carousel';
@@ -145,7 +140,7 @@ const EditVisitor = () => {
     handleTxtChange,
     handleToggleChange,
     changeInput,
-    resetState,
+    ,
     setState,
   ] = useManyInputs(initialState);
 

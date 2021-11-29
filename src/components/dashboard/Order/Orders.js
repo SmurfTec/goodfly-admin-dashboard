@@ -84,12 +84,14 @@ const Orders = () => {
     setFilteredOrders(
       orders === 'loading'
         ? 'loading'
-        : orders?.filter(
-            (row) =>
+        : orders?.filter((row) => {
+            console.log(`row`, row);
+            return (
               row.visitor.fullName
                 .toLowerCase()
                 .indexOf(filter.toLowerCase()) !== -1
-          )
+            );
+          })
     );
   }, [filter]);
 
@@ -112,10 +114,7 @@ const Orders = () => {
             width: '100%',
           }}
         >
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
-          >
+          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
             Search Order
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -162,15 +161,11 @@ const Orders = () => {
                         <TableCell align='right'>
                           {new Date(row.createdAt).toDateString()}
                         </TableCell>
-                        <TableCell align='right'>
-                          {row.status}
-                        </TableCell>
+                        <TableCell align='right'>{row.status}</TableCell>
                         <TableCell align='right'>
                           {row.visitor.fullName}
                         </TableCell>
-                        <TableCell align='right'>
-                          {row.visitor.email}
-                        </TableCell>
+                        <TableCell align='right'>{row.visitor.email}</TableCell>
                         <TableCell align='right'>
                           {row.visitor.telephoneNumber}
                         </TableCell>

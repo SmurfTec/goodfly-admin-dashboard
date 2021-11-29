@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Button, TextField, Typography } from '@material-ui/core';
 import { Box } from '@material-ui/core';
@@ -99,15 +99,15 @@ const CustomTrip = () => {
     },
     __v: 0,
     createdAt: '2021-11-17T13:13:13.646Z',
-    phone: '971-656',
+    // phone: '971-656',
     id: '6194ec31ebb84a443c21e3c7',
   };
   const [
     offer,
     handleTxtChange,
-    handleToggleChange,
-    changeInput,
-    resetState,
+    ,
+    ,
+    ,
     setOffer,
   ] = useManyInputs(initialState);
 

@@ -30,7 +30,6 @@ import MenuPopover from './MenuPopover';
 import { SocketContext } from 'Contexts/SocketContext';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import { makeStyles } from '@material-ui/styles';
-import { ShoppingBag } from 'react-feather';
 
 import { ShoppingBagOutlined } from '@material-ui/icons';
 import FlightTakeoffIcon from '@mui/icons-material/Flight';

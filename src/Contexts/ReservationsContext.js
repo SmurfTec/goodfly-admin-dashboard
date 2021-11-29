@@ -1,9 +1,8 @@
 import useArray from 'hooks/useArray';
-import React, { useState, useEffect, useContext, memo } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { handleCatch, makeReq } from 'utils/makeReq';
 import { AuthContext } from './AuthContext';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
 
 export const ReservationsContext = React.createContext();
 
@@ -13,11 +12,11 @@ export const ReservationsProvider = ({ children }) => {
   const [
     reservations,
     setReservations,
-    pushReservation,
-    filterReservation,
+    ,
+    ,
     updateReservation,
     removeReservation,
-    clearReservations,
+    ,
   ] = useArray([], '_id');
 
   const fetchReservations = async () => {

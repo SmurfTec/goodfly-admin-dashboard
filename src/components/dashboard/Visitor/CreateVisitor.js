@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext,  useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
@@ -18,7 +18,6 @@ import {
 import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
 import useManyInputs from 'hooks/useManyInputs';
 import { CustomersContext } from 'Contexts/CustomersContext';
-import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import useToggleInput from 'hooks/useToggleInput';
@@ -26,7 +25,7 @@ import LoadingOverlay from 'react-loading-overlay';
 import v4 from 'uuid/dist/v4';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
 
-const styles = makeStyles((theme) => ({
+const styles = makeStyles(() => ({
   account: {
     minHeight: 200,
     marginTop: 10,
@@ -109,10 +108,10 @@ const VisitorProfile = () => {
   const [
     state,
     handleTxtChange,
-    handleToggleChange,
+    ,
     changeInput,
     resetState,
-    setState,
+    ,
   ] = useManyInputs(initialState);
 
   const [isImageUploading, toggleImageUploading] =
@@ -314,7 +313,6 @@ const VisitorProfile = () => {
                     <RadioGroup
                       row
                       aria-label='gender'
-                      name='row-radio-buttons-group'
                       value={state.pronoun}
                       name='pronoun'
                       onChange={handleTxtChange}
@@ -543,7 +541,6 @@ const VisitorProfile = () => {
                     hiddenLabel
                     id='filled-hidden-label-small'
                     placeholder='pakistan'
-                    type=''
                     size='small'
                     type='date'
                     className={classes.textInput}

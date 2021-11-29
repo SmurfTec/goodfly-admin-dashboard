@@ -1,5 +1,5 @@
 import useArray from 'hooks/useArray';
-import React, { useState, useEffect, useContext, memo } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { handleCatch, makeReq } from 'utils/makeReq';
 import { AuthContext } from './AuthContext';
 import { toast } from 'react-toastify';
@@ -16,20 +16,20 @@ export const BlogsProvider = ({ children }) => {
     blogs,
     setBlogs,
     pushBlog,
-    filterBlog,
+    ,
     updateBlog,
-    removeBlog,
-    clearBlogs,
+    ,
+    ,
   ] = useArray([], '_id');
 
   const [
     blogComments,
     setBlogComments,
-    pushBlogComment,
-    filterBlogComment,
+    ,
+    ,
     updateBlogComment,
-    removeBlogComment,
-    clearBlogComments,
+    ,
+    ,
   ] = useArray([], '_id');
 
   const fetchBlogs = async () => {

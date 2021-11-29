@@ -2,7 +2,6 @@ import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   AppBar,
-  Badge,
   Box,
   Hidden,
   IconButton,
@@ -15,7 +14,6 @@ import { AuthContext } from 'Contexts/AuthContext';
 import NotificationsPopover from './dashboard/notify/NotificationsPopover';
 
 const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
-  const [notifications] = useState([]);
   const { user } = useContext(AuthContext);
 
   return (

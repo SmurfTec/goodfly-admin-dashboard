@@ -21,14 +21,7 @@ const SendEmail = (props) => {
     emailContent: '',
   };
 
-  const [
-    state,
-    handleTxtChange,
-    handleToggleChange,
-    changeInput,
-    resetState,
-    setState,
-  ] = useManyInputs(initialState);
+  const [state, handleTxtChange, , , , setState] = useManyInputs(initialState);
 
   const handleSendEmail = async (e) => {
     e.preventDefault();

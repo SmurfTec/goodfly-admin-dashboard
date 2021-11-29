@@ -9,18 +9,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import {
-  Settings as SettingsIcon,
-  ShoppingBag as ShoppingBagIcon,
-  User as UserIcon,
-  Users as UsersIcon,
   LogOut as LogoutIcon,
-  Bell as BellIcon,
-  Edit2 as Edit2Icon,
-  Columns as ColumnsIcon,
-  CreditCard as CreditCardIcon,
-  Bold as BoldIcon,
-  Home as HomeIcon,
-  AlignJustify as AlignJustifyIcon,
 } from 'react-feather';
 import { makeStyles } from '@material-ui/styles';
 // import logo from 'Assets/img/airplane.svg';
@@ -32,7 +21,7 @@ import { useNavigate } from 'react-router';
 
 // import SidebarContent2 from './SidebarContent2';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   Drawer: {
     '& .MuiDrawer-paper': {
       top: 0,

@@ -10,7 +10,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from '@material-ui/core';
 import { StaffersContext } from 'Contexts/StaffersContext';
@@ -70,9 +69,9 @@ const EditStaffer = () => {
   const [
     state,
     handleTxtChange,
-    handleToggleChange,
-    changeInput,
-    resetState,
+    ,
+    ,
+    ,
     setState,
   ] = useManyInputs(initialState);
 
