@@ -9,11 +9,14 @@ import { a11yProps } from 'components/common/TabPanel';
 import { handleCatch, makeReq } from 'utils/makeReq';
 
 import useStyles from '../styles';
+import { useToggleInput } from 'hooks';
+import AddPromo from 'components/dashboard/Dialogs/AddPromo';
 
 const CreateOffer = () => {
   const classes = useStyles();
   const { createOffer } = useContext(OffersContext);
   const [formalities, setFormalities] = useState([]);
+  const [isPromoDialogOpen, togglePromoDialog] = useToggleInput(false);
 
   // TODO Edit it to 0
   const [value, setValue] = useState(0);
@@ -47,7 +50,7 @@ const CreateOffer = () => {
     gotoNextStep();
   };
 
-  const validateFormalitiesTab = (data, resetData) => {
+  const validateFormalitiesTab = (data) => {
     // console.log(`data`, data);
     // setState((st) => ({ ...st, formalities: data }));
     let newOffer = {
@@ -87,8 +90,15 @@ const CreateOffer = () => {
     // console.log(`newOffer after`, newOffer);
 
     // console.log(`newOffer after`, newOffer);
-    createOffer(newOffer);
+    setState(newOffer);
+    togglePromoDialog();
+    // createOffer(newOffer);
     // gotoNextStep();
+  };
+
+  const createPromo = (promoBody) => {
+    createOffer({ ...state, ...promoBody });
+    togglePromoDialog();
   };
 
   return (
@@ -160,6 +170,7 @@ const CreateOffer = () => {
           </Box>
         </Box>
       </Box>
+      <AddPromo open={isPromoDialogOpen} success={createPromo} />
     </div>
   );
 };

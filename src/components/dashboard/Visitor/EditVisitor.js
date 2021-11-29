@@ -14,7 +14,7 @@ import {
   CardMedia,
   Switch,
 } from '@material-ui/core';
-import { Plus as PlusIcon, File as FileIcon } from 'react-feather';
+import { Plus as PlusIcon, File as FileIcon, Send } from 'react-feather';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
 import useManyInputs from 'hooks/useManyInputs';
 import uuid from 'uuid/dist/v4';
@@ -125,24 +125,15 @@ const EditVisitor = () => {
     isVerified: false,
   };
 
-  const [isOpen, toggleInput] = useToggleInput(false);
+  const [isOpen, toggleEmailDialog] = useToggleInput(false);
 
   const [loading, setLoading] = useState(true);
 
-  const [isImageUploading, toggleImageUploading] =
-    useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState(
-    'Uploading Image...'
-  );
+  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
-  const [
-    state,
-    handleTxtChange,
-    handleToggleChange,
-    changeInput,
-    ,
-    setState,
-  ] = useManyInputs(initialState);
+  const [state, handleTxtChange, handleToggleChange, changeInput, , setState] =
+    useManyInputs(initialState);
 
   useEffect(() => {
     const customer = getCustomerById(id);
@@ -154,9 +145,7 @@ const EditVisitor = () => {
         ...initialState,
         ...customer,
         dateOfBirth: getMuiDateFormat(customer.dateOfBirth),
-        passportDateOfIssue: getMuiDateFormat(
-          customer.passportDateOfIssue
-        ),
+        passportDateOfIssue: getMuiDateFormat(customer.passportDateOfIssue),
       });
       setLoading(false);
     }
@@ -227,9 +216,7 @@ const EditVisitor = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message ||
-          err.message ||
-          'Something Went Wrong'
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -264,25 +251,18 @@ const EditVisitor = () => {
             >
               To Modify
             </Button>
-            <Box mb={3}>
-              <Typography variant='h5' mb={1}>
-                Contact to Client
-              </Typography>
-              <Button
-                variant='outlined'
-                size='medium'
-                style={{
-                  color: 'black',
-                  border: '1px solid #111111',
-                  backgroundColor: '#c6c6c6',
-                  width: '100%',
-                  minHeight: '2rem',
-                }}
-                onClick={toggleInput}
-              >
-                {state.email}
-              </Button>
-            </Box>
+            <Button
+              variant='contained'
+              // variant='outlined'
+              size='small'
+              onClick={toggleEmailDialog}
+              endIcon={<Send size={20} />}
+              sx={{
+                backgroundColor: 'green',
+              }}
+            >
+              Send Email
+            </Button>
             <Box style={{ width: 155 }}>
               <Typography variant='h5'>
                 N Fidelite
@@ -334,13 +314,7 @@ const EditVisitor = () => {
           </Box>
           <form onSubmit={handleSubmit} id='customerForm'>
             <Grid container>
-              <Grid
-                item
-                xs={12}
-                sm={7}
-                md={7}
-                style={{ minHeight: 400 }}
-              >
+              <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
                 <Box className={classes.mainBox}>
                   <Box
                     style={{
@@ -350,9 +324,7 @@ const EditVisitor = () => {
                       margin: '10px 0px 30px ',
                     }}
                   >
-                    <Typography variant='h4'>
-                      Client Profile
-                    </Typography>
+                    <Typography variant='h4'>Client Profile</Typography>
                     <Box style={{ display: 'flex' }}>
                       <Typography
                         variant='h5'
@@ -538,10 +510,7 @@ const EditVisitor = () => {
                       required
                     />
                   </Box>
-                  <Box
-                    className={classes.inputBox}
-                    style={{ marginBottom: 5 }}
-                  >
+                  <Box className={classes.inputBox} style={{ marginBottom: 5 }}>
                     <Typography variant='h5' style={{ width: '30%' }}>
                       Postal Code
                     </Typography>
@@ -568,10 +537,7 @@ const EditVisitor = () => {
                         onChange={handleTxtChange}
                         required
                       />
-                      <Typography
-                        variant='h5'
-                        style={{ textAlign: 'center' }}
-                      >
+                      <Typography variant='h5' style={{ textAlign: 'center' }}>
                         City
                       </Typography>
                       <TextField
@@ -687,13 +653,7 @@ const EditVisitor = () => {
                   </Box>
                 </Box>
               </Grid>
-              <Grid
-                item
-                xs={12}
-                sm={5}
-                md={5}
-                className={classes.account}
-              >
+              <Grid item xs={12} sm={5} md={5} className={classes.account}>
                 <Box
                   className={classes.mainBox}
                   style={{ padding: 10, margin: '0px 10px 0px 0px ' }}
@@ -771,10 +731,7 @@ const EditVisitor = () => {
                     margin: '40px 10px 0px 0px ',
                   }}
                 >
-                  <Typography
-                    variant='h4'
-                    style={{ width: '90%', margin: 15 }}
-                  >
+                  <Typography variant='h4' style={{ width: '90%', margin: 15 }}>
                     Last customer order
                   </Typography>
                   <Box
@@ -800,10 +757,7 @@ const EditVisitor = () => {
                     margin: '30px 10px 0px 0px ',
                   }}
                 >
-                  <Typography
-                    variant='h4'
-                    style={{ width: '90%', margin: 10 }}
-                  >
+                  <Typography variant='h4' style={{ width: '90%', margin: 10 }}>
                     Find a Client
                   </Typography>
                   <Box
@@ -927,14 +881,8 @@ const EditVisitor = () => {
                           >
                             <Box className={classes.image}>
                               <Box>
-                                <PlusIcon
-                                  size={35}
-                                  style={{ color: '#fff' }}
-                                />
-                                <FileIcon
-                                  size={35}
-                                  style={{ color: '#fff' }}
-                                />
+                                <PlusIcon size={35} style={{ color: '#fff' }} />
+                                <FileIcon size={35} style={{ color: '#fff' }} />
                               </Box>
                               <Box style={{ textAlign: 'center' }}>
                                 <Typography style={{ color: '#fff' }}>
@@ -954,7 +902,7 @@ const EditVisitor = () => {
         </Box>
       )}
 
-      <SendEmail id={id} open={isOpen} toggleDialog={toggleInput} />
+      <SendEmail id={id} open={isOpen} toggleDialog={toggleEmailDialog} />
     </div>
   );
 };

@@ -28,6 +28,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { getMuiDateFormat } from 'utils/dateMethods';
 import { countries, regions } from 'utils/constants';
+import { Add, Delete } from '@material-ui/icons';
 
 const OffersTabs = ({ classes, value, handleNext, offer }) => {
   const initialState = {
@@ -207,7 +208,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                     variant='outlined'
                     color='primary'
                     component='span'
-                    style={{ marginTop: '1rem' }}
+                    style={{ marginTop: '1rem', width: 100 }}
                   >
                     Add
                   </Button>
@@ -218,6 +219,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   style={{
                     color: 'red',
                     marginTop: '0.5rem',
+                    width: 100,
                   }}
                   onClick={handleDeleteImage}
                 >

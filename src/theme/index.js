@@ -10,6 +10,10 @@ const theme = createTheme({
       contrastText: '#ffffff',
       main: '#46B9F6',
     },
+    success: {
+      contrastText: '#ffffff',
+      main: '#47ca4c',
+    },
     text: {
       primary: '#172b4d',
       secondary: '#808080',

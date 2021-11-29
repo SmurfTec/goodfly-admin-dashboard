@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import { Typography, Box, Grid, Button } from '@material-ui/core';
+import { Typography, Box, Grid, Button, Container } from '@material-ui/core';
 import {
   Plus as PlusIcon,
   Archive as ArchiveIcon,
@@ -11,6 +11,11 @@ import {
 import { Link } from 'react-router-dom';
 import { OffersContext } from 'Contexts/OffersContext';
 import OffersCarousel from './OffersCarousel';
+import FlashOnIcon from '@mui/icons-material/FlashOn';
+import NewReleasesIcon from '@material-ui/icons/NewReleases';
+import { handleCatch, makeReq } from 'utils/makeReq';
+import PromosDialog from '../Dialogs/Promos';
+import { useToggleInput } from 'hooks';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -60,32 +65,86 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
+const BigBox = ({ classes, link, Icon1, Icon2, text }) => (
+  <Box className={classes.imgBackground}>
+    <Box className={classes.image} component={Link} to={link}>
+      <Box>
+        <Icon1 size={35} style={{ color: '#fff' }} />
+        {Icon2 && <Icon2 size={35} style={{ color: '#fff' }} />}
+      </Box>
+      <Button style={{ color: '#fff' }}>{text}</Button>
+    </Box>
+  </Box>
+);
+
 const Offers = () => {
   const classes = styles();
   const { offers } = useContext(OffersContext);
 
+  const [isPromosOpen, togglePromosOpen] = useToggleInput(false);
+  const [promos, setPromos] = useState([]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const { promos } = await makeReq('/promos');
+        setPromos(promos);
+      } catch (err) {
+        setPromos([]);
+        handleCatch(err);
+      }
+    })();
+  }, []);
+
+  const createNewPromoCode = async (promoBody) => {
+    togglePromosOpen();
+    try {
+      const { promo } = await makeReq('/promos', { body: promoBody }, 'POST');
+      setPromos((st) => [...st, promo]);
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
   return (
-    <div style={{ marginTop: '3rem' }}>
-      <Typography variant='h5' m={2}>
-        Offers Management
-      </Typography>
+    <Container style={{ marginTop: '3rem' }}>
+      <Box display='flex' justifyContent='space-between' alignItems='center'>
+        <Typography variant='h5' m={2}>
+          Offers Management
+        </Typography>
+        <Box>
+          <Button
+            variant='contained'
+            color='success'
+            endIcon={<NewReleasesIcon />}
+            onClick={togglePromosOpen}
+          >
+            Promo Codes
+          </Button>
+        </Box>
+      </Box>
       <Grid container sx={{ paddingBottom: '20px' }}>
         <Grid item sm={9}>
           {/* TODO - Fetch Categories and then map them */}
 
           <OffersCarousel
             classes={classes}
-            offers={offers?.filter((offer) => offer.category === 'spiritual')}
+            offers={offers?.filter(
+              (offer) => !offer.archieve && offer.category === 'spiritual'
+            )}
             title='spiritual'
           />
           <OffersCarousel
             classes={classes}
-            offers={offers?.filter((offer) => offer.category === 'ethical')}
+            offers={offers?.filter(
+              (offer) => !offer.archieve && offer.category === 'ethical'
+            )}
             title='ethical'
           />
           <OffersCarousel
             classes={classes}
-            offers={offers?.filter((offer) => offer.category === 'excursions')}
+            offers={offers?.filter(
+              (offer) => !offer.archieve && offer.category === 'excursions'
+            )}
             title='excursions'
           />
         </Grid>
@@ -98,37 +157,44 @@ const Offers = () => {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
+              padding: '2rem',
             }}
           >
-            <Box className={classes.imgBackground}>
-              <Box
-                className={classes.image}
-                component={Link}
-                to='/app/offers/createoffer'
-              >
-                <Box>
-                  <PlusIcon size={35} style={{ color: '#fff' }} />
-                  <TagIcon size={35} style={{ color: '#fff' }} />
-                </Box>
-                <Button style={{ color: '#fff' }}>New Offer</Button>
-              </Box>
-            </Box>
-            <Box
-              className={classes.imgBackground}
-              component={Link}
-              to='/app/offers/archieves'
-            >
-              <Box className={classes.image}>
-                <Box>
-                  <ArchiveIcon size={35} style={{ color: '#fff' }} />
-                </Box>
-                <Typography style={{ color: '#fff' }}>archives</Typography>
-              </Box>
-            </Box>
+            <BigBox
+              classes={classes}
+              link='/app/offers/createoffer'
+              Icon1={PlusIcon}
+              Icon2={TagIcon}
+              text='New Offer'
+            />
+            <BigBox
+              classes={classes}
+              link='/app/offers/archieves'
+              Icon1={ArchiveIcon}
+              text='archives'
+            />
+            <BigBox
+              classes={classes}
+              link='/app/offers/flash-sales'
+              Icon1={FlashOnIcon}
+              text='Flash Sales'
+            />
+            <BigBox
+              classes={classes}
+              link='/app/offers/promos'
+              Icon1={NewReleasesIcon}
+              text='Promos'
+            />
           </Box>
         </Grid>
       </Grid>
-    </div>
+      <PromosDialog
+        open={isPromosOpen}
+        toggleDialog={togglePromosOpen}
+        success={createNewPromoCode}
+        promos={promos}
+      />
+    </Container>
   );
 };
 

@@ -11,35 +11,13 @@ export const OffersProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [
-    offers,
-    setOffers,
-    ,
-    ,
-    updateOfferById,
-    removeOffer,
-    ,
-  ] = useArray();
+  const [offers, setOffers, , , updateOfferById, removeOffer, ,] = useArray();
 
-  const [
-    customOffers,
-    setCustomOffers,
-    ,
-    ,
-    updateCustomOfferById,
-    ,
-    ,
-  ] = useArray();
+  const [customOffers, setCustomOffers, , , updateCustomOfferById, , ,] =
+    useArray();
 
-  const [
-    offerComments,
-    setOfferComments,
-    ,
-    ,
-    updateOfferComment,
-    ,
-    ,
-  ] = useArray([], '_id');
+  const [offerComments, setOfferComments, , , updateOfferComment, , ,] =
+    useArray([], '_id');
 
   const fetchTrips = async () => {
     try {
@@ -100,21 +78,6 @@ export const OffersProvider = ({ children }) => {
     }
   };
 
-  const archieveTrip = async (id) => {
-    try {
-      const resData = await makeReq(
-        `/trips/${id}`,
-        {
-          body: { archieve: true },
-        },
-        'PATCH'
-      );
-      updateOffer(id, resData.trip);
-    } catch (err) {
-      handleCatch(err);
-    }
-  };
-
   const createOffer = async (newOffer) => {
     try {
       const { trip } = await makeReq(`/trips`, { body: newOffer }, 'POST');
@@ -127,7 +90,7 @@ export const OffersProvider = ({ children }) => {
     }
   };
 
-  const updateOffer = async (id, updatedOffer) => {
+  const updateOffer = async (id, updatedOffer, dontNavigate) => {
     try {
       const { trip } = await makeReq(
         `/trips/${id}`,
@@ -135,9 +98,13 @@ export const OffersProvider = ({ children }) => {
         'PATCH'
       );
 
+      console.log(
+        `udpatedOffers`,
+        offers.map((el) => (el._id === id ? trip : el))
+      );
       updateOfferById(id, trip);
       toast.success('Offer Updated Sucessfully !');
-      navigate('/app/offers');
+      if (!dontNavigate) navigate('/app/offers');
     } catch (err) {
       handleCatch(err);
     }
@@ -185,7 +152,6 @@ export const OffersProvider = ({ children }) => {
         offers,
         getOfferById,
         deleteTrip,
-        archieveTrip,
         createOffer,
         updateOffer,
         customOffers,

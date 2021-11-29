@@ -45,15 +45,7 @@ import { CustomersContext } from 'Contexts/CustomersContext';
 import { ProductContext } from 'Contexts/ProductContext';
 import { BlogsContext } from 'Contexts/BlogsContext';
 
-const DashboardHome = () => {
-  const classes = useStyles();
-  const { user } = useContext(AuthContext);
-  const { customers } = useContext(CustomersContext);
-  const { orders } = useContext(OrderContext);
-  const {  customOffers, offerComments } = useContext(OffersContext);
-  const { reservations } = useContext(ReservationsContext);
-  const { productComments } = useContext(ProductContext);
-  const { blogComments } = useContext(BlogsContext);
+const Clock = () => {
   const [time, setTime] = useState([
     new Date()
       .toLocaleTimeString('en-US', { timeZone: 'Europe/Paris' })
@@ -62,15 +54,6 @@ const DashboardHome = () => {
       .toLocaleTimeString('en-US', { timeZone: 'Asia/Riyadh' })
       .split(' ')[0],
   ]);
-
-  // TODO add mesages, comments...
-
-  const [clientNumber, handleTxtChange] = useTextInput('');
-  const [searchBy, setSearchBy] = useState('plane');
-
-  const handleChange = (event, nextView) => {
-    setSearchBy(nextView);
-  };
 
   // * Change Time after 60 Seconds
   useEffect(() => {
@@ -90,6 +73,54 @@ const DashboardHome = () => {
 
     return () => clearInterval(timeIntervel);
   }, []);
+  return (
+    <Box
+      style={{
+        backgroundColor: '#666666',
+        padding: '20px',
+        color: '#fff',
+        /* position: absolute; */
+        width: 'fit-content',
+        borderRadius: 20,
+        minWidth: 130,
+        textAlign: 'center',
+        marginLeft: 'auto',
+      }}
+    >
+      <Typography variant='h6' gutterBottom>
+        Paris
+      </Typography>
+      <Typography variant='h4' gutterBottom>
+        {time[0]}
+      </Typography>
+      <Typography variant='h6' gutterBottom>
+        Mecca
+      </Typography>
+      <Typography variant='h4' gutterBottom>
+        {time[1]}
+      </Typography>
+    </Box>
+  );
+};
+
+const DashboardHome = () => {
+  const classes = useStyles();
+  const { user } = useContext(AuthContext);
+  const { customers } = useContext(CustomersContext);
+  const { orders } = useContext(OrderContext);
+  const { customOffers, offerComments } = useContext(OffersContext);
+  const { reservations } = useContext(ReservationsContext);
+  const { productComments } = useContext(ProductContext);
+  const { blogComments } = useContext(BlogsContext);
+
+  // TODO add mesages, comments...
+
+  const [clientNumber, handleTxtChange] = useTextInput('');
+  const [searchBy, setSearchBy] = useState('plane');
+
+  const handleChange = (event, nextView) => {
+    setSearchBy(nextView);
+  };
 
   return (
     <Container sx={{ paddingBottom: 5 }}>
@@ -113,32 +144,7 @@ const DashboardHome = () => {
             Welcome to goodfly Dashboard . Hope you are going good .
           </Typography>
         </Box>
-        <Box
-          style={{
-            backgroundColor: '#666666',
-            padding: '20px',
-            color: '#fff',
-            /* position: absolute; */
-            width: 'fit-content',
-            borderRadius: 20,
-            minWidth: 130,
-            textAlign: 'center',
-            marginLeft: 'auto',
-          }}
-        >
-          <Typography variant='h6' gutterBottom>
-            Paris
-          </Typography>
-          <Typography variant='h4' gutterBottom>
-            {time[0]}
-          </Typography>
-          <Typography variant='h6' gutterBottom>
-            Mecca
-          </Typography>
-          <Typography variant='h4' gutterBottom>
-            {time[1]}
-          </Typography>
-        </Box>
+        <Clock />
       </Box>
 
       <Box
@@ -241,7 +247,7 @@ const DashboardHome = () => {
               </Typography>
 
               <Badge
-                badgeContent={orders?.length || 0}
+                badgeContent={reservations?.length || 0}
                 className={classes.Badge}
                 style={{ border: '2px solid red' }}
                 color='primary'
@@ -262,7 +268,7 @@ const DashboardHome = () => {
                 Store Orders
               </Typography>
               <Badge
-                badgeContent={reservations?.length || 0}
+                badgeContent={orders?.length || 0}
                 color='primary'
                 className={classes.Badge}
               />

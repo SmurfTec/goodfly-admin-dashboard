@@ -46,6 +46,8 @@ import CreateOffer from 'components/dashboard/Offer/CreateOffer';
 import ViewOffer from 'components/dashboard/Offer/ViewOffer';
 import ModifyBlog from 'components/dashboard/Blog/ViewBlog';
 import ArchieveOffers from 'components/dashboard/Offer/archievesOffers';
+import FlashSales from 'components/dashboard/Offer/flashSales';
+import Promos from 'components/dashboard/Offer/promos';
 
 export const protechtedRoutes = [
   {
@@ -151,6 +153,8 @@ export const protechtedRoutes = [
         children: [
           { path: '/', element: <Offers /> },
           { path: '/archieves', element: <ArchieveOffers /> },
+          { path: '/flash-sales', element: <FlashSales /> },
+          { path: '/promos', element: <Promos /> },
           { path: 'createOffer', element: <CreateOffer /> },
           { path: '/:id', element: <ViewOffer /> },
           { path: '/:id/edit', element: <ModifyOffer /> },

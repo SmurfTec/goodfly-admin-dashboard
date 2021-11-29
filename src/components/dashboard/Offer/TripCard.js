@@ -50,7 +50,7 @@ const TripCard = ({ trip }) => {
 
   return (
     <>
-      <Typography variant='h5' sx={{ marginBottom: 1 }}>
+      <Typography variant='h5' sx={{ marginBottom: 1, minHeight: 50 }}>
         {title.toUpperCase()}
       </Typography>
       <Card className={classes.root}>
@@ -66,7 +66,13 @@ const TripCard = ({ trip }) => {
                   {service}
                 </Typography>
               ))} */}
-              <Typography variant='subtitle1' color='textSecondary'>
+              <Typography
+                variant='subtitle1'
+                color='textSecondary'
+                style={{
+                  wordBreak: 'break-all',
+                }}
+              >
                 {description.slice(0, 48)}...
               </Typography>
 
