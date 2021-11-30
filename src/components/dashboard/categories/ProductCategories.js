@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import {
@@ -27,38 +27,14 @@ import {
 import { Search as SearchIcon } from 'react-feather';
 import v4 from 'uuid/dist/v4';
 
-function createData(name, category, fat, carbs, protein) {
-  return { name, category, fat, carbs, protein };
-}
+import { ProductContext } from 'Contexts/ProductContext';
+import { useTextInput, useToggleInput } from 'hooks';
 
-const rows = [
-  createData('Muhammadzain', ' zain@gmail.com', '+2233123312334'),
-  createData('Muhammadali', ' ali@gmail.com', '+2233123312334'),
-  createData('Muhammadusman', ' usman@gmail.com', '+2233123312334'),
-  createData('Muhammadkashif', ' kashif@gmail.com', '+2233123312334'),
-  createData('Muhammadumer', ' umer@gmail.com', '+2233123312334'),
-  createData('Muhammadabc', ' abc@gmail.com', '+2233123312334'),
-  createData('Muhammadsonu', ' sonu@gmail.com', '+2233123312334'),
-  createData('Muhammadsaqib', ' saqib@gmail.com', '+2233123312334'),
-  createData('Muhammadsohil', ' sohail@gmail.com', '+2233123312334'),
-  createData('Muhammadtayyab', ' tayyab@gmail.com', '+2233123312334'),
-  createData('Muhammadgul', 'gul@gmail.com', '+2233123312334'),
-  createData('Muhammadtayyab', ' tayyab@gmail.com', '+2233123312334'),
-  createData('Muhammadgul', 'gul@gmail.com', '+2233123312334'),
-  createData('Muhammadtayyab', ' tayyab@gmail.com', '+2233123312334'),
-  createData('Muhammadgul', 'gul@gmail.com', '+2233123312334'),
-  createData('Muhammadtayyab', ' tayyab@gmail.com', '+2233123312334'),
-  createData('Muhammadgul', 'gul@gmail.com', '+2233123312334'),
-  createData('Muhammadtayyab', ' tayyab@gmail.com', '+2233123312334'),
-  createData('Muhammadgul', 'gul@gmail.com', '+2233123312334'),
-];
-
-const styles = makeStyles((theme) => ({
+const styles = makeStyles(() => ({
   main: {
     backgroundColor: '#f2f2f2',
     minHeight: '20rem',
     borderRadius: '0.8rem',
-    padding: '1rem',
     margin: '2rem 1.5rem 2rem',
   },
   table: {
@@ -80,18 +56,19 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const TourCategories = () => {
+const ProductCategories = () => {
   const classes = styles();
+  const { categories, deleteCategory, modifyCategory, createNewCategory } =
+    useContext(ProductContext);
   const [filter, setFilter] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
+  const [currentCatId, setCurrentCatId] = useState();
+  const [isEditOpen, toggleIsEditOpen] = useToggleInput(false);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [status, setStatus] = useState('');
 
-  const handleChange = (event) => {
-    setStatus(event.target.value);
-  };
+  const [name, handleChange, resetName, setName] = useTextInput('');
 
   //confirmation
   const [open, setOpen] = useState(false);
@@ -112,12 +89,12 @@ const TourCategories = () => {
     setOpenCat(false);
   };
 
-  // Avoid a layout jump when reaching the last page with empty rows.
+  // Avoid a layout jump when reaching the last page with empty categories?.
   const emptyRows =
     rowsPerPage -
-    Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    Math.min(rowsPerPage, categories?.length - page * rowsPerPage);
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (newPage) => {
     setPage(newPage);
   };
 
@@ -133,18 +110,13 @@ const TourCategories = () => {
   };
   //  filtered
   useEffect(() => {
-    setFilteredItems(
-      rows.filter(
-        (row) =>
-          row.category.toLowerCase().indexOf(filter.toLowerCase()) !== -1
-      )
-    );
+    setFilteredItems(categories || []);
   }, [filter]);
 
   // data must be updated
   useEffect(() => {
-    setFilteredItems(rows);
-  }, []);
+    setFilteredItems(categories);
+  }, [categories]);
 
   return (
     <div style={{ marginTop: '3rem' }}>
@@ -172,15 +144,12 @@ const TourCategories = () => {
         <Box
           style={{
             display: 'flex',
-            justifyContent: 'right',
+            justifyContent: 'center',
             alignItems: 'center',
             width: '100%',
           }}
         >
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
-          >
+          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
             Search Category
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -202,32 +171,36 @@ const TourCategories = () => {
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
-                <TableCell>Date of Creation</TableCell>
-                <TableCell align='right'>Category</TableCell>
-                <TableCell align='right'>Type</TableCell>
-                <TableCell align='right'>Actions</TableCell>
+                <TableCell align='center'>Name</TableCell>
+                <TableCell align='center'>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {filteredItems
-                .slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
                   <TableRow key={v4()}>
-                    <TableCell component='th' scope='row'>
+                    <TableCell component='th' scope='row' align='center'>
                       {row.name}
                     </TableCell>
-                    <TableCell align='right'>
-                      {row.category}
-                    </TableCell>
-                    <TableCell align='right'>{row.fat}</TableCell>
-                    <TableCell align='right'>
-                      <Button>Edit</Button>
+                    <TableCell align='center'>
+                      <Button
+                        onClick={() => {
+                          setCurrentCatId(row);
+                          setName(row.name);
+                          setTimeout(() => {
+                            toggleIsEditOpen();
+                          }, 1000);
+                        }}
+                      >
+                        Edit
+                      </Button>
                       <Button
                         style={{ color: 'red' }}
-                        onClick={handleClickOpen}
+                        onClick={() => {
+                          setCurrentCatId(row);
+                          handleClickOpen();
+                        }}
                       >
                         Delete
                       </Button>
@@ -244,7 +217,7 @@ const TourCategories = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 20]}
             component='div'
-            count={rows.length}
+            count={categories?.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -273,17 +246,20 @@ const TourCategories = () => {
               Cancel
             </Button>
             <Button
-              onClick={handleClose}
+              onClick={() => {
+                handleClose();
+                deleteCategory(currentCatId._id);
+              }}
               variant='outlined'
               autoFocus
-              style={{ color: 'red',border: '1px solid red'}}
+              style={{ color: 'red', border: '1px solid red' }}
             >
               Confirm
             </Button>
           </DialogActions>
         </Dialog>
       </div>
-      {/*  DIALOG FOR UPDATE CATEGORY */}
+      {/*  DIALOG FOR Creating CATEGORY */}
       <div>
         <Dialog
           open={openCat}
@@ -296,48 +272,111 @@ const TourCategories = () => {
             <Typography variant='h4'>Add New Category</Typography>
           </Box>
           <DialogContent>
-            <Box
-              className={classes.form}
-              style={{ margin: '1rem', padding: 'o.2rem' }}
-              overlayStyle={{ backgroundColor: 'transparent' }}
+            <form
+              id='addCat'
+              onSubmit={(e) => {
+                e.preventDefault();
+                console.log('EEE');
+                createNewCategory({ name });
+                resetName();
+                handleCloseCat();
+              }}
             >
-              <TextField
-                autoFocus
-                margin='dense'
-                id='name'
-                label='Name of Category'
-                type='text'
-                fullWidth
-                style={{ width: '40rem', marginRight: '2rem' }}
-              />
-              <FormControl fullWidth>
-                <InputLabel id='demo-simple-select-label'>
-                  Status
-                </InputLabel>
-
-                <Select
-                  labelId='demo-simple-select-label'
-                  id='demo-simple-select'
-                  value={status}
-                  label='Status'
+              <Box
+                className={classes.form}
+                style={{ margin: '1rem', padding: 'o.2rem' }}
+                overlayStyle={{ backgroundColor: 'transparent' }}
+              >
+                <TextField
+                  autoFocus
+                  margin='dense'
+                  id='name'
+                  label='Name of Category'
+                  type='text'
+                  fullWidth
+                  style={{ width: '40rem', marginRight: '2rem' }}
+                  value={name}
                   onChange={handleChange}
-                >
-                  <MenuItem value={10}>One</MenuItem>
-                  <MenuItem value={20}>Two</MenuItem>
-                  <MenuItem value={30}>Three</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
+                  required
+                />
+              </Box>
+            </form>
           </DialogContent>
           <DialogActions
             className={classes.form}
-            style={{ margin: '1rem', justifyContent: 'center' }}
+            style={{ margin: '1rem', justifyContent: 'flex-end' }}
           >
-            <Button variant='outlined' onClick={handleCloseCat}>
-              Cancel
-            </Button>
-            <Button variant='contained' onClick={handleCloseCat}>
+            <Button variant='contained' form='addCat' type='submit'>
               Create
+            </Button>
+            <Button
+              variant='contained'
+              form='addCat'
+              onClick={() => handleCloseCat()}
+              color='error'
+            >
+              Cancell
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      <div>
+        <Dialog
+          open={isEditOpen}
+          onClose={toggleIsEditOpen}
+          style={{
+            border: '1px solid red',
+          }}
+        >
+          <Box p={3}>
+            <Typography variant='h4'>Update Category</Typography>
+          </Box>
+          <DialogContent>
+            <form
+              id='addCat'
+              onSubmit={(e) => {
+                e.preventDefault();
+                console.log('EEE');
+                modifyCategory(currentCatId._id, { name });
+                resetName();
+                toggleIsEditOpen();
+              }}
+            >
+              <Box
+                className={classes.form}
+                style={{ margin: '1rem', padding: 'o.2rem' }}
+                overlayStyle={{ backgroundColor: 'transparent' }}
+              >
+                <TextField
+                  autoFocus
+                  margin='dense'
+                  id='name'
+                  label='Name of Category'
+                  type='text'
+                  fullWidth
+                  style={{ width: '40rem', marginRight: '2rem' }}
+                  value={name}
+                  onChange={handleChange}
+                  required
+                />
+              </Box>
+            </form>
+          </DialogContent>
+          <DialogActions
+            className={classes.form}
+            style={{ margin: '1rem', justifyContent: 'flex-end' }}
+          >
+            <Button variant='contained' form='addCat' type='submit'>
+              Update
+            </Button>
+            <Button
+              variant='contained'
+              form='addCat'
+              onClick={toggleIsEditOpen}
+              color='error'
+            >
+              Cancell
             </Button>
           </DialogActions>
         </Dialog>
@@ -346,4 +385,4 @@ const TourCategories = () => {
   );
 };
 
-export default TourCategories;
+export default ProductCategories;

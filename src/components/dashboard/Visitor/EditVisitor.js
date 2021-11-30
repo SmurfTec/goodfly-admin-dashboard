@@ -27,7 +27,10 @@ import LoadingOverlay from 'react-loading-overlay';
 import { getMuiDateFormat } from 'utils/dateMethods';
 import SendEmail from 'utils/SendEmail';
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
+import { handleCatch, makeReq } from 'utils/makeReq';
 // import Carousel from 'react-material-ui-carousel';
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const styles = makeStyles((theme) => ({
   header: {
@@ -222,6 +225,15 @@ const EditVisitor = () => {
     }
   };
 
+  const handleSubscribe = async () => {
+    try {
+      await makeReq(`/users/subscribe/${state._id}`, {}, 'POST');
+      modifyCustomer(state._id, { ...state, isSubscribed: true }, true);
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
   return (
     <div style={{ backgroundColor: '#fff', overflow: 'hidden' }}>
       {loading ? (
@@ -251,15 +263,14 @@ const EditVisitor = () => {
             >
               To Modify
             </Button>
+
             <Button
-              variant='contained'
-              // variant='outlined'
+              // variant='contained'
+              variant='outlined'
               size='small'
               onClick={toggleEmailDialog}
               endIcon={<Send size={20} />}
-              sx={{
-                backgroundColor: 'green',
-              }}
+              color='success'
             >
               Send Email
             </Button>
@@ -311,6 +322,22 @@ const EditVisitor = () => {
                 </Button>
               )}
             </Box>
+            <Button
+              variant='outlined'
+              size='small'
+              onClick={handleSubscribe}
+              endIcon={
+                state.isSubscribed ? (
+                  <NotificationsIcon />
+                ) : (
+                  <NotificationsNoneOutlinedIcon />
+                )
+              }
+              color='success'
+              disabled={state.isSubscribed}
+            >
+              Subscribe{state.isSubscribed && 'd'}
+            </Button>
           </Box>
           <form onSubmit={handleSubmit} id='customerForm'>
             <Grid container>

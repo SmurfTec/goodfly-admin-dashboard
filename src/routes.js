@@ -17,7 +17,7 @@ import AddStaffer from './components/dashboard/Staffer/AddStaffer';
 import EditStaffer from './components/dashboard/Staffer/EditStaffer';
 import Staffers from './components/dashboard/Staffer/Staffers';
 
-import TourCategories from './components/dashboard/categories/TourCategories';
+import TourCategories from './components/dashboard/categories/ProductCategories';
 
 import CustomTrips from './components/dashboard/Trip/CustomTrips';
 import CustomTrip from './components/dashboard/Trip/CustomTrip';

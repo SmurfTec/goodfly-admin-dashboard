@@ -94,7 +94,14 @@ const Offers = () => {
       }
     })();
   }, []);
-
+  const deletePromo = async (id) => {
+    try {
+      await makeReq(`/promos/${id}`, {}, 'DELETE');
+      setPromos((st) => st.filter((el) => el._id !== id));
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
   const createNewPromoCode = async (promoBody) => {
     togglePromosOpen();
     try {
@@ -193,6 +200,7 @@ const Offers = () => {
         toggleDialog={togglePromosOpen}
         success={createNewPromoCode}
         promos={promos}
+        deletePromo={deletePromo}
       />
     </Container>
   );

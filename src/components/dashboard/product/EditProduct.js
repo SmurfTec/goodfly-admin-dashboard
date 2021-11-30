@@ -85,39 +85,12 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const productCategories = [
-  { id: uuid(), value: 'Miscellaneous accessories' },
-  { id: uuid(), value: 'Aromatics, Spices and Herbs' },
-  { id: uuid(), value: 'Wellness & Health Articles' },
-  { id: uuid(), value: 'Biscuits & Cakes' },
-  { id: uuid(), value: 'Sweets & Confectionery' },
-  { id: uuid(), value: 'Gifts & Boxes' },
-  { id: uuid(), value: 'Coffees & Cocoas' },
-  { id: uuid(), value: 'Cereals, Rice & Pasta' },
-  { id: uuid(), value: 'Chocolates' },
-  { id: uuid(), value: 'Home-made jams' },
-  { id: uuid(), value: 'Dates' },
-  { id: uuid(), value: 'Droguerie' },
-  { id: uuid(), value: 'Dried Fruits' },
-  { id: uuid(), value: 'Essential oils' },
-  { id: uuid(), value: 'Oils, Vinegars, & Seasonings' },
-  { id: uuid(), value: 'Juices, Lemonades & Syrups' },
-  { id: uuid(), value: 'Honey' },
-  { id: uuid(), value: 'Promotional offers' },
-  { id: uuid(), value: 'Spreads' },
-  { id: uuid(), value: 'Canned products' },
-  { id: uuid(), value: 'Exceptional Products' },
-  { id: uuid(), value: 'Sauces & Condiments' },
-  { id: uuid(), value: 'Sugars, Salts & Peppers' },
-  { id: uuid(), value: 'Teas & Infusions' },
-];
-
 const EditProduct = () => {
   const classes = styles();
   const theme = useTheme();
   const lgDown = useMediaQuery(theme.breakpoints.down('lg'));
 
-  const { products, getProductById, modifyProduct } =
+  const { products, getProductById, modifyProduct, categories } =
     useContext(ProductContext);
   const { id } = useParams();
 
@@ -151,6 +124,7 @@ const EditProduct = () => {
     setState({
       ...initialState,
       ...product,
+      category: product.category._id,
     });
   }, [id, products]);
 
@@ -322,9 +296,9 @@ const EditProduct = () => {
                   >
                     {/* <MenuItem value={10}>One</MenuItem>
                     <MenuItem value={20}>Two</MenuItem> */}
-                    {productCategories.map((category) => (
-                      <MenuItem value={category.value} key={category.id}>
-                        {category.value}
+                    {categories?.map((category) => (
+                      <MenuItem value={category._id} key={category._id}>
+                        {category.name}
                       </MenuItem>
                     ))}
                   </Select>
@@ -481,6 +455,7 @@ const EditProduct = () => {
                 >
                   {state.labels?.map((el) => (
                     <Box
+                      key={v4()}
                       sx={{
                         width: '100%',
                         display: 'flex',
@@ -522,8 +497,8 @@ const EditProduct = () => {
           <Grid container spacing={3}>
             <Grid item md={9}>
               <CarouselLayout>
-                {state.images?.map((image, index) => (
-                  <div key={index} className={classes.carouselCard}>
+                {state.images?.map((image) => (
+                  <div key={image._id} className={classes.carouselCard}>
                     <CardMedia
                       style={{ height: '10rem' }}
                       image={image.image}

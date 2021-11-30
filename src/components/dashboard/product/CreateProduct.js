@@ -84,33 +84,6 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const productCategories = [
-  { id: uuid(), value: 'Miscellaneous accessories' },
-  { id: uuid(), value: 'Aromatics, Spices and Herbs' },
-  { id: uuid(), value: 'Wellness & Health Articles' },
-  { id: uuid(), value: 'Biscuits & Cakes' },
-  { id: uuid(), value: 'Sweets & Confectionery' },
-  { id: uuid(), value: 'Gifts & Boxes' },
-  { id: uuid(), value: 'Coffees & Cocoas' },
-  { id: uuid(), value: 'Cereals, Rice & Pasta' },
-  { id: uuid(), value: 'Chocolates' },
-  { id: uuid(), value: 'Home-made jams' },
-  { id: uuid(), value: 'Dates' },
-  { id: uuid(), value: 'Droguerie' },
-  { id: uuid(), value: 'Dried Fruits' },
-  { id: uuid(), value: 'Essential oils' },
-  { id: uuid(), value: 'Oils, Vinegars, & Seasonings' },
-  { id: uuid(), value: 'Juices, Lemonades & Syrups' },
-  { id: uuid(), value: 'Honey' },
-  { id: uuid(), value: 'Promotional offers' },
-  { id: uuid(), value: 'Spreads' },
-  { id: uuid(), value: 'Canned products' },
-  { id: uuid(), value: 'Exceptional Products' },
-  { id: uuid(), value: 'Sauces & Condiments' },
-  { id: uuid(), value: 'Sugars, Salts & Peppers' },
-  { id: uuid(), value: 'Teas & Infusions' },
-];
-
 const CreateProduct = () => {
   const classes = styles();
   const theme = useTheme();
@@ -119,7 +92,7 @@ const CreateProduct = () => {
   const [isImageUploading, toggleImageUploading] = useToggleInput(false);
   const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
-  const { createNewProduct } = useContext(ProductContext);
+  const { createNewProduct, categories } = useContext(ProductContext);
 
   const initialState = {
     name: '',
@@ -305,9 +278,9 @@ const CreateProduct = () => {
                   >
                     {/* <MenuItem value={10}>One</MenuItem>
                     <MenuItem value={20}>Two</MenuItem> */}
-                    {productCategories.map((category) => (
-                      <MenuItem value={category.value} key={category.id}>
-                        {category.value}
+                    {categories?.map((category) => (
+                      <MenuItem value={category._id} key={category.id}>
+                        {category.name}
                       </MenuItem>
                     ))}
                   </Select>

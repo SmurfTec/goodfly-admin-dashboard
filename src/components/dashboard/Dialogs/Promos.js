@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
   DialogActions,
   DialogContent,
@@ -11,6 +11,8 @@ import {
   Tooltip,
   Typography,
   useTheme,
+  Box,
+  IconButton,
 } from '@material-ui/core';
 import { useManyInputs } from 'hooks';
 import { toast } from 'react-toastify';
@@ -24,6 +26,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { handleCatch, makeReq } from 'utils/makeReq';
 
 const useStyles = makeStyles({
   root: {
@@ -39,7 +42,7 @@ const useStyles = makeStyles({
 });
 
 export default function PromosDialog(props) {
-  const { open, success, promos, toggleDialog } = props;
+  const { open, success, promos, toggleDialog, deletePromo } = props;
   const classes = useStyles();
   const theme = useTheme();
 
@@ -57,7 +60,11 @@ export default function PromosDialog(props) {
     if (new Date(state.returnDate) <= new Date())
       return toast.error('Promo must NOT be in past');
 
-    success({ promoExpires: new Date(state.promoExpires), limit: state.limit });
+    success({
+      promoExpires: new Date(state.promoExpires),
+      limit: state.limit,
+      discountPercentage: state.discountPercentage,
+    });
     resetState();
   };
 
@@ -73,27 +80,34 @@ export default function PromosDialog(props) {
       </DialogTitle>
       <DialogContent>
         <form id='form' onSubmit={handleSubmit}>
-          <TextField
-            variant='outlined'
-            value={state.promoExpires}
-            onChange={handleTxtChange}
-            name='promoExpires'
-            fullWidth
-            label='Promo Expire Date'
-            type='date'
-            sx={{ marginBottom: 2 }}
-          />
-          <TextField
-            variant='outlined'
-            value={state.limit}
-            onChange={handleTxtChange}
-            name='limit'
-            fullWidth
-            label='Promo Usage Limit'
-            type='number'
-            inputProps={{ min: 1 }}
-            sx={{ marginBottom: 2 }}
-          />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: '20px',
+            }}
+          >
+            <TextField
+              variant='outlined'
+              value={state.promoExpires}
+              onChange={handleTxtChange}
+              name='promoExpires'
+              label='Promo Expire Date'
+              type='date'
+              sx={{ marginBottom: 2, flexGrow: 1 }}
+            />
+            <TextField
+              variant='outlined'
+              value={state.limit}
+              onChange={handleTxtChange}
+              name='limit'
+              label='Promo Usage Limit'
+              type='number'
+              inputProps={{ min: 1 }}
+              sx={{ marginBottom: 2, flexGrow: 1 }}
+            />
+          </Box>
           <TextField
             variant='outlined'
             value={state.discountPercentage}
@@ -118,6 +132,7 @@ export default function PromosDialog(props) {
                   <TableCell align='center'>Discount Percentage</TableCell>
                   <TableCell align='center'>Limit</TableCell>
                   <TableCell align='center'>Expiry Date</TableCell>
+                  <TableCell align='center'>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -153,6 +168,14 @@ export default function PromosDialog(props) {
                     <TableCell align='center'>{row.limit}</TableCell>
                     <TableCell align='center'>
                       {new Date(row.promoExpires).toLocaleString()}
+                    </TableCell>
+                    <TableCell align='center'>
+                      <IconButton
+                        color='error'
+                        onClick={() => deletePromo(row._id)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
                     </TableCell>
                   </TableRow>
                 ))}

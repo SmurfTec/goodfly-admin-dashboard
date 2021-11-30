@@ -14,6 +14,7 @@ import useToggleInput from 'hooks/useToggleInput';
 
 import { AddFlashSale, ConfirmDialog } from 'components/dashboard/Dialogs';
 import OfferView from './OfferView';
+import { ArrowBack, FlashOn } from '@material-ui/icons';
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -71,9 +72,8 @@ const Offer = () => {
         component={Link}
         to='/app/offers'
         sx={{ marginBottom: 2 }}
-      >
-        Back to offers
-      </Button>
+        startIcin={<ArrowBack />}
+      ></Button>
       {offer ? (
         <Box className={classes.header}>
           <Button
@@ -115,12 +115,14 @@ const Offer = () => {
 
           {offer && (
             <Button
-              variant='contained'
+              variant='outlined'
+              // variant='contained'
               color='success'
               className={classes.button}
               onClick={toggleIsSaleDialogOpen}
+              endIcon={<FlashOn />}
             >
-              Manage Flash Sale
+              Flash Sale
             </Button>
           )}
         </Box>

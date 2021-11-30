@@ -4,6 +4,7 @@ import { Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Link } from 'react-router-dom';
 import OffersCarousel from './OffersCarousel';
+import { ArrowBack } from '@material-ui/icons';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -65,9 +66,8 @@ const SpecialOffers = ({ title, carouselTitle, offers }) => {
         component={Link}
         to='/app/offers'
         sx={{ marginBottom: 2 }}
-      >
-        Back to Offers
-      </Button>
+        startIcon={<ArrowBack />}
+      ></Button>
       {/* TODO - Fetch Categories and then map them */}
 
       <OffersCarousel classes={classes} offers={offers} title={carouselTitle} />

@@ -46,7 +46,7 @@ const styles = makeStyles((theme) => ({
 const Products = () => {
   const { products, deleteProduct } = useContext(ProductContext);
 
-  console.log('PRODUCTS', products);
+  // console.log('PRODUCTS', products);
 
   const classes = styles();
   const [filter, setFilter] = useState('');
@@ -65,9 +65,7 @@ const Products = () => {
     rowsPerPage -
     Math.min(
       rowsPerPage,
-      products === 'loading'
-        ? 0
-        : products?.length - page * rowsPerPage
+      products === 'loading' ? 0 : products?.length - page * rowsPerPage
     );
 
   const handleChangePage = (event, newPage) => {
@@ -89,9 +87,7 @@ const Products = () => {
       products === 'loading'
         ? 'loading'
         : products?.filter(
-            (row) =>
-              row.name.toLowerCase().indexOf(filter.toLowerCase()) !==
-              -1
+            (row) => row.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
           )
     );
   }, [filter]);
@@ -135,10 +131,7 @@ const Products = () => {
             width: '100%',
           }}
         >
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
-          >
+          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
             Search Product
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -205,7 +198,7 @@ const Products = () => {
                           {row.isOnline ? 'online' : 'offline'}
                         </TableCell>
                         <TableCell align='right'>
-                          {row.category}
+                          {row.category ? row.category.name : 'No Category'}
                         </TableCell>
                         <TableCell align='right'>{row._id}</TableCell>
                         <TableCell align='right'>

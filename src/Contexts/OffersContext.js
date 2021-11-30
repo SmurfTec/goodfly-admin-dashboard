@@ -98,10 +98,6 @@ export const OffersProvider = ({ children }) => {
         'PATCH'
       );
 
-      console.log(
-        `udpatedOffers`,
-        offers.map((el) => (el._id === id ? trip : el))
-      );
       updateOfferById(id, trip);
       toast.success('Offer Updated Sucessfully !');
       if (!dontNavigate) navigate('/app/offers');

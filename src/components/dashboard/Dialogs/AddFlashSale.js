@@ -101,10 +101,21 @@ export default function AddFlashSale(props) {
         </form>
       </DialogContent>
       <DialogActions>
-        <Button variant='contained' color='success' type='submit' form='form'>
+        <Button
+          variant='contained'
+          color='success'
+          type='submit'
+          form='form'
+          size='small'
+        >
           Create
         </Button>
-        <Button variant='contained' color='error' onClick={toggleDialog}>
+        <Button
+          variant='contained'
+          color='error'
+          onClick={toggleDialog}
+          size='small'
+        >
           Cancel
         </Button>
       </DialogActions>

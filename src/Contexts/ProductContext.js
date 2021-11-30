@@ -22,20 +22,30 @@ export const ProductProvider = ({ children }) => {
   ] = useArray('loading', '_id');
 
   const [
-    productComments,
-    setProductComments,
+    categories,
+    setCategories,
+    pushCategory,
     ,
-    ,
-    updateProductComment,
-    ,
+    updateCategory,
+    removeCategory,
     ,
   ] = useArray([], '_id');
+
+  const [productComments, setProductComments, , , updateProductComment, , ,] =
+    useArray([], '_id');
 
   const fetchProducts = async () => {
     // If user is logged In , only then fetch data
 
     const resData = await makeReq('/products');
     setProducts(resData.products);
+  };
+
+  const fetchCategories = async () => {
+    // If user is logged In , only then fetch data
+
+    const resData = await makeReq('/products/category');
+    setCategories(resData.categories);
   };
 
   const fetchProductReviews = async () => {
@@ -47,6 +57,7 @@ export const ProductProvider = ({ children }) => {
     if (user) {
       fetchProducts();
       fetchProductReviews();
+      fetchCategories();
     }
     // Clear the State after user is logged Out
     else {
@@ -122,6 +133,42 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
+  const createNewCategory = async (categoryBody) => {
+    try {
+      const resData = await makeReq(
+        `/products/category`,
+        { body: categoryBody },
+        'POST'
+      );
+      pushCategory(resData.category);
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+  const deleteCategory = async (id) => {
+    try {
+      await makeReq(`/products/category/${id}`, {}, 'DELETE');
+      removeCategory(id);
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
+  const modifyCategory = async (id, updatedBody) => {
+    try {
+      const resData = await makeReq(
+        `/products/category/${id}`,
+        {
+          body: updatedBody,
+        },
+        'PATCH'
+      );
+      updateCategory(id, resData.category);
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
   return (
     <ProductContext.Provider
       displayName='Product Context'
@@ -133,6 +180,14 @@ export const ProductProvider = ({ children }) => {
         createNewProduct,
         productComments,
         modifyProductComment,
+        categories,
+        setCategories,
+        pushCategory,
+        updateCategory,
+        removeCategory,
+        deleteCategory,
+        modifyCategory,
+        createNewCategory,
       }}
     >
       {children}

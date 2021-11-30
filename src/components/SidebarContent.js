@@ -74,27 +74,27 @@ const NavItems = [
       },
     ],
   },
-  // {
-  //   id: '/categories',
-  //   labelText: 'Categories',
-  //   icon: Folder,
-  //   children: [
-  //     {
-  //       id: '/categories',
-  //       labelText: 'Category Management',
-  //       icon: FiberManualRecord,
-  //       color: '#1a73e8',
-  //       bgColor: '#e8f0fe',
-  //     },
-  //     {
-  //       id: '11',
-  //       labelText: 'Sub Category Management',
-  //       icon: FiberManualRecord,
-  //       color: '#1a73e8',
-  //       bgColor: '#e8f0fe',
-  //     },
-  //   ],
-  // },
+  {
+    id: '/categories',
+    labelText: 'Product Categories',
+    icon: Folder,
+    // children: [
+    //   {
+    //     id: '/categories',
+    //     labelText: 'Category Management',
+    //     icon: FiberManualRecord,
+    //     color: '#1a73e8',
+    //     bgColor: '#e8f0fe',
+    //   },
+    //   {
+    //     id: '11',
+    //     labelText: 'Sub Category Management',
+    //     icon: FiberManualRecord,
+    //     color: '#1a73e8',
+    //     bgColor: '#e8f0fe',
+    //   },
+    // ],
+  },
   {
     id: '/products',
     labelText: 'Shop',
@@ -116,11 +116,11 @@ const NavItems = [
       },
     ],
   },
-  {
-    id: '/payments',
-    labelText: 'Payments',
-    icon: CreditCard,
-  },
+  // {
+  //   id: '/payments',
+  //   labelText: 'Payments',
+  //   icon: Category,
+  // },
   {
     id: '/blogs',
     labelText: 'Blog Management',
@@ -258,7 +258,7 @@ StyledTreeItem.propTypes = {
 
 const useStyles = makeStyles({
   root: {
-    height: 450,
+    height: 500,
     flexGrow: 1,
     maxWidth: 400,
   },

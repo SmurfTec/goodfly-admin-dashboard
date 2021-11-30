@@ -1,8 +1,5 @@
 import useArray from 'hooks/useArray';
-import React, {
-  useEffect,
-  useContext,
-} from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { handleCatch, makeReq } from 'utils/makeReq';
@@ -50,7 +47,13 @@ export const CustomersProvider = ({ children }) => {
   };
 
   // Update Customer
-  const modifyCustomer = async (id, updatedCustomer) => {
+  const modifyCustomer = async (id, updatedCustomer, onlyInContext) => {
+    // * If Only want to update in context
+    if (onlyInContext) {
+      updateCustomer(id, updatedCustomer);
+      return;
+    }
+
     try {
       const resData = await makeReq(
         `/users/${id}?isVisitor=true`,
@@ -68,11 +71,7 @@ export const CustomersProvider = ({ children }) => {
 
   const verifyVisitor = async (id) => {
     try {
-      const resData = await makeReq(
-        `/users/verifyVisitor/${id}`,
-        {},
-        'PATCH'
-      );
+      const resData = await makeReq(`/users/verifyVisitor/${id}`, {}, 'PATCH');
       toast.success('User Verified');
       updateCustomer(id, resData.user);
       return resData.user;
