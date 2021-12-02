@@ -72,7 +72,7 @@ const Offer = () => {
         component={Link}
         to='/app/offers'
         sx={{ marginBottom: 2 }}
-        startIcin={<ArrowBack />}
+        startIcon={<ArrowBack />}
       ></Button>
       {offer ? (
         <Box className={classes.header}>

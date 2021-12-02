@@ -48,6 +48,7 @@ import ModifyBlog from 'components/dashboard/Blog/ViewBlog';
 import ArchieveOffers from 'components/dashboard/Offer/archievesOffers';
 import FlashSales from 'components/dashboard/Offer/flashSales';
 import Promos from 'components/dashboard/Offer/promos';
+import Chat from 'components/dashboard/Chat';
 
 export const protechtedRoutes = [
   {
@@ -57,6 +58,7 @@ export const protechtedRoutes = [
       //-----------------   MY PAGES ------------------------------
       { path: '/', element: <DashboardHome /> },
       { path: 'profile', element: <Profile /> },
+      { path: 'messages', element: <Chat /> },
       {
         path: 'blogs',
         children: [

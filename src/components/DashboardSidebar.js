@@ -1,16 +1,8 @@
 import { useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {
-  Avatar,
-  Box,
-  Drawer,
-  Hidden,
-  Typography,
-} from '@material-ui/core';
-import {
-  LogOut as LogoutIcon,
-} from 'react-feather';
+import { Avatar, Box, Drawer, Hidden, Typography } from '@material-ui/core';
+import { LogOut as LogoutIcon } from 'react-feather';
 import { makeStyles } from '@material-ui/styles';
 // import logo from 'Assets/img/airplane.svg';
 import NavItem from './NavItem';
@@ -104,9 +96,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         >
           <Avatar
             alt='Cindy Baker'
-            src={
-              user.photo ? user.photo : '/static/images/avatar/3.jpg'
-            }
+            src={user.photo ? user.photo : '/static/images/avatar/3.jpg'}
             sx={{ width: 100, height: 100, borderRadius: '50%' }}
           />
           <NavItem
@@ -144,7 +134,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           variant='persistent'
           PaperProps={{
             sx: {
-              width: 256,
+              width: 240,
               top: 64,
               height: 'calc(100% - 64px)',
             },
