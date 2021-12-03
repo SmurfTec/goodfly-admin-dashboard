@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import TreeView from '@mui/lab/TreeView';
@@ -24,6 +24,7 @@ import {
   MessageCircle,
 } from 'react-feather';
 import { FiberManualRecord } from '@material-ui/icons';
+import { AuthContext } from 'Contexts/AuthContext';
 
 const NavItems = [
   {
@@ -130,11 +131,6 @@ const NavItems = [
     id: '/comments',
     labelText: 'Reviews and Comments',
     icon: Info,
-  },
-  {
-    id: '/staffers',
-    labelText: 'Staff Management',
-    icon: Users,
   },
 ];
 
@@ -267,6 +263,8 @@ const useStyles = makeStyles({
 const SidebarContent = () => {
   const classes = useStyles();
 
+  const { user } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const handleNodeSelect = (e, value) => {
     console.log(`value`, value);
@@ -304,6 +302,14 @@ const SidebarContent = () => {
             ))}
           </StyledTreeItem>
         ))}
+        {user?.role === 'admin' && (
+          <StyledTreeItem
+            nodeId='/staffers'
+            labelText='Staff Management'
+            labelIcon={Users}
+            key='/staffers'
+          ></StyledTreeItem>
+        )}
       </TreeView>
     </div>
   );
