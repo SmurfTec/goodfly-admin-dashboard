@@ -171,17 +171,25 @@ const ProductCategories = () => {
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
+                <TableCell align='center'>Id</TableCell>
                 <TableCell align='center'>Name</TableCell>
+                <TableCell align='center'>Creation Date</TableCell>
                 <TableCell align='center'>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {filteredItems
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => (
+                .map((row) => (
                   <TableRow key={v4()}>
                     <TableCell component='th' scope='row' align='center'>
+                      {row._id}
+                    </TableCell>
+                    <TableCell component='th' scope='row' align='center'>
                       {row.name}
+                    </TableCell>
+                    <TableCell component='th' scope='row' align='center'>
+                      {new Date(row.createdAt).toLocaleDateString()}
                     </TableCell>
                     <TableCell align='center'>
                       <Button

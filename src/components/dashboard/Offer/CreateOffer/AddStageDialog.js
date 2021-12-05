@@ -2,6 +2,7 @@ import {
   Button,
   CardMedia,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
   FormControl,
@@ -403,7 +404,7 @@ const AddStageDialog = ({
                     </Box>
                   </Box>
                 </Grid>
-                <Grid item sm={12} md={12} mt={4}>
+                <Grid item sm={2} md={2} mt={4}>
                   <Box
                     style={{
                       display: 'flex',
@@ -460,13 +461,8 @@ const AddStageDialog = ({
                     </label>
                   </Box>
                 </Grid>
-                <Grid
-                  item
-                  sm={12}
-                  md={8}
-                  mt={2}
-                  className={classes.carouselGrid}
-                >
+                <Grid item sm={1} />
+                <Grid item sm={9} mt={2} className={classes.carouselGrid}>
                   {state.accomodation?.images?.length > 0 && (
                     <CarouselLayout>
                       {state.accomodation?.images?.map((image, i) => (
@@ -500,30 +496,23 @@ const AddStageDialog = ({
                     </CarouselLayout>
                   )}
                 </Grid>
-                <Grid item sm={12} md={12} mt={3}>
-                  <Box
-                    display='flex'
-                    justifyContent='right'
-                    alignItems='center'
-                    style={{ gap: '20px' }}
-                  >
-                    <Button
-                      onClick={toggleDialog}
-                      variant='outlined'
-                      style={{ color: 'red' }}
-                    >
-                      Cancel{' '}
-                    </Button>
-                    <Button type='submit' variant='contained'>
-                      Validate{' '}
-                    </Button>
-                  </Box>
-                </Grid>
               </Grid>
             </Grid>
           </Grid>
         </form>
       </DialogContent>
+      <DialogActions>
+        <Button
+          onClick={toggleDialog}
+          variant='outlined'
+          style={{ color: 'red' }}
+        >
+          Cancel{' '}
+        </Button>
+        <Button type='submit' variant='contained'>
+          Validate{' '}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

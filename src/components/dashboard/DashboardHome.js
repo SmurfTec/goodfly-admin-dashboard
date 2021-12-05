@@ -44,6 +44,7 @@ import { ReservationsContext } from 'Contexts/ReservationsContext';
 import { CustomersContext } from 'Contexts/CustomersContext';
 import { ProductContext } from 'Contexts/ProductContext';
 import { BlogsContext } from 'Contexts/BlogsContext';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
 const Clock = () => {
   const [time, setTime] = useState([
@@ -77,7 +78,7 @@ const Clock = () => {
     <Box
       style={{
         backgroundColor: '#666666',
-        padding: '20px',
+        padding: 10,
         color: '#fff',
         /* position: absolute; */
         width: 'fit-content',
@@ -85,8 +86,10 @@ const Clock = () => {
         minWidth: 130,
         textAlign: 'center',
         marginLeft: 'auto',
+        position: 'relative',
       }}
     >
+      <AccessTimeIcon style={{ position: 'absolute', right: '10px' }} />
       <Typography variant='h6' gutterBottom>
         Paris
       </Typography>

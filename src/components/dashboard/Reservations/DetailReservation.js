@@ -187,7 +187,7 @@ const DetailReservation = () => {
       return;
     }
 
-    if (!installments) {
+    if (reservationStatus !== 'cancelled' && !installments) {
       toast.error('Plz select Installments before validation !');
       return;
     }

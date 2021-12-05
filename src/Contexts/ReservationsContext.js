@@ -84,7 +84,13 @@ export const ReservationsProvider = ({ children }) => {
         'PATCH'
       );
       // console.log(`resData.purchase`, resData.purchase);
-      updateReservation(purchaseId, resData.purchase);
+      let newPurchase = resData.purchase;
+      let newPayment = resData.payment;
+      newPurchase.payments = newPurchase.payments.map((el) =>
+        el._id === newPayment._id ? newPayment : el
+      );
+
+      updateReservation(purchaseId, newPurchase);
       toast.success('Reservation updated Successfully !');
     } catch (err) {
       handleCatch(err);

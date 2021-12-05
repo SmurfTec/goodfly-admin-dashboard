@@ -82,10 +82,10 @@ export default function AddPromo(props) {
       </DialogContent>
       <DialogActions>
         <Button variant='contained' color='success' type='submit' form='form'>
-          Create
+          Make Promo
         </Button>
         <Button variant='contained' color='error' onClick={() => success({})}>
-          Cancel
+          Don't make promo
         </Button>
       </DialogActions>
     </Dialog>

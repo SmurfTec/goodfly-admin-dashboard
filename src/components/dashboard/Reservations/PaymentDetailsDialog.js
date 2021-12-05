@@ -38,14 +38,7 @@ const PaymentDetailsDialog = ({
     date: '',
     transactionNumber: '',
   };
-  const [
-    state,
-    handleTxtChange,
-    ,
-    ,
-    ,
-    setState,
-  ] = useManyInputs(initialState);
+  const [state, handleTxtChange, , , , setState] = useManyInputs(initialState);
 
   useEffect(() => {
     if (!payment) return;
@@ -123,7 +116,7 @@ const PaymentDetailsDialog = ({
                   />
 
                   <FormControlLabel
-                    value='bankTransactio'
+                    value='bankTransaction'
                     control={<Radio />}
                     label='Bank Transfer'
                   />
