@@ -70,7 +70,12 @@ const SpecialOffers = ({ title, carouselTitle, offers }) => {
       ></Button>
       {/* TODO - Fetch Categories and then map them */}
 
-      <OffersCarousel classes={classes} offers={offers} title={carouselTitle} />
+      <OffersCarousel
+        classes={classes}
+        offers={offers}
+        title={carouselTitle}
+        isSpecialOffer
+      />
     </>
   );
 };

@@ -186,7 +186,7 @@ const AddStageDialog = ({
     >
       <DialogTitle>Add Steps</DialogTitle>
       <DialogContent>
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={handleFormSubmit} id='form'>
           <Grid container>
             <Grid item sm={12} md={12} lg={3} style={{ padding: '1rem' }}>
               <TextField
@@ -509,7 +509,7 @@ const AddStageDialog = ({
         >
           Cancel{' '}
         </Button>
-        <Button type='submit' variant='contained'>
+        <Button type='submit' variant='contained' form='form'>
           Validate{' '}
         </Button>
       </DialogActions>

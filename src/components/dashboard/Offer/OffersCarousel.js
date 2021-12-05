@@ -8,7 +8,7 @@ import TripCard from './TripCard';
 
 import Skeleton from 'react-loading-skeleton';
 
-const OffersCarousel = ({ title, offers, classes }) => {
+const OffersCarousel = ({ title, offers, classes, isSpecialOffer }) => {
   return (
     <Box className={classes.boxBack}>
       <Box p={3}>
@@ -17,7 +17,7 @@ const OffersCarousel = ({ title, offers, classes }) => {
           {offers
             ? offers.map((trip) => (
                 <div key={trip._id} className={classes.carouselCard}>
-                  <TripCard trip={trip} />
+                  <TripCard trip={trip} isSpecialOffer={isSpecialOffer} />
                 </div>
               ))
             : [1, 2, 3].map((el) => (

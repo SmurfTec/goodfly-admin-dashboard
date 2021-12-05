@@ -38,9 +38,18 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const TripCard = ({ trip }) => {
+const TripCard = ({ trip, isSpecialOffer }) => {
   const navigate = useNavigate();
-  const { _id, title, upload, image, description, price } = trip;
+  const {
+    _id,
+    title,
+    upload,
+    image,
+    description,
+    price,
+    promoExpires,
+    saleExpires,
+  } = trip;
 
   const classes = styles();
 
@@ -50,9 +59,14 @@ const TripCard = ({ trip }) => {
 
   return (
     <>
-      <Typography variant='h5' sx={{ marginBottom: 1, minHeight: 50 }}>
-        {title.toUpperCase()}
-      </Typography>
+      <Typography variant='h5'>{title.toUpperCase()}</Typography>
+      {isSpecialOffer && (
+        <Typography variant='h6' sx={{ marginBottom: 1 }}>
+          {promoExpires &&
+            `Till ${new Date(promoExpires).toLocaleDateString()}`}
+          {saleExpires && `Till ${new Date(saleExpires).toLocaleDateString()}`}
+        </Typography>
+      )}
       <Card className={classes.root}>
         <CardMedia className={classes.cover} image={image} title={title} />
         <CardActionArea onClick={handleClick}>

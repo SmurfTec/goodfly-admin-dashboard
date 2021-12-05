@@ -12,8 +12,8 @@ const FlashSales = () => {
     <Container style={{ marginTop: '3rem' }}>
       <SpecialOffers
         offers={offers?.filter((offer) => offer.sale)}
-        title='Flash Sales'
-        carouselTitle='Flash Sales'
+        title='Fresh Arrivals'
+        carouselTitle='Fresh Arrivals'
       />
     </Container>
   );

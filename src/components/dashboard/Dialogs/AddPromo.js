@@ -14,6 +14,7 @@ const useStyles = makeStyles({
   root: {
     '& .MuiDialogContent-root': {
       paddingTop: 20,
+      minWidth: 400,
     },
   },
   Title: {
@@ -21,19 +22,6 @@ const useStyles = makeStyles({
     // '& h2': {
     //   fontFamily: 'sans-serif',
     // },
-  },
-  List: {
-    '& span': {
-      fontFamily: 'sans-serif',
-    },
-  },
-  yesIcon: {
-    backgroundColor: blue[100],
-    color: blue[600],
-  },
-  cancelIcon: {
-    backgroundColor: red[100],
-    color: red[600],
   },
 });
 
@@ -65,7 +53,7 @@ export default function AddPromo(props) {
       className={classes.root}
     >
       <DialogTitle id='simple-dialog-title' className={classes.Title}>
-        Make Offer Promo
+        Mark as Fresh Arival
       </DialogTitle>
       <DialogContent>
         <form id='form' onSubmit={handleSubmit}>
@@ -75,17 +63,17 @@ export default function AddPromo(props) {
             onChange={handleTxtChange}
             name='promoExpires'
             fullWidth
-            label='Promo End Date'
+            label='Arrival End Date'
             type='date'
           />
         </form>
       </DialogContent>
       <DialogActions>
         <Button variant='contained' color='success' type='submit' form='form'>
-          Make Promo
+          Yes
         </Button>
-        <Button variant='contained' color='error' onClick={() => success({})}>
-          Don't make promo
+        <Button variant='contained' color='info' onClick={() => success({})}>
+          No
         </Button>
       </DialogActions>
     </Dialog>

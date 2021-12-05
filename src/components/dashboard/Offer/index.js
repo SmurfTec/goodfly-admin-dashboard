@@ -190,7 +190,7 @@ const Offers = () => {
               classes={classes}
               link='/app/offers/promos'
               Icon1={NewReleasesIcon}
-              text='Promos'
+              text='Fresh Arrivals'
             />
           </Box>
         </Grid>
