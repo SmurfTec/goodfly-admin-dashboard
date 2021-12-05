@@ -24,7 +24,7 @@ import { Edit } from '@mui/icons-material';
 import { useNavigate } from 'react-router';
 import { daysBetween } from 'utils/dateMethods';
 
-const styles = makeStyles((theme) => ({
+const styles = makeStyles(() => ({
   main: {
     backgroundColor: '#f2f2f2',
     minHeight: '20rem',
@@ -83,13 +83,7 @@ const filterButtons = [
   },
 ];
 
-const FilterButton = ({
-  currentStatus,
-  text,
-  handleFilter,
-  status,
-  color,
-}) => (
+const FilterButton = ({ currentStatus, text, handleFilter, status, color }) => (
   <Button
     data-statusfilter={status}
     onClick={handleFilter}
@@ -118,9 +112,8 @@ const FilterButton = ({
 );
 
 const Reservations = () => {
-  const { reservations, fetchReservations } = useContext(
-    ReservationsContext
-  );
+  const { reservations, fetchReservations, loading } =
+    useContext(ReservationsContext);
   console.log(`reservations`, reservations);
   const classes = styles();
   const [filter, setFilter] = useState('');
@@ -143,10 +136,7 @@ const Reservations = () => {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     rowsPerPage -
-    Math.min(
-      rowsPerPage,
-      (reservations?.length || 0) - page * rowsPerPage
-    );
+    Math.min(rowsPerPage, (reservations?.length || 0) - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -168,9 +158,7 @@ const Reservations = () => {
         console.clear();
         console.log(`el`, el);
         return (
-          el.visitor.fullName
-            .toLowerCase()
-            .indexOf(filter.toLowerCase()) !== -1
+          el.visitor.fullName.toLowerCase().indexOf(filter.toLowerCase()) !== -1
         );
       })
       // reservations || []
@@ -188,17 +176,15 @@ const Reservations = () => {
 
     try {
       const greenOrangeReservations =
-        reservations?.filter((el) =>
-          nonPaidStatuses.includes(el.status)
-        ) || [];
+        reservations?.filter((el) => nonPaidStatuses.includes(el.status)) || [];
 
-        console.log(`greenOrangeReservations`, greenOrangeReservations)
+      console.log(`greenOrangeReservations`, greenOrangeReservations);
       // * Reservations which have more than 8 weeks till departure date
       // * Fall in green category
       const greenReseravtionsNew =
         greenOrangeReservations?.filter((el) => {
           // * Reservations for open offers fall in this category also
-          if(!el.departureDate && !el.returnDate) return true
+          if (!el.departureDate && !el.returnDate) return true;
           const departureDate = new Date(el.departureDate);
           // el.trip ? el.trip.startingDate : el.customTrip.startingDate
           const currentDate = new Date();
@@ -210,14 +196,13 @@ const Reservations = () => {
       const orangeReservationsNew =
         greenOrangeReservations?.filter((el) => {
           const departureDate = new Date(
-            el.trip
-              ? el.trip.startingDate
-              : el.customTrip.startingDate
+            el.trip ? el.trip.startingDate : el.customTrip.startingDate
           );
           const currentDate = new Date();
 
           // * 8 Weeks before departure date =  <= 48 days
-          return daysBetween(departureDate, currentDate) <= 48;
+          const daysLeft = daysBetween(departureDate, currentDate);
+          return daysLeft <= 48 && daysLeft > 42;
         }) || [];
 
       // * Those reservations , which got archieved since 6 weeks
@@ -234,14 +219,11 @@ const Reservations = () => {
           // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
           // * So thats why I put 2nd condition
           return (
-            (el.status === 'archived' ||
-              nonPaidStatuses.includes(el.status)) &&
+            (el.status === 'archived' || nonPaidStatuses.includes(el.status)) &&
             daysBetween(departureDate, currentDate) >= 28 &&
             daysBetween(departureDate, currentDate) <= 42
           );
         }) || [];
-
-
 
       // * Those reservations , which arrive 4 weeks before departure date
       // * till 2 weeks , after that they move to red List
@@ -260,10 +242,8 @@ const Reservations = () => {
           // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
           // * So thats why I put 2nd condition
 
-
           return (
-            (el.status === 'archived' ||
-              nonPaidStatuses.includes(el.status)) &&
+            (el.status === 'archived' || nonPaidStatuses.includes(el.status)) &&
             daysBetween(departureDate, currentDate) < 28 &&
             daysBetween(departureDate, currentDate) > 14
           );
@@ -278,15 +258,12 @@ const Reservations = () => {
 
       // * Cancellation Requests by client
       const greyReservationsNew =
-        reservations?.filter(
-          (el) => el.status === 'cancellation-request'
-        ) || [];
+        reservations?.filter((el) => el.status === 'cancellation-request') ||
+        [];
 
       // * Reservations paid / Finalized
       const whiteReservationsNew =
-        reservations?.filter(
-          (el) => el.status === 'reservation-paid'
-        ) || [];
+        reservations?.filter((el) => el.status === 'reservation-paid') || [];
 
       setGreenReseravtions(greenReseravtionsNew);
       setOrangeReservations(orangeReservationsNew);
@@ -400,10 +377,7 @@ const Reservations = () => {
           >
             Fetch
           </Button>
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
-          >
+          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
             Search Reservation
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -435,9 +409,9 @@ const Reservations = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {currentReservations
+              {!loading
                 ? currentReservations
-                    .slice(
+                    ?.slice(
                       page * rowsPerPage,
                       page * rowsPerPage + rowsPerPage
                     )
@@ -448,13 +422,9 @@ const Reservations = () => {
                           {purchase._id.slice(5)}
                         </TableCell>
                         <TableCell align='center'>
-                          {new Date(
-                            purchase.createdAt
-                          ).toLocaleDateString()}
+                          {new Date(purchase.createdAt).toLocaleDateString()}
                         </TableCell>
-                        <TableCell align='center'>
-                          {purchase.status}
-                        </TableCell>
+                        <TableCell align='center'>{purchase.status}</TableCell>
                         <TableCell align='center'>
                           {purchase.trip ? (
                             purchase.travelers?.map((traveler) => (
@@ -480,16 +450,11 @@ const Reservations = () => {
                             <> {purchase.email} </>
                           )}
                         </TableCell>
-                        <TableCell align='center'>
-                          {purchase.phone}
-                        </TableCell>
+                        <TableCell align='center'>{purchase.phone}</TableCell>
                         <TableCell align='center'>
                           <Button
                             endIcon={<Edit />}
-                            onClick={handleClick.bind(
-                              this,
-                              purchase._id
-                            )}
+                            onClick={handleClick.bind(this, purchase._id)}
                           >
                             Edit
                           </Button>

@@ -7,6 +7,7 @@ import {
   Button,
   TextField,
   Switch,
+  Container,
 } from '@material-ui/core';
 
 import { Camera as CameraIcon } from 'react-feather';
@@ -25,6 +26,8 @@ import useTextInput from 'hooks/useTextInput';
 import { BlogsContext } from 'Contexts/BlogsContext';
 import { useParams } from 'react-router';
 import { getMuiDateFormat } from 'utils/dateMethods';
+import NotFound from 'pages/NotFound';
+import Loading from 'pages/Loading';
 
 const styles = makeStyles((theme) => ({
   image: {
@@ -54,7 +57,10 @@ const ModifyBlog = () => {
 
   const { id } = useParams();
 
-  const { modifyBlog, getBlogFromId, blogs } = useContext(BlogsContext);
+  const { modifyBlog, getBlogFromId, blogs, loading } =
+    useContext(BlogsContext);
+
+  const [notFound, setNotFound] = useState(false);
 
   const initialState = {
     publishDate: getMuiDateFormat(new Date()),
@@ -86,17 +92,22 @@ const ModifyBlog = () => {
   const [blogImages, setBlogImages] = useState([]);
 
   useEffect(() => {
-    const blog = getBlogFromId(id);
-    if (!blog) return;
+    console.log(`loading`, loading);
+    console.log(`blogs`, blogs);
+    if (loading) return;
 
+    const blog = getBlogFromId(id);
     console.log(`blog`, blog);
+
+    if (!blog) return setNotFound(true);
+
     setState((st) => ({
       ...st,
       ...blog,
       publishDate: getMuiDateFormat(blog.publishDate),
     }));
     setBlogImages(blog.images);
-  }, [id, blogs]);
+  }, [id, blogs, loading]);
 
   const toggleIsOpen = () => {
     setIsOpen(!isOpen);
@@ -181,215 +192,222 @@ const ModifyBlog = () => {
     resetKeyword();
   };
 
-  const resetState = () => {
-    setState(initialState);
-  };
-
   const handleUpdateBlog = () => {
     console.log(`state`, state);
     modifyBlog(id, { ...state, images: blogImages });
   };
   return (
-    <div>
-      <Grid container style={{ marginTop: 50 }}>
-        <Grid item sm={3} md={3}>
-          <Box style={{ margin: 20 }}>
-            <Typography variant='h5'>New Blog</Typography>
-            <LoadingOverlay
-              active={isImageUploading}
-              spinner
-              text={uploadingText}
-            >
-              <Box className={classes.image}>
-                <label htmlFor='contained-button-file'>
-                  <Box>
-                    <Box style={{ textAlign: 'center' }}>
-                      <CameraIcon style={{ color: '#808080' }} />
-                    </Box>
-                    <Box mt={1}>
-                      <input
-                        accept='image/*'
-                        style={{ display: 'none' }}
-                        id='contained-button-file'
-                        multiple
-                        type='file'
-                        onChange={handleImage}
-                      />
-                      <Typography style={{ color: '#808080' }}>
-                        Upload Image
-                      </Typography>
-                    </Box>
+    <Container>
+      {loading ? (
+        // <div className='loader'></div>
+        <Loading noTitle />
+      ) : notFound ? (
+        <NotFound />
+      ) : (
+        <>
+          <Grid container style={{ marginTop: 50 }}>
+            <Grid item sm={3} md={3}>
+              <Box style={{ margin: 20 }}>
+                <Typography variant='h5'>New Blog</Typography>
+                <LoadingOverlay
+                  active={isImageUploading}
+                  spinner
+                  text={uploadingText}
+                >
+                  <Box className={classes.image}>
+                    <label htmlFor='contained-button-file'>
+                      <Box>
+                        <Box style={{ textAlign: 'center' }}>
+                          <CameraIcon style={{ color: '#808080' }} />
+                        </Box>
+                        <Box mt={1}>
+                          <input
+                            accept='image/*'
+                            style={{ display: 'none' }}
+                            id='contained-button-file'
+                            multiple
+                            type='file'
+                            onChange={handleImage}
+                          />
+                          <Typography style={{ color: '#808080' }}>
+                            Upload Image
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </label>
                   </Box>
-                </label>
+                </LoadingOverlay>
               </Box>
-            </LoadingOverlay>
-          </Box>
-        </Grid>
-        <Grid item sm={6} md={6}>
-          <Typography
-            variant='h5'
+            </Grid>
+            <Grid item sm={6} md={6}>
+              <Typography
+                variant='h5'
+                style={{
+                  width: '100%',
+                  textAlign: 'right',
+                }}
+              >
+                Offline
+                <Switch
+                  checked={state.upload}
+                  name='upload'
+                  onChange={handleToggleChange}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+              </Typography>
+              <Box style={{ margin: 20 }}>
+                <Box
+                  sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
+                >
+                  <TextField
+                    name='publishDate'
+                    value={state.publishDate}
+                    onChange={handleTxtChange}
+                    id='standard-basic'
+                    defaultValue={state.publishDate}
+                    variant='standard'
+                    style={{ marginRight: 50 }}
+                    type='date'
+                  />
+                  <TextField
+                    name='theme'
+                    value={state.theme}
+                    onChange={handleTxtChange}
+                    id='standard-basic'
+                    label='Theme'
+                    variant='standard'
+                  />
+                  <TextField
+                    name='title'
+                    value={state.title}
+                    onChange={handleTxtChange}
+                    id='standard-basic'
+                    label='Title'
+                    variant='standard'
+                    style={{ width: '100%' }}
+                  />
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item sm={3} md={3}>
+              <form onSubmit={handleAddKeyword}>
+                <Box>
+                  <TextField
+                    name='Keywords'
+                    value={keyword}
+                    onChange={handleChangeKeyword}
+                    id='standard-basic'
+                    label='keywords'
+                    variant='standard'
+                    name='keywords'
+                  />
+                  <Box className={classes.keywords}>
+                    {state.keywords.map((el) => (
+                      <Typography key={v4()} style={{ color: '#808080' }}>
+                        {el}
+                      </Typography>
+                    ))}
+                  </Box>
+                </Box>
+              </form>
+            </Grid>
+          </Grid>
+          <Box
             style={{
-              width: '100%',
-              textAlign: 'right',
+              border: '1px solid #cccccc',
+              minHeight: 500,
+              margin: 10,
             }}
           >
-            Offline
-            <Switch
-              checked={state.upload}
-              name='upload'
-              onChange={handleToggleChange}
-              inputProps={{ 'aria-label': 'controlled' }}
+            <Editor
+              // initialValue='<p>Your Blog Content Here</p>'
+              init={{
+                height: 500,
+                menubar: false,
+                plugins: [
+                  'advlist autolink lists link image',
+                  'charmap print preview anchor help',
+                  'searchreplace visualblocks code',
+                  'insertdatetime media table paste wordcount',
+                ],
+                toolbar:
+                  'undo redo | image | formatselect | ' +
+                  'bold italic backcolor forecolor | alignleft aligncenter ' +
+                  'alignright alignjustify | bullist numlist outdent indent | ' +
+                  'removeformat | help',
+                content_style:
+                  'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                // toolbar: 'undo redo | image ',
+                automatic_uploads: true,
+                // add custom filepicker only to Image dialog
+                file_picker_types: 'image',
+                // file_picker_callback: function (cb, value, meta) {
+                //   var input = document.createElement('input');
+                //   input.setAttribute('type', 'file');
+                //   input.setAttribute('accept', 'image/*');
+
+                //   input.onchange = function () {
+                //     var file = this.files[0];
+                //     var reader = new FileReader();
+
+                //     reader.onload = function () {
+                //       console.log(`reader.result`, reader.result);
+                //       // var id = 'blobid' + new Date().getTime();
+                //       // var blobCache = Editor.activeEditor.editorUpload.blobCache;
+                //       // var base64 = reader.result.split(',')[1];
+                //       // var blobInfo = blobCache.create(id, file, base64);
+                //       // blobCache.add(blobInfo);
+                //       // // call the callback and populate the Title field with the file name
+                //       cb('', { title: file.name });
+                //     };
+                //     reader.readAsDataURL(file);
+                //   };
+
+                //   input.click();
+                // },
+              }}
+              apiKey='xof67rwsnw3lkcm0cgnxpki7y4onajon4fxcahqdpmog5qba'
+              // onChange={handleEditorChange}
+              onEditorChange={handleEditorChange}
+              value={state.content}
             />
-          </Typography>
-          <Box style={{ margin: 20 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <TextField
-                name='publishDate'
-                value={state.publishDate}
-                onChange={handleTxtChange}
-                id='standard-basic'
-                defaultValue={state.publishDate}
-                variant='standard'
-                style={{ marginRight: 50 }}
-                type='date'
-              />
-              <TextField
-                name='theme'
-                value={state.theme}
-                onChange={handleTxtChange}
-                id='standard-basic'
-                label='Theme'
-                variant='standard'
-              />
-              <TextField
-                name='title'
-                value={state.title}
-                onChange={handleTxtChange}
-                id='standard-basic'
-                label='Title'
-                variant='standard'
-                style={{ width: '100%' }}
-              />
-            </Box>
           </Box>
-        </Grid>
-        <Grid item sm={3} md={3}>
-          <form onSubmit={handleAddKeyword}>
-            <Box>
-              <TextField
-                name='Keywords'
-                value={keyword}
-                onChange={handleChangeKeyword}
-                id='standard-basic'
-                label='keywords'
-                variant='standard'
-                name='keywords'
-              />
-              <Box className={classes.keywords}>
-                {state.keywords.map((el) => (
-                  <Typography key={v4()} style={{ color: '#808080' }}>
-                    {el}
-                  </Typography>
-                ))}
-              </Box>
-            </Box>
-          </form>
-        </Grid>
-      </Grid>
-      <Box
-        style={{
-          border: '1px solid #cccccc',
-          minHeight: 500,
-          margin: 10,
-        }}
-      >
-        <Editor
-          // initialValue='<p>Your Blog Content Here</p>'
-          init={{
-            height: 500,
-            menubar: false,
-            plugins: [
-              'advlist autolink lists link image',
-              'charmap print preview anchor help',
-              'searchreplace visualblocks code',
-              'insertdatetime media table paste wordcount',
-            ],
-            toolbar:
-              'undo redo | image | formatselect | ' +
-              'bold italic backcolor forecolor | alignleft aligncenter ' +
-              'alignright alignjustify | bullist numlist outdent indent | ' +
-              'removeformat | help',
-            content_style:
-              'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-            // toolbar: 'undo redo | image ',
-            automatic_uploads: true,
-            // add custom filepicker only to Image dialog
-            file_picker_types: 'image',
-            // file_picker_callback: function (cb, value, meta) {
-            //   var input = document.createElement('input');
-            //   input.setAttribute('type', 'file');
-            //   input.setAttribute('accept', 'image/*');
+          <Box
+            style={{
+              display: 'flex',
+              justifyContent: 'space-evenly',
+              alignItems: 'center',
+              width: '100%',
+              marginBottom: 20,
+            }}
+          >
+            <Button
+              variant='contained'
+              size='medium'
+              style={{ backgroundColor: 'red', width: 150 }}
+              onClick={toggleIsOpen}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleUpdateBlog}
+              variant='contained'
+              size='medium'
+              style={{ width: 150 }}
+            >
+              Update
+            </Button>
+          </Box>
 
-            //   input.onchange = function () {
-            //     var file = this.files[0];
-            //     var reader = new FileReader();
-
-            //     reader.onload = function () {
-            //       console.log(`reader.result`, reader.result);
-            //       // var id = 'blobid' + new Date().getTime();
-            //       // var blobCache = Editor.activeEditor.editorUpload.blobCache;
-            //       // var base64 = reader.result.split(',')[1];
-            //       // var blobInfo = blobCache.create(id, file, base64);
-            //       // blobCache.add(blobInfo);
-            //       // // call the callback and populate the Title field with the file name
-            //       cb('', { title: file.name });
-            //     };
-            //     reader.readAsDataURL(file);
-            //   };
-
-            //   input.click();
-            // },
-          }}
-          apiKey='xof67rwsnw3lkcm0cgnxpki7y4onajon4fxcahqdpmog5qba'
-          // onChange={handleEditorChange}
-          onEditorChange={handleEditorChange}
-          value={state.content}
-        />
-      </Box>
-      <Box
-        style={{
-          display: 'flex',
-          justifyContent: 'space-evenly',
-          alignItems: 'center',
-          width: '100%',
-          marginBottom: 20,
-        }}
-      >
-        <Button
-          variant='contained'
-          size='medium'
-          style={{ backgroundColor: 'red', width: 150 }}
-          onClick={toggleIsOpen}
-        >
-          Cancel
-        </Button>
-        <Button
-          onClick={handleUpdateBlog}
-          variant='contained'
-          size='medium'
-          style={{ width: 150 }}
-        >
-          Update
-        </Button>
-      </Box>
-
-      <ConfirmDialog
-        open={isOpen}
-        Success={handleBlogCancel}
-        toggleDialog={toggleIsOpen}
-        dialogTitle=' Are you Sure you want to cancel ?'
-      ></ConfirmDialog>
-    </div>
+          <ConfirmDialog
+            open={isOpen}
+            Success={handleBlogCancel}
+            toggleDialog={toggleIsOpen}
+            dialogTitle=' Are you Sure you want to cancel ?'
+          ></ConfirmDialog>
+        </>
+      )}
+    </Container>
   );
 };
 

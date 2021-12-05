@@ -13,6 +13,7 @@ import {
   Radio,
   CardMedia,
   Switch,
+  Container,
 } from '@material-ui/core';
 import { Plus as PlusIcon, File as FileIcon, Send } from 'react-feather';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
@@ -31,6 +32,8 @@ import { handleCatch, makeReq } from 'utils/makeReq';
 // import Carousel from 'react-material-ui-carousel';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import Loading from 'pages/Loading';
+import NotFound from 'pages/NotFound';
 
 const styles = makeStyles((theme) => ({
   header: {
@@ -93,12 +96,14 @@ const EditVisitor = () => {
   const classes = styles();
 
   const [ok, setOk] = React.useState(true);
+  const [notFound, setNotFound] = useState(false);
   const {
     getCustomerById,
     customers,
     modifyCustomer,
     verifyVisitor,
     deleteCustomer,
+    loading,
   } = useContext(CustomersContext);
   const { id } = useParams();
 
@@ -130,8 +135,6 @@ const EditVisitor = () => {
 
   const [isOpen, toggleEmailDialog] = useToggleInput(false);
 
-  const [loading, setLoading] = useState(true);
-
   const [isImageUploading, toggleImageUploading] = useToggleInput(false);
   const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
@@ -139,20 +142,20 @@ const EditVisitor = () => {
     useManyInputs(initialState);
 
   useEffect(() => {
+    if (loading) return;
+
     const customer = getCustomerById(id);
     console.log(`customer`, customer);
 
-    if (!customer || customer === 'loading') setLoading(true);
-    else {
-      setState({
-        ...initialState,
-        ...customer,
-        dateOfBirth: getMuiDateFormat(customer.dateOfBirth),
-        passportDateOfIssue: getMuiDateFormat(customer.passportDateOfIssue),
-      });
-      setLoading(false);
-    }
-  }, [id, customers]);
+    if (!customer) return setNotFound(true);
+
+    setState({
+      ...initialState,
+      ...customer,
+      dateOfBirth: getMuiDateFormat(customer.dateOfBirth),
+      passportDateOfIssue: getMuiDateFormat(customer.passportDateOfIssue),
+    });
+  }, [id, customers, loading]);
 
   const handleVerify = () => {
     verifyVisitor(id);
@@ -235,702 +238,723 @@ const EditVisitor = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#fff', overflow: 'hidden' }}>
+    <Container style={{ backgroundColor: '#fff', overflow: 'hidden' }}>
       {loading ? (
-        <div className='loader'></div>
+        <Loading noTitle />
+      ) : notFound ? (
+        <NotFound />
       ) : (
-        <Box>
-          <Box className={classes.header}>
-            <Typography variant='h4'>Client Area</Typography>
-            <Button
-              variant='outlined'
-              size='medium'
-              style={{
-                color: 'red',
-                border: '1px solid rec',
-                colorwidth: 150,
-              }}
-              onClick={handleDeleteCustomer}
-            >
-              To Delete
-            </Button>
-            <Button
-              // onClick={handleSubmit}
-              form='customerForm'
-              type='submit'
-              variant='outlined'
-              size='medium'
-            >
-              To Modify
-            </Button>
+        <>
+          <Box>
+            <Box className={classes.header}>
+              <Typography variant='h4'>Client Area</Typography>
+              <Button
+                variant='outlined'
+                size='medium'
+                style={{
+                  color: 'red',
+                  border: '1px solid rec',
+                  colorwidth: 150,
+                }}
+                onClick={handleDeleteCustomer}
+              >
+                To Delete
+              </Button>
+              <Button
+                // onClick={handleSubmit}
+                form='customerForm'
+                type='submit'
+                variant='outlined'
+                size='medium'
+              >
+                To Modify
+              </Button>
 
-            <Button
-              // variant='contained'
-              variant='outlined'
-              size='small'
-              onClick={toggleEmailDialog}
-              endIcon={<Send size={20} />}
-              color='success'
-            >
-              Send Email
-            </Button>
-            <Box style={{ width: 155 }}>
-              <Typography variant='h5'>
-                N Fidelite
-                <b
-                  style={{
-                    fontSize: 28,
-                    fontWeight: 'bold ',
-                    fontStyle: 'italic',
-                    margin: 2,
-                  }}
-                >
-                  827
-                </b>
-              </Typography>
-            </Box>
-            <Box>
-              <Typography variant='h5'>
-                <b
-                  style={{
-                    fontSize: 28,
-                    fontWeight: 'bold ',
-                    fontStyle: 'italic',
-                    margin: 5,
-                  }}
-                >
-                  {state.loyaltyPoints}
-                </b>
-                Points
-              </Typography>
-            </Box>
-            <Box>
-              {state.isVerified === false ? (
-                <Button variant='outlined' onClick={handleVerify}>
-                  Verify
-                </Button>
-              ) : (
-                <Button
-                  variant='outlined'
-                  endIcon={
-                    <AssignmentTurnedInOutlinedIcon
-                      style={{ color: 'green' }}
-                    />
-                  }
-                >
-                  Verified
-                </Button>
-              )}
-            </Box>
-            <Button
-              variant='outlined'
-              size='small'
-              onClick={handleSubscribe}
-              endIcon={
-                state.isSubscribed ? (
-                  <NotificationsIcon />
+              <Button
+                // variant='contained'
+                variant='outlined'
+                size='small'
+                onClick={toggleEmailDialog}
+                endIcon={<Send size={20} />}
+                color='success'
+              >
+                Send Email
+              </Button>
+              <Box style={{ width: 155 }}>
+                <Typography variant='h5'>
+                  N Fidelite
+                  <b
+                    style={{
+                      fontSize: 28,
+                      fontWeight: 'bold ',
+                      fontStyle: 'italic',
+                      margin: 2,
+                    }}
+                  >
+                    827
+                  </b>
+                </Typography>
+              </Box>
+              <Box>
+                <Typography variant='h5'>
+                  <b
+                    style={{
+                      fontSize: 28,
+                      fontWeight: 'bold ',
+                      fontStyle: 'italic',
+                      margin: 5,
+                    }}
+                  >
+                    {state.loyaltyPoints}
+                  </b>
+                  Points
+                </Typography>
+              </Box>
+              <Box>
+                {state.isVerified === false ? (
+                  <Button variant='outlined' onClick={handleVerify}>
+                    Verify
+                  </Button>
                 ) : (
-                  <NotificationsNoneOutlinedIcon />
-                )
-              }
-              color='success'
-              disabled={state.isSubscribed}
-            >
-              Subscribe{state.isSubscribed && 'd'}
-            </Button>
-          </Box>
-          <form onSubmit={handleSubmit} id='customerForm'>
-            <Grid container>
-              <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
-                <Box className={classes.mainBox}>
-                  <Box
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      width: '100%',
-                      margin: '10px 0px 30px ',
-                    }}
+                  <Button
+                    variant='outlined'
+                    endIcon={
+                      <AssignmentTurnedInOutlinedIcon
+                        style={{ color: 'green' }}
+                      />
+                    }
                   >
-                    <Typography variant='h4'>Client Profile</Typography>
-                    <Box style={{ display: 'flex' }}>
-                      <Typography
-                        variant='h5'
-                        style={{ margin: '0px 10px 0px' }}
-                      >
-                        Number
-                      </Typography>
-                      <Paper
-                        style={{
-                          width: '100%',
-                          height: 25,
-                          textAlign: 'right',
-                          padding: 4,
-                        }}
-                      >
-                        {state._id}
-                      </Paper>
-                    </Box>
-                  </Box>
-                  <Box
-                    style={{
-                      display: 'flex',
-                      // justifyContent: 'space-between',
-                      alignItems: 'center',
-                      width: '100%',
-                    }}
-                  >
-                    <Typography variant='h5' style={{ width: '25%' }}>
-                      Civilite
-                    </Typography>
-                    <FormControl component='fieldset'>
-                      <RadioGroup
-                        row
-                        aria-label='gender'
-                        name='row-radio-buttons-group'
-                        value={state.pronoun}
-                        name='pronoun'
-                        onChange={handleToggleChange}
-                      >
-                        <FormControlLabel
-                          value='Mr'
-                          control={<Radio />}
-                          label='Mr'
-                        />
-                        <FormControlLabel
-                          value='Mrs'
-                          control={<Radio />}
-                          label='Mrs'
-                        />
-                        <FormControlLabel
-                          value='Ms'
-                          control={<Radio />}
-                          label='Ms'
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </Box>
-                  <Box className={classes.inputBox}>
-                    <Typography variant='h5' className={classes.typo}>
-                      First Name
-                    </Typography>
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
-                      className={classes.textInput}
-                      name='firstName'
-                      type='text'
-                      value={state.firstName}
-                      onChange={handleTxtChange}
-                      required
-                    />
-                  </Box>
-                  <Box className={classes.inputBox}>
-                    <Typography variant='h5' className={classes.typo}>
-                      Last Name
-                    </Typography>
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
-                      className={classes.textInput}
-                      name='lastName'
-                      type='text'
-                      value={state.lastName}
-                      onChange={handleTxtChange}
-                      required
-                    />
-                  </Box>
-                  <Box className={classes.inputBox}>
-                    <Typography variant='h5' className={classes.typo}>
-                      Spouse Name
-                    </Typography>
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
-                      className={classes.textInput}
-                      name='spouseName'
-                      type='text'
-                      value={state.spouseName}
-                      onChange={handleTxtChange}
-                      required
-                    />
-                  </Box>
-                  <Box className={classes.inputBox}>
-                    <Typography variant='h5' className={classes.typo}>
-                      Email
-                    </Typography>
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
-                      className={classes.textInput}
-                      name='email'
-                      type='email'
-                      value={state.email}
-                      onChange={handleTxtChange}
-                      required
-                    />
-                  </Box>
-                  <Box className={classes.inputBox}>
-                    <Typography variant='h5' className={classes.typo}>
-                      Mobile
-                    </Typography>
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
-                      className={classes.textInput}
-                      name='telephoneNumber'
-                      type='number'
-                      value={state.telephoneNumber}
-                      onChange={handleTxtChange}
-                      required
-                    />
-                  </Box>
-                  <Box className={classes.inputBox}>
-                    <Typography variant='h5' className={classes.typo}>
-                      TelePhone
-                    </Typography>
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
-                      className={classes.textInput}
-                      name='telephoneLineNumber'
-                      type='number'
-                      value={state.telephoneLineNumber}
-                      onChange={handleTxtChange}
-                      required
-                    />
-                  </Box>
-                  <Box className={classes.inputBox}>
-                    <Typography variant='h5' className={classes.typo}>
-                      Address
-                    </Typography>
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
-                      className={classes.textInput}
-                      name='address'
-                      type='text'
-                      value={state.address}
-                      onChange={handleTxtChange}
-                      required
-                    />
-                  </Box>
-                  <Box className={classes.inputBox}>
-                    <Typography variant='h5' className={classes.typo}>
-                      Additional Address
-                    </Typography>
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
-                      className={classes.textInput}
-                      name='additionalAddress'
-                      type='text'
-                      value={state.additionalAddress}
-                      onChange={handleTxtChange}
-                      required
-                    />
-                  </Box>
-                  <Box className={classes.inputBox} style={{ marginBottom: 5 }}>
-                    <Typography variant='h5' style={{ width: '30%' }}>
-                      Postal Code
-                    </Typography>
+                    Verified
+                  </Button>
+                )}
+              </Box>
+              <Button
+                variant='outlined'
+                size='small'
+                onClick={handleSubscribe}
+                endIcon={
+                  state.isSubscribed ? (
+                    <NotificationsIcon />
+                  ) : (
+                    <NotificationsNoneOutlinedIcon />
+                  )
+                }
+                color='success'
+                disabled={state.isSubscribed}
+              >
+                Subscribe{state.isSubscribed && 'd'}
+              </Button>
+            </Box>
+            <form onSubmit={handleSubmit} id='customerForm'>
+              <Grid container>
+                <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
+                  <Box className={classes.mainBox}>
                     <Box
                       style={{
                         display: 'flex',
-                        alignItems: 'center',
                         justifyContent: 'space-between',
-                        width: '97%',
+                        width: '100%',
+                        margin: '10px 0px 30px ',
                       }}
                     >
-                      <TextField
-                        type='number'
-                        hiddenLabel
-                        id='filled-hidden-label-small'
-                        placeholder='46000'
-                        size='small'
-                        style={{
-                          backgroundColor: '#fff',
-                          width: '8rem',
-                        }}
-                        name='postalCode'
-                        value={state.postalCode}
-                        onChange={handleTxtChange}
-                        required
-                      />
-                      <Typography variant='h5' style={{ textAlign: 'center' }}>
-                        City
+                      <Typography variant='h4'>Client Profile</Typography>
+                      <Box style={{ display: 'flex' }}>
+                        <Typography
+                          variant='h5'
+                          style={{ margin: '0px 10px 0px' }}
+                        >
+                          Number
+                        </Typography>
+                        <Paper
+                          style={{
+                            width: '100%',
+                            height: 25,
+                            textAlign: 'right',
+                            padding: 4,
+                          }}
+                        >
+                          {state._id}
+                        </Paper>
+                      </Box>
+                    </Box>
+                    <Box
+                      style={{
+                        display: 'flex',
+                        // justifyContent: 'space-between',
+                        alignItems: 'center',
+                        width: '100%',
+                      }}
+                    >
+                      <Typography variant='h5' style={{ width: '25%' }}>
+                        Civilite
+                      </Typography>
+                      <FormControl component='fieldset'>
+                        <RadioGroup
+                          row
+                          aria-label='gender'
+                          name='row-radio-buttons-group'
+                          value={state.pronoun}
+                          name='pronoun'
+                          onChange={handleToggleChange}
+                        >
+                          <FormControlLabel
+                            value='Mr'
+                            control={<Radio />}
+                            label='Mr'
+                          />
+                          <FormControlLabel
+                            value='Mrs'
+                            control={<Radio />}
+                            label='Mrs'
+                          />
+                          <FormControlLabel
+                            value='Ms'
+                            control={<Radio />}
+                            label='Ms'
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </Box>
+                    <Box className={classes.inputBox}>
+                      <Typography variant='h5' className={classes.typo}>
+                        First Name
                       </Typography>
                       <TextField
                         hiddenLabel
                         id='filled-hidden-label-small'
-                        placeholder='Islamabad'
                         size='small'
+                        className={classes.textInput}
+                        name='firstName'
+                        type='text'
+                        value={state.firstName}
+                        onChange={handleTxtChange}
+                        required
+                      />
+                    </Box>
+                    <Box className={classes.inputBox}>
+                      <Typography variant='h5' className={classes.typo}>
+                        Last Name
+                      </Typography>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        size='small'
+                        className={classes.textInput}
+                        name='lastName'
+                        type='text'
+                        value={state.lastName}
+                        onChange={handleTxtChange}
+                        required
+                      />
+                    </Box>
+                    <Box className={classes.inputBox}>
+                      <Typography variant='h5' className={classes.typo}>
+                        Spouse Name
+                      </Typography>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        size='small'
+                        className={classes.textInput}
+                        name='spouseName'
+                        type='text'
+                        value={state.spouseName}
+                        onChange={handleTxtChange}
+                        required
+                      />
+                    </Box>
+                    <Box className={classes.inputBox}>
+                      <Typography variant='h5' className={classes.typo}>
+                        Email
+                      </Typography>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        size='small'
+                        className={classes.textInput}
+                        name='email'
+                        type='email'
+                        value={state.email}
+                        onChange={handleTxtChange}
+                        required
+                      />
+                    </Box>
+                    <Box className={classes.inputBox}>
+                      <Typography variant='h5' className={classes.typo}>
+                        Mobile
+                      </Typography>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        size='small'
+                        className={classes.textInput}
+                        name='telephoneNumber'
+                        type='number'
+                        value={state.telephoneNumber}
+                        onChange={handleTxtChange}
+                        required
+                      />
+                    </Box>
+                    <Box className={classes.inputBox}>
+                      <Typography variant='h5' className={classes.typo}>
+                        TelePhone
+                      </Typography>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        size='small'
+                        className={classes.textInput}
+                        name='telephoneLineNumber'
+                        type='number'
+                        value={state.telephoneLineNumber}
+                        onChange={handleTxtChange}
+                        required
+                      />
+                    </Box>
+                    <Box className={classes.inputBox}>
+                      <Typography variant='h5' className={classes.typo}>
+                        Address
+                      </Typography>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        size='small'
+                        className={classes.textInput}
+                        name='address'
+                        type='text'
+                        value={state.address}
+                        onChange={handleTxtChange}
+                        required
+                      />
+                    </Box>
+                    <Box className={classes.inputBox}>
+                      <Typography variant='h5' className={classes.typo}>
+                        Additional Address
+                      </Typography>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        size='small'
+                        className={classes.textInput}
+                        name='additionalAddress'
+                        type='text'
+                        value={state.additionalAddress}
+                        onChange={handleTxtChange}
+                        required
+                      />
+                    </Box>
+                    <Box
+                      className={classes.inputBox}
+                      style={{ marginBottom: 5 }}
+                    >
+                      <Typography variant='h5' style={{ width: '30%' }}>
+                        Postal Code
+                      </Typography>
+                      <Box
                         style={{
-                          backgroundColor: '#fff',
-                          width: '8rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          width: '97%',
                         }}
-                        name='city'
-                        value={state.city}
+                      >
+                        <TextField
+                          type='number'
+                          hiddenLabel
+                          id='filled-hidden-label-small'
+                          placeholder='46000'
+                          size='small'
+                          style={{
+                            backgroundColor: '#fff',
+                            width: '8rem',
+                          }}
+                          name='postalCode'
+                          value={state.postalCode}
+                          onChange={handleTxtChange}
+                          required
+                        />
+                        <Typography
+                          variant='h5'
+                          style={{ textAlign: 'center' }}
+                        >
+                          City
+                        </Typography>
+                        <TextField
+                          hiddenLabel
+                          id='filled-hidden-label-small'
+                          placeholder='Islamabad'
+                          size='small'
+                          style={{
+                            backgroundColor: '#fff',
+                            width: '8rem',
+                          }}
+                          name='city'
+                          value={state.city}
+                          onChange={handleTxtChange}
+                          required
+                        />
+                      </Box>
+                    </Box>
+                    <Box className={classes.inputBox}>
+                      <Typography variant='h5' className={classes.typo}>
+                        Country
+                      </Typography>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        size='small'
+                        className={classes.textInput}
+                        name='country'
+                        type='text'
+                        value={state.country}
+                        onChange={handleTxtChange}
+                        required
+                      />
+                    </Box>
+                    <Box className={classes.inputBox}>
+                      <Typography variant='h5' className={classes.typo}>
+                        Birth Date
+                      </Typography>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        size='small'
+                        className={classes.textInput}
+                        type='date'
+                        value={state.dateOfBirth}
+                        onChange={handleTxtChange}
+                        name='dateOfBirth'
+                      />
+                    </Box>
+                    <Box className={classes.inputBox}>
+                      <Typography variant='h5' className={classes.typo}>
+                        Nationality
+                      </Typography>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        size='small'
+                        className={classes.textInput}
+                        name='nationality'
+                        type='text'
+                        value={state.nationality}
+                        onChange={handleTxtChange}
+                        required
+                      />
+                    </Box>
+                    <Box className={classes.inputBox}>
+                      <Typography variant='h5' className={classes.typo}>
+                        Passport No
+                      </Typography>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        size='small'
+                        className={classes.textInput}
+                        name='passportNumber'
+                        type='text'
+                        value={state.passportNumber}
+                        onChange={handleTxtChange}
+                        required
+                      />
+                    </Box>
+                    <Box className={classes.inputBox}>
+                      <Typography variant='h5' className={classes.typo}>
+                        Deliverance date
+                      </Typography>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        size='small'
+                        type='date'
+                        className={classes.textInput}
+                        name='passportDateOfIssue'
+                        value={state.passportDateOfIssue}
+                        onChange={handleTxtChange}
+                        required
+                      />
+                    </Box>
+                    <Box className={classes.inputBox}>
+                      <Typography variant='h5' className={classes.typo}>
+                        place of delivery
+                      </Typography>
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        size='small'
+                        className={classes.textInput}
+                        name='passportPlaceOfIssue'
+                        type='date'
+                        value={state.passportPlaceOfIssue}
                         onChange={handleTxtChange}
                         required
                       />
                     </Box>
                   </Box>
-                  <Box className={classes.inputBox}>
-                    <Typography variant='h5' className={classes.typo}>
-                      Country
-                    </Typography>
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
-                      className={classes.textInput}
-                      name='country'
-                      type='text'
-                      value={state.country}
-                      onChange={handleTxtChange}
-                      required
-                    />
-                  </Box>
-                  <Box className={classes.inputBox}>
-                    <Typography variant='h5' className={classes.typo}>
-                      Birth Date
-                    </Typography>
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
-                      className={classes.textInput}
-                      type='date'
-                      value={state.dateOfBirth}
-                      onChange={handleTxtChange}
-                      name='dateOfBirth'
-                    />
-                  </Box>
-                  <Box className={classes.inputBox}>
-                    <Typography variant='h5' className={classes.typo}>
-                      Nationality
-                    </Typography>
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
-                      className={classes.textInput}
-                      name='nationality'
-                      type='text'
-                      value={state.nationality}
-                      onChange={handleTxtChange}
-                      required
-                    />
-                  </Box>
-                  <Box className={classes.inputBox}>
-                    <Typography variant='h5' className={classes.typo}>
-                      Passport No
-                    </Typography>
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
-                      className={classes.textInput}
-                      name='passportNumber'
-                      type='text'
-                      value={state.passportNumber}
-                      onChange={handleTxtChange}
-                      required
-                    />
-                  </Box>
-                  <Box className={classes.inputBox}>
-                    <Typography variant='h5' className={classes.typo}>
-                      Deliverance date
-                    </Typography>
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
-                      type='date'
-                      className={classes.textInput}
-                      name='passportDateOfIssue'
-                      value={state.passportDateOfIssue}
-                      onChange={handleTxtChange}
-                      required
-                    />
-                  </Box>
-                  <Box className={classes.inputBox}>
-                    <Typography variant='h5' className={classes.typo}>
-                      place of delivery
-                    </Typography>
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
-                      className={classes.textInput}
-                      name='passportPlaceOfIssue'
-                      type='date'
-                      value={state.passportPlaceOfIssue}
-                      onChange={handleTxtChange}
-                      required
-                    />
-                  </Box>
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm={5} md={5} className={classes.account}>
-                <Box
-                  className={classes.mainBox}
-                  style={{ padding: 10, margin: '0px 10px 0px 0px ' }}
-                >
-                  <Box
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'start',
-                      alignItems: 'center',
-                      width: '100%',
-                      minHeight: 200,
-                      padding: 10,
-                    }}
-                  >
-                    <Box className={classes.inputBox2}>
-                      <Typography variant='h5'>Facebook</Typography>
-                      <TextField
-                        hiddenLabel
-                        id='filled-hidden-label-small'
-                        size='small'
-                        className={classes.textInput}
-                        name='facebookProfile'
-                        type='text'
-                        value={state.facebookProfile}
-                        onChange={handleTxtChange}
-                      />
-                    </Box>
-                    <Box className={classes.inputBox2}>
-                      <Typography variant='h5'>Instagram</Typography>
-                      <TextField
-                        hiddenLabel
-                        id='filled-hidden-label-small'
-                        size='small'
-                        className={classes.textInput}
-                        name='instagramProfile'
-                        type='text'
-                        value={state.instagramProfile}
-                        onChange={handleTxtChange}
-                      />
-                    </Box>
-                    <Box className={classes.inputBox2}>
-                      <Typography variant='h5'>Twitter</Typography>
-                      <TextField
-                        hiddenLabel
-                        id='filled-hidden-label-small'
-                        size='small'
-                        className={classes.textInput}
-                        name='twitterProfile'
-                        type='text'
-                        value={state.twitterProfile}
-                        onChange={handleTxtChange}
-                      />
-                    </Box>
-                    <Box className={classes.inputBox2}>
-                      <Typography variant='h5'>Snapchat</Typography>
-                      <TextField
-                        hiddenLabel
-                        id='filled-hidden-label-small'
-                        size='small'
-                        className={classes.textInput}
-                        name='snapChatProfile'
-                        type='text'
-                        value={state.snapChatProfile}
-                        onChange={handleTxtChange}
-                      />
-                    </Box>
-                  </Box>
-                </Box>
-                <Box
-                  className={classes.mainBox}
-                  style={{
-                    padding: 10,
-                    minHeight: 200,
-                    margin: '40px 10px 0px 0px ',
-                  }}
-                >
-                  <Typography variant='h4' style={{ width: '90%', margin: 15 }}>
-                    Last customer order
-                  </Typography>
-                  <Box
-                    style={{
-                      minHeight: 160,
-                      width: '90%',
-                      backgroundColor: '#fff',
-                      marginBottom: 20,
-                    }}
-                  >
-                    <Typography
-                      variant='text'
-                      style={{ color: '#c6c6c6', margin: 10 }}
-                    >
-                      Fake order details
-                    </Typography>
-                  </Box>
-                </Box>
-                <Box
-                  className={classes.mainBox}
-                  style={{
-                    padding: 10,
-                    margin: '30px 10px 0px 0px ',
-                  }}
-                >
-                  <Typography variant='h4' style={{ width: '90%', margin: 10 }}>
-                    Find a Client
-                  </Typography>
-                  <Box
-                    style={{
-                      marginBottom: 20,
-                      width: '80%',
-                      marginRight: 45,
-                    }}
-                  >
-                    <TextField
-                      hiddenLabel
-                      id='filled-hidden-label-small'
-                      size='small'
-                      style={{
-                        backgroundColor: '#fff',
-                      }}
-                    />
-                  </Box>
-
-                  <Box
-                    style={{
-                      minHeight: 155,
-                      width: '90%',
-                      backgroundColor: '#fff',
-                      marginBottom: 20,
-                    }}
-                  >
-                    <Typography
-                      variant='text'
-                      style={{ color: '#c6c6c6', margin: 10 }}
-                    >
-                      List of users
-                    </Typography>
-                  </Box>
-                </Box>
-              </Grid>
-            </Grid>
-            <Box className={classes.mainBox}>
-              <Typography
-                variant='h3'
-                style={{ width: '100%', marginTop: '3rem' }}
-              >
-                Attachments
-              </Typography>
-
-              <Grid container spacing={3}>
-                <Grid item md={9}>
-                  <CarouselLayout>
-                    {state.attachments?.map((attachment, i) => (
-                      <div
-                        key={attachment._id}
-                        className={classes.carouselCard}
-                      >
-                        <CardMedia
-                          style={{ height: '10rem' }}
-                          image={attachment.image}
-                          title='Live from space album cover'
-                        />
-                        <Box
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <Button
-                            onClick={deleteAttachment.bind(
-                              this,
-                              attachment._id
-                            )}
-                            style={{ color: 'red' }}
-                          >
-                            Delete
-                          </Button>
-                          <Switch
-                            status={ok}
-                            onChange={toggle}
-                            inputProps={{
-                              'aria-label': 'controlled',
-                            }}
-                          />
-                        </Box>
-                      </div>
-                    ))}
-                    {/* one */}
-                  </CarouselLayout>
                 </Grid>
-                <Grid
-                  item
-                  md={3}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <LoadingOverlay
-                    active={isImageUploading}
-                    spinner
-                    text={uploadingText}
+                <Grid item xs={12} sm={5} md={5} className={classes.account}>
+                  <Box
+                    className={classes.mainBox}
+                    style={{ padding: 10, margin: '0px 10px 0px 0px ' }}
                   >
                     <Box
                       style={{
-                        backgroundColor: '#808080',
-                        borderRadius: '10px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'start',
+                        alignItems: 'center',
+                        width: '100%',
+                        minHeight: 200,
+                        padding: 10,
                       }}
                     >
-                      <Box style={{ padding: '0.2rem' }}>
-                        <Box>
-                          <input
-                            accept='image/*'
-                            style={{ display: 'none' }}
-                            id='contained-button-file'
-                            onChange={handleImage}
-                            type='file'
-                            name='photo'
-                          />
-                          <label
-                            htmlFor='contained-button-file'
-                            style={{ cursor: 'pointer' }}
-                          >
-                            <Box className={classes.image}>
-                              <Box>
-                                <PlusIcon size={35} style={{ color: '#fff' }} />
-                                <FileIcon size={35} style={{ color: '#fff' }} />
-                              </Box>
-                              <Box style={{ textAlign: 'center' }}>
-                                <Typography style={{ color: '#fff' }}>
-                                  Upload Document
-                                </Typography>
-                              </Box>
-                            </Box>
-                          </label>
-                        </Box>
+                      <Box className={classes.inputBox2}>
+                        <Typography variant='h5'>Facebook</Typography>
+                        <TextField
+                          hiddenLabel
+                          id='filled-hidden-label-small'
+                          size='small'
+                          className={classes.textInput}
+                          name='facebookProfile'
+                          type='text'
+                          value={state.facebookProfile}
+                          onChange={handleTxtChange}
+                        />
+                      </Box>
+                      <Box className={classes.inputBox2}>
+                        <Typography variant='h5'>Instagram</Typography>
+                        <TextField
+                          hiddenLabel
+                          id='filled-hidden-label-small'
+                          size='small'
+                          className={classes.textInput}
+                          name='instagramProfile'
+                          type='text'
+                          value={state.instagramProfile}
+                          onChange={handleTxtChange}
+                        />
+                      </Box>
+                      <Box className={classes.inputBox2}>
+                        <Typography variant='h5'>Twitter</Typography>
+                        <TextField
+                          hiddenLabel
+                          id='filled-hidden-label-small'
+                          size='small'
+                          className={classes.textInput}
+                          name='twitterProfile'
+                          type='text'
+                          value={state.twitterProfile}
+                          onChange={handleTxtChange}
+                        />
+                      </Box>
+                      <Box className={classes.inputBox2}>
+                        <Typography variant='h5'>Snapchat</Typography>
+                        <TextField
+                          hiddenLabel
+                          id='filled-hidden-label-small'
+                          size='small'
+                          className={classes.textInput}
+                          name='snapChatProfile'
+                          type='text'
+                          value={state.snapChatProfile}
+                          onChange={handleTxtChange}
+                        />
                       </Box>
                     </Box>
-                  </LoadingOverlay>
+                  </Box>
+                  <Box
+                    className={classes.mainBox}
+                    style={{
+                      padding: 10,
+                      minHeight: 200,
+                      margin: '40px 10px 0px 0px ',
+                    }}
+                  >
+                    <Typography
+                      variant='h4'
+                      style={{ width: '90%', margin: 15 }}
+                    >
+                      Last customer order
+                    </Typography>
+                    <Box
+                      style={{
+                        minHeight: 160,
+                        width: '90%',
+                        backgroundColor: '#fff',
+                        marginBottom: 20,
+                      }}
+                    >
+                      <Typography
+                        variant='text'
+                        style={{ color: '#c6c6c6', margin: 10 }}
+                      >
+                        Fake order details
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Box
+                    className={classes.mainBox}
+                    style={{
+                      padding: 10,
+                      margin: '30px 10px 0px 0px ',
+                    }}
+                  >
+                    <Typography
+                      variant='h4'
+                      style={{ width: '90%', margin: 10 }}
+                    >
+                      Find a Client
+                    </Typography>
+                    <Box
+                      style={{
+                        marginBottom: 20,
+                        width: '80%',
+                        marginRight: 45,
+                      }}
+                    >
+                      <TextField
+                        hiddenLabel
+                        id='filled-hidden-label-small'
+                        size='small'
+                        style={{
+                          backgroundColor: '#fff',
+                        }}
+                      />
+                    </Box>
+
+                    <Box
+                      style={{
+                        minHeight: 155,
+                        width: '90%',
+                        backgroundColor: '#fff',
+                        marginBottom: 20,
+                      }}
+                    >
+                      <Typography
+                        variant='text'
+                        style={{ color: '#c6c6c6', margin: 10 }}
+                      >
+                        List of users
+                      </Typography>
+                    </Box>
+                  </Box>
                 </Grid>
               </Grid>
-            </Box>
-          </form>
-        </Box>
-      )}
+              <Box className={classes.mainBox}>
+                <Typography
+                  variant='h3'
+                  style={{ width: '100%', marginTop: '3rem' }}
+                >
+                  Attachments
+                </Typography>
 
-      <SendEmail id={id} open={isOpen} toggleDialog={toggleEmailDialog} />
-    </div>
+                <Grid container spacing={3}>
+                  <Grid item md={9}>
+                    <CarouselLayout>
+                      {state.attachments?.map((attachment, i) => (
+                        <div
+                          key={attachment._id}
+                          className={classes.carouselCard}
+                        >
+                          <CardMedia
+                            style={{ height: '10rem' }}
+                            image={attachment.image}
+                            title='Live from space album cover'
+                          />
+                          <Box
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <Button
+                              onClick={deleteAttachment.bind(
+                                this,
+                                attachment._id
+                              )}
+                              style={{ color: 'red' }}
+                            >
+                              Delete
+                            </Button>
+                            <Switch
+                              status={ok}
+                              onChange={toggle}
+                              inputProps={{
+                                'aria-label': 'controlled',
+                              }}
+                            />
+                          </Box>
+                        </div>
+                      ))}
+                      {/* one */}
+                    </CarouselLayout>
+                  </Grid>
+                  <Grid
+                    item
+                    md={3}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <LoadingOverlay
+                      active={isImageUploading}
+                      spinner
+                      text={uploadingText}
+                    >
+                      <Box
+                        style={{
+                          backgroundColor: '#808080',
+                          borderRadius: '10px',
+                        }}
+                      >
+                        <Box style={{ padding: '0.2rem' }}>
+                          <Box>
+                            <input
+                              accept='image/*'
+                              style={{ display: 'none' }}
+                              id='contained-button-file'
+                              onChange={handleImage}
+                              type='file'
+                              name='photo'
+                            />
+                            <label
+                              htmlFor='contained-button-file'
+                              style={{ cursor: 'pointer' }}
+                            >
+                              <Box className={classes.image}>
+                                <Box>
+                                  <PlusIcon
+                                    size={35}
+                                    style={{ color: '#fff' }}
+                                  />
+                                  <FileIcon
+                                    size={35}
+                                    style={{ color: '#fff' }}
+                                  />
+                                </Box>
+                                <Box style={{ textAlign: 'center' }}>
+                                  <Typography style={{ color: '#fff' }}>
+                                    Upload Document
+                                  </Typography>
+                                </Box>
+                              </Box>
+                            </label>
+                          </Box>
+                        </Box>
+                      </Box>
+                    </LoadingOverlay>
+                  </Grid>
+                </Grid>
+              </Box>
+            </form>
+          </Box>
+          <SendEmail id={id} open={isOpen} toggleDialog={toggleEmailDialog} />
+        </>
+      )}
+    </Container>
   );
 };
 

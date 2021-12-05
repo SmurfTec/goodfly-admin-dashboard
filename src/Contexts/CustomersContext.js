@@ -1,5 +1,5 @@
 import useArray from 'hooks/useArray';
-import React, { useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { handleCatch, makeReq } from 'utils/makeReq';
@@ -10,6 +10,7 @@ export const CustomersContext = React.createContext();
 export const CustomersProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const [
     customers,
@@ -19,18 +20,19 @@ export const CustomersProvider = ({ children }) => {
     updateCustomer,
     removeCustomer,
     ,
-  ] = useArray('loading', '_id');
+  ] = useArray([], '_id');
 
   useEffect(() => {
     (async () => {
       // If user is logged In , only then fetch data
       if (user) {
-        const resData = await makeReq(`/users?role=visitor`);
-        setCustomers(resData.users);
-      }
-      // Clear the State after user is logged Out
-      else {
-        setCustomers('loading');
+        try {
+          const resData = await makeReq(`/users?role=visitor`);
+          setCustomers(resData.users);
+        } catch (err) {
+        } finally {
+          setLoading(false);
+        }
       }
     })();
   }, [user]);
@@ -80,10 +82,7 @@ export const CustomersProvider = ({ children }) => {
     }
   };
 
-  const getCustomerById = (id) =>
-    customers === 'loading'
-      ? 'loading'
-      : customers?.find((el) => el._id === id);
+  const getCustomerById = (id) => customers?.find((el) => el._id === id);
 
   // Create New Customer
   const createNewCustomer = async (newCustomerProfile, resetForm) => {
@@ -114,6 +113,7 @@ export const CustomersProvider = ({ children }) => {
         modifyCustomer,
         verifyVisitor,
         createNewCustomer,
+        loading,
       }}
     >
       {children}

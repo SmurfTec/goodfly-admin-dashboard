@@ -11,8 +11,8 @@ import {
   CardContent,
   CardMedia,
   TablePagination,
+  Skeleton,
 } from '@material-ui/core';
-import v4 from 'uuid/dist/v4';
 
 import { Search as SearchIcon } from 'react-feather';
 import { Link, useNavigate } from 'react-router-dom';
@@ -20,8 +20,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { BlogsContext } from 'Contexts/BlogsContext';
+import v4 from 'uuid/dist/v4';
 
-const styles = makeStyles((theme) => ({
+const styles = makeStyles(() => ({
   main: {
     backgroundColor: '#f2f2f2',
     borderRadius: '10px',
@@ -46,7 +47,7 @@ const styles = makeStyles((theme) => ({
 
 const Blogs = () => {
   const classes = styles();
-  const { blogs } = useContext(BlogsContext);
+  const { blogs, loading } = useContext(BlogsContext);
   const theme = useTheme();
   const lgDown = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -146,61 +147,69 @@ const Blogs = () => {
             />
           </Box>
         </Box>
-        <Grid container spacing={3}>
-          {filteredBlogs &&
-            filteredBlogs
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((blog) => (
-                <Grid item lg={3}>
-                  <Card className={classes.root} key={blog.id}>
-                    <CardActionArea
-                      onClick={handleClick}
-                      data-blogid={blog._id}
-                    >
-                      <CardMedia
-                        className={classes.media}
-                        image={blog.images?.[0]}
-                        title={blog.title}
-                      />
-                      <CardContent>
-                        <Box>
-                          <Box
-                            style={{
-                              display: 'grid',
-                              justifyContent: 'left',
-                              alignItems: 'center',
-                            }}
-                          >
-                            <Typography
-                              gutterBottom
-                              variant='h5'
-                              component='h2'
+        <Grid container spacing={3} sx={{ marginTop: 1 }}>
+          {loading
+            ? Array(6)
+                .fill()
+                .map(() => (
+                  <Grid item lg={3} key={v4()}>
+                    <Skeleton variant='rect' width='200px' height='200px' />
+                  </Grid>
+                ))
+            : filteredBlogs
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((blog) => (
+                  <Grid item lg={3}>
+                    <Card className={classes.root} key={blog.id}>
+                      <CardActionArea
+                        onClick={handleClick}
+                        data-blogid={blog._id}
+                      >
+                        <CardMedia
+                          className={classes.media}
+                          image={blog.images?.[0]}
+                          title={blog.title}
+                        />
+                        <CardContent>
+                          <Box>
+                            <Box
                               style={{
-                                color: '#c6c6c6',
+                                display: 'grid',
+                                justifyContent: 'left',
+                                alignItems: 'center',
                               }}
                             >
-                              {new Date(blog.createdAt).toDateString()}
-                            </Typography>
-                            <Typography
-                              color='textSecondary'
-                              variant='subtitle2'
-                            >
-                              {blog.theme}
-                            </Typography>
-                            <Typography
-                              color='textSecondary'
-                              variant='subtitle2'
-                              gutterBottom
-                            >
-                              {blog.title}
-                            </Typography>
+                              <Typography
+                                gutterBottom
+                                variant='h5'
+                                component='h2'
+                                style={{
+                                  color: '#c6c6c6',
+                                }}
+                              >
+                                {new Date(blog.createdAt).toDateString()}
+                              </Typography>
+                              <Typography
+                                color='textSecondary'
+                                variant='subtitle2'
+                              >
+                                {blog.theme}
+                              </Typography>
+                              <Typography
+                                color='textSecondary'
+                                variant='subtitle2'
+                                gutterBottom
+                              >
+                                {blog.title}
+                              </Typography>
+                            </Box>
                           </Box>
-                        </Box>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </Grid>
-              ))}
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </Grid>
+                ))}
+
           {emptyRows > 0 && <Box style={{ height: 53 * emptyRows }}></Box>}
         </Grid>
         <TablePagination

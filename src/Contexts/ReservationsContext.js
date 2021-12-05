@@ -1,5 +1,5 @@
 import useArray from 'hooks/useArray';
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { handleCatch, makeReq } from 'utils/makeReq';
 import { AuthContext } from './AuthContext';
 import { toast } from 'react-toastify';
@@ -8,6 +8,8 @@ export const ReservationsContext = React.createContext();
 
 export const ReservationsProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
+
+  const [loading, setLoading] = useState(true);
 
   const [
     reservations,
@@ -25,6 +27,8 @@ export const ReservationsProvider = ({ children }) => {
       setReservations(resData.purchases);
     } catch (err) {
       handleCatch(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -97,6 +101,7 @@ export const ReservationsProvider = ({ children }) => {
         modifyReservation,
         makePayment,
         fetchReservations,
+        loading,
       }}
     >
       {children}

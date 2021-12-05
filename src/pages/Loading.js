@@ -4,7 +4,7 @@ import { PointSpreadLoading } from 'react-loadingg';
 
 import theme from 'theme';
 
-const Loading = () => (
+const Loading = ({ noTitle }) => (
   <Box>
     <Box
       className='cPhARM'
@@ -16,9 +16,11 @@ const Loading = () => (
         transform: 'translateY(-40px)',
       }}
     >
-      <Typography variant='h2' color='primary'>
-        GOODFLY ADMIN
-      </Typography>
+      {!noTitle && (
+        <Typography variant='h2' color='primary'>
+          GOODFLY ADMIN
+        </Typography>
+      )}
     </Box>
     <PointSpreadLoading color={theme.palette.primary.main} />
   </Box>

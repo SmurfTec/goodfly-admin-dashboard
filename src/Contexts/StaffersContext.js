@@ -1,5 +1,5 @@
 import useArray from 'hooks/useArray';
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { handleCatch, makeReq } from 'utils/makeReq';
@@ -11,6 +11,7 @@ export const StaffersContext = React.createContext();
 export const StaffersProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const [
     staffers,
@@ -20,19 +21,21 @@ export const StaffersProvider = ({ children }) => {
     updateStaffer,
     removeStaffer,
     ,
-  ] = useArray('loading', '_id');
+  ] = useArray([], '_id');
 
   useEffect(() => {
     (async () => {
       // If user is logged In , only then fetch data
       if (user) {
-        const resData = await makeReq(`/users?role=staffer`);
-        setStaffers(resData.users);
+        try {
+          const resData = await makeReq(`/users?role=staffer`);
+          setStaffers(resData.users);
+        } catch (err) {
+        } finally {
+          setLoading(false);
+        }
       }
       // Clear the State after user is logged Out
-      else {
-        setStaffers('loading');
-      }
     })();
   }, [user]);
 
@@ -91,8 +94,7 @@ export const StaffersProvider = ({ children }) => {
       handleCatch(err);
     }
   };
-  const getStafferById = (id) =>
-    staffers === 'loading' ? 'loading' : staffers?.find((el) => el._id === id);
+  const getStafferById = (id) => staffers?.find((el) => el._id === id);
 
   // Create New Staffer
   const createNewStaffer = async (newStafferProfile, resetForm) => {
@@ -124,6 +126,7 @@ export const StaffersProvider = ({ children }) => {
         modifyStaffer,
         modifyPassword,
         createNewStaffer,
+        loading,
       }}
     >
       {children}

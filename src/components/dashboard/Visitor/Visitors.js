@@ -14,6 +14,7 @@ import {
   Button,
   TablePagination,
   TextField,
+  Skeleton,
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 import v4 from 'uuid/dist/v4';
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Visitors = () => {
-  const { customers, deleteCustomer } = useContext(CustomersContext);
+  const { customers, deleteCustomer, loading } = useContext(CustomersContext);
 
   const classes = useStyles();
   const [filter, setFilter] = useState('');
@@ -166,8 +167,24 @@ const Visitors = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredCustomers === 'loading'
-                ? 'loading'
+              {loading
+                ? Array(5)
+                    .fill()
+                    .map(() => (
+                      <TableRow key={v4()}>
+                        {Array(5)
+                          .fill()
+                          .map(() => (
+                            <TableCell component='th' scope='row' key={v4()}>
+                              <Skeleton />
+                            </TableCell>
+                          ))}
+                        <TableCell align='right'>
+                          <Skeleton />
+                          <Skeleton />
+                        </TableCell>
+                      </TableRow>
+                    ))
                 : filteredCustomers
                     ?.slice(
                       page * rowsPerPage,

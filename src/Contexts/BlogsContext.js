@@ -1,5 +1,5 @@
 import useArray from 'hooks/useArray';
-import React, { useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { handleCatch, makeReq } from 'utils/makeReq';
 import { AuthContext } from './AuthContext';
 import { toast } from 'react-toastify';
@@ -12,29 +12,23 @@ export const BlogsProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-  const [
-    blogs,
-    setBlogs,
-    pushBlog,
-    ,
-    updateBlog,
-    ,
-    ,
-  ] = useArray([], '_id');
+  const [loading, setLoading] = useState(true);
 
-  const [
-    blogComments,
-    setBlogComments,
-    ,
-    ,
-    updateBlogComment,
-    ,
-    ,
-  ] = useArray([], '_id');
+  const [blogs, setBlogs, pushBlog, , updateBlog, , ,] = useArray([], '_id');
+
+  const [blogComments, setBlogComments, , , updateBlogComment, , ,] = useArray(
+    [],
+    '_id'
+  );
 
   const fetchBlogs = async () => {
-    const resData = await makeReq(`/blogs`);
-    setBlogs(resData.blogs);
+    try {
+      const resData = await makeReq(`/blogs`);
+      setBlogs(resData.blogs);
+    } catch (err) {
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fetchComments = async () => {
@@ -112,9 +106,7 @@ export const BlogsProvider = ({ children }) => {
   };
 
   const getBlogFromId = (id) => {
-    if (!blogs) return undefined;
-
-    return blogs.find((el) => el._id === id);
+    return blogs?.find((el) => el._id === id);
   };
 
   return (
@@ -127,6 +119,7 @@ export const BlogsProvider = ({ children }) => {
         getBlogFromId,
         blogComments,
         modifyBlogComment,
+        loading,
       }}
     >
       {children}

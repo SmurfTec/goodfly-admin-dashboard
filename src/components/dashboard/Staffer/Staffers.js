@@ -14,6 +14,7 @@ import {
   Button,
   TablePagination,
   TextField,
+  Skeleton,
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 import { Link } from 'react-router-dom';
@@ -44,7 +45,7 @@ const styles = makeStyles((theme) => ({
 
 const Staffers = () => {
   const classes = styles();
-  const { staffers, deleteStaffer } = useContext(StaffersContext);
+  const { staffers, deleteStaffer, loading } = useContext(StaffersContext);
 
   const [currentDeleteId, setCurrentDeleteId] = useState();
   const [isDeleteOpen, toggleDeleteOpen] = useToggleInput();
@@ -64,9 +65,7 @@ const Staffers = () => {
     rowsPerPage -
     Math.min(
       rowsPerPage,
-      staffers === 'loading'
-        ? 0
-        : staffers?.length - page * rowsPerPage
+      staffers === 'loading' ? 0 : staffers?.length - page * rowsPerPage
     );
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -88,17 +87,10 @@ const Staffers = () => {
         ? 'loading'
         : staffers?.filter(
             (row) =>
-              row.fullName
-                .toLowerCase()
-                .indexOf(filter.toLowerCase()) !== -1
+              row.fullName.toLowerCase().indexOf(filter.toLowerCase()) !== -1
           )
     );
   }, [filter]);
-
-  // data must be updated
-  useEffect(() => {
-    setFilteredStaffers(staffers);
-  }, []);
 
   const handleDelete = (id) => {
     // console.log(`id`, id);
@@ -141,10 +133,7 @@ const Staffers = () => {
             width: '100%',
           }}
         >
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
-          >
+          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
             Search Staffers
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -176,8 +165,38 @@ const Staffers = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredStaffers === 'loading'
-                ? 'loading'
+              {loading
+                ? Array(5)
+                    .fill()
+                    .map(() => (
+                      <TableRow key={v4()}>
+                        <TableCell component='th' scope='row'>
+                          <Skeleton />
+                        </TableCell>
+                        <TableCell align='right'>
+                          {' '}
+                          <Skeleton />
+                        </TableCell>
+                        <TableCell align='right'>
+                          <Skeleton />
+                        </TableCell>
+                        <TableCell align='right'>
+                          {' '}
+                          <Skeleton />
+                        </TableCell>
+                        <TableCell align='right'>
+                          {' '}
+                          <Skeleton />
+                        </TableCell>
+                        <TableCell align='right'>
+                          <Skeleton />
+                        </TableCell>
+                        <TableCell align='right'>
+                          <Skeleton />
+                          <Skeleton />
+                        </TableCell>
+                      </TableRow>
+                    ))
                 : filteredStaffers
                     ?.slice(
                       page * rowsPerPage,
@@ -193,12 +212,8 @@ const Staffers = () => {
                           {' '}
                           {new Date(row.createdAt).toDateString()}
                         </TableCell>
-                        <TableCell align='right'>
-                          {row.role}
-                        </TableCell>
-                        <TableCell align='right'>
-                          {row.email}
-                        </TableCell>
+                        <TableCell align='right'>{row.role}</TableCell>
+                        <TableCell align='right'>{row.email}</TableCell>
                         <TableCell align='right'>
                           {row.telephoneNumber}
                         </TableCell>
