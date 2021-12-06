@@ -61,7 +61,7 @@ const AddFormalityDialog = ({ open, toggleDialog, submit, formality }) => {
             Description
           </Typography>
           <Editor
-            initialValue=''
+            initialValue={formality ? formality.content : ''}
             init={{
               height: 500,
               menubar: false,
