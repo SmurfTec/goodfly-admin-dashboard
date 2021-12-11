@@ -14,6 +14,9 @@ import {
   CardMedia,
   Switch,
   Container,
+  List,
+  ListItem,
+  ListItemText,
 } from '@material-ui/core';
 import { Plus as PlusIcon, File as FileIcon, Send } from 'react-feather';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
@@ -34,8 +37,16 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Loading from 'pages/Loading';
 import NotFound from 'pages/NotFound';
+import SubscribeToOfferModal from './SubscribeToOffer';
+import { OffersContext } from 'Contexts/OffersContext';
+import RemoveIcon from '@material-ui/icons/Remove';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
-const styles = makeStyles((theme) => ({
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+
+const styles = makeStyles(() => ({
   header: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -94,6 +105,7 @@ const styles = makeStyles((theme) => ({
 
 const EditVisitor = () => {
   const classes = styles();
+  const { offers } = useContext(OffersContext);
 
   const [ok, setOk] = React.useState(true);
   const [notFound, setNotFound] = useState(false);
@@ -104,6 +116,7 @@ const EditVisitor = () => {
     verifyVisitor,
     deleteCustomer,
     loading,
+    subscribeOffer,
   } = useContext(CustomersContext);
   const { id } = useParams();
 
@@ -137,9 +150,15 @@ const EditVisitor = () => {
 
   const [isImageUploading, toggleImageUploading] = useToggleInput(false);
   const [uploadingText, setUploadingText] = useState('Uploading Image...');
+  const [isSubscribeOpen, toggleSubscribeOpen] = useToggleInput(false);
 
   const [state, handleTxtChange, handleToggleChange, changeInput, , setState] =
     useManyInputs(initialState);
+
+  const handleAdd = (tripId, unsubscribe) => {
+    console.log(`tripId`, tripId);
+    subscribeOffer(tripId, unsubscribe || 'subscribe', id);
+  };
 
   useEffect(() => {
     if (loading) return;
@@ -799,44 +818,43 @@ const EditVisitor = () => {
                       margin: '30px 10px 0px 0px ',
                     }}
                   >
-                    <Typography
-                      variant='h4'
-                      style={{ width: '90%', margin: 10 }}
+                    <Button
+                      variant='contained'
+                      fullWidth
+                      onClick={toggleSubscribeOpen}
+                      sx={{ marginBottom: '2rem' }}
                     >
-                      Find a Client
-                    </Typography>
-                    <Box
-                      style={{
-                        marginBottom: 20,
-                        width: '80%',
-                        marginRight: 45,
-                      }}
-                    >
-                      <TextField
-                        hiddenLabel
-                        id='filled-hidden-label-small'
-                        size='small'
-                        style={{
-                          backgroundColor: '#fff',
-                        }}
-                      />
-                    </Box>
+                      Subscribe this customer to an offer
+                    </Button>
 
-                    <Box
-                      style={{
-                        minHeight: 155,
-                        width: '90%',
-                        backgroundColor: '#fff',
-                        marginBottom: 20,
-                      }}
-                    >
-                      <Typography
-                        variant='text'
-                        style={{ color: '#c6c6c6', margin: 10 }}
-                      >
-                        List of users
-                      </Typography>
-                    </Box>
+                    <Typography variant='h5'>Current Subscriptions</Typography>
+                    <List>
+                      {!state.subscriptions?.length ? (
+                        <ListItem>
+                          <ListItemText>
+                            The Customer is NOT Subscribed to any offer
+                          </ListItemText>
+                        </ListItem>
+                      ) : (
+                        state.subscriptions?.map((item) => (
+                          <ListItem key={item._id}>
+                            <ListItemAvatar>
+                              <Avatar src={item.image} alt='offer img' />
+                            </ListItemAvatar>
+                            <ListItemText primary={item.title} />
+                            <ListItemSecondaryAction>
+                              <IconButton
+                                edge='end'
+                                aria-label='delete'
+                                onClick={handleAdd(item._id, 'unsubscribe')}
+                              >
+                                <RemoveIcon />
+                              </IconButton>
+                            </ListItemSecondaryAction>
+                          </ListItem>
+                        ))
+                      )}
+                    </List>
                   </Box>
                 </Grid>
               </Grid>
@@ -954,6 +972,12 @@ const EditVisitor = () => {
           <SendEmail id={id} open={isOpen} toggleDialog={toggleEmailDialog} />
         </>
       )}
+      <SubscribeToOfferModal
+        open={isSubscribeOpen}
+        toggleDialog={toggleSubscribeOpen}
+        handleAdd={handleAdd}
+        offers={offers}
+      />
     </Container>
   );
 };

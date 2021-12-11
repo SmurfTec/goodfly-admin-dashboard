@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { handleCatch, makeReq } from 'utils/makeReq';
 import { AuthContext } from './AuthContext';
-
 export const CustomersContext = React.createContext();
 
 export const CustomersProvider = ({ children }) => {
@@ -82,6 +81,21 @@ export const CustomersProvider = ({ children }) => {
     }
   };
 
+  const subscribeOffer = async (tripId, action, userId) => {
+    try {
+      const resData = await makeReq(
+        `/trips/${tripId}/${action}/${userId}`,
+        {},
+        'PATCH'
+      );
+      toast.success('Success');
+      updateCustomer(userId, resData.user);
+      return resData.user;
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+
   const getCustomerById = (id) => customers?.find((el) => el._id === id);
 
   // Create New Customer
@@ -114,6 +128,7 @@ export const CustomersProvider = ({ children }) => {
         verifyVisitor,
         createNewCustomer,
         loading,
+        subscribeOffer,
       }}
     >
       {children}

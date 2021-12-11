@@ -17,15 +17,8 @@ import UpdateStateDialog from './AddStageDialog';
 import v4 from 'uuid/dist/v4';
 
 const StagesTab = memo(({ value, classes, handleSubmit, offer }) => {
-  const [
-    stages,
-    setStages,
-    pushStage,
-    ,
-    updateStage,
-    removeStage,
-    ,
-  ] = useArray([], '_id');
+  const [stages, setStages, pushStage, , updateStage, removeStage, ,] =
+    useArray([], '_id');
   const [isDialogOpen, toggleDialogOpen] = useToggleInput(false);
   const [isUpdateDialogOpen, toggleUpdateDialogOpen] = useToggleInput(false);
   const [currentStage, setCurrentStage] = useState(0);
@@ -157,7 +150,7 @@ const StagesTab = memo(({ value, classes, handleSubmit, offer }) => {
                   <CardMedia
                     className={classes.stageImage}
                     image={stages?.[currentStage]?.images?.[0]?.src}
-                    title='Contemplative Reptile'
+                    title={stages?.[currentStage]?.title}
                   />
                   <Box mt={2}>
                     <Typography variant='text'>
