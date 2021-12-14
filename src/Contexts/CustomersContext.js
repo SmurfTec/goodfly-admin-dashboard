@@ -90,7 +90,6 @@ export const CustomersProvider = ({ children }) => {
       );
       toast.success('Success');
       updateCustomer(userId, resData.user);
-      return resData.user;
     } catch (err) {
       handleCatch(err);
     }

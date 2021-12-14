@@ -846,7 +846,9 @@ const EditVisitor = () => {
                               <IconButton
                                 edge='end'
                                 aria-label='delete'
-                                onClick={handleAdd(item._id, 'unsubscribe')}
+                                onClick={() =>
+                                  handleAdd(item._id, 'unsubscribe')
+                                }
                               >
                                 <RemoveIcon />
                               </IconButton>

@@ -109,7 +109,7 @@ const Chat = () => {
     e.preventDefault();
 
     sendNewMessage(
-      { text: messageTxt, receiver: activeChat.visitor._id },
+      { text: messageTxt, receiver: activeChat.visitor?._id },
       activeChat._id
     );
 
@@ -175,15 +175,18 @@ const Chat = () => {
                       </ListItemIcon>
                       <ListItemText
                         primary={chat?.visitor?.fullName}
-                        secondary={chat.messages[
-                          chat.messages.length - 1
-                        ].text.slice(0, 15)}
+                        secondary={
+                          chat.messages[chat.messages.length - 1]?.text.slice(
+                            0,
+                            15
+                          ) || ''
+                        }
                       />
                       <ListItemText
                         // secondary={'08:55'}
                         align='right'
                         secondary={new Date(
-                          chat.messages[chat.messages.length - 1].createdAt
+                          chat.messages[chat.messages.length - 1]?.createdAt
                         ).toLocaleString()}
                         align='right'
                       ></ListItemText>
