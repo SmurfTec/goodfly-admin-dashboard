@@ -158,7 +158,8 @@ const Reservations = () => {
         console.clear();
         console.log(`el`, el);
         return (
-          el.visitor.fullName.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+          el.visitor?.fullName.toLowerCase().indexOf(filter.toLowerCase()) !==
+          -1
         );
       })
       // reservations || []
