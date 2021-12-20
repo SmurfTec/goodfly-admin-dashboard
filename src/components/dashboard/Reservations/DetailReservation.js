@@ -81,7 +81,7 @@ const DetailReservation = () => {
   useEffect(() => {
     if (reservation) {
       setReservationStatus(reservation.status);
-      setAttachments(reservation.visitor.attachments);
+      setAttachments(reservation.visitor?.attachments || []);
       setInstallments(reservation?.installments?.toString() || '');
     }
   }, [reservation]);
@@ -401,428 +401,508 @@ const DetailReservation = () => {
                     index={1}
                     style={{ backgroundColor: '#f2f2f2' }}
                   >
-                    <Box className={classes.header}>
-                      <Typography variant='h4'>Client Area</Typography>
-                      <div style={{ display: 'flex' }}>
-                        <Typography
-                          variant='h5'
-                          style={{ margin: '0px 10px 0px' }}
-                        >
-                          Number
-                        </Typography>
-                        <Paper
-                          style={{
-                            width: 150,
-                            height: 25,
-                            textAlign: 'right',
-                            padding: 4,
-                          }}
-                        >
-                          {' '}
-                          0001
-                        </Paper>
-                      </div>
-
-                      <Box style={{ width: 155 }}>
-                        <Typography variant='h5'>
-                          {' '}
-                          N Fidelite{' '}
-                          <bold
-                            style={{
-                              fontSize: 28,
-                              fontWeight: 'bold ',
-                              fontStyle: 'italic',
-                              margin: 2,
-                            }}
-                          >
-                            827
-                          </bold>{' '}
-                        </Typography>
-                      </Box>
-                      <Box>
-                        <Typography variant='h5'>
-                          <bold
-                            style={{
-                              fontSize: 28,
-                              fontWeight: 'bold ',
-                              fontStyle: 'italic',
-                              margin: 5,
-                            }}
-                          >
-                            1725
-                          </bold>
-                          Points
-                        </Typography>
-                      </Box>
-                      <Box>
-                        <Button
-                          variant='outlined'
-                          size='medium'
-                          style={{
-                            color: 'black',
-                            border: '1px solid #111111',
-                            backgroundColor: '#c6c6c6',
-                            minWidth: 140,
-                          }}
-                          onClick={handleModifyCustomer}
-                        >
-                          Modify
-                        </Button>{' '}
-                      </Box>
-                    </Box>
-                    <Box
-                      style={{
-                        display: 'flex',
-                        // justifyContent: 'space-between',
-                        alignItems: 'center',
-                        width: '100%',
-                      }}
-                    >
-                      <Typography variant='h5' style={{ width: '25%' }}>
-                        Civilite
+                    {reservation && !reservation.visitor && (
+                      <Typography
+                        variant='h3'
+                        style={{ width: '100%', marginTop: '3rem' }}
+                      >
+                        Visitor No Longer Exists
                       </Typography>
-                      <FormControl component='fieldset'>
-                        <RadioGroup
-                          row
-                          aria-label='gender'
-                          name='row-radio-buttons-group'
-                          value={reservation?.visitor.pronoun}
-                        >
-                          <FormControlLabel
-                            value='Mr'
-                            control={<Radio />}
-                            label='Mr'
-                          />
-                          <FormControlLabel
-                            value='Mrs'
-                            control={<Radio />}
-                            label='Mrs'
-                          />
-                          <FormControlLabel
-                            value='Ms'
-                            control={<Radio />}
-                            label='Ms'
-                          />
-                        </RadioGroup>
-                      </FormControl>
-                    </Box>
-                    <Grid container>
-                      <Grid item md={5}>
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            firstName
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.firstName}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            Last Name
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.lastName}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            Spouse Name
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.spouseName}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                        <Box m={5}></Box>
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            Address
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.address}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            Additional Address
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.additionalAddress}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            Postal-Code
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.postalCode}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            City
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.city}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                        <Box m={11}></Box>
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            Country
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.country}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            Facebook
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.facebookProfile}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                      </Grid>
-                      <Grid item md={1}></Grid>
-                      <Grid item md={6}>
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            Email
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.email}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            Mobile
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.telephoneNumber}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                        <Box m={5}></Box>
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            Date of Birth
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={new Date(
-                              reservation?.visitor.dateOfBirth
-                            ).toLocaleDateString()}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            Nationality
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.nationality}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            Passport No
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.passportNumber}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            Date of issue
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.passportDateOfIssue}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            Place of Issue
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.passportPlaceOfIssue}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                        <Box m={5}></Box>
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            Twitter
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.twitterProfile}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                        <Box className={classes.inputBox}>
-                          <Typography variant='h5' className={classes.typo}>
-                            Snapchat
-                          </Typography>
-                          <TextField
-                            hiddenLabel
-                            id='filled-hidden-label-small'
-                            value={reservation?.visitor.snapChatProfile}
-                            size='small'
-                            className={classes.textInput}
-                          />
-                        </Box>{' '}
-                      </Grid>
-                    </Grid>
-                    <Typography
-                      variant='h3'
-                      style={{ width: '100%', marginTop: '3rem' }}
-                    >
-                      Attachments
-                    </Typography>
-
-                    <Grid container spacing={3}>
-                      <Grid item md={9}>
-                        <CarouselLayout>
-                          {attachments.map((attachment, i) => (
-                            <div
-                              key={attachment._id}
-                              className={classes.carouselCard}
+                    )}
+                    {reservation?.visitor && (
+                      <>
+                        <Box className={classes.header}>
+                          <Typography variant='h4'>Client Area</Typography>
+                          <div style={{ display: 'flex' }}>
+                            <Typography
+                              variant='h5'
+                              style={{ margin: '0px 10px 0px' }}
                             >
-                              <CardMedia
-                                style={{ height: '10rem' }}
-                                image={attachment.image}
-                                title='Live from space album cover'
-                              />
-                              <Box
+                              Number
+                            </Typography>
+                            <Paper
+                              style={{
+                                width: 150,
+                                height: 25,
+                                textAlign: 'right',
+                                padding: 4,
+                              }}
+                            >
+                              {' '}
+                              0001
+                            </Paper>
+                          </div>
+
+                          <Box style={{ width: 155 }}>
+                            <Typography variant='h5'>
+                              {' '}
+                              N Fidelite{' '}
+                              <bold
                                 style={{
-                                  display: 'flex',
-                                  justifyContent: 'flex-end',
-                                  alignItems: 'center',
+                                  fontSize: 28,
+                                  fontWeight: 'bold ',
+                                  fontStyle: 'italic',
+                                  margin: 2,
                                 }}
                               >
-                                <Button
-                                  color='error'
-                                  startIcon={<Delete />}
-                                  onClick={handleDeleteAttachment.bind(
-                                    this,
-                                    attachment._id
-                                  )}
-                                ></Button>
-                              </Box>
-                            </div>
-                          ))}
-                          {/* one */}
-                        </CarouselLayout>
-                      </Grid>
-                      <Grid item md={3}>
-                        <Box
-                          style={{
-                            backgroundColor: '#808080',
-                            borderRadius: '10px',
-                          }}
-                        >
-                          <Box style={{ padding: '0.2rem' }}>
-                            <Box>
-                              <input
-                                accept='image/*'
-                                style={{ display: 'none' }}
-                                id='contained-button-file'
-                                type='file'
-                                onChange={handleAttachmentChange}
-                                disabled={isImageUploading}
-                              />
-                              <LoadingOverlay
-                                active={isImageUploading}
-                                spinner
-                                text={uploadingText}
+                                827
+                              </bold>{' '}
+                            </Typography>
+                          </Box>
+                          <Box>
+                            <Typography variant='h5'>
+                              <bold
+                                style={{
+                                  fontSize: 28,
+                                  fontWeight: 'bold ',
+                                  fontStyle: 'italic',
+                                  margin: 5,
+                                }}
                               >
-                                <label htmlFor='contained-button-file'>
-                                  <Box className={classes.image}>
-                                    <Box>
-                                      <PlusIcon
-                                        size={35}
-                                        style={{ color: '#fff' }}
-                                      />
-                                      <FileIcon
-                                        size={35}
-                                        style={{ color: '#fff' }}
-                                      />
-                                    </Box>
-                                    <Box style={{ textAlign: 'center' }}>
-                                      <Typography style={{ color: '#fff' }}>
-                                        Upload Document
-                                      </Typography>
-                                    </Box>
-                                  </Box>
-                                </label>
-                              </LoadingOverlay>
-                            </Box>
+                                1725
+                              </bold>
+                              Points
+                            </Typography>
+                          </Box>
+                          <Box>
+                            <Button
+                              variant='outlined'
+                              size='medium'
+                              style={{
+                                color: 'black',
+                                border: '1px solid #111111',
+                                backgroundColor: '#c6c6c6',
+                                minWidth: 140,
+                              }}
+                              onClick={handleModifyCustomer}
+                            >
+                              Modify
+                            </Button>{' '}
                           </Box>
                         </Box>
-                      </Grid>
-                    </Grid>
+                        <Box
+                          style={{
+                            display: 'flex',
+                            // justifyContent: 'space-between',
+                            alignItems: 'center',
+                            width: '100%',
+                          }}
+                        >
+                          <Typography variant='h5' style={{ width: '25%' }}>
+                            Civilite
+                          </Typography>
+                          <FormControl component='fieldset'>
+                            <RadioGroup
+                              row
+                              aria-label='gender'
+                              name='row-radio-buttons-group'
+                              value={reservation?.visitor?.pronoun}
+                            >
+                              <FormControlLabel
+                                value='Mr'
+                                control={<Radio />}
+                                label='Mr'
+                              />
+                              <FormControlLabel
+                                value='Mrs'
+                                control={<Radio />}
+                                label='Mrs'
+                              />
+                              <FormControlLabel
+                                value='Ms'
+                                control={<Radio />}
+                                label='Ms'
+                              />
+                            </RadioGroup>
+                          </FormControl>
+                        </Box>
+                        {reservation?.visitor && (
+                          <Grid container>
+                            <Grid item md={5}>
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  firstName
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={reservation?.visitor.firstName}
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  Last Name
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={reservation?.visitor.lastName}
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  Spouse Name
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={reservation?.visitor.spouseName}
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                              <Box m={5}></Box>
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  Address
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={reservation?.visitor.address}
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  Additional Address
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={reservation?.visitor.additionalAddress}
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  Postal-Code
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={reservation?.visitor.postalCode}
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  City
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={reservation?.visitor.city}
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                              <Box m={11}></Box>
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  Country
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={reservation?.visitor.country}
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  Facebook
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={reservation?.visitor.facebookProfile}
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                            </Grid>
+                            <Grid item md={1}></Grid>
+                            <Grid item md={6}>
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  Email
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={reservation?.visitor.email}
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  Mobile
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={reservation?.visitor.telephoneNumber}
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                              <Box m={5}></Box>
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  Date of Birth
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={new Date(
+                                    reservation?.visitor.dateOfBirth
+                                  ).toLocaleDateString()}
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  Nationality
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={reservation?.visitor.nationality}
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  Passport No
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={reservation?.visitor.passportNumber}
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  Date of issue
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={
+                                    reservation?.visitor.passportDateOfIssue
+                                  }
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  Place of Issue
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={
+                                    reservation?.visitor.passportPlaceOfIssue
+                                  }
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                              <Box m={5}></Box>
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  Twitter
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={reservation?.visitor.twitterProfile}
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                              <Box className={classes.inputBox}>
+                                <Typography
+                                  variant='h5'
+                                  className={classes.typo}
+                                >
+                                  Snapchat
+                                </Typography>
+                                <TextField
+                                  hiddenLabel
+                                  id='filled-hidden-label-small'
+                                  value={reservation?.visitor.snapChatProfile}
+                                  size='small'
+                                  className={classes.textInput}
+                                />
+                              </Box>{' '}
+                            </Grid>
+                          </Grid>
+                        )}
+
+                        {reservation?.visitor && (
+                          <>
+                            <Typography
+                              variant='h3'
+                              style={{ width: '100%', marginTop: '3rem' }}
+                            >
+                              Attachments
+                            </Typography>
+                            <Grid container spacing={3}>
+                              <Grid item md={9}>
+                                <CarouselLayout>
+                                  {attachments.map((attachment, i) => (
+                                    <div
+                                      key={attachment._id}
+                                      className={classes.carouselCard}
+                                    >
+                                      <CardMedia
+                                        style={{ height: '10rem' }}
+                                        image={attachment.image}
+                                        title='Live from space album cover'
+                                      />
+                                      <Box
+                                        style={{
+                                          display: 'flex',
+                                          justifyContent: 'flex-end',
+                                          alignItems: 'center',
+                                        }}
+                                      >
+                                        <Button
+                                          color='error'
+                                          startIcon={<Delete />}
+                                          onClick={handleDeleteAttachment.bind(
+                                            this,
+                                            attachment._id
+                                          )}
+                                        ></Button>
+                                      </Box>
+                                    </div>
+                                  ))}
+                                  {/* one */}
+                                </CarouselLayout>
+                              </Grid>
+                              <Grid item md={3}>
+                                <Box
+                                  style={{
+                                    backgroundColor: '#808080',
+                                    borderRadius: '10px',
+                                  }}
+                                >
+                                  <Box style={{ padding: '0.2rem' }}>
+                                    <Box>
+                                      <input
+                                        accept='image/*'
+                                        style={{ display: 'none' }}
+                                        id='contained-button-file'
+                                        type='file'
+                                        onChange={handleAttachmentChange}
+                                        disabled={isImageUploading}
+                                      />
+                                      <LoadingOverlay
+                                        active={isImageUploading}
+                                        spinner
+                                        text={uploadingText}
+                                      >
+                                        <label htmlFor='contained-button-file'>
+                                          <Box className={classes.image}>
+                                            <Box>
+                                              <PlusIcon
+                                                size={35}
+                                                style={{ color: '#fff' }}
+                                              />
+                                              <FileIcon
+                                                size={35}
+                                                style={{ color: '#fff' }}
+                                              />
+                                            </Box>
+                                            <Box
+                                              style={{ textAlign: 'center' }}
+                                            >
+                                              <Typography
+                                                style={{ color: '#fff' }}
+                                              >
+                                                Upload Document
+                                              </Typography>
+                                            </Box>
+                                          </Box>
+                                        </label>
+                                      </LoadingOverlay>
+                                    </Box>
+                                  </Box>
+                                </Box>
+                              </Grid>
+                            </Grid>
+                          </>
+                        )}
+                      </>
+                    )}
                   </TabPanel>
 
                   <TabPanel
