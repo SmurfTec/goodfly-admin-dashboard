@@ -87,7 +87,7 @@ const Orders = () => {
         : orders?.filter((row) => {
             console.log(`row`, row);
             return (
-              row.visitor.fullName
+              row.visitor?.fullName
                 .toLowerCase()
                 .indexOf(filter.toLowerCase()) !== -1
             );
@@ -163,11 +163,19 @@ const Orders = () => {
                         </TableCell>
                         <TableCell align='right'>{row.status}</TableCell>
                         <TableCell align='right'>
-                          {row.visitor.fullName}
+                          {row.visitor
+                            ? row.visitor.fullName
+                            : 'Visitor no longer exists'}
                         </TableCell>
-                        <TableCell align='right'>{row.visitor.email}</TableCell>
                         <TableCell align='right'>
-                          {row.visitor.telephoneNumber}
+                          {row.visitor
+                            ? row.visitor.email
+                            : 'Visitor no longer exists'}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.visitor
+                            ? row.visitor.telephoneNumber
+                            : 'Visitor no longer exists'}
                         </TableCell>
                         <TableCell align='right'>
                           <Button

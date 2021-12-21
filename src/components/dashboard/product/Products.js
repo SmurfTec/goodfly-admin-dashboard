@@ -186,7 +186,7 @@ const Products = () => {
                               }}
                               image={
                                 row.images
-                                  ? row.images[0].image
+                                  ? row.images?.[0]?.image
                                   : 'https://picsum.photos/200/300?random=2'
                               }
                               title='product name'
