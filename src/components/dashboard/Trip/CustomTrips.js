@@ -52,17 +52,21 @@ const CustomTrips = () => {
   useEffect(() => {
     setFilteredItems(
       customOffers?.filter(
-        (row) => row.fullName.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+        (row) =>
+          row.fullName.toLowerCase().indexOf(filter.toLowerCase()) !==
+          -1
       )
     );
   }, [filter]);
 
   // data must be updated
   useEffect(() => {
-    setFilteredItems(customOffers?.filter((item) => item.status === 'pending'));
+    setFilteredItems(
+      customOffers?.filter((item) => item.status === 'pending')
+    );
   }, [customOffers]);
   return (
-    <div style={{ marginTop: '3rem' }}>
+    <div>
       <Typography variant='h4' m={2}>
         Tailor-made Travel Management
       </Typography>
@@ -75,7 +79,10 @@ const CustomTrips = () => {
             width: '100%',
           }}
         >
-          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+          <Typography
+            variant='text'
+            style={{ margin: '0px 3px 0px' }}
+          >
             Search Client
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -98,7 +105,9 @@ const CustomTrips = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
-                <TableCell align='center'>Date of Reservation</TableCell>
+                <TableCell align='center'>
+                  Date of Reservation
+                </TableCell>
                 <TableCell align='center'>Emails</TableCell>
                 <TableCell align='center'>Telephone</TableCell>
                 <TableCell align='center'>Actions</TableCell>
@@ -106,7 +115,10 @@ const CustomTrips = () => {
             </TableHead>
             <TableBody>
               {filteredItems
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 .map((row) => (
                   <TableRow key={row._id}>
                     <TableCell component='th' scope='row'>

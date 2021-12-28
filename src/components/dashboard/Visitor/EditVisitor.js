@@ -18,7 +18,11 @@ import {
   ListItem,
   ListItemText,
 } from '@material-ui/core';
-import { Plus as PlusIcon, File as FileIcon, Send } from 'react-feather';
+import {
+  Plus as PlusIcon,
+  File as FileIcon,
+  Send,
+} from 'react-feather';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
 import useManyInputs from 'hooks/useManyInputs';
 import uuid from 'uuid/dist/v4';
@@ -148,12 +152,22 @@ const EditVisitor = () => {
 
   const [isOpen, toggleEmailDialog] = useToggleInput(false);
 
-  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState('Uploading Image...');
-  const [isSubscribeOpen, toggleSubscribeOpen] = useToggleInput(false);
+  const [isImageUploading, toggleImageUploading] =
+    useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState(
+    'Uploading Image...'
+  );
+  const [isSubscribeOpen, toggleSubscribeOpen] =
+    useToggleInput(false);
 
-  const [state, handleTxtChange, handleToggleChange, changeInput, , setState] =
-    useManyInputs(initialState);
+  const [
+    state,
+    handleTxtChange,
+    handleToggleChange,
+    changeInput,
+    ,
+    setState,
+  ] = useManyInputs(initialState);
 
   const handleAdd = (tripId, unsubscribe) => {
     console.log(`tripId`, tripId);
@@ -172,7 +186,9 @@ const EditVisitor = () => {
       ...initialState,
       ...customer,
       dateOfBirth: getMuiDateFormat(customer.dateOfBirth),
-      passportDateOfIssue: getMuiDateFormat(customer.passportDateOfIssue),
+      passportDateOfIssue: getMuiDateFormat(
+        customer.passportDateOfIssue
+      ),
     });
   }, [id, customers, loading]);
 
@@ -241,7 +257,9 @@ const EditVisitor = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message || err.message || 'Something Went Wrong'
+        err?.response?.data?.message ||
+          err.message ||
+          'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -250,14 +268,20 @@ const EditVisitor = () => {
   const handleSubscribe = async () => {
     try {
       await makeReq(`/users/subscribe/${state._id}`, {}, 'POST');
-      modifyCustomer(state._id, { ...state, isSubscribed: true }, true);
+      modifyCustomer(
+        state._id,
+        { ...state, isSubscribed: true },
+        true
+      );
     } catch (err) {
       handleCatch(err);
     }
   };
 
   return (
-    <Container style={{ backgroundColor: '#fff', overflow: 'hidden' }}>
+    <Container
+      style={{ backgroundColor: '#fff', overflow: 'hidden' }}
+    >
       {loading ? (
         <Loading noTitle />
       ) : notFound ? (
@@ -301,7 +325,6 @@ const EditVisitor = () => {
               </Button>
               <Box style={{ width: 155 }}>
                 <Typography variant='h5'>
-                  N Fidelite
                   <b
                     style={{
                       fontSize: 28,
@@ -366,7 +389,13 @@ const EditVisitor = () => {
             </Box>
             <form onSubmit={handleSubmit} id='customerForm'>
               <Grid container>
-                <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={7}
+                  md={7}
+                  style={{ minHeight: 400 }}
+                >
                   <Box className={classes.mainBox}>
                     <Box
                       style={{
@@ -376,7 +405,9 @@ const EditVisitor = () => {
                         margin: '10px 0px 30px ',
                       }}
                     >
-                      <Typography variant='h4'>Client Profile</Typography>
+                      <Typography variant='h4'>
+                        Client Profile
+                      </Typography>
                       <Box style={{ display: 'flex' }}>
                         <Typography
                           variant='h5'
@@ -404,7 +435,10 @@ const EditVisitor = () => {
                         width: '100%',
                       }}
                     >
-                      <Typography variant='h5' style={{ width: '25%' }}>
+                      <Typography
+                        variant='h5'
+                        style={{ width: '25%' }}
+                      >
                         Civilite
                       </Typography>
                       <FormControl component='fieldset'>
@@ -435,7 +469,10 @@ const EditVisitor = () => {
                       </FormControl>
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography variant='h5' className={classes.typo}>
+                      <Typography
+                        variant='h5'
+                        className={classes.typo}
+                      >
                         First Name
                       </Typography>
                       <TextField
@@ -451,7 +488,10 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography variant='h5' className={classes.typo}>
+                      <Typography
+                        variant='h5'
+                        className={classes.typo}
+                      >
                         Last Name
                       </Typography>
                       <TextField
@@ -467,7 +507,10 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography variant='h5' className={classes.typo}>
+                      <Typography
+                        variant='h5'
+                        className={classes.typo}
+                      >
                         Spouse Name
                       </Typography>
                       <TextField
@@ -483,7 +526,10 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography variant='h5' className={classes.typo}>
+                      <Typography
+                        variant='h5'
+                        className={classes.typo}
+                      >
                         Email
                       </Typography>
                       <TextField
@@ -499,7 +545,10 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography variant='h5' className={classes.typo}>
+                      <Typography
+                        variant='h5'
+                        className={classes.typo}
+                      >
                         Mobile
                       </Typography>
                       <TextField
@@ -515,7 +564,10 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography variant='h5' className={classes.typo}>
+                      <Typography
+                        variant='h5'
+                        className={classes.typo}
+                      >
                         TelePhone
                       </Typography>
                       <TextField
@@ -531,7 +583,10 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography variant='h5' className={classes.typo}>
+                      <Typography
+                        variant='h5'
+                        className={classes.typo}
+                      >
                         Address
                       </Typography>
                       <TextField
@@ -547,7 +602,10 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography variant='h5' className={classes.typo}>
+                      <Typography
+                        variant='h5'
+                        className={classes.typo}
+                      >
                         Additional Address
                       </Typography>
                       <TextField
@@ -566,7 +624,10 @@ const EditVisitor = () => {
                       className={classes.inputBox}
                       style={{ marginBottom: 5 }}
                     >
-                      <Typography variant='h5' style={{ width: '30%' }}>
+                      <Typography
+                        variant='h5'
+                        style={{ width: '30%' }}
+                      >
                         Postal Code
                       </Typography>
                       <Box
@@ -615,7 +676,10 @@ const EditVisitor = () => {
                       </Box>
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography variant='h5' className={classes.typo}>
+                      <Typography
+                        variant='h5'
+                        className={classes.typo}
+                      >
                         Country
                       </Typography>
                       <TextField
@@ -631,7 +695,10 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography variant='h5' className={classes.typo}>
+                      <Typography
+                        variant='h5'
+                        className={classes.typo}
+                      >
                         Birth Date
                       </Typography>
                       <TextField
@@ -646,7 +713,10 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography variant='h5' className={classes.typo}>
+                      <Typography
+                        variant='h5'
+                        className={classes.typo}
+                      >
                         Nationality
                       </Typography>
                       <TextField
@@ -662,7 +732,10 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography variant='h5' className={classes.typo}>
+                      <Typography
+                        variant='h5'
+                        className={classes.typo}
+                      >
                         Passport No
                       </Typography>
                       <TextField
@@ -678,7 +751,10 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography variant='h5' className={classes.typo}>
+                      <Typography
+                        variant='h5'
+                        className={classes.typo}
+                      >
                         Deliverance date
                       </Typography>
                       <TextField
@@ -694,7 +770,10 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography variant='h5' className={classes.typo}>
+                      <Typography
+                        variant='h5'
+                        className={classes.typo}
+                      >
                         place of delivery
                       </Typography>
                       <TextField
@@ -711,10 +790,19 @@ const EditVisitor = () => {
                     </Box>
                   </Box>
                 </Grid>
-                <Grid item xs={12} sm={5} md={5} className={classes.account}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={5}
+                  md={5}
+                  className={classes.account}
+                >
                   <Box
                     className={classes.mainBox}
-                    style={{ padding: 10, margin: '0px 10px 0px 0px ' }}
+                    style={{
+                      padding: 10,
+                      margin: '0px 10px 0px 0px ',
+                    }}
                   >
                     <Box
                       style={{
@@ -741,7 +829,9 @@ const EditVisitor = () => {
                         />
                       </Box>
                       <Box className={classes.inputBox2}>
-                        <Typography variant='h5'>Instagram</Typography>
+                        <Typography variant='h5'>
+                          Instagram
+                        </Typography>
                         <TextField
                           hiddenLabel
                           id='filled-hidden-label-small'
@@ -827,19 +917,25 @@ const EditVisitor = () => {
                       Subscribe this customer to an offer
                     </Button>
 
-                    <Typography variant='h5'>Current Subscriptions</Typography>
+                    <Typography variant='h5'>
+                      Current Subscriptions
+                    </Typography>
                     <List>
                       {!state.subscriptions?.length ? (
                         <ListItem>
                           <ListItemText>
-                            The Customer is NOT Subscribed to any offer
+                            The Customer is NOT Subscribed to any
+                            offer
                           </ListItemText>
                         </ListItem>
                       ) : (
                         state.subscriptions?.map((item) => (
                           <ListItem key={item._id}>
                             <ListItemAvatar>
-                              <Avatar src={item.image} alt='offer img' />
+                              <Avatar
+                                src={item.image}
+                                alt='offer img'
+                              />
                             </ListItemAvatar>
                             <ListItemText primary={item.title} />
                             <ListItemSecondaryAction>
@@ -956,7 +1052,9 @@ const EditVisitor = () => {
                                   />
                                 </Box>
                                 <Box style={{ textAlign: 'center' }}>
-                                  <Typography style={{ color: '#fff' }}>
+                                  <Typography
+                                    style={{ color: '#fff' }}
+                                  >
                                     Upload Document
                                   </Typography>
                                 </Box>
@@ -971,7 +1069,11 @@ const EditVisitor = () => {
               </Box>
             </form>
           </Box>
-          <SendEmail id={id} open={isOpen} toggleDialog={toggleEmailDialog} />
+          <SendEmail
+            id={id}
+            open={isOpen}
+            toggleDialog={toggleEmailDialog}
+          />
         </>
       )}
       <SubscribeToOfferModal

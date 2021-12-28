@@ -47,19 +47,32 @@ import NotFound from 'pages/NotFound';
 
 const DetailReservation = () => {
   const classes = useStyles();
-  const { loading, getReservationById, reservations, modifyReservation } =
-    useContext(ReservationsContext);
+  const {
+    loading,
+    getReservationById,
+    reservations,
+    modifyReservation,
+  } = useContext(ReservationsContext);
   const { modifyCustomer } = useContext(CustomersContext);
   const { id } = useParams();
 
-  const [isDatesModalOpen, toggleIsDatesModalOpen] = useToggleInput(false);
+  const [isDatesModalOpen, toggleIsDatesModalOpen] =
+    useToggleInput(false);
 
   const [reservation, setReservation] = useState();
-  const [attachments, setAttachments, pushAttachment, , , removeAttachment, ,] =
-    useArray([], '_id');
+  const [
+    attachments,
+    setAttachments,
+    pushAttachment,
+    ,
+    ,
+    removeAttachment,
+    ,
+  ] = useArray([], '_id');
 
   const [value, setValue] = React.useState(0);
-  const [reservationStatus, setReservationStatus] = React.useState('');
+  const [reservationStatus, setReservationStatus] =
+    React.useState('');
   const [notFound, setNotFound] = useState(false);
 
   const [installments, handleInstallments, , setInstallments] =
@@ -75,8 +88,11 @@ const DetailReservation = () => {
     setReservation(newReservation);
   }, [id, reservations, loading]);
 
-  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState('Uploading Image...');
+  const [isImageUploading, toggleImageUploading] =
+    useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState(
+    'Uploading Image...'
+  );
 
   useEffect(() => {
     if (reservation) {
@@ -141,7 +157,9 @@ const DetailReservation = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message || err.message || 'Something Went Wrong'
+        err?.response?.data?.message ||
+          err.message ||
+          'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -183,7 +201,9 @@ const DetailReservation = () => {
     console.log(`installments`, installments);
 
     if (reservationStatus === 'pre-reservation') {
-      toast.error('Plz update reservation status before validation !');
+      toast.error(
+        'Plz update reservation status before validation !'
+      );
       return;
     }
 
@@ -209,7 +229,7 @@ const DetailReservation = () => {
         <NotFound />
       ) : (
         <>
-          <Typography variant='h4' m={2}>
+          <Typography variant='h4' m={1}>
             {loading ? (
               <Skeleton width='30%' />
             ) : (
@@ -225,7 +245,10 @@ const DetailReservation = () => {
               flexWrap: 'wrap',
             }}
           >
-            <Typography variant='h5'> Reservation Status :</Typography>
+            <Typography variant='h5'>
+              {' '}
+              Reservation Status :
+            </Typography>
             {loading ? (
               <Skeleton variant='rect' width='30%' />
             ) : (
@@ -251,7 +274,9 @@ const DetailReservation = () => {
                 >
                   <MenuItem
                     value={'pre-reservation'}
-                    disabled={reservation?.status !== 'pre-reservation'}
+                    disabled={
+                      reservation?.status !== 'pre-reservation'
+                    }
                   >
                     Pre Reservation
                   </MenuItem>
@@ -262,10 +287,16 @@ const DetailReservation = () => {
                   >
                     Schedule in Progress
                   </MenuItem>
-                  <MenuItem value={'reservation-paid'} sx={{ display: 'none' }}>
+                  <MenuItem
+                    value={'reservation-paid'}
+                    sx={{ display: 'none' }}
+                  >
                     Finalized
                   </MenuItem>
-                  <MenuItem value={'archived'} sx={{ display: 'none' }}>
+                  <MenuItem
+                    value={'archived'}
+                    sx={{ display: 'none' }}
+                  >
                     Archived
                   </MenuItem>
                   <MenuItem value={'cancelled'}>Cancelled</MenuItem>
@@ -393,7 +424,9 @@ const DetailReservation = () => {
                       (reservation.trip ? (
                         <OfferView offer={reservation.trip} />
                       ) : (
-                        <CustomerTripView offer={reservation.customTrip} />
+                        <CustomerTripView
+                          offer={reservation.customTrip}
+                        />
                       ))}
                   </TabPanel>
                   <TabPanel
@@ -412,7 +445,9 @@ const DetailReservation = () => {
                     {reservation?.visitor && (
                       <>
                         <Box className={classes.header}>
-                          <Typography variant='h4'>Client Area</Typography>
+                          <Typography variant='h4'>
+                            Client Area
+                          </Typography>
                           <div style={{ display: 'flex' }}>
                             <Typography
                               variant='h5'
@@ -488,7 +523,10 @@ const DetailReservation = () => {
                             width: '100%',
                           }}
                         >
-                          <Typography variant='h5' style={{ width: '25%' }}>
+                          <Typography
+                            variant='h5'
+                            style={{ width: '25%' }}
+                          >
                             Civilite
                           </Typography>
                           <FormControl component='fieldset'>
@@ -529,7 +567,9 @@ const DetailReservation = () => {
                                 <TextField
                                   hiddenLabel
                                   id='filled-hidden-label-small'
-                                  value={reservation?.visitor.firstName}
+                                  value={
+                                    reservation?.visitor.firstName
+                                  }
                                   size='small'
                                   className={classes.textInput}
                                 />
@@ -544,7 +584,9 @@ const DetailReservation = () => {
                                 <TextField
                                   hiddenLabel
                                   id='filled-hidden-label-small'
-                                  value={reservation?.visitor.lastName}
+                                  value={
+                                    reservation?.visitor.lastName
+                                  }
                                   size='small'
                                   className={classes.textInput}
                                 />
@@ -559,7 +601,9 @@ const DetailReservation = () => {
                                 <TextField
                                   hiddenLabel
                                   id='filled-hidden-label-small'
-                                  value={reservation?.visitor.spouseName}
+                                  value={
+                                    reservation?.visitor.spouseName
+                                  }
                                   size='small'
                                   className={classes.textInput}
                                 />
@@ -590,7 +634,10 @@ const DetailReservation = () => {
                                 <TextField
                                   hiddenLabel
                                   id='filled-hidden-label-small'
-                                  value={reservation?.visitor.additionalAddress}
+                                  value={
+                                    reservation?.visitor
+                                      .additionalAddress
+                                  }
                                   size='small'
                                   className={classes.textInput}
                                 />
@@ -605,7 +652,9 @@ const DetailReservation = () => {
                                 <TextField
                                   hiddenLabel
                                   id='filled-hidden-label-small'
-                                  value={reservation?.visitor.postalCode}
+                                  value={
+                                    reservation?.visitor.postalCode
+                                  }
                                   size='small'
                                   className={classes.textInput}
                                 />
@@ -651,7 +700,10 @@ const DetailReservation = () => {
                                 <TextField
                                   hiddenLabel
                                   id='filled-hidden-label-small'
-                                  value={reservation?.visitor.facebookProfile}
+                                  value={
+                                    reservation?.visitor
+                                      .facebookProfile
+                                  }
                                   size='small'
                                   className={classes.textInput}
                                 />
@@ -684,7 +736,10 @@ const DetailReservation = () => {
                                 <TextField
                                   hiddenLabel
                                   id='filled-hidden-label-small'
-                                  value={reservation?.visitor.telephoneNumber}
+                                  value={
+                                    reservation?.visitor
+                                      .telephoneNumber
+                                  }
                                   size='small'
                                   className={classes.textInput}
                                 />
@@ -717,7 +772,9 @@ const DetailReservation = () => {
                                 <TextField
                                   hiddenLabel
                                   id='filled-hidden-label-small'
-                                  value={reservation?.visitor.nationality}
+                                  value={
+                                    reservation?.visitor.nationality
+                                  }
                                   size='small'
                                   className={classes.textInput}
                                 />
@@ -732,7 +789,10 @@ const DetailReservation = () => {
                                 <TextField
                                   hiddenLabel
                                   id='filled-hidden-label-small'
-                                  value={reservation?.visitor.passportNumber}
+                                  value={
+                                    reservation?.visitor
+                                      .passportNumber
+                                  }
                                   size='small'
                                   className={classes.textInput}
                                 />
@@ -748,7 +808,8 @@ const DetailReservation = () => {
                                   hiddenLabel
                                   id='filled-hidden-label-small'
                                   value={
-                                    reservation?.visitor.passportDateOfIssue
+                                    reservation?.visitor
+                                      .passportDateOfIssue
                                   }
                                   size='small'
                                   className={classes.textInput}
@@ -765,7 +826,8 @@ const DetailReservation = () => {
                                   hiddenLabel
                                   id='filled-hidden-label-small'
                                   value={
-                                    reservation?.visitor.passportPlaceOfIssue
+                                    reservation?.visitor
+                                      .passportPlaceOfIssue
                                   }
                                   size='small'
                                   className={classes.textInput}
@@ -782,7 +844,10 @@ const DetailReservation = () => {
                                 <TextField
                                   hiddenLabel
                                   id='filled-hidden-label-small'
-                                  value={reservation?.visitor.twitterProfile}
+                                  value={
+                                    reservation?.visitor
+                                      .twitterProfile
+                                  }
                                   size='small'
                                   className={classes.textInput}
                                 />
@@ -797,7 +862,10 @@ const DetailReservation = () => {
                                 <TextField
                                   hiddenLabel
                                   id='filled-hidden-label-small'
-                                  value={reservation?.visitor.snapChatProfile}
+                                  value={
+                                    reservation?.visitor
+                                      .snapChatProfile
+                                  }
                                   size='small'
                                   className={classes.textInput}
                                 />
@@ -810,41 +878,49 @@ const DetailReservation = () => {
                           <>
                             <Typography
                               variant='h3'
-                              style={{ width: '100%', marginTop: '3rem' }}
+                              style={{
+                                width: '100%',
+                                marginTop: '3rem',
+                              }}
                             >
                               Attachments
                             </Typography>
                             <Grid container spacing={3}>
                               <Grid item md={9}>
                                 <CarouselLayout>
-                                  {attachments.map((attachment, i) => (
-                                    <div
-                                      key={attachment._id}
-                                      className={classes.carouselCard}
-                                    >
-                                      <CardMedia
-                                        style={{ height: '10rem' }}
-                                        image={attachment.image}
-                                        title='Live from space album cover'
-                                      />
-                                      <Box
-                                        style={{
-                                          display: 'flex',
-                                          justifyContent: 'flex-end',
-                                          alignItems: 'center',
-                                        }}
+                                  {attachments.map(
+                                    (attachment, i) => (
+                                      <div
+                                        key={attachment._id}
+                                        className={
+                                          classes.carouselCard
+                                        }
                                       >
-                                        <Button
-                                          color='error'
-                                          startIcon={<Delete />}
-                                          onClick={handleDeleteAttachment.bind(
-                                            this,
-                                            attachment._id
-                                          )}
-                                        ></Button>
-                                      </Box>
-                                    </div>
-                                  ))}
+                                        <CardMedia
+                                          style={{ height: '10rem' }}
+                                          image={attachment.image}
+                                          title='Live from space album cover'
+                                        />
+                                        <Box
+                                          style={{
+                                            display: 'flex',
+                                            justifyContent:
+                                              'flex-end',
+                                            alignItems: 'center',
+                                          }}
+                                        >
+                                          <Button
+                                            color='error'
+                                            startIcon={<Delete />}
+                                            onClick={handleDeleteAttachment.bind(
+                                              this,
+                                              attachment._id
+                                            )}
+                                          ></Button>
+                                        </Box>
+                                      </div>
+                                    )
+                                  )}
                                   {/* one */}
                                 </CarouselLayout>
                               </Grid>
@@ -862,7 +938,9 @@ const DetailReservation = () => {
                                         style={{ display: 'none' }}
                                         id='contained-button-file'
                                         type='file'
-                                        onChange={handleAttachmentChange}
+                                        onChange={
+                                          handleAttachmentChange
+                                        }
                                         disabled={isImageUploading}
                                       />
                                       <LoadingOverlay
@@ -871,22 +949,32 @@ const DetailReservation = () => {
                                         text={uploadingText}
                                       >
                                         <label htmlFor='contained-button-file'>
-                                          <Box className={classes.image}>
+                                          <Box
+                                            className={classes.image}
+                                          >
                                             <Box>
                                               <PlusIcon
                                                 size={35}
-                                                style={{ color: '#fff' }}
+                                                style={{
+                                                  color: '#fff',
+                                                }}
                                               />
                                               <FileIcon
                                                 size={35}
-                                                style={{ color: '#fff' }}
+                                                style={{
+                                                  color: '#fff',
+                                                }}
                                               />
                                             </Box>
                                             <Box
-                                              style={{ textAlign: 'center' }}
+                                              style={{
+                                                textAlign: 'center',
+                                              }}
                                             >
                                               <Typography
-                                                style={{ color: '#fff' }}
+                                                style={{
+                                                  color: '#fff',
+                                                }}
                                               >
                                                 Upload Document
                                               </Typography>

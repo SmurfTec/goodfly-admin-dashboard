@@ -24,7 +24,8 @@ import { makeReq } from 'utils/makeReq';
 
 const Profile = () => {
   const classes = useStyles();
-  const { user, updateMe, changeMyPassword } = useContext(AuthContext);
+  const { user, updateMe, changeMyPassword } =
+    useContext(AuthContext);
 
   const [isPassOpen, togglePassOpen] = useToggleInput(false);
 
@@ -40,16 +41,20 @@ const Profile = () => {
     photo: user.photo || '',
   };
 
-  const [passwordState, handlePassChange, , , resetPassState] = useManyInputs({
-    password: '',
-    passwordConfirm: '',
-  });
+  const [passwordState, handlePassChange, , , resetPassState] =
+    useManyInputs({
+      password: '',
+      passwordConfirm: '',
+    });
 
   const [state, handleTxtChange, , changeInput, , setState] =
     useManyInputs(initialState);
 
-  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState('Uploading Image...');
+  const [isImageUploading, toggleImageUploading] =
+    useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState(
+    'Uploading Image...'
+  );
 
   const handleUpdatePass = (e) => {
     e.preventDefault();
@@ -121,7 +126,9 @@ const Profile = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message || err.message || 'Something Went Wrong'
+        err?.response?.data?.message ||
+          err.message ||
+          'Something Went Wrong'
       );
       // console.log(`err`, err);
     }
@@ -133,7 +140,7 @@ const Profile = () => {
         <Box>
           <Typography
             variant='h4'
-            style={{ width: '100%', margin: '60px 20px 0px' }}
+            style={{ width: '100%', margin: '10px 20px 0px' }}
           >
             My Profile
           </Typography>
@@ -141,7 +148,13 @@ const Profile = () => {
 
         <form id='profileForm' onSubmit={handleSubmit}>
           <Grid container>
-            <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
+            <Grid
+              item
+              xs={12}
+              sm={7}
+              md={7}
+              style={{ minHeight: 400 }}
+            >
               <Box className={classes.mainBox}>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
@@ -277,7 +290,13 @@ const Profile = () => {
                 </Box>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={5} md={5} className={classes.account}>
+            <Grid
+              item
+              xs={12}
+              sm={5}
+              md={5}
+              className={classes.account}
+            >
               <Box className={classes.mainBox}>
                 <Typography variant='h5' style={{ width: '100%' }}>
                   Account managment
@@ -351,7 +370,10 @@ const Profile = () => {
                   </LoadingOverlay>
 
                   <Box style={{ marginBottom: 65 }}>
-                    <Typography variant='h5' style={{ width: '100%' }}>
+                    <Typography
+                      variant='h5'
+                      style={{ width: '100%' }}
+                    >
                       New Password
                     </Typography>
                     <Button

@@ -11,6 +11,7 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
   height: '100%',
   overflow: 'hidden',
   width: '100%',
+  marginTop: '7rem',
 }));
 
 const DashboardLayoutWrapper = styled('div')(({ theme }) => ({
@@ -50,7 +51,9 @@ const DashboardLayout = () => {
       <Helmet>
         <title>{title}</title>
       </Helmet>
-      <DashboardNavbar onMobileNavOpen={() => setMobileNavOpen(true)} />
+      <DashboardNavbar
+        onMobileNavOpen={() => setMobileNavOpen(true)}
+      />
       <DashboardSidebar
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}

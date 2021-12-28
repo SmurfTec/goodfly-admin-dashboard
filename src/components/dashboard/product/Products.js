@@ -65,7 +65,9 @@ const Products = () => {
     rowsPerPage -
     Math.min(
       rowsPerPage,
-      products === 'loading' ? 0 : products?.length - page * rowsPerPage
+      products === 'loading'
+        ? 0
+        : products?.length - page * rowsPerPage
     );
 
   const handleChangePage = (event, newPage) => {
@@ -87,7 +89,9 @@ const Products = () => {
       products === 'loading'
         ? 'loading'
         : products?.filter(
-            (row) => row.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+            (row) =>
+              row.name.toLowerCase().indexOf(filter.toLowerCase()) !==
+              -1
           )
     );
   }, [filter]);
@@ -103,7 +107,7 @@ const Products = () => {
     toggleDeleteOpen();
   };
   return (
-    <div style={{ marginTop: '3rem' }}>
+    <div>
       <Box
         display='flex'
         justifyContent='space-between'
@@ -126,12 +130,16 @@ const Products = () => {
         <Box
           style={{
             display: 'flex',
-            justifyContent: 'right',
+            justifyContent: 'left',
             alignItems: 'center',
             width: '100%',
+            marginTop: '1rem',
           }}
         >
-          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+          <Typography
+            variant='text'
+            style={{ margin: '0px 3px 0px' }}
+          >
             Search Product
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -153,12 +161,13 @@ const Products = () => {
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
-                <TableCell>Product</TableCell>
-                <TableCell align='right'>State</TableCell>
-                <TableCell align='right'>Category</TableCell>
-                <TableCell align='right'>Reference</TableCell>
-                <TableCell align='right'>Date of Creation</TableCell>
-                <TableCell align='right'>Actions</TableCell>
+                <TableCell></TableCell>
+                <TableCell align='left'>Product</TableCell>
+                <TableCell align='left'>State</TableCell>
+                <TableCell align='left'>Category</TableCell>
+                <TableCell align='left'>Reference</TableCell>
+                <TableCell align='left'>Date of Creation</TableCell>
+                <TableCell align='left'>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -171,7 +180,11 @@ const Products = () => {
                     )
                     .map((row, index) => (
                       <TableRow key={v4()}>
-                        <TableCell component='th' scope='row'>
+                        <TableCell
+                          component='th'
+                          scope='row'
+                          align='left'
+                        >
                           <Box
                             style={{
                               display: 'flex',
@@ -191,20 +204,22 @@ const Products = () => {
                               }
                               title='product name'
                             />
-                            {row.name}
                           </Box>
                         </TableCell>
-                        <TableCell align='right'>
+                        <TableCell align='left'>{row.name}</TableCell>
+                        <TableCell align='left'>
                           {row.isOnline ? 'online' : 'offline'}
                         </TableCell>
-                        <TableCell align='right'>
-                          {row.category ? row.category.name : 'No Category'}
+                        <TableCell align='left'>
+                          {row.category
+                            ? row.category.name
+                            : 'No Category'}
                         </TableCell>
-                        <TableCell align='right'>{row._id}</TableCell>
-                        <TableCell align='right'>
+                        <TableCell align='left'>{row._id}</TableCell>
+                        <TableCell align='left'>
                           {new Date().toDateString()}
                         </TableCell>
-                        <TableCell align='right'>
+                        <TableCell align='left'>
                           <Button
                             component={Link}
                             to={`/app/products/edit/${row._id}`}

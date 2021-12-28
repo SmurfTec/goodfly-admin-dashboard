@@ -47,8 +47,13 @@ const styles = makeStyles((theme) => ({
 const EditStaffer = () => {
   const classes = styles();
 
-  const { loading, getStafferById, staffers, modifyStaffer, modifyPassword } =
-    useContext(StaffersContext);
+  const {
+    loading,
+    getStafferById,
+    staffers,
+    modifyStaffer,
+    modifyPassword,
+  } = useContext(StaffersContext);
 
   const { id } = useParams();
 
@@ -69,7 +74,8 @@ const EditStaffer = () => {
 
   const [openPass, setOpenPass] = useState(false);
 
-  const [state, handleTxtChange, , , , setState] = useManyInputs(initialState);
+  const [state, handleTxtChange, , , , setState] =
+    useManyInputs(initialState);
 
   // update the update-states
   useEffect(() => {
@@ -115,7 +121,7 @@ const EditStaffer = () => {
         <NotFound />
       ) : (
         <>
-          <div style={{ marginTop: '3rem' }}>
+          <div>
             <Typography variant='h5' m={2}>
               Modify the Staffer Ref:GO1245
             </Typography>
@@ -274,7 +280,9 @@ const EditStaffer = () => {
             }}
           >
             <DialogTitle>
-              <Typography variant='h4'>Changing the Paasword</Typography>
+              <Typography variant='h4'>
+                Changing the Paasword
+              </Typography>
             </DialogTitle>
             <DialogContent>
               <Box

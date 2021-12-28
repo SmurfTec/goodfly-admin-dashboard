@@ -44,67 +44,6 @@ import { ReservationsContext } from 'Contexts/ReservationsContext';
 import { CustomersContext } from 'Contexts/CustomersContext';
 import { ProductContext } from 'Contexts/ProductContext';
 import { BlogsContext } from 'Contexts/BlogsContext';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-
-const Clock = () => {
-  const [time, setTime] = useState([
-    new Date()
-      .toLocaleTimeString('en-US', { timeZone: 'Europe/Paris' })
-      .split(' ')[0],
-    new Date()
-      .toLocaleTimeString('en-US', { timeZone: 'Asia/Riyadh' })
-      .split(' ')[0],
-  ]);
-
-  // * Change Time after 60 Seconds
-  useEffect(() => {
-    const timeIntervel = setInterval(() => {
-      let parisTime = new Date()
-        .toLocaleTimeString('en-US', { timeZone: 'Europe/Paris' })
-        .split(' ')[0];
-      // console.log(`parisTime`, parisTime);
-      let MeccaTime = new Date()
-        .toLocaleTimeString('en-US', { timeZone: 'Asia/Riyadh' })
-        .split(' ')[0];
-      // console.log(`MeccaTime`, MeccaTime);
-      setTime([parisTime, MeccaTime]);
-      // console.log(`[parisTime, MeccaTime]`, [parisTime, MeccaTime]);
-    }, 1000);
-    // }, 1000 * 60);
-
-    return () => clearInterval(timeIntervel);
-  }, []);
-  return (
-    <Box
-      style={{
-        backgroundColor: '#666666',
-        padding: 10,
-        color: '#fff',
-        /* position: absolute; */
-        width: 'fit-content',
-        borderRadius: 20,
-        minWidth: 130,
-        textAlign: 'center',
-        marginLeft: 'auto',
-        position: 'relative',
-      }}
-    >
-      <AccessTimeIcon style={{ position: 'absolute', right: '10px' }} />
-      <Typography variant='h6' gutterBottom>
-        Paris
-      </Typography>
-      <Typography variant='h4' gutterBottom>
-        {time[0]}
-      </Typography>
-      <Typography variant='h6' gutterBottom>
-        Mecca
-      </Typography>
-      <Typography variant='h4' gutterBottom>
-        {time[1]}
-      </Typography>
-    </Box>
-  );
-};
 
 const DashboardHome = () => {
   const classes = useStyles();
@@ -143,11 +82,15 @@ const DashboardHome = () => {
           <Typography variant='h5' color='textSecondary' gutterBottom>
             Welcome to goodgly Dashboard . {user?.fullName}
           </Typography>
-          <Typography variant='h5' fontWeight='normal' color='textSecondary'>
+          <Typography
+            variant='h5'
+            fontWeight='normal'
+            color='textSecondary'
+          >
             Welcome to goodfly Dashboard . Hope you are going good .
           </Typography>
         </Box>
-        <Clock />
+        {/* <Clock /> */}
       </Box>
 
       <Box
@@ -169,7 +112,10 @@ const DashboardHome = () => {
           <Box className={classes.MiniCard}>
             <Box className={classes.image}>
               <Box>
-                <Add size={35} style={{ color: '#cccccc', fontSize: '90px' }} />
+                <Add
+                  size={35}
+                  style={{ color: '#cccccc', fontSize: '90px' }}
+                />
                 {/* <Icon size={35} style={{ color: '#fff' }} /> */}
               </Box>
               <Typography style={{ color: '#fff' }}>
@@ -418,7 +364,11 @@ const DashboardHome = () => {
               onChange={handleChange}
               style={{ borderLeft: '2px solid #ccc' }}
             >
-              <ToggleButton sx={{ border: 0 }} value='plane' aria-label='plane'>
+              <ToggleButton
+                sx={{ border: 0 }}
+                value='plane'
+                aria-label='plane'
+              >
                 <Button
                   disableRipple
                   fullWidth
@@ -427,13 +377,18 @@ const DashboardHome = () => {
                   variant='outlined'
                   sx={{
                     color: searchBy === 'plane' ? '#46B9F6' : '#000',
-                    borderColor: searchBy === 'plane' ? '#46B9F6' : '#000',
+                    borderColor:
+                      searchBy === 'plane' ? '#46B9F6' : '#000',
                   }}
                 >
                   Find a plane ticket
                 </Button>
               </ToggleButton>
-              <ToggleButton sx={{ border: 0 }} value='boat' aria-label='boat'>
+              <ToggleButton
+                sx={{ border: 0 }}
+                value='boat'
+                aria-label='boat'
+              >
                 <Button
                   disableRipple
                   fullWidth
@@ -442,7 +397,8 @@ const DashboardHome = () => {
                   variant='outlined'
                   sx={{
                     color: searchBy === 'boat' ? '#46B9F6' : '#000',
-                    borderColor: searchBy === 'boat' ? '#46B9F6' : '#000',
+                    borderColor:
+                      searchBy === 'boat' ? '#46B9F6' : '#000',
                   }}
                 >
                   Find a boat ticket
@@ -460,7 +416,8 @@ const DashboardHome = () => {
                   size={'small'}
                   variant='outlined'
                   sx={{
-                    color: searchBy === 'reservation' ? '#46B9F6' : '#000',
+                    color:
+                      searchBy === 'reservation' ? '#46B9F6' : '#000',
                     borderColor:
                       searchBy === 'reservation' ? '#46B9F6' : '#000',
                   }}
@@ -480,8 +437,10 @@ const DashboardHome = () => {
                   size={'small'}
                   variant='outlined'
                   sx={{
-                    color: searchBy === 'vehicle' ? '#46B9F6' : '#000',
-                    borderColor: searchBy === 'vehicle' ? '#46B9F6' : '#000',
+                    color:
+                      searchBy === 'vehicle' ? '#46B9F6' : '#000',
+                    borderColor:
+                      searchBy === 'vehicle' ? '#46B9F6' : '#000',
                   }}
                 >
                   Find a vehicle rental

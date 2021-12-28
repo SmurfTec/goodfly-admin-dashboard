@@ -47,9 +47,12 @@ const styles = makeStyles(() => ({
 
 const Comments = () => {
   const classes = styles();
-  const { blogComments, modifyBlogComment } = useContext(BlogsContext);
-  const { productComments, modifyProductComment } = useContext(ProductContext);
-  const { offerComments, modifyOfferComment } = useContext(OffersContext);
+  const { blogComments, modifyBlogComment } =
+    useContext(BlogsContext);
+  const { productComments, modifyProductComment } =
+    useContext(ProductContext);
+  const { offerComments, modifyOfferComment } =
+    useContext(OffersContext);
 
   const [blogReviews, setBlogReviews] = useState();
   const [productReviews, setProductReviews] = useState();
@@ -76,15 +79,24 @@ const Comments = () => {
 
   const emptyBlogRows =
     rowsPerPage -
-    Math.min(rowsPerPage, (blogComments?.length || 0) - page * rowsPerPage);
+    Math.min(
+      rowsPerPage,
+      (blogComments?.length || 0) - page * rowsPerPage
+    );
 
   const emptyTourRows =
     rowsPerPage -
-    Math.min(rowsPerPage, (offerComments?.length || 0) - page * rowsPerPage);
+    Math.min(
+      rowsPerPage,
+      (offerComments?.length || 0) - page * rowsPerPage
+    );
 
   const emptyProductRows =
     rowsPerPage -
-    Math.min(rowsPerPage, (productReviews?.length || 0) - page * rowsPerPage);
+    Math.min(
+      rowsPerPage,
+      (productReviews?.length || 0) - page * rowsPerPage
+    );
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -140,14 +152,14 @@ const Comments = () => {
   };
 
   return (
-    <div style={{ margin: '3rem 0rem 1rem' }}>
+    <div style={{ margin: '0.5rem 0rem 1rem' }}>
       <Typography variant='h4' m={2}>
         Opinions & Comments
       </Typography>
       <Box
         style={{
           minHeight: '25rem',
-          margin: '2rem 1.5rem 0rem',
+          margin: '0.5rem 1.5rem 0rem',
         }}
       >
         <Box sx={{ width: '100%' }}>

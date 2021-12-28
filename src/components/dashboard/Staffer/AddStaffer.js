@@ -60,7 +60,7 @@ const AddStaffer = () => {
   };
 
   return (
-    <div style={{ marginTop: '3rem' }}>
+    <div>
       <Typography variant='h5' m={2}>
         Add new Staffer
       </Typography>
@@ -115,7 +115,7 @@ const AddStaffer = () => {
                 id='standard-basic'
                 label='Email Address'
                 variant='standard'
-                style={{ width: '45%' }}
+                style={{ width: '40%' }}
                 type='email'
               />
               <TextField
@@ -138,7 +138,7 @@ const AddStaffer = () => {
                 id='standard-basic'
                 label='Address'
                 variant='standard'
-                style={{ width: '75%' }}
+                style={{ width: '68%' }}
                 type='text'
               />
             </Box>

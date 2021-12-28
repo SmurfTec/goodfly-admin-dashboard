@@ -16,7 +16,8 @@ const CreateOffer = () => {
   const classes = useStyles();
   const { createOffer } = useContext(OffersContext);
   const [formalities, setFormalities] = useState([]);
-  const [isPromoDialogOpen, togglePromoDialog] = useToggleInput(false);
+  const [isPromoDialogOpen, togglePromoDialog] =
+    useToggleInput(false);
 
   // TODO Edit it to 0
   const [value, setValue] = useState(0);
@@ -102,7 +103,7 @@ const CreateOffer = () => {
   };
 
   return (
-    <div style={{ margin: '3rem 0rem 1rem' }}>
+    <div style={{ margin: '0rem 0rem 1rem' }}>
       <Box
         style={{
           minHeight: '25rem',

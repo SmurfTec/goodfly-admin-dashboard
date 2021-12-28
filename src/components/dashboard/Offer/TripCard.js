@@ -13,8 +13,12 @@ const styles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    minHeight: 206,
-    maxHeight: 206,
+    minHeight: 170,
+    maxHeight: 170,
+    minWidth: 270,
+    '& .MuiCardContent-root': {
+      padding: 5,
+    },
   },
   details: {
     display: 'flex',
@@ -64,11 +68,16 @@ const TripCard = ({ trip, isSpecialOffer }) => {
         <Typography variant='h6' sx={{ marginBottom: 1 }}>
           {promoExpires &&
             `Till ${new Date(promoExpires).toLocaleDateString()}`}
-          {saleExpires && `Till ${new Date(saleExpires).toLocaleDateString()}`}
+          {saleExpires &&
+            `Till ${new Date(saleExpires).toLocaleDateString()}`}
         </Typography>
       )}
       <Card className={classes.root}>
-        <CardMedia className={classes.cover} image={image} title={title} />
+        <CardMedia
+          className={classes.cover}
+          image={image}
+          title={title}
+        />
         <CardActionArea onClick={handleClick}>
           <div className={classes.details}>
             <CardContent className={classes.content}>
@@ -87,7 +96,7 @@ const TripCard = ({ trip, isSpecialOffer }) => {
                   wordBreak: 'break-all',
                 }}
               >
-                {description.slice(0, 48)}...
+                {description.slice(0, 70)}...
               </Typography>
 
               <Box

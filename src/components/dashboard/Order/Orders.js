@@ -101,7 +101,7 @@ const Orders = () => {
   }, []);
 
   return (
-    <div style={{ marginTop: '3rem' }}>
+    <div>
       <Typography variant='h4' m={2}>
         E-commerce order Management
       </Typography>
@@ -114,7 +114,10 @@ const Orders = () => {
             width: '100%',
           }}
         >
-          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+          <Typography
+            variant='text'
+            style={{ margin: '0px 3px 0px' }}
+          >
             Search Order
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -161,7 +164,9 @@ const Orders = () => {
                         <TableCell align='right'>
                           {new Date(row.createdAt).toDateString()}
                         </TableCell>
-                        <TableCell align='right'>{row.status}</TableCell>
+                        <TableCell align='right'>
+                          {row.status}
+                        </TableCell>
                         <TableCell align='right'>
                           {row.visitor
                             ? row.visitor.fullName

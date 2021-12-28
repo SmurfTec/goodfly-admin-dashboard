@@ -81,7 +81,8 @@ const useStyles = makeStyles({
 const Chat = () => {
   const classes = useStyles();
   const { chats, sendNewMessage, user } = useContext(SocketContext);
-  const [messageTxt, handleTxtChange, resetMessageTxt] = useTextInput('');
+  const [messageTxt, handleTxtChange, resetMessageTxt] =
+    useTextInput('');
 
   const [activeChat, setActiveChat] = useState();
 
@@ -117,7 +118,7 @@ const Chat = () => {
   };
 
   return (
-    <Container sx={{ paddingTop: 2 }}>
+    <Container sx={{ paddingTop: 1 }}>
       <Grid container>
         {/* <Grid
           item
@@ -132,7 +133,11 @@ const Chat = () => {
           </Typography>
         </Grid> */}
       </Grid>
-      <Grid container component={Paper} className={classes.chatSection}>
+      <Grid
+        container
+        component={Paper}
+        className={classes.chatSection}
+      >
         <Grid item xs={3} className={classes.borderRight500}>
           <Divider />
           <Grid item xs={12} sx={{ margin: 1, marginLeft: 0 }}>
@@ -159,7 +164,8 @@ const Chat = () => {
                       onClick={handleChatClick}
                       sx={{
                         backgroundColor:
-                          activeChat?._id === chat._id && '#cccccc !important',
+                          activeChat?._id === chat._id &&
+                          '#cccccc !important',
                       }}
                     >
                       <ListItemIcon>
@@ -176,17 +182,18 @@ const Chat = () => {
                       <ListItemText
                         primary={chat?.visitor?.fullName}
                         secondary={
-                          chat.messages[chat.messages.length - 1]?.text.slice(
-                            0,
-                            15
-                          ) || ''
+                          chat.messages[
+                            chat.messages.length - 1
+                          ]?.text.slice(0, 15) || ''
                         }
                       />
                       <ListItemText
                         // secondary={'08:55'}
                         align='right'
                         secondary={new Date(
-                          chat.messages[chat.messages.length - 1]?.createdAt
+                          chat.messages[
+                            chat.messages.length - 1
+                          ]?.createdAt
                         ).toLocaleString()}
                         align='right'
                       ></ListItemText>
@@ -216,7 +223,10 @@ const Chat = () => {
             {activeChat?.messages &&
               activeChat.messages.map((message) => (
                 <React.Fragment key={message._id}>
-                  <ListItem component={Box} className={classes.messageBox}>
+                  <ListItem
+                    component={Box}
+                    className={classes.messageBox}
+                  >
                     {message.sender !== 'goodfly' && (
                       <ListItemIcon>
                         <Avatar
@@ -239,14 +249,18 @@ const Chat = () => {
                       className={classes.message}
                       className={clsx(classes.message, {
                         // classes.drawer is applied always
-                        [classes.myMessage]: message.sender === 'goodfly', // classes.drawerOpen is applied always, bool = true
-                        [classes.otherMessage]: message.sender !== 'goodfly', // you can also use boolean variable
+                        [classes.myMessage]:
+                          message.sender === 'goodfly', // classes.drawerOpen is applied always, bool = true
+                        [classes.otherMessage]:
+                          message.sender !== 'goodfly', // you can also use boolean variable
                       })}
                     >
                       <Grid item xs={12}>
                         <ListItemText
                           align={
-                            message.sender === 'goodfly' ? 'right' : 'left'
+                            message.sender === 'goodfly'
+                              ? 'right'
+                              : 'left'
                           }
                           primary={message.text}
                         ></ListItemText>
@@ -254,7 +268,9 @@ const Chat = () => {
                       <Grid item xs={12}>
                         <ListItemText
                           align={
-                            message.sender === 'goodfly' ? 'right' : 'left'
+                            message.sender === 'goodfly'
+                              ? 'right'
+                              : 'left'
                           }
                           secondary={new Date(
                             message.createdAt
@@ -285,7 +301,10 @@ const Chat = () => {
           </List>
           <Divider />
           {activeChat && (
-            <Grid container style={{ padding: '20px', alignItems: 'center' }}>
+            <Grid
+              container
+              style={{ padding: '20px', alignItems: 'center' }}
+            >
               <Grid item xs={11}>
                 <form id='messageForm' onSubmit={handleCreateMessage}>
                   <TextField

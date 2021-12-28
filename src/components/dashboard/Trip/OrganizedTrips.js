@@ -218,7 +218,7 @@ const OrganizedTrips = () => {
   }, []);
 
   return (
-    <div style={{ marginTop: '3rem' }}>
+    <div>
       <Typography variant='h5' m={2}>
         {' '}
         Organized trips

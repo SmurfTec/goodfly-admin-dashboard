@@ -16,7 +16,7 @@ import {
 
 import { Search as SearchIcon } from 'react-feather';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { Edit2 as EditIcon } from 'react-feather';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { BlogsContext } from 'Contexts/BlogsContext';
@@ -26,8 +26,8 @@ const styles = makeStyles(() => ({
   main: {
     backgroundColor: '#f2f2f2',
     borderRadius: '10px',
-    margin: '2rem',
-    padding: '3rem',
+    margin: '1rem',
+    padding: '2rem',
     minHeight: 550,
   },
   textInput: {
@@ -37,8 +37,12 @@ const styles = makeStyles(() => ({
   },
   root: {
     marginTop: 15,
-    minWidth: 220,
+    minWidth: 230,
     maxWidth: 220,
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 0,
   },
   media: {
     height: 130,
@@ -89,7 +93,9 @@ const Blogs = () => {
     console.log(`blogs`, blogs);
     setFilteredBlogs(
       blogs?.filter(
-        (blog) => blog.title.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+        (blog) =>
+          blog.title.toLowerCase().indexOf(filter.toLowerCase()) !==
+          -1
       )
     );
   }, [filter, blogs]);
@@ -102,7 +108,7 @@ const Blogs = () => {
 
   return (
     <div>
-      <Typography variant='h5' style={{ margin: '60px 20px 40px ' }}>
+      <Typography variant='h5' style={{ margin: '5px 20px 40px ' }}>
         Blog post management
       </Typography>
       <Box className={classes.main}>
@@ -131,7 +137,10 @@ const Blogs = () => {
               width: '100%',
             }}
           >
-            <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+            <Typography
+              variant='text'
+              style={{ margin: '0px 3px 0px' }}
+            >
               Search Article
             </Typography>
             <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -153,11 +162,18 @@ const Blogs = () => {
                 .fill()
                 .map(() => (
                   <Grid item lg={3} key={v4()}>
-                    <Skeleton variant='rect' width='200px' height='200px' />
+                    <Skeleton
+                      variant='rect'
+                      width='200px'
+                      height='200px'
+                    />
                   </Grid>
                 ))
             : filteredBlogs
-                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                ?.slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 .map((blog) => (
                   <Grid item lg={3}>
                     <Card className={classes.root} key={blog.id}>
@@ -171,12 +187,19 @@ const Blogs = () => {
                           title={blog.title}
                         />
                         <CardContent>
-                          <Box>
+                          <Box
+                            style={{
+                              display: 'grid',
+                              justifyContent: 'left',
+                              alignItems: 'center',
+                            }}
+                          >
                             <Box
                               style={{
-                                display: 'grid',
-                                justifyContent: 'left',
+                                display: 'flex',
+                                justifyContent: 'space-between',
                                 alignItems: 'center',
+                                gap: 35,
                               }}
                             >
                               <Typography
@@ -187,22 +210,40 @@ const Blogs = () => {
                                   color: '#c6c6c6',
                                 }}
                               >
-                                {new Date(blog.createdAt).toDateString()}
+                                {new Date(
+                                  blog.createdAt
+                                ).toDateString()}
                               </Typography>
-                              <Typography
-                                color='textSecondary'
-                                variant='subtitle2'
+                              <Box
+                                style={{
+                                  backgroundColor: '#46B9F6',
+                                  width: '2.5rem',
+                                  height: '2.5rem',
+                                  borderRadius: '50%',
+                                }}
                               >
-                                {blog.theme}
-                              </Typography>
-                              <Typography
-                                color='textSecondary'
-                                variant='subtitle2'
-                                gutterBottom
-                              >
-                                {blog.title}
-                              </Typography>
+                                <Box style={{ padding: '0.5rem' }}>
+                                  <EditIcon
+                                    color='white'
+                                    onClick={handleClick}
+                                  />
+                                </Box>
+                              </Box>
                             </Box>
+
+                            <Typography
+                              color='textSecondary'
+                              variant='subtitle2'
+                            >
+                              {blog.theme}
+                            </Typography>
+                            <Typography
+                              color='textSecondary'
+                              variant='subtitle2'
+                              gutterBottom
+                            >
+                              {blog.title}
+                            </Typography>
                           </Box>
                         </CardContent>
                       </CardActionArea>
@@ -210,7 +251,9 @@ const Blogs = () => {
                   </Grid>
                 ))}
 
-          {emptyRows > 0 && <Box style={{ height: 53 * emptyRows }}></Box>}
+          {emptyRows > 0 && (
+            <Box style={{ height: 53 * emptyRows }}></Box>
+          )}
         </Grid>
         <TablePagination
           style={{ marginTop: '1rem' }}

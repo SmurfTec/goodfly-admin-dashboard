@@ -7,27 +7,27 @@ export const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 1500 },
-    items: 4,
-    slidesToSlide: 3,
+    items: 3,
+    slidesToSlide: 1,
   },
   Largedesktop: {
     breakpoint: { max: 1499, min: 1201 },
-    items: 3,
+    items: 2,
     slidesToSlide: 1,
   },
   desktop: {
     breakpoint: { max: 1200, min: 992 },
-    items: 2,
+    items: 1,
     slidesToSlide: 1, //
   },
   tablet: {
     breakpoint: { max: 992, min: 768 },
-    items: 2,
+    items: 1,
     slidesToSlide: 1, //
   },
   smTablet: {
     breakpoint: { max: 785, min: 576 },
-    items: 2,
+    items: 1,
   },
   smMobile: {
     breakpoint: { max: 576, min: 0 },

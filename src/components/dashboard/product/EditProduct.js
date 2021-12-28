@@ -110,11 +110,20 @@ const EditProduct = () => {
     isOnline: false,
   };
 
-  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState('Uploading Image...');
+  const [isImageUploading, toggleImageUploading] =
+    useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState(
+    'Uploading Image...'
+  );
 
-  const [state, handleTxtChange, handleToggleChange, changeInput, , setState] =
-    useManyInputs(initialState);
+  const [
+    state,
+    handleTxtChange,
+    handleToggleChange,
+    changeInput,
+    ,
+    setState,
+  ] = useManyInputs(initialState);
 
   useEffect(() => {
     const product = getProductById(id);
@@ -199,7 +208,9 @@ const EditProduct = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message || err.message || 'Something Went Wrong'
+        err?.response?.data?.message ||
+          err.message ||
+          'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -211,15 +222,24 @@ const EditProduct = () => {
         <Box>
           <Typography
             variant='h4'
-            style={{ width: '100%', margin: '60px 20px 0px' }}
+            style={{ width: '100%', margin: '10px 20px 0px' }}
           >
             New product
           </Typography>
         </Box>
 
         <Grid container>
-          <Grid item xs={12} sm={12} md={12} style={{ minHeight: 400 }}>
-            <Box className={classes.mainBox} style={{ padding: '5rem' }}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            style={{ minHeight: 400 }}
+          >
+            <Box
+              className={classes.mainBox}
+              style={{ padding: '5rem' }}
+            >
               <Box
                 style={{
                   display: 'flex',
@@ -297,7 +317,10 @@ const EditProduct = () => {
                     {/* <MenuItem value={10}>One</MenuItem>
                     <MenuItem value={20}>Two</MenuItem> */}
                     {categories?.map((category) => (
-                      <MenuItem value={category._id} key={category._id}>
+                      <MenuItem
+                        value={category._id}
+                        key={category._id}
+                      >
                         {category.name}
                       </MenuItem>
                     ))}
@@ -391,7 +414,9 @@ const EditProduct = () => {
                 style={{ display: 'inline-block' }}
                 mt={1}
               >
-                <Typography variant='h5'>Description of Product</Typography>
+                <Typography variant='h5'>
+                  Description of Product
+                </Typography>
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
@@ -413,7 +438,11 @@ const EditProduct = () => {
                 className={classes.inputBox}
                 style={{ display: 'inline-block' }}
               >
-                <Box display='flex' justifyContent='left' alignItems='center'>
+                <Box
+                  display='flex'
+                  justifyContent='left'
+                  alignItems='center'
+                >
                   <Typography variant='h5' mr={12}>
                     Labels
                   </Typography>
@@ -490,7 +519,10 @@ const EditProduct = () => {
         {/*  product photos  */}
 
         <Box className={classes.mainBox}>
-          <Typography variant='h3' style={{ width: '100%', marginTop: '1rem' }}>
+          <Typography
+            variant='h3'
+            style={{ width: '100%', marginTop: '1rem' }}
+          >
             Products images
           </Typography>
 
@@ -498,7 +530,10 @@ const EditProduct = () => {
             <Grid item md={9}>
               <CarouselLayout>
                 {state.images?.map((image) => (
-                  <div key={image._id} className={classes.carouselCard}>
+                  <div
+                    key={image._id}
+                    className={classes.carouselCard}
+                  >
                     <CardMedia
                       style={{ height: '10rem' }}
                       image={image.image}
@@ -559,8 +594,14 @@ const EditProduct = () => {
                       >
                         <Box className={classes.image}>
                           <Box>
-                            <PlusIcon size={35} style={{ color: '#fff' }} />
-                            <FileIcon size={35} style={{ color: '#fff' }} />
+                            <PlusIcon
+                              size={35}
+                              style={{ color: '#fff' }}
+                            />
+                            <FileIcon
+                              size={35}
+                              style={{ color: '#fff' }}
+                            />
                           </Box>
                           <Box style={{ textAlign: 'center' }}>
                             <Typography style={{ color: '#fff' }}>

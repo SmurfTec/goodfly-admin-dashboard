@@ -1,4 +1,4 @@
-import React, { useContext,  useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
@@ -105,14 +105,8 @@ const VisitorProfile = () => {
     passportPlaceOfIssue: '',
   };
 
-  const [
-    state,
-    handleTxtChange,
-    ,
-    changeInput,
-    resetState,
-    ,
-  ] = useManyInputs(initialState);
+  const [state, handleTxtChange, , changeInput, resetState, ,] =
+    useManyInputs(initialState);
 
   const [isImageUploading, toggleImageUploading] =
     useToggleInput(false);
@@ -279,7 +273,7 @@ const VisitorProfile = () => {
                   }}
                 >
                   <Typography variant='h4'>Client Profile</Typography>
-                  <div style={{ display: 'flex' }}>
+                  {/* <div style={{ display: 'flex' }}>
                     <Typography
                       variant='h5'
                       style={{ margin: '0px 10px 0px' }}
@@ -296,7 +290,7 @@ const VisitorProfile = () => {
                     >
                       0001
                     </Paper>
-                  </div>
+                  </div> */}
                 </Box>
                 <Box
                   style={{
@@ -461,7 +455,6 @@ const VisitorProfile = () => {
                     name='additionalAddress'
                     value={state.additionalAddress}
                     onChange={handleTxtChange}
-                    required
                   />
                 </Box>
                 <Box
@@ -710,7 +703,7 @@ const VisitorProfile = () => {
                 <Avatar
                   style={{
                     width: '10rem',
-                    height: '8rem',
+                    height: '10rem',
                     borderRadius: '50%',
                     marginBottom: '2rem',
                   }}

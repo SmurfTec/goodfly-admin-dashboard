@@ -1,7 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import { Typography, Box, Grid, Button, Container } from '@material-ui/core';
+import {
+  Typography,
+  Box,
+  Grid,
+  Button,
+  Container,
+} from '@material-ui/core';
 import {
   Plus as PlusIcon,
   Archive as ArchiveIcon,
@@ -23,13 +29,13 @@ const styles = makeStyles((theme) => ({
     minHeight: '15rem',
     borderRadius: '0.8rem',
     padding: '0.1rem',
-    margin: '2rem 1rem 2rem',
+    margin: '1rem 0rem 2rem',
   },
   boxBack: {
     minHeight: '12rem',
     backgroundColor: '#f2f2f2',
     borderRadius: '0.5rem',
-    margin: '0.8rem',
+    margin: '0.4rem',
     [theme.breakpoints.down('lg')]: {
       margin: '0.2rem',
     },
@@ -105,7 +111,11 @@ const Offers = () => {
   const createNewPromoCode = async (promoBody) => {
     togglePromosOpen();
     try {
-      const { promo } = await makeReq('/promos', { body: promoBody }, 'POST');
+      const { promo } = await makeReq(
+        '/promos',
+        { body: promoBody },
+        'POST'
+      );
       setPromos((st) => [...st, promo]);
     } catch (err) {
       handleCatch(err);
@@ -113,8 +123,12 @@ const Offers = () => {
   };
 
   return (
-    <Container style={{ marginTop: '3rem' }}>
-      <Box display='flex' justifyContent='space-between' alignItems='center'>
+    <div>
+      <Box
+        display='flex'
+        justifyContent='space-between'
+        alignItems='center'
+      >
         <Typography variant='h5' m={2}>
           Offers Management
         </Typography>
@@ -130,32 +144,35 @@ const Offers = () => {
         </Box>
       </Box>
       <Grid container sx={{ paddingBottom: '20px' }}>
-        <Grid item sm={9}>
+        <Grid item sm={10}>
           {/* TODO - Fetch Categories and then map them */}
 
           <OffersCarousel
             classes={classes}
             offers={offers?.filter(
-              (offer) => !offer.archieve && offer.category === 'spiritual'
+              (offer) =>
+                !offer.archieve && offer.category === 'spiritual'
             )}
             title='spiritual'
           />
           <OffersCarousel
             classes={classes}
             offers={offers?.filter(
-              (offer) => !offer.archieve && offer.category === 'ethical'
+              (offer) =>
+                !offer.archieve && offer.category === 'ethical'
             )}
             title='ethical'
           />
           <OffersCarousel
             classes={classes}
             offers={offers?.filter(
-              (offer) => !offer.archieve && offer.category === 'excursions'
+              (offer) =>
+                !offer.archieve && offer.category === 'excursions'
             )}
             title='excursions'
           />
         </Grid>
-        <Grid item sm={3}>
+        <Grid item sm={2}>
           <Box
             className={classes.boxBack}
             style={{
@@ -202,7 +219,7 @@ const Offers = () => {
         promos={promos}
         deletePromo={deletePromo}
       />
-    </Container>
+    </div>
   );
 };
 

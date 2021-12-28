@@ -102,14 +102,8 @@ const CustomTrip = () => {
     // phone: '971-656',
     id: '6194ec31ebb84a443c21e3c7',
   };
-  const [
-    offer,
-    handleTxtChange,
-    ,
-    ,
-    ,
-    setOffer,
-  ] = useManyInputs(initialState);
+  const [offer, handleTxtChange, , , , setOffer] =
+    useManyInputs(initialState);
 
   const { id } = useParams();
 
@@ -135,7 +129,7 @@ const CustomTrip = () => {
   };
 
   return (
-    <div style={{ marginTop: '3rem' }}>
+    <div>
       <Typography variant='h4' m={2}>
         Tailor-made Travel Management
       </Typography>
@@ -149,14 +143,24 @@ const CustomTrip = () => {
               width: '100%',
             }}
           >
-            <Button variant='outlined' component={Link} to='/app/customtrips'>
+            <Button
+              variant='outlined'
+              component={Link}
+              to='/app/customtrips'
+            >
               <ArrowLeftIcon />
               Back to the List
             </Button>
-            <Box display='flex' alignItems='center' style={{ gap: '20px' }}>
+            <Box
+              display='flex'
+              alignItems='center'
+              style={{ gap: '20px' }}
+            >
               <div>
                 {offer.status !== 'pending' && (
-                  <Typography variant='h5'>{offer?.status}</Typography>
+                  <Typography variant='h5'>
+                    {offer?.status}
+                  </Typography>
                 )}
               </div>
               <div>
@@ -169,7 +173,10 @@ const CustomTrip = () => {
                       onClick={toggleDeleteOpen}
                       className={classes.icons}
                     />
-                    <PlayIcon onClick={handleSave} className={classes.icons} />{' '}
+                    <PlayIcon
+                      onClick={handleSave}
+                      className={classes.icons}
+                    />{' '}
                   </>
                 )}
               </div>
@@ -184,8 +191,8 @@ const CustomTrip = () => {
               padding: '30px 30px',
             }}
           >
+            <Typography variant='h6'>Contact Details</Typography>
             <Box>
-              <Typography variant='h6'>Contact Details</Typography>
               <Box className={classes.form}>
                 <TextField
                   value={offer.pronoun}
@@ -239,7 +246,7 @@ const CustomTrip = () => {
                   id='standard-basic'
                   label='Address'
                   variant='standard'
-                  style={{ width: '75%' }}
+                  style={{ width: '69%' }}
                 />
               </Box>
               <Box className={classes.form}>
@@ -266,13 +273,14 @@ const CustomTrip = () => {
                 />
               </Box>
             </Box>
+            <Typography variant='h6'>Trip Details</Typography>
             <Box>
-              <Typography variant='h6'>Trip Details</Typography>
-
-              <Box className={classes.form} style={{ width: '42%' }}>
+              <Box className={classes.form} style={{ width: '43%' }}>
                 <TextField
                   name='price'
-                  value={offer.budgetPerPerson * offer.numOfParticipants}
+                  value={
+                    offer.budgetPerPerson * offer.numOfParticipants
+                  }
                   id='standard-basic'
                   label='Total Price'
                   type='number'
@@ -305,10 +313,18 @@ const CustomTrip = () => {
                   variant='standard'
                 />
               </Box>
-              <Box
-                className={classes.form}
-                // style={{ margin: '0rem 6.3rem 0rem' }}
-              >
+              <Box className={classes.form}>
+                <TextField
+                  name='destination'
+                  value={offer.destination.join(',')}
+                  // onChange={handleTxtChange}
+                  id='standard-basic'
+                  label='Destinations'
+                  variant='standard'
+                  style={{ width: '69%' }}
+                />
+              </Box>
+              <Box className={classes.form}>
                 <TextField
                   name='numOfAdults'
                   value={offer.numOfAdults}
@@ -328,6 +344,7 @@ const CustomTrip = () => {
                   label='Number of Adolescants'
                   variant='standard'
                 />
+
                 <TextField
                   name='numOfChildren'
                   value={offer.numOfChildren}
@@ -337,6 +354,9 @@ const CustomTrip = () => {
                   label='Children'
                   variant='standard'
                 />
+              </Box>
+
+              <Box className={classes.form}>
                 <TextField
                   name='numOfBabies'
                   value={offer.numOfBabies}
@@ -346,19 +366,6 @@ const CustomTrip = () => {
                   label='Babies'
                   variant='standard'
                 />
-              </Box>
-              <Box className={classes.form}>
-                <TextField
-                  name='destination'
-                  value={offer.destination.join(',')}
-                  // onChange={handleTxtChange}
-                  id='standard-basic'
-                  label='Destinations'
-                  variant='standard'
-                  fullWidth
-                />
-              </Box>
-              <Box className={classes.form}>
                 <TextField
                   name='departureDate'
                   value={offer.departureDate}
@@ -387,7 +394,6 @@ const CustomTrip = () => {
                   id='standard-basic'
                   label='Year'
                   variant='standard'
-                  style={{ width: '30%' }}
                 />
                 <TextField
                   name='month'
@@ -395,7 +401,6 @@ const CustomTrip = () => {
                   id='standard-basic'
                   label='Month'
                   variant='standard'
-                  style={{ width: '30%' }}
                   type='number'
                 />
                 <TextField
@@ -404,7 +409,6 @@ const CustomTrip = () => {
                   id='standard-basic'
                   label='Duration'
                   variant='standard'
-                  style={{ width: '30%' }}
                   type='number'
                 />
               </Box>
@@ -417,7 +421,7 @@ const CustomTrip = () => {
                   id='tripType'
                   label='Trip Type'
                   variant='standard'
-                  fullWidth
+                  style={{ width: '69%' }}
                 />
               </Box>
 
@@ -429,7 +433,6 @@ const CustomTrip = () => {
                   id='accomodationType'
                   label='Type of accommodation'
                   variant='standard'
-                  style={{ width: '30%' }}
                 />
                 <TextField
                   name='flightsType'
@@ -438,7 +441,6 @@ const CustomTrip = () => {
                   id='flightsType'
                   label='Flight Type'
                   variant='standard'
-                  style={{ width: '30%' }}
                 />
               </Box>
               <Box className={classes.form}>
@@ -469,12 +471,13 @@ const CustomTrip = () => {
               <Box className={classes.form}>
                 <TextField
                   name='budget'
-                  value={offer.budgetPerPerson * offer.numOfParticipants}
+                  value={
+                    offer.budgetPerPerson * offer.numOfParticipants
+                  }
                   onChange={handleTxtChange}
                   id='standard-basic'
                   label='global budget'
                   variant='standard'
-                  style={{ width: '30%' }}
                 />
                 <TextField
                   name='conatactClient'
@@ -483,7 +486,6 @@ const CustomTrip = () => {
                   id='conatactClient'
                   label='Contact Client'
                   variant='standard'
-                  style={{ width: '30%' }}
                 />
               </Box>
               <Box style={{ margin: '2rem 5rem 2rem' }}>
@@ -493,7 +495,10 @@ const CustomTrip = () => {
                 >
                   Desires
                 </Typography>
-                <Typography variant='text' style={{ color: '#8f8f8f' }}>
+                <Typography
+                  variant='text'
+                  style={{ color: '#8f8f8f' }}
+                >
                   {offer.desires}
                 </Typography>
               </Box>

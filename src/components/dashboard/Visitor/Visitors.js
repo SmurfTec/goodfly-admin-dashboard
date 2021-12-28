@@ -44,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Visitors = () => {
-  const { customers, deleteCustomer, loading } = useContext(CustomersContext);
+  const { customers, deleteCustomer, loading } =
+    useContext(CustomersContext);
 
   const classes = useStyles();
   const [filter, setFilter] = useState('');
@@ -63,7 +64,9 @@ const Visitors = () => {
     rowsPerPage -
     Math.min(
       rowsPerPage,
-      customers === 'loading' ? 0 : customers?.length - page * rowsPerPage
+      customers === 'loading'
+        ? 0
+        : customers?.length - page * rowsPerPage
     );
 
   const handleChangePage = (event, newPage) => {
@@ -87,7 +90,9 @@ const Visitors = () => {
         ? 'loading'
         : customers?.filter(
             (row) =>
-              row.fullName.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+              row.fullName
+                .toLowerCase()
+                .indexOf(filter.toLowerCase()) !== -1
           )
     );
   }, [filter]);
@@ -110,7 +115,7 @@ const Visitors = () => {
   };
 
   return (
-    <div style={{ marginTop: '3rem' }}>
+    <div>
       <Box
         display='flex'
         justifyContent='space-between'
@@ -136,7 +141,10 @@ const Visitors = () => {
             width: '100%',
           }}
         >
-          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+          <Typography
+            variant='text'
+            style={{ margin: '0px 3px 0px' }}
+          >
             Search Client
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -175,7 +183,11 @@ const Visitors = () => {
                         {Array(5)
                           .fill()
                           .map(() => (
-                            <TableCell component='th' scope='row' key={v4()}>
+                            <TableCell
+                              component='th'
+                              scope='row'
+                              key={v4()}
+                            >
                               <Skeleton />
                             </TableCell>
                           ))}
@@ -195,7 +207,9 @@ const Visitors = () => {
                         <TableCell component='th' scope='row'>
                           {row.fullName}
                         </TableCell>
-                        <TableCell align='right'>{row.email}</TableCell>
+                        <TableCell align='right'>
+                          {row.email}
+                        </TableCell>
                         <TableCell align='right'>
                           {row.telephoneNumber}
                         </TableCell>

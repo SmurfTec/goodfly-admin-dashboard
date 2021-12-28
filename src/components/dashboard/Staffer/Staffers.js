@@ -45,7 +45,8 @@ const styles = makeStyles((theme) => ({
 
 const Staffers = () => {
   const classes = styles();
-  const { staffers, deleteStaffer, loading } = useContext(StaffersContext);
+  const { staffers, deleteStaffer, loading } =
+    useContext(StaffersContext);
 
   const [currentDeleteId, setCurrentDeleteId] = useState();
   const [isDeleteOpen, toggleDeleteOpen] = useToggleInput();
@@ -65,7 +66,9 @@ const Staffers = () => {
     rowsPerPage -
     Math.min(
       rowsPerPage,
-      staffers === 'loading' ? 0 : staffers?.length - page * rowsPerPage
+      staffers === 'loading'
+        ? 0
+        : staffers?.length - page * rowsPerPage
     );
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -87,7 +90,9 @@ const Staffers = () => {
         ? 'loading'
         : staffers?.filter(
             (row) =>
-              row.fullName.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+              row.fullName
+                .toLowerCase()
+                .indexOf(filter.toLowerCase()) !== -1
           )
     );
   }, [filter]);
@@ -105,7 +110,7 @@ const Staffers = () => {
   };
 
   return (
-    <div style={{ marginTop: '3rem' }}>
+    <div>
       <Box
         display='flex'
         justifyContent='space-between'
@@ -133,7 +138,10 @@ const Staffers = () => {
             width: '100%',
           }}
         >
-          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+          <Typography
+            variant='text'
+            style={{ margin: '0px 3px 0px' }}
+          >
             Search Staffers
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -212,8 +220,12 @@ const Staffers = () => {
                           {' '}
                           {new Date(row.createdAt).toDateString()}
                         </TableCell>
-                        <TableCell align='right'>{row.role}</TableCell>
-                        <TableCell align='right'>{row.email}</TableCell>
+                        <TableCell align='right'>
+                          {row.role}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.email}
+                        </TableCell>
                         <TableCell align='right'>
                           {row.telephoneNumber}
                         </TableCell>

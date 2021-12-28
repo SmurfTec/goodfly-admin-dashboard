@@ -222,7 +222,7 @@ const Payments = () => {
   }, []);
 
   return (
-    <div style={{ marginTop: '3rem' }}>
+    <div>
       <Typography variant='h4' m={3}>
         Payment Management
       </Typography>

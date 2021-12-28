@@ -35,7 +35,7 @@ const styles = makeStyles(() => ({
     backgroundColor: '#f2f2f2',
     minHeight: '20rem',
     borderRadius: '0.8rem',
-    margin: '2rem 1.5rem 2rem',
+    margin: '1rem 1.5rem 2rem',
   },
   table: {
     margin: ' 2rem 1rem 2rem',
@@ -58,8 +58,12 @@ const styles = makeStyles(() => ({
 
 const ProductCategories = () => {
   const classes = styles();
-  const { categories, deleteCategory, modifyCategory, createNewCategory } =
-    useContext(ProductContext);
+  const {
+    categories,
+    deleteCategory,
+    modifyCategory,
+    createNewCategory,
+  } = useContext(ProductContext);
   const [filter, setFilter] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
   const [currentCatId, setCurrentCatId] = useState();
@@ -119,7 +123,7 @@ const ProductCategories = () => {
   }, [categories]);
 
   return (
-    <div style={{ marginTop: '3rem' }}>
+    <div>
       <Box
         style={{
           display: 'flex',
@@ -149,7 +153,10 @@ const ProductCategories = () => {
             width: '100%',
           }}
         >
-          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+          <Typography
+            variant='text'
+            style={{ margin: '0px 3px 0px' }}
+          >
             Search Category
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -179,16 +186,31 @@ const ProductCategories = () => {
             </TableHead>
             <TableBody>
               {filteredItems
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 .map((row) => (
                   <TableRow key={v4()}>
-                    <TableCell component='th' scope='row' align='center'>
+                    <TableCell
+                      component='th'
+                      scope='row'
+                      align='center'
+                    >
                       {row._id}
                     </TableCell>
-                    <TableCell component='th' scope='row' align='center'>
+                    <TableCell
+                      component='th'
+                      scope='row'
+                      align='center'
+                    >
                       {row.name}
                     </TableCell>
-                    <TableCell component='th' scope='row' align='center'>
+                    <TableCell
+                      component='th'
+                      scope='row'
+                      align='center'
+                    >
                       {new Date(row.createdAt).toLocaleDateString()}
                     </TableCell>
                     <TableCell align='center'>
