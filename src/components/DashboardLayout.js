@@ -4,6 +4,7 @@ import { styled } from '@material-ui/styles';
 import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from './DashboardSidebar';
 import { Helmet } from 'react-helmet';
+import Clock from './common/Clock';
 
 const DashboardLayoutRoot = styled('div')(({ theme }) => ({
   backgroundColor: '#fff',
@@ -11,7 +12,7 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
   height: '100%',
   overflow: 'hidden',
   width: '100%',
-  marginTop: '7rem',
+  // marginTop: '7rem',
 }));
 
 const DashboardLayoutWrapper = styled('div')(({ theme }) => ({
@@ -51,9 +52,7 @@ const DashboardLayout = () => {
       <Helmet>
         <title>{title}</title>
       </Helmet>
-      <DashboardNavbar
-        onMobileNavOpen={() => setMobileNavOpen(true)}
-      />
+      <DashboardNavbar onMobileNavOpen={() => setMobileNavOpen(true)} />
       <DashboardSidebar
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}
@@ -61,6 +60,7 @@ const DashboardLayout = () => {
       <DashboardLayoutWrapper>
         <DashboardLayoutContainer>
           <DashboardLayoutContent>
+            <Clock />
             <Outlet />
           </DashboardLayoutContent>
         </DashboardLayoutContainer>

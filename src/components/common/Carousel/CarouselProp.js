@@ -32,6 +32,7 @@ export const styles = makeStyles((theme) => ({
       '& ul': {
         '& li': {
           padding: theme.spacing(1),
+          maxWidth: 400,
         },
       },
     },

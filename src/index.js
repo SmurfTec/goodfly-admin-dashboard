@@ -21,6 +21,7 @@ import { ReservationsProvider } from 'Contexts/ReservationsContext';
 import { ProductProvider } from 'Contexts/ProductContext';
 import { OrderProvider } from 'Contexts/OrderContext';
 import { SocketProvider } from 'Contexts/SocketContext';
+import { CategoriesProvider } from 'Contexts/CategoriesContext';
 
 // * -------------------------------- * //
 
@@ -33,22 +34,24 @@ ReactDOM.render(
             <OrderProvider>
               <ProductProvider>
                 <BlogsProvider>
-                  <OffersProvider>
-                    <ReservationsProvider>
-                      <ToastContainer
-                        position='top-right'
-                        autoClose={3000}
-                        hideProgressBar
-                        newestOnTop={true}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                      />
-                      <App />
-                    </ReservationsProvider>
-                  </OffersProvider>
+                  <CategoriesProvider>
+                    <OffersProvider>
+                      <ReservationsProvider>
+                        <ToastContainer
+                          position='top-right'
+                          autoClose={3000}
+                          hideProgressBar
+                          newestOnTop={true}
+                          closeOnClick
+                          rtl={false}
+                          pauseOnFocusLoss
+                          draggable
+                          pauseOnHover
+                        />
+                        <App />
+                      </ReservationsProvider>
+                    </OffersProvider>
+                  </CategoriesProvider>
                 </BlogsProvider>
               </ProductProvider>
             </OrderProvider>

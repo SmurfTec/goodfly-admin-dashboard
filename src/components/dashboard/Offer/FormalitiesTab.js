@@ -12,7 +12,7 @@ const FormalitiesTab = ({ formality }) => {
   return (
     <Box px={4}>
       <Typography variant='h3' sx={{ marginBottom: '20px' }}>
-        {formality.title}
+        {formality?.title}
       </Typography>
       {formality ? parse(formality.content.toString()) : ''}
     </Box>

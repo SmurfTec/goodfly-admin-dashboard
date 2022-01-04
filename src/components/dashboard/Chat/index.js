@@ -1,88 +1,31 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/styles';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
 import SendIcon from '@material-ui/icons/Send';
-import { Container, Skeleton } from '@material-ui/core';
+import { Container, Skeleton, Typography } from '@material-ui/core';
 import { SocketContext } from 'Contexts/SocketContext';
 import v4 from 'uuid/dist/v4';
 import clsx from 'clsx';
 import { useTextInput } from 'hooks';
-import { EightK } from '@material-ui/icons';
-
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-  chatSection: {
-    width: '100%',
-    height: '80vh',
-    boxShadow: 'unset',
-    padding: 20,
-    background: '#f2f2f2',
-  },
-  headBG: {
-    backgroundColor: '#e0e0e0',
-  },
-  borderRight500: {
-    borderRight: '1px solid #e0e0e0',
-  },
-  searchField: {
-    '& .MuiInputBase-root': {
-      backgroundColor: '#fff',
-      borderRadius: 10,
-    },
-  },
-  messageArea: {
-    height: '70vh',
-    overflowY: 'auto',
-    paddingInline: 20,
-  },
-  messageBox: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    columnGap: 20,
-    padding: 0,
-  },
-  message: {
-    width: '50%',
-    // marginLeft: 'auto',
-    color: '#4d4d4d',
-    background: '#f2f2f2',
-    borderRadius: 20,
-    marginBottom: '1rem',
-    padding: 10,
-    '& p': {
-      fontSize: 12,
-    },
-    '& span': {
-      fontSize: 14,
-    },
-  },
-  myMessage: {
-    marginLeft: 'auto',
-  },
-  otherMessage: {
-    marginRight: 'auto',
-  },
-});
+import useStyles from './styles';
+import { useTheme } from '@material-ui/styles';
+import ChatMsg from './ChatMsg';
 
 const Chat = () => {
   const classes = useStyles();
+  const theme = useTheme();
   const { chats, sendNewMessage, user } = useContext(SocketContext);
-  const [messageTxt, handleTxtChange, resetMessageTxt] =
-    useTextInput('');
+  const [messageTxt, handleTxtChange, resetMessageTxt] = useTextInput('');
+  const [searchVal, handleSearch, resetSearch] = useTextInput('');
 
   const [activeChat, setActiveChat] = useState();
 
@@ -117,27 +60,49 @@ const Chat = () => {
     resetMessageTxt();
   };
 
+  const chatTime = (chat) => {
+    let latestMsgTime = new Date(
+      chat.messages[chat.messages.length - 1]?.createdAt || new Date()
+    );
+    let today = new Date();
+    // * Check if msg was today or before today
+    if (
+      latestMsgTime.getDate() === today.getDate() &&
+      latestMsgTime.getMonth() === today.getMonth() &&
+      latestMsgTime.getFullYear() === today.getFullYear()
+    )
+      return `${latestMsgTime.getHours()}:${latestMsgTime.getMinutes()}`;
+
+    return latestMsgTime.toLocaleDateString();
+    // return `${latestMsgTime.getMonth}/${latestMsgTime.getMinutes}`;
+  };
+
+  const getChatUnreadLength = (chat) => {
+    if (!chat || !chat.messages?.length) return 0;
+
+    let totalUnread = 0;
+    chat.messages.forEach((msg) => {
+      if (msg.isRead == false) totalUnread++;
+    });
+
+    return totalUnread;
+  };
+
+  const readMessages = useMemo(() => {
+    if (!activeChat) return [];
+
+    return activeChat.messages.filter((el) => el.isRead);
+  }, [activeChat]);
+
+  const unReadMessages = useMemo(() => {
+    if (!activeChat) return [];
+
+    return activeChat.messages.filter((el) => !el.isRead);
+  }, [activeChat]);
+
   return (
-    <Container sx={{ paddingTop: 1 }}>
-      <Grid container>
-        {/* <Grid
-          item
-          xs={12}
-          style={{
-            marginBottom: '3rem',
-            marginTop: '1rem',
-          }}
-        >
-          <Typography variant='h5' className='header-message'>
-            Messaging
-          </Typography>
-        </Grid> */}
-      </Grid>
-      <Grid
-        container
-        component={Paper}
-        className={classes.chatSection}
-      >
+    <Container disableGutters sx={{ my: 1 }}>
+      <Grid container component={Paper} className={classes.chatSection}>
         <Grid item xs={3} className={classes.borderRight500}>
           <Divider />
           <Grid item xs={12} sx={{ margin: 1, marginLeft: 0 }}>
@@ -149,58 +114,69 @@ const Chat = () => {
               size='small'
               sx={{ marginBottom: 2 }}
               className={classes.searchField}
+              value={searchVal}
+              onChange={handleSearch}
             />
           </Grid>
           <Divider />
           <List>
             {/* {1 === 5 */}
             {chats
-              ? chats.map((chat) => (
-                  <React.Fragment key={chat._id}>
-                    <ListItem
-                      button
-                      sx={{ marginBlock: 2 }}
-                      data-selected={chat._id}
-                      onClick={handleChatClick}
-                      sx={{
-                        backgroundColor:
-                          activeChat?._id === chat._id &&
-                          '#cccccc !important',
-                      }}
-                    >
-                      <ListItemIcon>
-                        <Avatar
-                          alt='Remy Sharp'
-                          src={
-                            chat?.visitor?.photo ||
-                            `https://ui-avatars.com/api/?rounded=true&name=${chat?.visitor?.fullName
-                              .split(' ')
-                              .join('+')}`
+              ? chats
+                  .filter((el) =>
+                    el.visitor?.fullName?.includes(searchVal.toLowerCase())
+                  )
+                  .map((chat) => (
+                    <React.Fragment key={chat._id}>
+                      <ListItem
+                        button
+                        sx={{ marginBlock: 2 }}
+                        data-selected={chat._id}
+                        onClick={handleChatClick}
+                        sx={{
+                          backgroundColor:
+                            activeChat?._id === chat._id &&
+                            '#cccccc !important',
+                          pl: '5px',
+                        }}
+                      >
+                        <ListItemIcon>
+                          <Avatar
+                            alt='Remy Sharp'
+                            src={
+                              chat?.visitor?.photo ||
+                              `https://ui-avatars.com/api/?rounded=true&name=${chat?.visitor?.fullName
+                                .split(' ')
+                                .join('+')}`
+                            }
+                          />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={chat.visitor?.fullName}
+                          secondary={
+                            chat.messages[chat.messages.length - 1]?.text.slice(
+                              0,
+                              15
+                            ) || ''
                           }
                         />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={chat?.visitor?.fullName}
-                        secondary={
-                          chat.messages[
-                            chat.messages.length - 1
-                          ]?.text.slice(0, 15) || ''
-                        }
-                      />
-                      <ListItemText
-                        // secondary={'08:55'}
-                        align='right'
-                        secondary={new Date(
-                          chat.messages[
-                            chat.messages.length - 1
-                          ]?.createdAt
-                        ).toLocaleString()}
-                        align='right'
-                      ></ListItemText>
-                    </ListItem>
-                    <Divider />
-                  </React.Fragment>
-                ))
+                        <ListItemText
+                          // secondary={'08:55'}
+                          align='right'
+                          secondary={chatTime(chat)}
+                          align='right'
+                          className={classes.ChatTIme}
+                        />
+                      </ListItem>
+                      <Typography
+                        variant='subtitle2'
+                        className={classes.numUnread}
+                      >
+                        {getChatUnreadLength(chat)}
+                      </Typography>
+                      <Divider />
+                    </React.Fragment>
+                  ))
               : Array(5)
                   .fill()
                   .map(() => (
@@ -220,91 +196,36 @@ const Chat = () => {
         </Grid>
         <Grid item xs={9} sx={{ backgroundColor: '#fff' }}>
           <List id='messageArea' className={classes.messageArea}>
-            {activeChat?.messages &&
-              activeChat.messages.map((message) => (
-                <React.Fragment key={message._id}>
-                  <ListItem
-                    component={Box}
-                    className={classes.messageBox}
-                  >
-                    {message.sender !== 'goodfly' && (
-                      <ListItemIcon>
-                        <Avatar
-                          alt={activeChat?.visitor?.fullName}
-                          src={
-                            activeChat?.visitor?.photo ||
-                            `https://ui-avatars.com/api/?rounded=true&name=${activeChat.visitor.fullName
-                              .split(' ')
-                              .join('+')}`
-                          }
-                          style={{
-                            height: 50,
-                            width: 50,
-                          }}
-                        />
-                      </ListItemIcon>
-                    )}
-                    <Grid
-                      container
-                      className={classes.message}
-                      className={clsx(classes.message, {
-                        // classes.drawer is applied always
-                        [classes.myMessage]:
-                          message.sender === 'goodfly', // classes.drawerOpen is applied always, bool = true
-                        [classes.otherMessage]:
-                          message.sender !== 'goodfly', // you can also use boolean variable
-                      })}
-                    >
-                      <Grid item xs={12}>
-                        <ListItemText
-                          align={
-                            message.sender === 'goodfly'
-                              ? 'right'
-                              : 'left'
-                          }
-                          primary={message.text}
-                        ></ListItemText>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <ListItemText
-                          align={
-                            message.sender === 'goodfly'
-                              ? 'right'
-                              : 'left'
-                          }
-                          secondary={new Date(
-                            message.createdAt
-                          ).toLocaleString()}
-                        ></ListItemText>
-                      </Grid>
-                    </Grid>
-                    {message.sender === 'goodfly' && (
-                      <ListItemIcon>
-                        <Avatar
-                          alt='Remy Sharp'
-                          src={
-                            user?.photo ||
-                            `https://ui-avatars.com/api/?rounded=true&name=${user?.fullName
-                              .split(' ')
-                              .join('+')}`
-                          }
-                          style={{
-                            height: 50,
-                            width: 50,
-                          }}
-                        />
-                      </ListItemIcon>
-                    )}
-                  </ListItem>
-                </React.Fragment>
-              ))}
+            {readMessages.map((message) => (
+              <ChatMsg
+                message={message}
+                classes={classes}
+                activeChat={activeChat}
+                user={user}
+              />
+            ))}
+
+            {unReadMessages.length > 0 && (
+              <Typography
+                className={classes.newHeader}
+                color='textSecondary'
+                variant='body2'
+              >
+                <span>new</span>
+              </Typography>
+            )}
+            {unReadMessages.map((message) => (
+              <ChatMsg
+                message={message}
+                classes={classes}
+                activeChat={activeChat}
+                user={user}
+              />
+            ))}
           </List>
           <Divider />
           {activeChat && (
-            <Grid
-              container
-              style={{ padding: '20px', alignItems: 'center' }}
-            >
+            <Grid container style={{ padding: '20px', alignItems: 'center' }}>
               <Grid item xs={11}>
                 <form id='messageForm' onSubmit={handleCreateMessage}>
                   <TextField

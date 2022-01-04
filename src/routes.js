@@ -17,7 +17,7 @@ import AddStaffer from './components/dashboard/Staffer/AddStaffer';
 import EditStaffer from './components/dashboard/Staffer/EditStaffer';
 import Staffers from './components/dashboard/Staffer/Staffers';
 
-import TourCategories from './components/dashboard/categories/ProductCategories';
+import ProductCategories from './components/dashboard/categories/ProductCategories';
 
 import CustomTrips from './components/dashboard/Trip/CustomTrips';
 import CustomTrip from './components/dashboard/Trip/CustomTrip';
@@ -49,6 +49,8 @@ import ArchieveOffers from 'components/dashboard/Offer/archievesOffers';
 import FlashSales from 'components/dashboard/Offer/flashSales';
 import Promos from 'components/dashboard/Offer/promos';
 import Chat from 'components/dashboard/Chat';
+import TourCategories from 'components/dashboard/categories/TourCategories';
+import TourSubCategories from 'components/dashboard/categories/TourSubCategories';
 
 export const protechtedRoutes = [
   {
@@ -101,8 +103,9 @@ export const protechtedRoutes = [
           },
         ],
       },
-      { path: '/categories', element: <TourCategories /> },
-      // { path: '/subcategories', element: <SubCategories /> },
+      { path: '/products/categories', element: <ProductCategories /> },
+      { path: '/offers/categories', element: <TourCategories /> },
+      { path: '/offers/subcategories', element: <TourSubCategories /> },
       {
         path: '/customtrips',
         children: [

@@ -29,6 +29,7 @@ import { toast } from 'react-toastify';
 import { getMuiDateFormat } from 'utils/dateMethods';
 import { countries, regions } from 'utils/constants';
 import { Add, Delete } from '@material-ui/icons';
+import v4 from 'uuid/dist/v4';
 
 const OffersTabs = ({ classes, value, handleNext, offer }) => {
   const initialState = {
@@ -45,6 +46,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
     isDeparturePlace: 'no',
     departurePlace: '',
     category: '',
+    subCategory: '',
     arrivalPlace: '',
     services: {
       guide: false,
@@ -65,6 +67,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
     resetState,
     setState,
   ] = useManyInputs(initialState);
+  const [subCategories, setSubCategories] = useState([]);
 
   useEffect(() => {
     if (!offer) return;
@@ -97,6 +100,27 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
     };
     setState(newState);
   }, [offer]);
+
+  useEffect(() => {
+    if (!state.category) return;
+
+    // * Get Sub Categories against category
+    switch (state.category) {
+      case 'spiritual':
+        setSubCategories(['hajj', 'omra', 'al-quds', 'combine-hajj-omra']);
+        break;
+      case 'ethical':
+        setSubCategories(['organized', 'organic', 'train', 'cruises']);
+        break;
+      case 'excursions':
+        setSubCategories(['excursion', 'circuit']);
+        break;
+
+      default:
+        setSubCategories(['organized', 'organic', 'train', 'cruises']);
+        break;
+    }
+  }, [state.category]);
 
   const handleCheckBox = (e) => {
     setState((st) => ({
@@ -261,6 +285,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                 }
                 label='Online'
               />
+
               <FormControl
                 size='small'
                 style={{
@@ -287,6 +312,34 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                 </Select>
               </FormControl>
 
+              <FormControl
+                size='small'
+                style={{
+                  width: '100%',
+                  marginTop: '1rem',
+                  backgroundColor: '#fff',
+                }}
+              >
+                <InputLabel id='demo-simple-select-label'>
+                  Offer SubCategory
+                </InputLabel>
+
+                <Select
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
+                  value={state.subCategory}
+                  label='Offer Type'
+                  name='subCategory'
+                  onChange={handleTxtChange}
+                  required
+                >
+                  {subCategories.map((cat) => (
+                    <MenuItem key={v4()} value={cat}>
+                      {cat}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               <Box className={classes.inputBox}>
                 <TextField
                   required
@@ -549,7 +602,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   <Checkbox
                     checked={state.services.guide}
                     onChange={handleCheckBox}
-                    name='checkedA'
+                    name='guide'
                     // value={state.services.guide}
                   />
                 }
@@ -560,7 +613,6 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   <Checkbox
                     checked={state.services.airportTransport}
                     onChange={handleCheckBox}
-                    name='checkedB'
                     name='airportTransport'
                     // value={state.services.airportTransport}
                   />

@@ -141,7 +141,7 @@ const FormalitiesTab = ({
           >
             {formalitiesState?.map((el) => (
               <MenuItem key={el._id} value={el}>
-                {el.title}
+                {el?.title}
               </MenuItem>
             ))}
           </Select>

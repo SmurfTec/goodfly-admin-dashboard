@@ -18,11 +18,7 @@ import {
   ListItem,
   ListItemText,
 } from '@material-ui/core';
-import {
-  Plus as PlusIcon,
-  File as FileIcon,
-  Send,
-} from 'react-feather';
+import { Plus as PlusIcon, File as FileIcon, Send } from 'react-feather';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
 import useManyInputs from 'hooks/useManyInputs';
 import uuid from 'uuid/dist/v4';
@@ -47,10 +43,10 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-
+import { useNavigate } from 'react-router-dom';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
-const styles = makeStyles(() => ({
+const styles = makeStyles((theme) => ({
   header: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -105,12 +101,28 @@ const styles = makeStyles(() => ({
     borderRadius: '10px',
     width: 200,
   },
+  Switch: {
+    color: `${theme.palette.common.white} !important`,
+
+    '&$checked + $track': {
+      opacity: '1 !important',
+      backgroundColor: `${theme.palette.success.main} !important`,
+    },
+  },
+  checked: {
+    opacity: '1 !important',
+    color: `${theme.palette.common.white} !important`,
+  },
+  track: {
+    opacity: '1 !important',
+    backgroundColor: `${theme.palette.error.main} !important`,
+  },
 }));
 
 const EditVisitor = () => {
   const classes = styles();
   const { offers } = useContext(OffersContext);
-
+  const navigate = useNavigate();
   const [ok, setOk] = React.useState(true);
   const [notFound, setNotFound] = useState(false);
   const {
@@ -152,22 +164,12 @@ const EditVisitor = () => {
 
   const [isOpen, toggleEmailDialog] = useToggleInput(false);
 
-  const [isImageUploading, toggleImageUploading] =
-    useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState(
-    'Uploading Image...'
-  );
-  const [isSubscribeOpen, toggleSubscribeOpen] =
-    useToggleInput(false);
+  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState('Uploading Image...');
+  const [isSubscribeOpen, toggleSubscribeOpen] = useToggleInput(false);
 
-  const [
-    state,
-    handleTxtChange,
-    handleToggleChange,
-    changeInput,
-    ,
-    setState,
-  ] = useManyInputs(initialState);
+  const [state, handleTxtChange, handleToggleChange, changeInput, , setState] =
+    useManyInputs(initialState);
 
   const handleAdd = (tripId, unsubscribe) => {
     console.log(`tripId`, tripId);
@@ -186,9 +188,7 @@ const EditVisitor = () => {
       ...initialState,
       ...customer,
       dateOfBirth: getMuiDateFormat(customer.dateOfBirth),
-      passportDateOfIssue: getMuiDateFormat(
-        customer.passportDateOfIssue
-      ),
+      passportDateOfIssue: getMuiDateFormat(customer.passportDateOfIssue),
     });
   }, [id, customers, loading]);
 
@@ -214,6 +214,16 @@ const EditVisitor = () => {
       state.attachments.filter((el) => el._id !== id)
     );
   };
+
+  const changeAttachment = (id) => {
+    changeInput(
+      'attachments',
+      state.attachments.map((el) =>
+        el._id === id ? { ...el, isVerified: !el.isVerified } : el
+      )
+    );
+  };
+
   const handleImage = async (e) => {
     setUploadingText('Uploading Image ...');
     toggleImageUploading();
@@ -257,9 +267,7 @@ const EditVisitor = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message ||
-          err.message ||
-          'Something Went Wrong'
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -268,20 +276,14 @@ const EditVisitor = () => {
   const handleSubscribe = async () => {
     try {
       await makeReq(`/users/subscribe/${state._id}`, {}, 'POST');
-      modifyCustomer(
-        state._id,
-        { ...state, isSubscribed: true },
-        true
-      );
+      modifyCustomer(state._id, { ...state, isSubscribed: true }, true);
     } catch (err) {
       handleCatch(err);
     }
   };
 
   return (
-    <Container
-      style={{ backgroundColor: '#fff', overflow: 'hidden' }}
-    >
+    <Container style={{ backgroundColor: '#fff', overflow: 'hidden' }}>
       {loading ? (
         <Loading noTitle />
       ) : notFound ? (
@@ -323,20 +325,7 @@ const EditVisitor = () => {
               >
                 Send Email
               </Button>
-              <Box style={{ width: 155 }}>
-                <Typography variant='h5'>
-                  <b
-                    style={{
-                      fontSize: 28,
-                      fontWeight: 'bold ',
-                      fontStyle: 'italic',
-                      margin: 2,
-                    }}
-                  >
-                    827
-                  </b>
-                </Typography>
-              </Box>
+
               <Box>
                 <Typography variant='h5'>
                   <b
@@ -389,13 +378,7 @@ const EditVisitor = () => {
             </Box>
             <form onSubmit={handleSubmit} id='customerForm'>
               <Grid container>
-                <Grid
-                  item
-                  xs={12}
-                  sm={7}
-                  md={7}
-                  style={{ minHeight: 400 }}
-                >
+                <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
                   <Box className={classes.mainBox}>
                     <Box
                       style={{
@@ -405,9 +388,7 @@ const EditVisitor = () => {
                         margin: '10px 0px 30px ',
                       }}
                     >
-                      <Typography variant='h4'>
-                        Client Profile
-                      </Typography>
+                      <Typography variant='h4'>Client Profile</Typography>
                       <Box style={{ display: 'flex' }}>
                         <Typography
                           variant='h5'
@@ -435,10 +416,7 @@ const EditVisitor = () => {
                         width: '100%',
                       }}
                     >
-                      <Typography
-                        variant='h5'
-                        style={{ width: '25%' }}
-                      >
+                      <Typography variant='h5' style={{ width: '25%' }}>
                         Civilite
                       </Typography>
                       <FormControl component='fieldset'>
@@ -469,10 +447,7 @@ const EditVisitor = () => {
                       </FormControl>
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography
-                        variant='h5'
-                        className={classes.typo}
-                      >
+                      <Typography variant='h5' className={classes.typo}>
                         First Name
                       </Typography>
                       <TextField
@@ -488,10 +463,7 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography
-                        variant='h5'
-                        className={classes.typo}
-                      >
+                      <Typography variant='h5' className={classes.typo}>
                         Last Name
                       </Typography>
                       <TextField
@@ -507,10 +479,7 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography
-                        variant='h5'
-                        className={classes.typo}
-                      >
+                      <Typography variant='h5' className={classes.typo}>
                         Spouse Name
                       </Typography>
                       <TextField
@@ -526,10 +495,7 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography
-                        variant='h5'
-                        className={classes.typo}
-                      >
+                      <Typography variant='h5' className={classes.typo}>
                         Email
                       </Typography>
                       <TextField
@@ -541,14 +507,12 @@ const EditVisitor = () => {
                         type='email'
                         value={state.email}
                         onChange={handleTxtChange}
-                        required
+                        // required
+                        disabled
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography
-                        variant='h5'
-                        className={classes.typo}
-                      >
+                      <Typography variant='h5' className={classes.typo}>
                         Mobile
                       </Typography>
                       <TextField
@@ -557,17 +521,14 @@ const EditVisitor = () => {
                         size='small'
                         className={classes.textInput}
                         name='telephoneNumber'
-                        type='number'
+                        type='text'
                         value={state.telephoneNumber}
                         onChange={handleTxtChange}
                         required
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography
-                        variant='h5'
-                        className={classes.typo}
-                      >
+                      <Typography variant='h5' className={classes.typo}>
                         TelePhone
                       </Typography>
                       <TextField
@@ -576,17 +537,14 @@ const EditVisitor = () => {
                         size='small'
                         className={classes.textInput}
                         name='telephoneLineNumber'
-                        type='number'
+                        type='text'
                         value={state.telephoneLineNumber}
                         onChange={handleTxtChange}
                         required
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography
-                        variant='h5'
-                        className={classes.typo}
-                      >
+                      <Typography variant='h5' className={classes.typo}>
                         Address
                       </Typography>
                       <TextField
@@ -602,10 +560,7 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography
-                        variant='h5'
-                        className={classes.typo}
-                      >
+                      <Typography variant='h5' className={classes.typo}>
                         Additional Address
                       </Typography>
                       <TextField
@@ -624,10 +579,7 @@ const EditVisitor = () => {
                       className={classes.inputBox}
                       style={{ marginBottom: 5 }}
                     >
-                      <Typography
-                        variant='h5'
-                        style={{ width: '30%' }}
-                      >
+                      <Typography variant='h5' style={{ width: '30%' }}>
                         Postal Code
                       </Typography>
                       <Box
@@ -676,10 +628,7 @@ const EditVisitor = () => {
                       </Box>
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography
-                        variant='h5'
-                        className={classes.typo}
-                      >
+                      <Typography variant='h5' className={classes.typo}>
                         Country
                       </Typography>
                       <TextField
@@ -695,10 +644,7 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography
-                        variant='h5'
-                        className={classes.typo}
-                      >
+                      <Typography variant='h5' className={classes.typo}>
                         Birth Date
                       </Typography>
                       <TextField
@@ -713,10 +659,7 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography
-                        variant='h5'
-                        className={classes.typo}
-                      >
+                      <Typography variant='h5' className={classes.typo}>
                         Nationality
                       </Typography>
                       <TextField
@@ -732,10 +675,7 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography
-                        variant='h5'
-                        className={classes.typo}
-                      >
+                      <Typography variant='h5' className={classes.typo}>
                         Passport No
                       </Typography>
                       <TextField
@@ -751,10 +691,7 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography
-                        variant='h5'
-                        className={classes.typo}
-                      >
+                      <Typography variant='h5' className={classes.typo}>
                         Deliverance date
                       </Typography>
                       <TextField
@@ -770,10 +707,7 @@ const EditVisitor = () => {
                       />
                     </Box>
                     <Box className={classes.inputBox}>
-                      <Typography
-                        variant='h5'
-                        className={classes.typo}
-                      >
+                      <Typography variant='h5' className={classes.typo}>
                         place of delivery
                       </Typography>
                       <TextField
@@ -790,13 +724,7 @@ const EditVisitor = () => {
                     </Box>
                   </Box>
                 </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  sm={5}
-                  md={5}
-                  className={classes.account}
-                >
+                <Grid item xs={12} sm={5} md={5} className={classes.account}>
                   <Box
                     className={classes.mainBox}
                     style={{
@@ -829,9 +757,7 @@ const EditVisitor = () => {
                         />
                       </Box>
                       <Box className={classes.inputBox2}>
-                        <Typography variant='h5'>
-                          Instagram
-                        </Typography>
+                        <Typography variant='h5'>Instagram</Typography>
                         <TextField
                           hiddenLabel
                           id='filled-hidden-label-small'
@@ -917,27 +843,27 @@ const EditVisitor = () => {
                       Subscribe this customer to an offer
                     </Button>
 
-                    <Typography variant='h5'>
-                      Current Subscriptions
-                    </Typography>
+                    <Typography variant='h5'>Current Subscriptions</Typography>
                     <List>
                       {!state.subscriptions?.length ? (
                         <ListItem>
                           <ListItemText>
-                            The Customer is NOT Subscribed to any
-                            offer
+                            The Customer is NOT Subscribed to any offer
                           </ListItemText>
                         </ListItem>
                       ) : (
                         state.subscriptions?.map((item) => (
                           <ListItem key={item._id}>
                             <ListItemAvatar>
-                              <Avatar
-                                src={item.image}
-                                alt='offer img'
-                              />
+                              <Avatar src={item.image} alt='offer img' />
                             </ListItemAvatar>
-                            <ListItemText primary={item.title} />
+                            <ListItemText
+                              style={{ cursor: 'pointer' }}
+                              onClick={() => {
+                                navigate(`/app/offers/${item._id}`);
+                              }}
+                              primary={item.title}
+                            />
                             <ListItemSecondaryAction>
                               <IconButton
                                 edge='end'
@@ -994,10 +920,15 @@ const EditVisitor = () => {
                               Delete
                             </Button>
                             <Switch
-                              status={ok}
-                              onChange={toggle}
+                              checked={attachment.isVerified}
+                              onChange={(e) => changeAttachment(attachment._id)}
                               inputProps={{
                                 'aria-label': 'controlled',
+                              }}
+                              classes={{
+                                switchBase: classes.Switch,
+                                checked: classes.checked,
+                                track: classes.track,
                               }}
                             />
                           </Box>
@@ -1052,9 +983,7 @@ const EditVisitor = () => {
                                   />
                                 </Box>
                                 <Box style={{ textAlign: 'center' }}>
-                                  <Typography
-                                    style={{ color: '#fff' }}
-                                  >
+                                  <Typography style={{ color: '#fff' }}>
                                     Upload Document
                                   </Typography>
                                 </Box>
@@ -1069,11 +998,7 @@ const EditVisitor = () => {
               </Box>
             </form>
           </Box>
-          <SendEmail
-            id={id}
-            open={isOpen}
-            toggleDialog={toggleEmailDialog}
-          />
+          <SendEmail id={id} open={isOpen} toggleDialog={toggleEmailDialog} />
         </>
       )}
       <SubscribeToOfferModal

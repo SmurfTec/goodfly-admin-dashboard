@@ -100,7 +100,7 @@ const VisitorProfile = () => {
     instagramProfile: '',
     twitterProfile: '',
     snapChatProfile: '',
-    passportDateOfIssue: '',
+    passportDateOfIssue: new Date(),
     attachments: [],
     passportPlaceOfIssue: '',
   };
@@ -108,11 +108,8 @@ const VisitorProfile = () => {
   const [state, handleTxtChange, , changeInput, resetState, ,] =
     useManyInputs(initialState);
 
-  const [isImageUploading, toggleImageUploading] =
-    useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState(
-    'Uploading Image...'
-  );
+  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
   const [isAttachmentUploading, toggleAttachmentUploading] =
     useToggleInput(false);
@@ -179,9 +176,7 @@ const VisitorProfile = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message ||
-          err.message ||
-          'Something Went Wrong'
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -228,9 +223,7 @@ const VisitorProfile = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message ||
-          err.message ||
-          'Something Went Wrong'
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -256,13 +249,7 @@ const VisitorProfile = () => {
         </Box>
         <form onSubmit={handleSubmit}>
           <Grid container>
-            <Grid
-              item
-              xs={12}
-              sm={7}
-              md={7}
-              style={{ minHeight: 400 }}
-            >
+            <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
               <Box className={classes.mainBox}>
                 <Box
                   style={{
@@ -457,10 +444,7 @@ const VisitorProfile = () => {
                     onChange={handleTxtChange}
                   />
                 </Box>
-                <Box
-                  className={classes.inputBox}
-                  style={{ marginBottom: 5 }}
-                >
+                <Box className={classes.inputBox} style={{ marginBottom: 5 }}>
                   <Typography variant='h5' style={{ width: '25%' }}>
                     Postal Code
                   </Typography>
@@ -487,10 +471,7 @@ const VisitorProfile = () => {
                       onChange={handleTxtChange}
                       required
                     />
-                    <Typography
-                      variant='h5'
-                      style={{ textAlign: 'center' }}
-                    >
+                    <Typography variant='h5' style={{ textAlign: 'center' }}>
                       City
                     </Typography>
                     <TextField
@@ -533,7 +514,6 @@ const VisitorProfile = () => {
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    placeholder='pakistan'
                     size='small'
                     type='date'
                     className={classes.textInput}
@@ -581,9 +561,9 @@ const VisitorProfile = () => {
                   </Typography>
                   <TextField
                     hiddenLabel
-                    id='filled-hidden-label-small'
-                    placeholder='pakistan'
+                    id='passportDateOfIssue'
                     size='small'
+                    type='date'
                     className={classes.textInput}
                     name='passportDateOfIssue'
                     value={state.passportDateOfIssue}
@@ -609,17 +589,8 @@ const VisitorProfile = () => {
                 </Box>
               </Box>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={5}
-              md={5}
-              className={classes.account}
-            >
-              <Box
-                className={classes.mainBox}
-                style={{ padding: 10 }}
-              >
+            <Grid item xs={12} sm={5} md={5} className={classes.account}>
+              <Box className={classes.mainBox} style={{ padding: 10 }}>
                 <Box
                   style={{
                     display: 'flex',
@@ -686,10 +657,7 @@ const VisitorProfile = () => {
                   </Box>
                 </Box>
               </Box>
-              <Box
-                className={classes.mainBox}
-                style={{ padding: 10 }}
-              >
+              <Box className={classes.mainBox} style={{ padding: 10 }}>
                 <Typography
                   variant='h4'
                   style={{
@@ -736,14 +704,8 @@ const VisitorProfile = () => {
                     >
                       <Box className={classes.image}>
                         <Box>
-                          <PlusIcon
-                            size={35}
-                            style={{ color: '#fff' }}
-                          />
-                          <FileIcon
-                            size={35}
-                            style={{ color: '#fff' }}
-                          />
+                          <PlusIcon size={35} style={{ color: '#fff' }} />
+                          <FileIcon size={35} style={{ color: '#fff' }} />
                         </Box>
                         <Typography style={{ color: '#fff' }}>
                           Upload Photo
@@ -861,9 +823,7 @@ const VisitorProfile = () => {
                                   />
                                 </Box>
                                 <Box style={{ textAlign: 'center' }}>
-                                  <Typography
-                                    style={{ color: '#fff' }}
-                                  >
+                                  <Typography style={{ color: '#fff' }}>
                                     Upload Document
                                   </Typography>
                                 </Box>

@@ -44,35 +44,23 @@ import PaymentsTable from './paymentsTable';
 import useStyles from './styles/detailReservation';
 import { AddDeparture as AddDepartureDialog } from '../Dialogs';
 import NotFound from 'pages/NotFound';
+import UserInfo from './UserInfo';
 
 const DetailReservation = () => {
   const classes = useStyles();
-  const {
-    loading,
-    getReservationById,
-    reservations,
-    modifyReservation,
-  } = useContext(ReservationsContext);
+  const { loading, getReservationById, reservations, modifyReservation } =
+    useContext(ReservationsContext);
   const { modifyCustomer } = useContext(CustomersContext);
   const { id } = useParams();
 
-  const [isDatesModalOpen, toggleIsDatesModalOpen] =
-    useToggleInput(false);
+  const [isDatesModalOpen, toggleIsDatesModalOpen] = useToggleInput(false);
 
   const [reservation, setReservation] = useState();
-  const [
-    attachments,
-    setAttachments,
-    pushAttachment,
-    ,
-    ,
-    removeAttachment,
-    ,
-  ] = useArray([], '_id');
+  const [attachments, setAttachments, pushAttachment, , , removeAttachment, ,] =
+    useArray([], '_id');
 
   const [value, setValue] = React.useState(0);
-  const [reservationStatus, setReservationStatus] =
-    React.useState('');
+  const [reservationStatus, setReservationStatus] = React.useState('');
   const [notFound, setNotFound] = useState(false);
 
   const [installments, handleInstallments, , setInstallments] =
@@ -88,11 +76,8 @@ const DetailReservation = () => {
     setReservation(newReservation);
   }, [id, reservations, loading]);
 
-  const [isImageUploading, toggleImageUploading] =
-    useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState(
-    'Uploading Image...'
-  );
+  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
   useEffect(() => {
     if (reservation) {
@@ -157,9 +142,7 @@ const DetailReservation = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message ||
-          err.message ||
-          'Something Went Wrong'
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -201,9 +184,7 @@ const DetailReservation = () => {
     console.log(`installments`, installments);
 
     if (reservationStatus === 'pre-reservation') {
-      toast.error(
-        'Plz update reservation status before validation !'
-      );
+      toast.error('Plz update reservation status before validation !');
       return;
     }
 
@@ -245,10 +226,7 @@ const DetailReservation = () => {
               flexWrap: 'wrap',
             }}
           >
-            <Typography variant='h5'>
-              {' '}
-              Reservation Status :
-            </Typography>
+            <Typography variant='h5'> Reservation Status :</Typography>
             {loading ? (
               <Skeleton variant='rect' width='30%' />
             ) : (
@@ -274,9 +252,7 @@ const DetailReservation = () => {
                 >
                   <MenuItem
                     value={'pre-reservation'}
-                    disabled={
-                      reservation?.status !== 'pre-reservation'
-                    }
+                    disabled={reservation?.status !== 'pre-reservation'}
                   >
                     Pre Reservation
                   </MenuItem>
@@ -287,16 +263,10 @@ const DetailReservation = () => {
                   >
                     Schedule in Progress
                   </MenuItem>
-                  <MenuItem
-                    value={'reservation-paid'}
-                    sx={{ display: 'none' }}
-                  >
+                  <MenuItem value={'reservation-paid'} sx={{ display: 'none' }}>
                     Finalized
                   </MenuItem>
-                  <MenuItem
-                    value={'archived'}
-                    sx={{ display: 'none' }}
-                  >
+                  <MenuItem value={'archived'} sx={{ display: 'none' }}>
                     Archived
                   </MenuItem>
                   <MenuItem value={'cancelled'}>Cancelled</MenuItem>
@@ -389,7 +359,10 @@ const DetailReservation = () => {
                   >
                     <Tab label='Offer' {...a11yProps(0)} />
                     <Tab label='Client' {...a11yProps(1)} />
-                    <Tab label='Payment' {...a11yProps(2)} />
+                    {reservation?.type === 'reserveForAnother' && (
+                      <Tab label='Reservation User' {...a11yProps(2)} />
+                    )}
+                    <Tab label='Payment' {...a11yProps(3)} />
 
                     <Box
                       style={{
@@ -424,9 +397,7 @@ const DetailReservation = () => {
                       (reservation.trip ? (
                         <OfferView offer={reservation.trip} />
                       ) : (
-                        <CustomerTripView
-                          offer={reservation.customTrip}
-                        />
+                        <CustomerTripView offer={reservation.customTrip} />
                       ))}
                   </TabPanel>
                   <TabPanel
@@ -445,9 +416,7 @@ const DetailReservation = () => {
                     {reservation?.visitor && (
                       <>
                         <Box className={classes.header}>
-                          <Typography variant='h4'>
-                            Client Area
-                          </Typography>
+                          <Typography variant='h4'>Client Area</Typography>
                           <div style={{ display: 'flex' }}>
                             <Typography
                               variant='h5'
@@ -523,10 +492,7 @@ const DetailReservation = () => {
                             width: '100%',
                           }}
                         >
-                          <Typography
-                            variant='h5'
-                            style={{ width: '25%' }}
-                          >
+                          <Typography variant='h5' style={{ width: '25%' }}>
                             Civilite
                           </Typography>
                           <FormControl component='fieldset'>
@@ -555,323 +521,11 @@ const DetailReservation = () => {
                           </FormControl>
                         </Box>
                         {reservation?.visitor && (
-                          <Grid container>
-                            <Grid item md={5}>
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  firstName
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={
-                                    reservation?.visitor.firstName
-                                  }
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  Last Name
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={
-                                    reservation?.visitor.lastName
-                                  }
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  Spouse Name
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={
-                                    reservation?.visitor.spouseName
-                                  }
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                              <Box m={5}></Box>
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  Address
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={reservation?.visitor.address}
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  Additional Address
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={
-                                    reservation?.visitor
-                                      .additionalAddress
-                                  }
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  Postal-Code
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={
-                                    reservation?.visitor.postalCode
-                                  }
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  City
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={reservation?.visitor.city}
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                              <Box m={11}></Box>
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  Country
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={reservation?.visitor.country}
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  Facebook
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={
-                                    reservation?.visitor
-                                      .facebookProfile
-                                  }
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                            </Grid>
-                            <Grid item md={1}></Grid>
-                            <Grid item md={6}>
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  Email
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={reservation?.visitor.email}
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  Mobile
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={
-                                    reservation?.visitor
-                                      .telephoneNumber
-                                  }
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                              <Box m={5}></Box>
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  Date of Birth
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={new Date(
-                                    reservation?.visitor.dateOfBirth
-                                  ).toLocaleDateString()}
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  Nationality
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={
-                                    reservation?.visitor.nationality
-                                  }
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  Passport No
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={
-                                    reservation?.visitor
-                                      .passportNumber
-                                  }
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  Date of issue
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={
-                                    reservation?.visitor
-                                      .passportDateOfIssue
-                                  }
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  Place of Issue
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={
-                                    reservation?.visitor
-                                      .passportPlaceOfIssue
-                                  }
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                              <Box m={5}></Box>
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  Twitter
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={
-                                    reservation?.visitor
-                                      .twitterProfile
-                                  }
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                              <Box className={classes.inputBox}>
-                                <Typography
-                                  variant='h5'
-                                  className={classes.typo}
-                                >
-                                  Snapchat
-                                </Typography>
-                                <TextField
-                                  hiddenLabel
-                                  id='filled-hidden-label-small'
-                                  value={
-                                    reservation?.visitor
-                                      .snapChatProfile
-                                  }
-                                  size='small'
-                                  className={classes.textInput}
-                                />
-                              </Box>{' '}
-                            </Grid>
-                          </Grid>
+                          <UserInfo
+                            classes={classes}
+                            reservationUser={reservation.visitor}
+                            isVisitor
+                          />
                         )}
 
                         {reservation?.visitor && (
@@ -888,39 +542,34 @@ const DetailReservation = () => {
                             <Grid container spacing={3}>
                               <Grid item md={9}>
                                 <CarouselLayout>
-                                  {attachments.map(
-                                    (attachment, i) => (
-                                      <div
-                                        key={attachment._id}
-                                        className={
-                                          classes.carouselCard
-                                        }
+                                  {attachments.map((attachment, i) => (
+                                    <div
+                                      key={attachment._id}
+                                      className={classes.carouselCard}
+                                    >
+                                      <CardMedia
+                                        style={{ height: '10rem' }}
+                                        image={attachment.image}
+                                        title='Live from space album cover'
+                                      />
+                                      <Box
+                                        style={{
+                                          display: 'flex',
+                                          justifyContent: 'flex-end',
+                                          alignItems: 'center',
+                                        }}
                                       >
-                                        <CardMedia
-                                          style={{ height: '10rem' }}
-                                          image={attachment.image}
-                                          title='Live from space album cover'
-                                        />
-                                        <Box
-                                          style={{
-                                            display: 'flex',
-                                            justifyContent:
-                                              'flex-end',
-                                            alignItems: 'center',
-                                          }}
-                                        >
-                                          <Button
-                                            color='error'
-                                            startIcon={<Delete />}
-                                            onClick={handleDeleteAttachment.bind(
-                                              this,
-                                              attachment._id
-                                            )}
-                                          ></Button>
-                                        </Box>
-                                      </div>
-                                    )
-                                  )}
+                                        <Button
+                                          color='error'
+                                          startIcon={<Delete />}
+                                          onClick={handleDeleteAttachment.bind(
+                                            this,
+                                            attachment._id
+                                          )}
+                                        ></Button>
+                                      </Box>
+                                    </div>
+                                  ))}
                                   {/* one */}
                                 </CarouselLayout>
                               </Grid>
@@ -938,9 +587,7 @@ const DetailReservation = () => {
                                         style={{ display: 'none' }}
                                         id='contained-button-file'
                                         type='file'
-                                        onChange={
-                                          handleAttachmentChange
-                                        }
+                                        onChange={handleAttachmentChange}
                                         disabled={isImageUploading}
                                       />
                                       <LoadingOverlay
@@ -949,9 +596,7 @@ const DetailReservation = () => {
                                         text={uploadingText}
                                       >
                                         <label htmlFor='contained-button-file'>
-                                          <Box
-                                            className={classes.image}
-                                          >
+                                          <Box className={classes.image}>
                                             <Box>
                                               <PlusIcon
                                                 size={35}
@@ -993,9 +638,21 @@ const DetailReservation = () => {
                     )}
                   </TabPanel>
 
+                  {reservation?.type === 'reserveForAnother' && (
+                    <TabPanel
+                      value={value}
+                      index={2}
+                      style={{ backgroundColor: '#f2f2f2' }}
+                    >
+                      <UserInfo
+                        classes={classes}
+                        reservationUser={{ ...reservation }}
+                      />
+                    </TabPanel>
+                  )}
                   <TabPanel
                     value={value}
-                    index={2}
+                    index={3}
                     style={{ backgroundColor: '#f2f2f2' }}
                   >
                     <PaymentsTable
