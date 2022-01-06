@@ -47,12 +47,9 @@ const styles = makeStyles(() => ({
 
 const Comments = () => {
   const classes = styles();
-  const { blogComments, modifyBlogComment } =
-    useContext(BlogsContext);
-  const { productComments, modifyProductComment } =
-    useContext(ProductContext);
-  const { offerComments, modifyOfferComment } =
-    useContext(OffersContext);
+  const { blogComments, modifyBlogComment } = useContext(BlogsContext);
+  const { productComments, modifyProductComment } = useContext(ProductContext);
+  const { offerComments, modifyOfferComment } = useContext(OffersContext);
 
   const [blogReviews, setBlogReviews] = useState();
   const [productReviews, setProductReviews] = useState();
@@ -79,24 +76,15 @@ const Comments = () => {
 
   const emptyBlogRows =
     rowsPerPage -
-    Math.min(
-      rowsPerPage,
-      (blogComments?.length || 0) - page * rowsPerPage
-    );
+    Math.min(rowsPerPage, (blogComments?.length || 0) - page * rowsPerPage);
 
   const emptyTourRows =
     rowsPerPage -
-    Math.min(
-      rowsPerPage,
-      (offerComments?.length || 0) - page * rowsPerPage
-    );
+    Math.min(rowsPerPage, (offerComments?.length || 0) - page * rowsPerPage);
 
   const emptyProductRows =
     rowsPerPage -
-    Math.min(
-      rowsPerPage,
-      (productReviews?.length || 0) - page * rowsPerPage
-    );
+    Math.min(rowsPerPage, (productReviews?.length || 0) - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -108,7 +96,7 @@ const Comments = () => {
   };
 
   const handleShowBlogComment = (comment) => {
-    // console.log(`comment`, comment);
+    console.log(`comment`, comment);
     setDialogDetails({
       ...comment,
       source: {
@@ -123,6 +111,7 @@ const Comments = () => {
   };
 
   const handleShowOfferComment = (comment) => {
+    console.log(comment);
     setDialogDetails({
       ...comment,
       user: comment.visitor,
@@ -141,9 +130,9 @@ const Comments = () => {
       ...comment,
       user: comment.visitor,
       source: {
-        title: comment.product.name,
-        url: `/app/products/${comment.product._id}`,
-        image: comment.product.images?.[0]?.image,
+        title: comment.product?.name,
+        url: `/app/products/${comment.product?._id}`,
+        image: comment.product?.images?.[0]?.image,
         createdAt: comment.createdAt,
         text: comment.comment,
       },

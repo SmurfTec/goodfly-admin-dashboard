@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useContext } from 'react';
 
 import {
   Box,
@@ -14,6 +14,10 @@ import {
   Skeleton,
 } from '@material-ui/core';
 import v4 from 'uuid/dist/v4';
+import { useToggleInput } from 'hooks';
+import { ProductContext } from 'Contexts/ProductContext';
+import CommentReply from './CommentReply';
+import CommentDetails from './CommentDetails';
 
 const ProductComments = ({
   comments,
@@ -27,7 +31,11 @@ const ProductComments = ({
   showComment,
 }) => {
   const [rows, setRows] = useState();
+  const [isReplyOpen, toggleReplyOpen] = useToggleInput(false);
+  const [isDetailsOpen, toggleDetailsOpen] = useToggleInput(false);
+  const [currentCommment, setReplyComment] = useState(null);
 
+  const { replyComment } = useContext(ProductContext);
   const statuses = useMemo(() => {
     let waiting = 0,
       approved = 0,
@@ -79,6 +87,11 @@ const ProductComments = ({
     console.log(`item`, item); // [Object , Object]
 
     showComment(item);
+  };
+
+  const handleReply = (reply) => {
+    toggleReplyOpen();
+    replyComment(currentCommment, reply);
   };
 
   return (
@@ -146,8 +159,30 @@ const ProductComments = ({
                           >
                             Approve
                           </Button>
-                          <Button mr={1}>Reply</Button>
-                          <Button mr={1}>Modify</Button>
+                          <Button
+                            mr={1}
+                            onClick={() => {
+                              setReplyComment(row);
+
+                              setTimeout(() => {
+                                toggleReplyOpen();
+                              }, 1000);
+                            }}
+                          >
+                            Reply
+                          </Button>
+                          <Button
+                            mr={1}
+                            onClick={() => {
+                              setReplyComment(row);
+
+                              setTimeout(() => {
+                                toggleDetailsOpen();
+                              }, 1000);
+                            }}
+                          >
+                            View
+                          </Button>
                           <Button
                             data-status='undesireable'
                             data-id={row._id}
@@ -251,6 +286,17 @@ const ProductComments = ({
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </TableContainer>
+      <CommentReply
+        open={isReplyOpen}
+        toggleDialog={toggleReplyOpen}
+        success={handleReply}
+      />
+      <CommentDetails
+        open={isDetailsOpen}
+        comment={currentCommment}
+        toggleDialog={toggleDetailsOpen}
+        slug='products'
+      />
     </>
   );
 };

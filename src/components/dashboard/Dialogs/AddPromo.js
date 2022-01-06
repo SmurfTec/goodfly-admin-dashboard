@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/styles';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
-import { blue, red } from '@material-ui/core/colors';
 
 import { DialogActions, DialogContent, TextField } from '@material-ui/core';
 import { useManyInputs } from 'hooks';
@@ -26,7 +25,7 @@ const useStyles = makeStyles({
 });
 
 export default function AddPromo(props) {
-  const { open, success } = props;
+  const { open, success, offer, toggleDialog } = props;
   const classes = useStyles();
 
   const initialState = {
@@ -69,12 +68,55 @@ export default function AddPromo(props) {
         </form>
       </DialogContent>
       <DialogActions>
-        <Button variant='contained' color='success' type='submit' form='form'>
-          Yes
-        </Button>
-        <Button variant='contained' color='info' onClick={() => success({})}>
-          No
-        </Button>
+        {offer ? (
+          offer.isPromo ? (
+            <>
+              <Button
+                variant='contained'
+                color='error'
+                onClick={() => success({ isPromo: false })}
+                form='form'
+              >
+                Remove Promo
+              </Button>
+              <Button variant='contained' color='info' onClick={toggleDialog}>
+                Cancel
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                variant='contained'
+                color='success'
+                type='submit'
+                form='form'
+              >
+                Make Promo
+              </Button>
+              <Button variant='contained' color='info' onClick={toggleDialog}>
+                Cancel
+              </Button>
+            </>
+          )
+        ) : (
+          <>
+            <Button
+              variant='contained'
+              color='success'
+              type='submit'
+              form='form'
+            >
+              Yes
+            </Button>
+            <Button
+              variant='contained'
+              color='info'
+              onClick={() => success({})}
+            >
+              No
+            </Button>
+          </>
+        )}
       </DialogActions>
     </Dialog>
   );

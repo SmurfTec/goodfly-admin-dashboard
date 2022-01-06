@@ -36,6 +36,7 @@ const PaymentsTable = ({ classes, data, purchaseId }) => {
 
   return (
     <>
+      <h1>Payments</h1>
       <TableContainer component={Paper} className={classes.table}>
         <Table sx={{ minWidth: 750 }} aria-label='simple table'>
           <TableHead>

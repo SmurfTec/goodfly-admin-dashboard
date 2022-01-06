@@ -12,9 +12,14 @@ import { useParams } from 'react-router';
 import { OffersContext } from 'Contexts/OffersContext';
 import useToggleInput from 'hooks/useToggleInput';
 
-import { AddFlashSale, ConfirmDialog } from 'components/dashboard/Dialogs';
+import {
+  AddFlashSale,
+  ConfirmDialog,
+  AddPromo,
+} from 'components/dashboard/Dialogs';
 import OfferView from './OfferView';
 import { ArrowBack, FlashOn } from '@material-ui/icons';
+import { Celebration } from '@mui/icons-material';
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -45,6 +50,12 @@ const Offer = () => {
   const [isDeleteOpen, toggleDeleteOpen] = useToggleInput(false);
   const [isArchieveOpen, toggleArchieveOpen] = useToggleInput(false);
   const [isSaleDialogOpen, toggleIsSaleDialogOpen] = useToggleInput(false);
+  const [isPromoDialogOpen, togglePromoDialog] = useToggleInput(false);
+
+  const createPromo = (promoBody) => {
+    updateOffer(offer._id, { ...promoBody }, true);
+    togglePromoDialog();
+  };
 
   useEffect(() => {
     // TODO Uncomment this line
@@ -62,6 +73,10 @@ const Offer = () => {
 
   const makeFlashSale = (body) => {
     updateOffer(id, { ...body }, true);
+  };
+
+  const removeFromSale = () => {
+    updateOffer(id, { sale: false }, true);
   };
 
   return (
@@ -121,8 +136,22 @@ const Offer = () => {
               className={classes.button}
               onClick={toggleIsSaleDialogOpen}
               endIcon={<FlashOn />}
+              size='small'
             >
               Flash Sale
+            </Button>
+          )}
+          {offer && (
+            <Button
+              variant='outlined'
+              // variant='contained'
+              color='warning'
+              className={classes.button}
+              onClick={togglePromoDialog}
+              endIcon={<Celebration />}
+              size='small'
+            >
+              {offer.isPromo ? 'Manage Promo' : 'Create Promo'}
             </Button>
           )}
         </Box>
@@ -155,6 +184,13 @@ const Offer = () => {
         toggleDialog={toggleIsSaleDialogOpen}
         success={makeFlashSale}
         offer={offer}
+        removeFromSale={removeFromSale}
+      />
+      <AddPromo
+        toggleDialog={togglePromoDialog}
+        offer={offer}
+        open={isPromoDialogOpen}
+        success={createPromo}
       />
     </Container>
   );

@@ -103,7 +103,7 @@ export const protechtedRoutes = [
           },
         ],
       },
-      { path: '/products/categories', element: <ProductCategories /> },
+      { path: 'categories', element: <ProductCategories /> },
       { path: '/offers/categories', element: <TourCategories /> },
       { path: '/offers/subcategories', element: <TourSubCategories /> },
       {
@@ -128,7 +128,9 @@ export const protechtedRoutes = [
       {
         path: '/reservations',
         children: [
-          { path: '/', element: <Reservations /> },
+          { path: '/', element: <Navigate to='organized' /> },
+          { path: '/organized', element: <Reservations /> },
+          { path: '/spiritual', element: <Reservations isSpiritual /> },
           {
             path: '/:id',
             element: <DetailReservation />,

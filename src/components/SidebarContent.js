@@ -25,6 +25,7 @@ import {
 } from 'react-feather';
 import { FiberManualRecord } from '@material-ui/icons';
 import { AuthContext } from 'Contexts/AuthContext';
+import { BorderColor } from '@mui/icons-material';
 
 const NavItems = [
   {
@@ -59,16 +60,37 @@ const NavItems = [
         color: '#1a73e8',
         bgColor: '#e8f0fe',
       },
+      // {
+      //   id: '/registration',
+      //   labelText: 'Registration Management',
+      //   icon: FiberManualRecord,
+      //   color: '#1a73e8',
+      //   bgColor: '#e8f0fe',
+      // },
       {
-        id: '/reservations',
-        labelText: 'Reservations Management',
+        id: '/customtrips',
+        labelText: 'CustomTrips Management',
+        icon: FiberManualRecord,
+        color: '#1a73e8',
+        bgColor: '#e8f0fe',
+      },
+    ],
+  },
+  {
+    id: '/reservations',
+    labelText: 'Registration',
+    icon: BorderColor,
+    children: [
+      {
+        id: '/reservations/organized',
+        labelText: 'Organized Trips',
         icon: FiberManualRecord,
         color: '#1a73e8',
         bgColor: '#e8f0fe',
       },
       {
-        id: '/customtrips',
-        labelText: 'CustomTrips Management',
+        id: '/reservations/spiritual',
+        labelText: 'Spiritual Trips',
         icon: FiberManualRecord,
         color: '#1a73e8',
         bgColor: '#e8f0fe',
@@ -280,7 +302,7 @@ const SidebarContent = () => {
         defaultExpandIcon={<ArrowRightIcon />}
         defaultEndIcon={<div style={{ width: 24 }} />}
         onNodeSelect={handleNodeSelect}
-        expanded={['/offers', '/categories', '/products']}
+        expanded={['/offers', '/categories', '/products', '/reservations']}
       >
         {NavItems.map((item) => (
           <StyledTreeItem

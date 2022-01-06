@@ -179,9 +179,19 @@ const DetailReservation = () => {
     });
   };
 
+  const handleCancel = () => {
+    modifyReservation(reservation._id, {
+      status: 'cancelled',
+    });
+  };
+
   const handleValidate = () => {
     console.log(`reservationStatus`, reservationStatus);
     console.log(`installments`, installments);
+
+    if (reservationStatus === 'cancelled') {
+      return;
+    }
 
     if (reservationStatus === 'pre-reservation') {
       toast.error('Plz update reservation status before validation !');
@@ -375,7 +385,10 @@ const DetailReservation = () => {
                     >
                       <Box>
                         <PrinterIcon className={classes.icons} />
-                        <Trash2Icon className={classes.icons} />
+                        <Trash2Icon
+                          onClick={handleCancel}
+                          className={classes.icons}
+                        />
                         <PlayIcon
                           className={classes.icons}
                           onClick={handleValidate}
@@ -426,33 +439,16 @@ const DetailReservation = () => {
                             </Typography>
                             <Paper
                               style={{
-                                width: 150,
                                 height: 25,
                                 textAlign: 'right',
                                 padding: 4,
                               }}
                             >
                               {' '}
-                              0001
+                              {reservation.visitor._id}
                             </Paper>
                           </div>
 
-                          <Box style={{ width: 155 }}>
-                            <Typography variant='h5'>
-                              {' '}
-                              N Fidelite{' '}
-                              <bold
-                                style={{
-                                  fontSize: 28,
-                                  fontWeight: 'bold ',
-                                  fontStyle: 'italic',
-                                  margin: 2,
-                                }}
-                              >
-                                827
-                              </bold>{' '}
-                            </Typography>
-                          </Box>
                           <Box>
                             <Typography variant='h5'>
                               <bold
@@ -463,7 +459,7 @@ const DetailReservation = () => {
                                   margin: 5,
                                 }}
                               >
-                                1725
+                                {reservation.visitor.loyaltyPoints}
                               </bold>
                               Points
                             </Typography>
@@ -652,7 +648,7 @@ const DetailReservation = () => {
                   )}
                   <TabPanel
                     value={value}
-                    index={3}
+                    index={reservation?.type === 'reserveForAnother' ? 3 : 2}
                     style={{ backgroundColor: '#f2f2f2' }}
                   >
                     <PaymentsTable

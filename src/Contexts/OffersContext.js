@@ -22,7 +22,6 @@ export const OffersProvider = ({ children }) => {
   const fetchTrips = async () => {
     try {
       const resData1 = await makeReq(`/trips`);
-
       setOffers(resData1.trips);
     } catch (err) {
       handleCatch(err);

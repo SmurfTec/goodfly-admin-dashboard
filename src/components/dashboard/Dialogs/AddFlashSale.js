@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 });
 
 export default function AddFlashSale(props) {
-  const { open, toggleDialog, success, offer } = props;
+  const { open, toggleDialog, success, offer, removeFromSale } = props;
   const classes = useStyles();
 
   const initialState = {
@@ -65,6 +65,8 @@ export default function AddFlashSale(props) {
     resetState();
     toggleDialog();
   };
+
+  if (!offer) return <></>;
 
   return (
     <Dialog
@@ -108,11 +110,22 @@ export default function AddFlashSale(props) {
           form='form'
           size='small'
         >
-          Create
+          {offer.sale ? 'Update' : 'Create Sale'}
         </Button>
+        {offer.sale && (
+          <Button
+            variant='contained'
+            color='error'
+            onClick={removeFromSale}
+            form='form'
+            size='small'
+          >
+            Remove From Sale
+          </Button>
+        )}
         <Button
           variant='contained'
-          color='error'
+          color='warning'
           onClick={toggleDialog}
           size='small'
         >

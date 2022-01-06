@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Box } from '@material-ui/system';
 import { CardActionArea, Switch } from '@material-ui/core';
+import clsx from 'clsx';
 
 const styles = makeStyles((theme) => ({
   root: {
@@ -40,10 +41,24 @@ const styles = makeStyles((theme) => ({
       width: '8rem',
     },
   },
+  DiscountPrice: {
+    backgroundColor: '#fff',
+    padding: theme.spacing(1.2),
+    borderRadius: 15,
+    transform: 'scale(0.9)',
+    opacity: 0.5,
+    textDecoration: 'line-through solid red',
+  },
+  Price: {
+    backgroundColor: '#fff',
+    padding: theme.spacing(1.2),
+    borderRadius: 15,
+  },
 }));
 
 const TripCard = ({ trip, isSpecialOffer }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     _id,
     title,
@@ -53,9 +68,15 @@ const TripCard = ({ trip, isSpecialOffer }) => {
     price,
     promoExpires,
     saleExpires,
+    sale,
   } = trip;
 
   const classes = styles();
+
+  const isSalesPage = useMemo(
+    () => location.pathname.toLowerCase().includes('flash-sales'),
+    [location.pathname]
+  );
 
   const handleClick = () => {
     navigate(`/app/offers/${_id}`);
@@ -69,15 +90,11 @@ const TripCard = ({ trip, isSpecialOffer }) => {
           {promoExpires &&
             `Till ${new Date(promoExpires).toLocaleDateString()}`}
           {saleExpires &&
-            `Till ${new Date(saleExpires).toLocaleDateString()}`}
+            `Sale Till ${new Date(saleExpires).toLocaleDateString()}`}
         </Typography>
       )}
       <Card className={classes.root}>
-        <CardMedia
-          className={classes.cover}
-          image={image}
-          title={title}
-        />
+        <CardMedia className={classes.cover} image={image} title={title} />
         <CardActionArea onClick={handleClick}>
           <div className={classes.details}>
             <CardContent className={classes.content}>
@@ -106,12 +123,34 @@ const TripCard = ({ trip, isSpecialOffer }) => {
                   alignItems: 'center',
                 }}
               >
-                <Typography variant='h3' sx={{ color: '#ff4747' }}>
-                  {price}€
+                <Typography
+                  sx={{ px: 0 }}
+                  variant='h4'
+                  className={clsx(
+                    clsx({
+                      [classes.DiscountPrice]:
+                        sale && new Date(saleExpires) > new Date(), //always applies
+                    })
+                  )}
+                >
+                  {price} €
                 </Typography>
+                {sale && new Date(saleExpires) > new Date() && (
+                  <Box>
+                    <Typography
+                      sx={{ px: 0 }}
+                      variant='h4'
+                      className={classes.Price}
+                    >
+                      {price - (price * trip.discount) / 100} €
+                    </Typography>
+                  </Box>
+                )}
+
                 <Switch
                   checked={!!upload}
                   inputProps={{ 'aria-label': 'controlled' }}
+                  sx={{ ml: 'auto' }}
                 />
               </Box>
             </CardContent>

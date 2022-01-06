@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 import {
   Box,
@@ -14,6 +14,10 @@ import {
   Skeleton,
 } from '@material-ui/core';
 import v4 from 'uuid/dist/v4';
+import CommentReply from './CommentReply';
+import { useToggleInput } from 'hooks';
+import CommentDetails from './CommentDetails';
+import { BlogsContext } from 'Contexts/BlogsContext';
 
 const BlogComments = ({
   comments,
@@ -27,6 +31,11 @@ const BlogComments = ({
   showComment,
 }) => {
   const [rows, setRows] = useState();
+  const [isReplyOpen, toggleReplyOpen] = useToggleInput(false);
+  const [isDetailsOpen, toggleDetailsOpen] = useToggleInput(false);
+  const [currentCommment, setReplyComment] = useState(null);
+
+  const { replyComment } = useContext(BlogsContext);
 
   const statuses = useMemo(() => {
     let waiting = 0,
@@ -56,7 +65,7 @@ const BlogComments = ({
     });
 
     return [waiting, approved, undefireable, basket];
-  }, comments);
+  }, [comments]);
 
   useEffect(() => {
     setRows(comments || []);
@@ -76,6 +85,11 @@ const BlogComments = ({
 
   const handleShowRow = (item) => {
     showComment(item);
+  };
+
+  const handleReply = (reply) => {
+    toggleReplyOpen();
+    replyComment(currentCommment, reply);
   };
 
   return (
@@ -102,6 +116,7 @@ const BlogComments = ({
             <TableRow>
               <TableCell align='center'>Author</TableCell>
               <TableCell align='center'>Comments</TableCell>
+              <TableCell align='center'>Status</TableCell>
               <TableCell align='center'>Blog</TableCell>
               <TableCell align='center'>Date</TableCell>
             </TableRow>
@@ -143,8 +158,30 @@ const BlogComments = ({
                           >
                             Approve
                           </Button>
-                          <Button mr={1}>Reply</Button>
-                          <Button mr={1}>Modify</Button>
+                          <Button
+                            mr={1}
+                            onClick={() => {
+                              setReplyComment(row);
+
+                              setTimeout(() => {
+                                toggleReplyOpen();
+                              }, 1000);
+                            }}
+                          >
+                            Reply
+                          </Button>
+                          <Button
+                            mr={1}
+                            onClick={() => {
+                              setReplyComment(row);
+
+                              setTimeout(() => {
+                                toggleDetailsOpen();
+                              }, 1000);
+                            }}
+                          >
+                            View
+                          </Button>
                           <Button
                             data-status='undesireable'
                             data-id={row._id}
@@ -163,6 +200,14 @@ const BlogComments = ({
                             Basket
                           </Button>
                         </Box>
+                      </TableCell>
+                      <TableCell
+                        align='center'
+                        style={{
+                          minWidth: '10rem',
+                        }}
+                      >
+                        {row.status}
                       </TableCell>
                       <TableCell
                         align='center'
@@ -248,6 +293,17 @@ const BlogComments = ({
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </TableContainer>
+      <CommentReply
+        open={isReplyOpen}
+        toggleDialog={toggleReplyOpen}
+        success={handleReply}
+      />
+      <CommentDetails
+        open={isDetailsOpen}
+        comment={currentCommment}
+        toggleDialog={toggleDetailsOpen}
+        slug='customers/edit'
+      />
     </>
   );
 };

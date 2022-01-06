@@ -14,7 +14,10 @@ export const BlogsProvider = ({ children }) => {
 
   const [loading, setLoading] = useState(true);
 
-  const [blogs, setBlogs, pushBlog, , updateBlog, , ,] = useArray([], '_id');
+  const [blogs, setBlogs, pushBlog, , updateBlog, filterBlog, ,] = useArray(
+    [],
+    '_id'
+  );
 
   const [blogComments, setBlogComments, , , updateBlogComment, , ,] = useArray(
     [],
@@ -109,6 +112,34 @@ export const BlogsProvider = ({ children }) => {
     return blogs?.find((el) => el._id === id);
   };
 
+  const deleteBlog = async (id) => {
+    try {
+      await makeReq(`/blogs/${id}`, {}, 'DELETE');
+      toast.success('Blog Deleted Successfully');
+      navigate('/app/blogs');
+      filterBlog(id);
+    } catch (err) {
+      handleCatch(err);
+    } finally {
+    }
+  };
+
+  const replyComment = async (comment, reply) => {
+    try {
+      await makeReq(
+        `/blogs/comments/reply/${comment._id}`,
+        {
+          body: { reply: reply },
+        },
+        'PATCH'
+      );
+      toast.success('Reply Sent Successfully');
+    } catch (err) {
+      handleCatch(err);
+    } finally {
+    }
+  };
+
   return (
     <BlogsContext.Provider
       displayName='Blogs Context'
@@ -120,6 +151,8 @@ export const BlogsProvider = ({ children }) => {
         blogComments,
         modifyBlogComment,
         loading,
+        deleteBlog,
+        replyComment,
       }}
     >
       {children}

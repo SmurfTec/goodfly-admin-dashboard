@@ -172,7 +172,6 @@ const NotificationsPopover = () => {
   };
 
   useEffect(() => {
-    console.log(`notifications`, notifications);
     if (!notifications) return;
     setLocalNotifications(notifications);
   }, [notifications]);

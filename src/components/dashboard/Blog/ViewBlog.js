@@ -8,6 +8,7 @@ import {
   TextField,
   Switch,
   Container,
+  IconButton,
 } from '@material-ui/core';
 
 import { Camera as CameraIcon } from 'react-feather';
@@ -28,6 +29,7 @@ import { useParams } from 'react-router';
 import { getMuiDateFormat } from 'utils/dateMethods';
 import NotFound from 'pages/NotFound';
 import Loading from 'pages/Loading';
+import { Cancel, Delete } from '@material-ui/icons';
 
 const styles = makeStyles((theme) => ({
   image: {
@@ -57,7 +59,7 @@ const ModifyBlog = () => {
 
   const { id } = useParams();
 
-  const { modifyBlog, getBlogFromId, blogs, loading } =
+  const { modifyBlog, getBlogFromId, blogs, loading, deleteBlog } =
     useContext(BlogsContext);
 
   const [notFound, setNotFound] = useState(false);
@@ -113,7 +115,8 @@ const ModifyBlog = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleBlogCancel = () => {
+  const handleBlogDelete = () => {
+    deleteBlog(id);
     toggleIsOpen();
   };
 
@@ -170,6 +173,12 @@ const ModifyBlog = () => {
     }
   };
 
+  const filterItem = (item) =>
+    setState((st) => ({
+      ...st,
+      keywords: st.keywords.filter((el) => el !== item),
+    }));
+
   const handleTxtChange = (e) => {
     setState((st) => ({ ...st, [e.target.name]: e.target.value }));
   };
@@ -208,7 +217,7 @@ const ModifyBlog = () => {
           <Grid container style={{ marginTop: 50 }}>
             <Grid item sm={3} md={3}>
               <Box style={{ margin: 20 }}>
-                <Typography variant='h5'>New Blog</Typography>
+                <Typography variant='h5'>{state.title}</Typography>
                 <LoadingOverlay
                   active={isImageUploading}
                   spinner
@@ -303,9 +312,17 @@ const ModifyBlog = () => {
                   />
                   <Box className={classes.keywords}>
                     {state.keywords.map((el) => (
-                      <Typography key={v4()} style={{ color: '#808080' }}>
-                        {el}
-                      </Typography>
+                      <Box display='flex' alignItems='center' key={el}>
+                        <Typography style={{ color: '#808080' }}>
+                          {el}
+                        </Typography>
+                        <IconButton
+                          color='error'
+                          onClick={() => filterItem(el)}
+                        >
+                          <Cancel />
+                        </IconButton>
+                      </Box>
                     ))}
                   </Box>
                 </Box>
@@ -387,7 +404,7 @@ const ModifyBlog = () => {
               style={{ backgroundColor: 'red', width: 150 }}
               onClick={toggleIsOpen}
             >
-              Cancel
+              Delete
             </Button>
             <Button
               onClick={handleUpdateBlog}
@@ -401,10 +418,10 @@ const ModifyBlog = () => {
 
           <ConfirmDialog
             open={isOpen}
-            Success={handleBlogCancel}
+            success={handleBlogDelete}
             toggleDialog={toggleIsOpen}
             dialogTitle=' Are you Sure you want to cancel ?'
-          ></ConfirmDialog>
+          />
         </>
       )}
     </Container>

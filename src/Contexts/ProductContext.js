@@ -140,7 +140,7 @@ export const ProductProvider = ({ children }) => {
         { body: categoryBody },
         'POST'
       );
-      pushCategory(resData.category);
+      pushCategory(resData.category, 'start');
     } catch (err) {
       handleCatch(err);
     }
@@ -169,6 +169,22 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
+  const replyComment = async (comment, reply) => {
+    try {
+      await makeReq(
+        `/products/comments/reply/${comment._id}`,
+        {
+          body: { reply: reply },
+        },
+        'PATCH'
+      );
+      toast.success('Reply Sent Successfully');
+    } catch (err) {
+      handleCatch(err);
+    } finally {
+    }
+  };
+
   return (
     <ProductContext.Provider
       displayName='Product Context'
@@ -188,6 +204,7 @@ export const ProductProvider = ({ children }) => {
         deleteCategory,
         modifyCategory,
         createNewCategory,
+        replyComment,
       }}
     >
       {children}

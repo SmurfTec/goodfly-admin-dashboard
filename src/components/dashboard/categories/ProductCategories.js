@@ -19,10 +19,6 @@ import {
   DialogContentText,
   DialogTitle,
   TextField,
-  MenuItem,
-  InputLabel,
-  Select,
-  FormControl,
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 import v4 from 'uuid/dist/v4';
@@ -58,12 +54,8 @@ const styles = makeStyles(() => ({
 
 const ProductCategories = () => {
   const classes = styles();
-  const {
-    categories,
-    deleteCategory,
-    modifyCategory,
-    createNewCategory,
-  } = useContext(ProductContext);
+  const { categories, deleteCategory, modifyCategory, createNewCategory } =
+    useContext(ProductContext);
   const [filter, setFilter] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
   const [currentCatId, setCurrentCatId] = useState();
@@ -98,7 +90,7 @@ const ProductCategories = () => {
     rowsPerPage -
     Math.min(rowsPerPage, categories?.length - page * rowsPerPage);
 
-  const handleChangePage = (newPage) => {
+  const handleChangePage = (_, newPage) => {
     setPage(newPage);
   };
 
@@ -114,7 +106,11 @@ const ProductCategories = () => {
   };
   //  filtered
   useEffect(() => {
-    setFilteredItems(categories || []);
+    setFilteredItems(
+      categories?.filter((el) =>
+        el.name.toLowerCase().includes(filter.toLowerCase())
+      )
+    );
   }, [filter]);
 
   // data must be updated
@@ -153,10 +149,7 @@ const ProductCategories = () => {
             width: '100%',
           }}
         >
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
-          >
+          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
             Search Category
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -186,31 +179,16 @@ const ProductCategories = () => {
             </TableHead>
             <TableBody>
               {filteredItems
-                .slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   <TableRow key={v4()}>
-                    <TableCell
-                      component='th'
-                      scope='row'
-                      align='center'
-                    >
+                    <TableCell component='th' scope='row' align='center'>
                       {row._id}
                     </TableCell>
-                    <TableCell
-                      component='th'
-                      scope='row'
-                      align='center'
-                    >
+                    <TableCell component='th' scope='row' align='center'>
                       {row.name}
                     </TableCell>
-                    <TableCell
-                      component='th'
-                      scope='row'
-                      align='center'
-                    >
+                    <TableCell component='th' scope='row' align='center'>
                       {new Date(row.createdAt).toLocaleDateString()}
                     </TableCell>
                     <TableCell align='center'>
@@ -247,7 +225,7 @@ const ProductCategories = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 20]}
             component='div'
-            count={categories?.length}
+            count={categories?.length || 0}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -259,7 +237,7 @@ const ProductCategories = () => {
       <div>
         <Dialog
           open={open}
-          onClose={handleClose}
+          onClose={() => handleClose()}
           aria-labelledby='alert-dialog-title'
           aria-describedby='alert-dialog-description'
         >
@@ -345,7 +323,7 @@ const ProductCategories = () => {
               onClick={() => handleCloseCat()}
               color='error'
             >
-              Cancell
+              Cancel
             </Button>
           </DialogActions>
         </Dialog>
@@ -354,7 +332,7 @@ const ProductCategories = () => {
       <div>
         <Dialog
           open={isEditOpen}
-          onClose={toggleIsEditOpen}
+          onClose={() => toggleIsEditOpen()}
           style={{
             border: '1px solid red',
           }}

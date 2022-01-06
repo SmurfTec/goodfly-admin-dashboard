@@ -51,59 +51,8 @@ const CustomTrip = () => {
     useContext(OffersContext);
   const classes = styles();
   const [isDeleteOpen, toggleDeleteOpen] = useToggleInput(false);
-  const initialState = {
-    // * Contact Details
-    pronoun: '',
-    firstName: '',
-    lastName: '',
-    birthDate: getMuiDateFormat(new Date()),
-    address: '',
-    zipCode: '',
-    city: '',
-    country: '',
-    email: '',
-    phone: '',
-
-    departureDate: getMuiDateFormat(new Date()),
-    desiredReturnOn: getMuiDateFormat(new Date()),
-    tripType: ['Travel_Trek_&_Hiking_/_Trails'],
-    accomodationType: ['Luxurious_hotel'],
-    transportOnSite: false,
-    destination: [],
-    status: 'pending',
-    _id: '6194ec31ebb84a443c21e3c7',
-    budgetPerPerson: 54,
-    desires: 'Id cillum quia recus',
-
-    year: '',
-    month: '',
-    duration: '',
-
-    numOfParticipants: 3,
-    type: 'only',
-    flightsType: 'mid-range',
-    meals: 'breakfast',
-    guideAccompany: 'always',
-    phoneTime: 'morning',
-    countryCode: '971',
-    title: 'Custom Trip c127',
-    visitor: {
-      __type: 'Visitor',
-      _id: '61938b1912973b2424a70955',
-      firstName: 'red',
-      email: 'u.ahmadnode@gmail.com',
-      lastName: 'ahmad',
-      telephoneNumber: '78888888',
-      fullName: 'red ahmad',
-      id: '61938b1912973b2424a70955',
-    },
-    __v: 0,
-    createdAt: '2021-11-17T13:13:13.646Z',
-    // phone: '971-656',
-    id: '6194ec31ebb84a443c21e3c7',
-  };
-  const [offer, handleTxtChange, , , , setOffer] =
-    useManyInputs(initialState);
+  const initialState = {};
+  const [offer, handleTxtChange, , , , setOffer] = useManyInputs(initialState);
 
   const { id } = useParams();
 
@@ -114,7 +63,6 @@ const CustomTrip = () => {
         ...newOffer,
         departureDate: getMuiDateFormat(newOffer.departureDate),
         desiredReturnOn: getMuiDateFormat(newOffer.desiredReturnOn),
-        birthDate: getMuiDateFormat(newOffer.birthDate),
       });
     }
   }, [id, customOffers]);
@@ -143,24 +91,14 @@ const CustomTrip = () => {
               width: '100%',
             }}
           >
-            <Button
-              variant='outlined'
-              component={Link}
-              to='/app/customtrips'
-            >
+            <Button variant='outlined' component={Link} to='/app/customtrips'>
               <ArrowLeftIcon />
               Back to the List
             </Button>
-            <Box
-              display='flex'
-              alignItems='center'
-              style={{ gap: '20px' }}
-            >
+            <Box display='flex' alignItems='center' style={{ gap: '20px' }}>
               <div>
                 {offer.status !== 'pending' && (
-                  <Typography variant='h5'>
-                    {offer?.status}
-                  </Typography>
+                  <Typography variant='h5'>{offer?.status}</Typography>
                 )}
               </div>
               <div>
@@ -173,10 +111,7 @@ const CustomTrip = () => {
                       onClick={toggleDeleteOpen}
                       className={classes.icons}
                     />
-                    <PlayIcon
-                      onClick={handleSave}
-                      className={classes.icons}
-                    />{' '}
+                    <PlayIcon onClick={handleSave} className={classes.icons} />{' '}
                   </>
                 )}
               </div>
@@ -203,14 +138,14 @@ const CustomTrip = () => {
                 />
                 <TextField
                   name='firstName'
-                  value={offer.firstName}
+                  value={offer.visitor?.firstName}
                   id='standard-basic'
                   label='firstname'
                   variant='standard'
                 />
                 <TextField
                   name='lastName'
-                  value={offer.lastName}
+                  value={offer.visitor?.lastName}
                   id='standard-basic'
                   label='lastName'
                   variant='standard'
@@ -219,21 +154,21 @@ const CustomTrip = () => {
               <Box className={classes.form}>
                 <TextField
                   name='birthDate'
-                  value={offer.birthDate}
+                  value={getMuiDateFormat(offer.visitor?.dateOfBirth)}
                   id='standard-basic'
                   label='Date of Birth'
                   variant='standard'
                 />
                 <TextField
                   name='email'
-                  value={offer.email}
+                  value={offer.visitor?.email}
                   id='standard-basic'
                   label='Email Address'
                   variant='standard'
                 />
                 <TextField
                   name='phone'
-                  value={offer.phone}
+                  value={offer.visitor?.telephoneNumber}
                   id='standard-basic'
                   label='Telephone mobile'
                   variant='standard'
@@ -241,8 +176,7 @@ const CustomTrip = () => {
               </Box>
               <Box className={classes.form}>
                 <TextField
-                  name='address'
-                  value={offer.address}
+                  value={offer.visitor?.address}
                   id='standard-basic'
                   label='Address'
                   variant='standard'
@@ -251,22 +185,19 @@ const CustomTrip = () => {
               </Box>
               <Box className={classes.form}>
                 <TextField
-                  name='zipCode'
-                  value={offer.zipCode}
+                  value={offer.visitor?.postalCode}
                   id='standard-basic'
                   label='Postal Code'
                   variant='standard'
                 />
                 <TextField
-                  name='city'
-                  value={offer.city}
+                  value={offer.visitor?.city}
                   id='standard-basic'
                   label='City'
                   variant='standard'
                 />
                 <TextField
-                  name='country'
-                  value={offer.country}
+                  value={offer.visitor?.country}
                   id='standard-basic'
                   label='Country'
                   variant='standard'
@@ -277,13 +208,13 @@ const CustomTrip = () => {
             <Box>
               <Box className={classes.form} style={{ width: '43%' }}>
                 <TextField
-                  name='price'
-                  value={
-                    offer.budgetPerPerson * offer.numOfParticipants
-                  }
+                  name='totalAmount'
+                  value={offer.totalAmount}
+                  onChange={handleTxtChange}
                   id='standard-basic'
                   label='Total Price'
                   type='number'
+                  autoFocus
                   variant='standard'
                   style={{ fontSize: '1.2em' }}
                 />
@@ -295,6 +226,7 @@ const CustomTrip = () => {
                   onChange={handleTxtChange}
                   type='number'
                   id='standard-basic'
+                  autoFocus
                   label='Number of Participants'
                   variant='standard'
                 />
@@ -302,6 +234,7 @@ const CustomTrip = () => {
                   name='type'
                   value={offer.type}
                   id='standard-basic'
+                  autoFocus
                   label='Type'
                   variant='standard'
                 />
@@ -316,7 +249,7 @@ const CustomTrip = () => {
               <Box className={classes.form}>
                 <TextField
                   name='destination'
-                  value={offer.destination.join(',')}
+                  value={offer.destination?.join(',')}
                   // onChange={handleTxtChange}
                   id='standard-basic'
                   label='Destinations'
@@ -471,9 +404,7 @@ const CustomTrip = () => {
               <Box className={classes.form}>
                 <TextField
                   name='budget'
-                  value={
-                    offer.budgetPerPerson * offer.numOfParticipants
-                  }
+                  value={offer.budgetPerPerson * offer.numOfParticipants}
                   onChange={handleTxtChange}
                   id='standard-basic'
                   label='global budget'
@@ -495,10 +426,7 @@ const CustomTrip = () => {
                 >
                   Desires
                 </Typography>
-                <Typography
-                  variant='text'
-                  style={{ color: '#8f8f8f' }}
-                >
+                <Typography variant='text' style={{ color: '#8f8f8f' }}>
                   {offer.desires}
                 </Typography>
               </Box>

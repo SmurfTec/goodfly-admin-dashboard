@@ -23,6 +23,12 @@ import { ReservationsContext } from 'Contexts/ReservationsContext';
 import { Edit } from '@mui/icons-material';
 import { useNavigate } from 'react-router';
 import { daysBetween } from 'utils/dateMethods';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import { useTextInput } from 'hooks';
 
 const styles = makeStyles(() => ({
   main: {
@@ -83,13 +89,7 @@ const filterButtons = [
   },
 ];
 
-const FilterButton = ({
-  currentStatus,
-  text,
-  handleFilter,
-  status,
-  color,
-}) => (
+const FilterButton = ({ currentStatus, text, handleFilter, status, color }) => (
   <Button
     data-statusfilter={status}
     onClick={handleFilter}
@@ -117,15 +117,15 @@ const FilterButton = ({
   </Button>
 );
 
-const Reservations = () => {
-  const { reservations, fetchReservations, loading } = useContext(
-    ReservationsContext
-  );
+const Reservations = ({ isSpiritual }) => {
+  const { reservations, fetchReservations, loading } =
+    useContext(ReservationsContext);
   console.log(`reservations`, reservations);
   const classes = styles();
   const [filter, setFilter] = useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [searchBy, handleSearchBy] = useTextInput('fullName');
 
   const [currentReservations, setCurrentReservations] = useState([]);
 
@@ -143,10 +143,7 @@ const Reservations = () => {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     rowsPerPage -
-    Math.min(
-      rowsPerPage,
-      (reservations?.length || 0) - page * rowsPerPage
-    );
+    Math.min(rowsPerPage, (reservations?.length || 0) - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -165,20 +162,62 @@ const Reservations = () => {
   useEffect(() => {
     setCurrentReservations(
       reservations?.filter((el) => {
-        console.clear();
-        console.log(`el`, el);
-        return (
-          el.visitor?.fullName
-            .toLowerCase()
-            .indexOf(filter.toLowerCase()) !== -1
-        );
-      })
-      // reservations || []
+        let preCondition = false;
+
+        if (!!isSpiritual === true)
+          preCondition = el.trip?.category === 'spiritual';
+        else {
+          // console.log(el.trip.category)
+          preCondition = !el.trip || el.trip.category !== 'spiritual';
+        }
+
+        let filterCondition = false;
+        switch (searchBy) {
+          case 'fullName':
+            filterCondition = el.visitor?.fullName
+              .toLowerCase()
+              .includes(filter.toLowerCase());
+            break;
+          case 'email':
+            console.log(`el.visitor?.email`, el.visitor?.email);
+            filterCondition = el.visitor?.email
+              .toLowerCase()
+              .includes(filter.toLowerCase());
+            break;
+          case 'date':
+            filterCondition = new Date(el.createdAt)
+              .toLocaleDateString()
+              .includes(filter);
+            break;
+
+          default:
+            filterCondition =
+              el.visitor?.fullName
+                .toLowerCase()
+                .indexOf(filter.toLowerCase()) !== -1;
+            break;
+        }
+
+        return preCondition && filterCondition;
+      }) || []
     );
   }, [filter]);
 
   useEffect(() => {
-    setCurrentReservations(reservations);
+    setCurrentReservations(
+      reservations?.filter((el) => {
+        let preCondition = false;
+
+        if (!!isSpiritual === true)
+          preCondition = el.trip?.category === 'spiritual';
+        else {
+          // console.log(el.trip.category)
+          preCondition = !el.trip || el.trip.category !== 'spiritual';
+        }
+
+        return preCondition;
+      }) || []
+    );
 
     const nonPaidStatuses = [
       'pre-reservation',
@@ -188,9 +227,7 @@ const Reservations = () => {
 
     try {
       const greenOrangeReservations =
-        reservations?.filter((el) =>
-          nonPaidStatuses.includes(el.status)
-        ) || [];
+        reservations?.filter((el) => nonPaidStatuses.includes(el.status)) || [];
 
       console.log(`greenOrangeReservations`, greenOrangeReservations);
       // * Reservations which have more than 8 weeks till departure date
@@ -210,9 +247,7 @@ const Reservations = () => {
       const orangeReservationsNew =
         greenOrangeReservations?.filter((el) => {
           const departureDate = new Date(
-            el.trip
-              ? el.trip.startingDate
-              : el.customTrip.startingDate
+            el.trip ? el.trip.startingDate : el.customTrip.startingDate
           );
           const currentDate = new Date();
 
@@ -235,8 +270,7 @@ const Reservations = () => {
           // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
           // * So thats why I put 2nd condition
           return (
-            (el.status === 'archived' ||
-              nonPaidStatuses.includes(el.status)) &&
+            (el.status === 'archived' || nonPaidStatuses.includes(el.status)) &&
             daysBetween(departureDate, currentDate) >= 28 &&
             daysBetween(departureDate, currentDate) <= 42
           );
@@ -260,8 +294,7 @@ const Reservations = () => {
           // * So thats why I put 2nd condition
 
           return (
-            (el.status === 'archived' ||
-              nonPaidStatuses.includes(el.status)) &&
+            (el.status === 'archived' || nonPaidStatuses.includes(el.status)) &&
             daysBetween(departureDate, currentDate) < 28 &&
             daysBetween(departureDate, currentDate) > 14
           );
@@ -276,15 +309,12 @@ const Reservations = () => {
 
       // * Cancellation Requests by client
       const greyReservationsNew =
-        reservations?.filter(
-          (el) => el.status === 'cancellation-request'
-        ) || [];
+        reservations?.filter((el) => el.status === 'cancellation-request') ||
+        [];
 
       // * Reservations paid / Finalized
       const whiteReservationsNew =
-        reservations?.filter(
-          (el) => el.status === 'reservation-paid'
-        ) || [];
+        reservations?.filter((el) => el.status === 'reservation-paid') || [];
 
       setGreenReseravtions(greenReseravtionsNew);
       setOrangeReservations(orangeReservationsNew);
@@ -296,7 +326,7 @@ const Reservations = () => {
     } catch (err) {
       console.log(`err`, err);
     }
-  }, [reservations]);
+  }, [reservations, isSpiritual]);
 
   useEffect(() => {
     switch (currentStatus) {
@@ -342,8 +372,8 @@ const Reservations = () => {
   ]);
 
   const handleClick = (id) => {
-    // navigate(`/app/reservations/${id}`);
-    navigate(`${id}`);
+    navigate(`/app/reservations/${id}`);
+    // navigate(`${id}`);
   };
 
   const filterReservations = (e) => {
@@ -398,17 +428,49 @@ const Reservations = () => {
           >
             Fetch
           </Button>
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
+          <Box
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 15,
+            }}
           >
-            Search Reservation
-          </Typography>
+            <Typography variant='h5'>Search By</Typography>
+            <FormControl component='fieldset' size='small'>
+              <RadioGroup
+                row
+                aria-label='gender'
+                name='row-radio-buttons-group'
+                value={searchBy}
+                onChange={(e) => {
+                  setFilter('');
+                  handleSearchBy(e);
+                }}
+              >
+                <FormControlLabel
+                  value='fullName'
+                  control={<Radio size='small' />}
+                  label='Name'
+                />
+                <FormControlLabel
+                  value='email'
+                  control={<Radio size='small' />}
+                  label='Email'
+                />
+                <FormControlLabel
+                  value='date'
+                  control={<Radio size='small' />}
+                  label='Date'
+                />
+              </RadioGroup>
+            </FormControl>
+          </Box>
+
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
           <TextField
             hiddenLabel
             id='filled-hidden-label-small'
-            placeholder='reservation name'
+            placeholder={`Search By ${searchBy}`}
             size='small'
             style={{ margin: '0px 5px 0px', width: '30%' }}
             className={classes.textInput}
@@ -446,48 +508,45 @@ const Reservations = () => {
                           {purchase._id.slice(5)}
                         </TableCell>
                         <TableCell align='center'>
-                          {new Date(
-                            purchase.createdAt
-                          ).toLocaleDateString()}
+                          {new Date(purchase.createdAt).toLocaleDateString()}
                         </TableCell>
-                        <TableCell align='center'>
-                          {purchase.status}
-                        </TableCell>
+                        <TableCell align='center'>{purchase.status}</TableCell>
                         <TableCell align='center'>
                           {purchase.trip ? (
-                            purchase.travelers?.map((traveler) => (
-                              <React.Fragment key={traveler._id}>
-                                {' '}
-                                {`${traveler.firstName} ${traveler.lastName}`}{' '}
-                                <br />{' '}
-                              </React.Fragment>
-                            ))
+                            <>
+                              {purchase.visitor
+                                ? purchase.visitor.firstName
+                                : 'Visitor Deleted'}
+                            </>
                           ) : (
+                            // purchase.travelers?.map((traveler) => (
+                            //   <React.Fragment key={traveler._id}>
+                            //     {' '}
+                            //     {`${traveler.firstName} ${traveler.lastName}`}{' '}
+                            //     <br />{' '}
+                            //   </React.Fragment>
+                            // ))
                             <>{purchase?.customTrip?.fullName}</>
                           )}
                         </TableCell>
                         <TableCell align='center'>
                           {purchase.trip ? (
-                            purchase.travelers?.map((traveler) => (
-                              <>
-                                {traveler.email}
-                                <br />
-                              </>
-                            ))
+                            <>{purchase?.visitor?.email}</>
                           ) : (
                             <> {purchase.email} </>
                           )}
                         </TableCell>
                         <TableCell align='center'>
-                          {purchase.phone}
+                          {purchase.trip ? (
+                            <>{purchase?.visitor?.phone}</>
+                          ) : (
+                            <> {purchase.phone} </>
+                          )}
                         </TableCell>
                         <TableCell align='center'>
                           <Button
                             endIcon={<Edit />}
-                            onClick={handleClick.bind(
-                              this,
-                              purchase._id
-                            )}
+                            onClick={handleClick.bind(this, purchase._id)}
                           >
                             Edit
                           </Button>

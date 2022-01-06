@@ -1,13 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import {
-  Typography,
-  Box,
-  Grid,
-  Button,
-  Container,
-} from '@material-ui/core';
+import { Typography, Box, Grid, Button } from '@material-ui/core';
 import {
   Plus as PlusIcon,
   Archive as ArchiveIcon,
@@ -22,6 +16,7 @@ import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import { handleCatch, makeReq } from 'utils/makeReq';
 import PromosDialog from '../Dialogs/Promos';
 import { useToggleInput } from 'hooks';
+import { toast } from 'react-toastify';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -111,12 +106,9 @@ const Offers = () => {
   const createNewPromoCode = async (promoBody) => {
     togglePromosOpen();
     try {
-      const { promo } = await makeReq(
-        '/promos',
-        { body: promoBody },
-        'POST'
-      );
+      const { promo } = await makeReq('/promos', { body: promoBody }, 'POST');
       setPromos((st) => [...st, promo]);
+      toast.success('Promo Created Successfully');
     } catch (err) {
       handleCatch(err);
     }
@@ -124,11 +116,7 @@ const Offers = () => {
 
   return (
     <div>
-      <Box
-        display='flex'
-        justifyContent='space-between'
-        alignItems='center'
-      >
+      <Box display='flex' justifyContent='space-between' alignItems='center'>
         <Typography variant='h5' m={2}>
           Offers Management
         </Typography>
@@ -150,24 +138,21 @@ const Offers = () => {
           <OffersCarousel
             classes={classes}
             offers={offers?.filter(
-              (offer) =>
-                !offer.archieve && offer.category === 'spiritual'
+              (offer) => !offer.archieve && offer.category === 'spiritual'
             )}
             title='spiritual'
           />
           <OffersCarousel
             classes={classes}
             offers={offers?.filter(
-              (offer) =>
-                !offer.archieve && offer.category === 'ethical'
+              (offer) => !offer.archieve && offer.category === 'ethical'
             )}
             title='ethical'
           />
           <OffersCarousel
             classes={classes}
             offers={offers?.filter(
-              (offer) =>
-                !offer.archieve && offer.category === 'excursions'
+              (offer) => !offer.archieve && offer.category === 'excursions'
             )}
             title='excursions'
           />

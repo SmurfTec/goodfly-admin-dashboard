@@ -228,7 +228,13 @@ const CreateBlog = () => {
             />
           </Typography>
           <Box style={{ margin: 20 }}>
-            <Box>
+            <Box
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'baseline',
+              }}
+            >
               <TextField
                 name='publishDate'
                 value={state.dateOfPublish}
