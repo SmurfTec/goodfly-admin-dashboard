@@ -29,6 +29,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { useTextInput } from 'hooks';
+import { formatDistanceToNow } from 'date-fns';
 
 const styles = makeStyles(() => ({
   main: {
@@ -120,7 +121,6 @@ const FilterButton = ({ currentStatus, text, handleFilter, status, color }) => (
 const Reservations = ({ isSpiritual }) => {
   const { reservations, fetchReservations, loading } =
     useContext(ReservationsContext);
-  console.log(`reservations`, reservations);
   const classes = styles();
   const [filter, setFilter] = useState('');
   const [page, setPage] = useState(0);
@@ -247,7 +247,7 @@ const Reservations = ({ isSpiritual }) => {
       const orangeReservationsNew =
         greenOrangeReservations?.filter((el) => {
           const departureDate = new Date(
-            el.trip ? el.trip.startingDate : el.customTrip.startingDate
+            el.trip ? el.trip.startingDate : el.customTrip?.startingDate
           );
           const currentDate = new Date();
 
@@ -508,6 +508,7 @@ const Reservations = ({ isSpiritual }) => {
                           {purchase._id.slice(5)}
                         </TableCell>
                         <TableCell align='center'>
+                          {/* {formatDistanceToNow(new Date(purchase.createdAt))} */}
                           {new Date(purchase.createdAt).toLocaleDateString()}
                         </TableCell>
                         <TableCell align='center'>{purchase.status}</TableCell>
