@@ -9,23 +9,21 @@ import { Typography, Box } from '@material-ui/core';
 
 import useStyles from './notfoundStyles';
 
-const NotFound = () => {
+const Maintenance = () => {
   const classes = useStyles();
   return (
     <>
       <Helmet>
-        <title>Resource Not Found</title>
+        <title>Maintenance</title>
       </Helmet>
       <div className={classes.Wrapper}>
         <img src={img1} alt='plane img' className={classes.backgroundImg} />
         <Box className={classes.Main}>
           <img src={img2} alt='img 2' style={{ height: 40 }} />
-          <Typography fontSize={40} mt={2} variant='h2'>
-            Error
+          <Typography fontSize={40} minWidth={450} my={2} variant='h2'>
+            Site under maintenance
           </Typography>
-          <Typography fontSize={100} variant='h1'>
-            404
-          </Typography>
+
           <img
             src={img3}
             alt='img 2'
@@ -41,7 +39,7 @@ const NotFound = () => {
               minWidth: 530,
             }}
           >
-            This Webpage doesnot exists
+            The site will be available shortly ...
           </Typography>
         </Box>
       </div>
@@ -49,4 +47,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default Maintenance;

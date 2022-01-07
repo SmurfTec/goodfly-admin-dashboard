@@ -25,7 +25,7 @@ import v4 from 'uuid/dist/v4';
 import useTextInput from 'hooks/useTextInput';
 
 import { BlogsContext } from 'Contexts/BlogsContext';
-import { useParams } from 'react-router';
+import { Navigate, useParams } from 'react-router';
 import { getMuiDateFormat } from 'utils/dateMethods';
 import NotFound from 'pages/NotFound';
 import Loading from 'pages/Loading';
@@ -211,7 +211,7 @@ const ModifyBlog = () => {
         // <div className='loader'></div>
         <Loading noTitle />
       ) : notFound ? (
-        <NotFound />
+        <Navigate to='/notfound' />
       ) : (
         <>
           <Grid container style={{ marginTop: 50 }}>

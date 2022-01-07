@@ -51,6 +51,7 @@ import Promos from 'components/dashboard/Offer/promos';
 import Chat from 'components/dashboard/Chat';
 import TourCategories from 'components/dashboard/categories/TourCategories';
 import TourSubCategories from 'components/dashboard/categories/TourSubCategories';
+import Maintenance from 'pages/Maintenance';
 
 export const protechtedRoutes = [
   {
@@ -179,7 +180,8 @@ export const protechtedRoutes = [
     ],
   },
   { path: 'logout', element: <Logout /> },
-  { path: '*', element: <Navigate to='/app' /> },
+  // { path: '*', element: <NotFound /> },
+  { path: '*', element: <Maintenance /> },
 ];
 
 export const publicRoutes = [

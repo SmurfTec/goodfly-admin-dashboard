@@ -32,13 +32,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        `${API_BASE_URL}/auth/login/admin`,
-        {
-          email: state.email,
-          password: state.password,
-        }
-      );
+      const res = await axios.post(`${API_BASE_URL}/auth/login/admin`, {
+        email: state.email,
+        password: state.password,
+      });
       toast.success('Login Success');
       setState(initialState);
       signInUser(res.data.token, res.data.user);
@@ -56,11 +53,7 @@ const Login = () => {
 
   return (
     <div className={classes.Wrapper}>
-      <img
-        src={img1}
-        alt='plane img'
-        className={classes.backgroundImg}
-      />
+      <img src={img1} alt='plane img' className={classes.backgroundImg} />
 
       <Box className={classes.Main}>
         <Box className={classes.Header}>
@@ -124,9 +117,7 @@ const Login = () => {
               variant='p'
               color='textSecondary'
               gutterBottom
-            >
-              forgot your password ?
-            </Typography>
+            ></Typography>
           </Link>
         </form>
       </Box>

@@ -14,7 +14,7 @@ import {
   Container,
 } from '@material-ui/core';
 import { StaffersContext } from 'Contexts/StaffersContext';
-import { useParams } from 'react-router';
+import { Navigate, useParams } from 'react-router';
 import useManyInputs from 'hooks/useManyInputs';
 import { toast } from 'react-toastify';
 import Loading from 'pages/Loading';
@@ -47,13 +47,8 @@ const styles = makeStyles((theme) => ({
 const EditStaffer = () => {
   const classes = styles();
 
-  const {
-    loading,
-    getStafferById,
-    staffers,
-    modifyStaffer,
-    modifyPassword,
-  } = useContext(StaffersContext);
+  const { loading, getStafferById, staffers, modifyStaffer, modifyPassword } =
+    useContext(StaffersContext);
 
   const { id } = useParams();
 
@@ -74,8 +69,7 @@ const EditStaffer = () => {
 
   const [openPass, setOpenPass] = useState(false);
 
-  const [state, handleTxtChange, , , , setState] =
-    useManyInputs(initialState);
+  const [state, handleTxtChange, , , , setState] = useManyInputs(initialState);
 
   // update the update-states
   useEffect(() => {
@@ -118,7 +112,7 @@ const EditStaffer = () => {
       {loading ? (
         <Loading noTitle />
       ) : notFound ? (
-        <NotFound />
+        <Navigate to='/notfound' />
       ) : (
         <>
           <div>
@@ -280,9 +274,7 @@ const EditStaffer = () => {
             }}
           >
             <DialogTitle>
-              <Typography variant='h4'>
-                Changing the Paasword
-              </Typography>
+              <Typography variant='h4'>Changing the Paasword</Typography>
             </DialogTitle>
             <DialogContent>
               <Box

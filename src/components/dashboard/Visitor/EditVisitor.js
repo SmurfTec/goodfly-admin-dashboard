@@ -23,7 +23,7 @@ import CarouselLayout from 'components/common/Carousel/CarouselLayout';
 import useManyInputs from 'hooks/useManyInputs';
 import uuid from 'uuid/dist/v4';
 import { CustomersContext } from 'Contexts/CustomersContext';
-import { useParams } from 'react-router';
+import { Navigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import useToggleInput from 'hooks/useToggleInput';
@@ -287,7 +287,7 @@ const EditVisitor = () => {
       {loading ? (
         <Loading noTitle />
       ) : notFound ? (
-        <NotFound />
+        <Navigate to='/notfound' />
       ) : (
         <>
           <Box>
