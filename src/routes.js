@@ -180,8 +180,7 @@ export const protechtedRoutes = [
     ],
   },
   { path: 'logout', element: <Logout /> },
-  { path: '/', element: <Navigate to='/app' /> },
-  { path: '*', element: <NotFound /> },
+  { path: '*', element: <Navigate to='/app' /> },
   // { path: '*', element: <Maintenance /> },
 ];
 
