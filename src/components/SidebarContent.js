@@ -26,6 +26,7 @@ import {
 import { FiberManualRecord } from '@material-ui/icons';
 import { AuthContext } from 'Contexts/AuthContext';
 import { BorderColor } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 
 const NavItems = [
   {
@@ -284,6 +285,7 @@ const useStyles = makeStyles({
 
 const SidebarContent = () => {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const { user } = useContext(AuthContext);
 
@@ -307,14 +309,14 @@ const SidebarContent = () => {
         {NavItems.map((item) => (
           <StyledTreeItem
             nodeId={item.id}
-            labelText={item.labelText}
+            labelText={t(item.labelText)}
             labelIcon={item.icon}
             key={item.id}
           >
             {item.children?.map((el) => (
               <StyledTreeItem
                 nodeId={el.id}
-                labelText={el.labelText}
+                labelText={t(el.labelText)}
                 labelIcon={el.icon}
                 // labelInfo={'90'}
                 color='#1a73e8'

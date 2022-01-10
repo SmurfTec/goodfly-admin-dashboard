@@ -21,6 +21,7 @@ import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { BlogsContext } from 'Contexts/BlogsContext';
 import v4 from 'uuid/dist/v4';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles(() => ({
   main: {
@@ -61,6 +62,7 @@ const Blogs = () => {
   const [filteredBlogs, setFilteredBlogs] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(12);
+  const { t } = useTranslation();
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -107,7 +109,7 @@ const Blogs = () => {
   return (
     <div>
       <Typography variant='h5' style={{ margin: '5px 20px 40px ' }}>
-        Blog post management
+        {t('Blog post management')}
       </Typography>
       <Box className={classes.main}>
         <Box
@@ -124,8 +126,7 @@ const Blogs = () => {
             component={Link}
             to='/app/blogs/create'
           >
-            {' '}
-            Add New Blog{' '}
+            {t('ADD NEW BLOG')}
           </Button>
           <Box
             style={{
@@ -136,13 +137,13 @@ const Blogs = () => {
             }}
           >
             <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
-              Search Article
+              {`${t('Search')} ${t('Article')}`}
             </Typography>
             <SearchIcon style={{ margin: '0px 3px 0px' }} />
             <TextField
               hiddenLabel
               id='filled-hidden-label-small'
-              placeholder='search'
+              placeholder={t('Search').toLowerCase()}
               size='small'
               style={{ margin: '0px 5px 0px', width: '30%' }}
               className={classes.textInput}

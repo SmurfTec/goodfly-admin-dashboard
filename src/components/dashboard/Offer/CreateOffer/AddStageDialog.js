@@ -22,6 +22,7 @@ import { Plus as PlusIcon, Image as ImageIcon } from 'react-feather';
 import LoadingOverlay from 'react-loading-overlay';
 import { toast } from 'react-toastify';
 import v4 from 'uuid/dist/v4';
+import { useTranslation } from 'react-i18next';
 
 const AddStageDialog = ({
   open,
@@ -48,6 +49,7 @@ const AddStageDialog = ({
 
   const [isImageUploading, toggleImageUploading] = useToggleInput(false);
   const [uploadingText, setUploadingText] = useState('Uploading Image...');
+  const { t } = useTranslation();
 
   const [isAccodmodationUploading, toggleAccomodationUploading] =
     useToggleInput(false);
@@ -184,14 +186,14 @@ const AddStageDialog = ({
       onClose={toggleDialog}
       className={classes.stageDialog}
     >
-      <DialogTitle>Add Steps</DialogTitle>
+      <DialogTitle>{t('Add Steps')}</DialogTitle>
       <DialogContent>
         <form onSubmit={handleFormSubmit} id='form'>
           <Grid container>
             <Grid item sm={12} md={12} lg={3} style={{ padding: '1rem' }}>
               <TextField
                 type='text'
-                placeholder='Stage Title'
+                placeholder={t('Stage Title')}
                 size='small'
                 style={{
                   backgroundColor: '#fff',
@@ -204,7 +206,7 @@ const AddStageDialog = ({
               />
               <TextField
                 type='text'
-                placeholder='Destination'
+                placeholder={t('Destination')}
                 size='small'
                 style={{
                   backgroundColor: '#fff',
@@ -218,7 +220,7 @@ const AddStageDialog = ({
               />
               <TextField
                 type='text'
-                placeholder='Description'
+                placeholder={t('Description')}
                 name='description'
                 multiline
                 rows={10}
@@ -232,7 +234,7 @@ const AddStageDialog = ({
                 required
               />
               <Box className={classes.flexBetween}>
-                <Typography variant='text'>Distance</Typography>
+                <Typography variant='text'>{t('Distance')}</Typography>
                 <TextField
                   type='text'
                   placeholder='km'
@@ -265,7 +267,9 @@ const AddStageDialog = ({
                     }
                   >
                     <Grid item sm={2}>
-                      <Typography variant='h5'>Gallery of the Stage</Typography>
+                      <Typography variant='h5'>
+                        {t('Gallery of the Stage')}
+                      </Typography>
                       <input
                         accept='image/*'
                         style={{ display: 'none' }}
@@ -309,7 +313,7 @@ const AddStageDialog = ({
                                 </Box>
 
                                 <Typography style={{ color: '#fff' }}>
-                                  New Image
+                                  {t('New Image')}
                                 </Typography>
                               </Box>
                             </Box>
@@ -341,8 +345,7 @@ const AddStageDialog = ({
                                 data-id={image._id}
                                 onClick={handleDelete}
                               >
-                                {' '}
-                                delete{' '}
+                                {t('DELETE')}
                               </Button>
                             </Box>
                           </>
@@ -357,7 +360,7 @@ const AddStageDialog = ({
                       marginRight: '1rem',
                     }}
                   >
-                    <Typography variant='h5'>Accommodation</Typography>
+                    <Typography variant='h5'>{t('Accommodation')}</Typography>
                   </Box>
                 </Grid>
                 <Grid item sm={12} md={12} mt={4}>
@@ -366,7 +369,7 @@ const AddStageDialog = ({
                       <TextField
                         hiddenLabel
                         id='filled-hidden-label-small'
-                        placeholder='Name'
+                        placeholder={t('Name')}
                         size='small'
                         className={classes.textInput}
                         name='name'
@@ -387,17 +390,17 @@ const AddStageDialog = ({
                           <FormControlLabel
                             value='breakfast'
                             control={<Radio />}
-                            label='breakfast'
+                            label={t('breakfast')}
                           />
                           <FormControlLabel
                             value='half-board'
                             control={<Radio />}
-                            label='Half board'
+                            label={t('Half board')}
                           />
                           <FormControlLabel
                             value='complete board'
                             control={<Radio />}
-                            label='full-board'
+                            label={t('full-board')}
                           />
                         </RadioGroup>
                       </FormControl>
@@ -452,7 +455,7 @@ const AddStageDialog = ({
                               </Box>
 
                               <Typography style={{ color: '#fff' }}>
-                                New Image
+                                {t('New Image')}
                               </Typography>
                             </Box>
                           </Box>
@@ -487,8 +490,7 @@ const AddStageDialog = ({
                               data-id={image._id}
                               onClick={handleDelete}
                             >
-                              {' '}
-                              delete{' '}
+                              {t('DELETE')}
                             </Button>
                           </Box>
                         </>
@@ -507,10 +509,10 @@ const AddStageDialog = ({
           variant='outlined'
           style={{ color: 'red' }}
         >
-          Cancel{' '}
+          {t('CANCEL')}
         </Button>
         <Button type='submit' variant='contained' form='form'>
-          Validate{' '}
+          {t('VALIDATE')}
         </Button>
       </DialogActions>
     </Dialog>

@@ -17,6 +17,7 @@ import { handleCatch, makeReq } from 'utils/makeReq';
 import PromosDialog from '../Dialogs/Promos';
 import { useToggleInput } from 'hooks';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -81,6 +82,7 @@ const BigBox = ({ classes, link, Icon1, Icon2, text }) => (
 const Offers = () => {
   const classes = styles();
   const { offers } = useContext(OffersContext);
+  const { t } = useTranslation();
 
   const [isPromosOpen, togglePromosOpen] = useToggleInput(false);
   const [promos, setPromos] = useState([]);
@@ -118,7 +120,7 @@ const Offers = () => {
     <div>
       <Box display='flex' justifyContent='space-between' alignItems='center'>
         <Typography variant='h5' m={2}>
-          Offers Management
+          {t('Offers Management')}
         </Typography>
         <Box>
           <Button
@@ -127,7 +129,7 @@ const Offers = () => {
             endIcon={<NewReleasesIcon />}
             onClick={togglePromosOpen}
           >
-            Promo Codes
+            {t('PROMO CODES')}
           </Button>
         </Box>
       </Box>
@@ -140,21 +142,21 @@ const Offers = () => {
             offers={offers?.filter(
               (offer) => !offer.archieve && offer.category === 'spiritual'
             )}
-            title='spiritual'
+            title={t('Spiritual')}
           />
           <OffersCarousel
             classes={classes}
             offers={offers?.filter(
               (offer) => !offer.archieve && offer.category === 'ethical'
             )}
-            title='ethical'
+            title={t('Ethical')}
           />
           <OffersCarousel
             classes={classes}
             offers={offers?.filter(
               (offer) => !offer.archieve && offer.category === 'excursions'
             )}
-            title='excursions'
+            title={t('Excursions')}
           />
         </Grid>
         <Grid item sm={2}>
@@ -174,25 +176,25 @@ const Offers = () => {
               link='/app/offers/createoffer'
               Icon1={PlusIcon}
               Icon2={TagIcon}
-              text='New Offer'
+              text={t('NEW OFFER')}
             />
             <BigBox
               classes={classes}
               link='/app/offers/archieves'
               Icon1={ArchiveIcon}
-              text='archives'
+              text={t('ARCHIVES')}
             />
             <BigBox
               classes={classes}
               link='/app/offers/flash-sales'
               Icon1={FlashOnIcon}
-              text='Flash Sales'
+              text={t('FLASH SALES')}
             />
             <BigBox
               classes={classes}
               link='/app/offers/promos'
               Icon1={NewReleasesIcon}
-              text='Fresh Arrivals'
+              text={t('FRESH ARRIVALS')}
             />
           </Box>
         </Grid>

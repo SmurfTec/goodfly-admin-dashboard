@@ -19,6 +19,7 @@ import { Search as SearchIcon } from 'react-feather';
 import v4 from 'uuid/dist/v4';
 import { Link } from 'react-router-dom';
 import { OrderContext } from 'Contexts/OrderContext';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -46,6 +47,7 @@ const styles = makeStyles((theme) => ({
 
 const Orders = () => {
   const classes = styles();
+  const { t } = useTranslation();
 
   const { orders } = useContext(OrderContext);
   console.log(orders);
@@ -103,7 +105,7 @@ const Orders = () => {
   return (
     <div>
       <Typography variant='h4' m={2}>
-        E-commerce order Management
+        {t('E-commerce order Management')}
       </Typography>
       <Box className={classes.main}>
         <Box
@@ -114,17 +116,14 @@ const Orders = () => {
             width: '100%',
           }}
         >
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
-          >
-            Search Order
+          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+            {t('Search Order')}
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
           <TextField
             hiddenLabel
             id='filled-hidden-label-small'
-            placeholder='order name'
+            placeholder={t('order name')}
             size='small'
             style={{ margin: '0px 5px 0px', width: '30%' }}
             className={classes.textInput}
@@ -139,13 +138,13 @@ const Orders = () => {
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
-                <TableCell>Ref Orders</TableCell>
-                <TableCell align='right'>Order Date</TableCell>
-                <TableCell align='right'>Status</TableCell>
-                <TableCell align='right'>Clients </TableCell>
-                <TableCell align='right'>Emails</TableCell>
-                <TableCell align='right'>Telephone</TableCell>
-                <TableCell align='right'>Actions</TableCell>
+                <TableCell>{t('Ref Orders')}</TableCell>
+                <TableCell align='right'>{t('Order Date')}</TableCell>
+                <TableCell align='right'>{t('Status')}</TableCell>
+                <TableCell align='right'>{t('Clients')} </TableCell>
+                <TableCell align='right'>{t('Emails')}</TableCell>
+                <TableCell align='right'>{t('Telephone')}</TableCell>
+                <TableCell align='right'>{t('Actions')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -164,9 +163,7 @@ const Orders = () => {
                         <TableCell align='right'>
                           {new Date(row.createdAt).toDateString()}
                         </TableCell>
-                        <TableCell align='right'>
-                          {row.status}
-                        </TableCell>
+                        <TableCell align='right'>{row.status}</TableCell>
                         <TableCell align='right'>
                           {row.visitor
                             ? row.visitor.fullName
@@ -187,7 +184,7 @@ const Orders = () => {
                             component={Link}
                             to={`/app/orders/edit/${row._id}`}
                           >
-                            Edit
+                            {t('EDIT')}
                           </Button>
                         </TableCell>
                       </TableRow>

@@ -19,6 +19,7 @@ import { useTextInput } from 'hooks';
 import useStyles from './styles';
 import { useTheme } from '@material-ui/styles';
 import ChatMsg from './ChatMsg';
+import { useTranslation } from 'react-i18next';
 
 const Chat = () => {
   const classes = useStyles();
@@ -28,6 +29,7 @@ const Chat = () => {
   const [searchVal, handleSearch, resetSearch] = useTextInput('');
 
   const [activeChat, setActiveChat] = useState();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!chats?.length) return;
@@ -108,7 +110,7 @@ const Chat = () => {
           <Grid item xs={12} sx={{ margin: 1, marginLeft: 0 }}>
             <TextField
               id='outlined-basic-email'
-              label='Search'
+              label={t('Search')}
               variant='outlined'
               fullWidth
               size='small'

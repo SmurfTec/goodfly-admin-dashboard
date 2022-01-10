@@ -26,6 +26,7 @@ import LoadingOverlay from 'react-loading-overlay';
 import axios from 'axios';
 import v4 from 'uuid/dist/v4';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles((theme) => ({
   account: {
@@ -88,12 +89,10 @@ const CreateProduct = () => {
   const classes = styles();
   const theme = useTheme();
   const lgDown = useMediaQuery(theme.breakpoints.down('lg'));
+  const { t } = useTranslation();
 
-  const [isImageUploading, toggleImageUploading] =
-    useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState(
-    'Uploading Image...'
-  );
+  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
   const { createNewProduct, categories } = useContext(ProductContext);
 
@@ -113,13 +112,8 @@ const CreateProduct = () => {
     isOnline: false,
   };
 
-  const [
-    state,
-    handleTxtChange,
-    handleToggleChange,
-    changeInput,
-    resetState,
-  ] = useManyInputs(initialState);
+  const [state, handleTxtChange, handleToggleChange, changeInput, resetState] =
+    useManyInputs(initialState);
 
   const handleLabel = (e) => {
     e.preventDefault();
@@ -189,9 +183,7 @@ const CreateProduct = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message ||
-          err.message ||
-          'Something Went Wrong'
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -211,22 +203,13 @@ const CreateProduct = () => {
             variant='h4'
             style={{ width: '100%', margin: '10px 20px 0px' }}
           >
-            New product
+            {t('New Product')}
           </Typography>
         </Box>
 
         <Grid container>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={12}
-            style={{ minHeight: 400 }}
-          >
-            <Box
-              className={classes.mainBox}
-              style={{ padding: '5rem' }}
-            >
+          <Grid item xs={12} sm={12} md={12} style={{ minHeight: 400 }}>
+            <Box className={classes.mainBox} style={{ padding: '5rem' }}>
               <Box
                 style={{
                   display: 'flex',
@@ -235,7 +218,7 @@ const CreateProduct = () => {
                 }}
               >
                 <Typography variant='h5'>
-                  Online
+                  {t('Online')}
                   <Switch
                     checked={state.isOnline}
                     onChange={handleToggleChange}
@@ -246,12 +229,12 @@ const CreateProduct = () => {
               </Box>
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  Name
+                  {t('Name')}
                 </Typography>
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  placeholder='name'
+                  placeholder={t('Name').toLowerCase()}
                   size='small'
                   className={classes.textInput}
                   name='name'
@@ -261,12 +244,12 @@ const CreateProduct = () => {
               </Box>
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  Price
+                  {t('Price')}
                 </Typography>
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  placeholder='price $'
+                  placeholder={`${t('price').toLowerCase()}  $`}
                   size='small'
                   type='number'
                   InputProps={{ min: 5 }}
@@ -278,7 +261,7 @@ const CreateProduct = () => {
               </Box>
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  Category
+                  {t('Category')}
                 </Typography>
                 <FormControl
                   fullWidth
@@ -290,13 +273,13 @@ const CreateProduct = () => {
                   }}
                 >
                   <InputLabel id='demo-simple-select-label'>
-                    Category
+                    {t('Category').toLowerCase()}
                   </InputLabel>
 
                   <Select
                     labelId='demo-simple-select-label'
                     id='demo-simple-select'
-                    label='Category'
+                    label={t('Category')}
                     name='category'
                     value={state.category}
                     onChange={handleTxtChange}
@@ -304,20 +287,16 @@ const CreateProduct = () => {
                     {/* <MenuItem value={10}>One</MenuItem>
                     <MenuItem value={20}>Two</MenuItem> */}
                     {categories?.map((category) => (
-                      <MenuItem
-                        value={category._id}
-                        key={category.id}
-                      >
+                      <MenuItem value={category._id} key={category.id}>
                         {category.name}
                       </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
-              </Box>{' '}
+              </Box>
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  {' '}
-                  Weight{' '}
+                  {t('Weight')}
                 </Typography>
                 <TextField
                   hiddenLabel
@@ -330,10 +309,10 @@ const CreateProduct = () => {
                   value={state.weight}
                   onChange={handleTxtChange}
                 />
-              </Box>{' '}
+              </Box>
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  Price Per Kilo
+                  {t('Price Per Kilo')}
                 </Typography>
                 <TextField
                   hiddenLabel
@@ -348,7 +327,7 @@ const CreateProduct = () => {
               </Box>
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  Dimensions
+                  {t('Dimensions')}
                 </Typography>
                 <Box
                   style={{
@@ -363,10 +342,10 @@ const CreateProduct = () => {
                     InputProps={{ min: 1 }}
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    placeholder='Length (cm)'
+                    placeholder={`${t('Length')} (cm)`}
                     size='small'
                     className={classes.dimensions}
-                    name='length'
+                    name={t('length')}
                     value={state.length}
                     onChange={handleTxtChange}
                   />
@@ -375,7 +354,7 @@ const CreateProduct = () => {
                     InputProps={{ min: 1 }}
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    placeholder='Width (cm)'
+                    placeholder={`${t('Width')} (cm)`}
                     size='small'
                     className={classes.dimensions}
                     name='width'
@@ -387,7 +366,7 @@ const CreateProduct = () => {
                     InputProps={{ min: 1 }}
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    placeholder='Height (cm)'
+                    placeholder={`${t('Height')} (cm)`}
                     size='small'
                     className={classes.dimensions}
                     name='height'
@@ -402,12 +381,12 @@ const CreateProduct = () => {
                 mt={1}
               >
                 <Typography variant='h5'>
-                  Description of Product
+                  {t('Description of Product')}
                 </Typography>
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  placeholder='Add product description'
+                  placeholder={t('Add product description')}
                   size='small'
                   multiline
                   rows={7}
@@ -425,20 +404,16 @@ const CreateProduct = () => {
                 className={classes.inputBox}
                 style={{ display: 'inline-block' }}
               >
-                <Box
-                  display='flex'
-                  justifyContent='left'
-                  alignItems='center'
-                >
+                <Box display='flex' justifyContent='left' alignItems='center'>
                   <Typography variant='h5' mr={12}>
-                    Labels
+                    {t('Labels')}
                   </Typography>
                   <form id='labelForm' onSubmit={handleLabel}>
                     <TextField
                       hiddenLabel
                       required
                       id='filled-hidden-label-small'
-                      placeholder='Add Five Labels'
+                      placeholder={t('Add Five Labels')}
                       size='small'
                       style={{
                         width: lgDown ? '60%' : '50%',
@@ -456,7 +431,7 @@ const CreateProduct = () => {
                       style={{ marginLeft: '0.5rem' }}
                       type='submit'
                     >
-                      Add
+                      {t('ADD')}
                     </Button>
                   </form>
                 </Box>
@@ -503,11 +478,8 @@ const CreateProduct = () => {
         </Grid>
 
         <Box className={classes.mainBox}>
-          <Typography
-            variant='h3'
-            style={{ width: '100%', marginTop: '1rem' }}
-          >
-            Products images
+          <Typography variant='h3' style={{ width: '100%', marginTop: '1rem' }}>
+            {t('Products images')}
           </Typography>
 
           <Grid container spacing={3}>
@@ -531,7 +503,7 @@ const CreateProduct = () => {
                         onClick={deleteImage.bind(this, image._id)}
                         style={{ color: 'red' }}
                       >
-                        Delete
+                        {t('DELETE')}
                       </Button>
                     </Box>
                   </div>
@@ -575,26 +547,20 @@ const CreateProduct = () => {
                       >
                         <Box className={classes.image}>
                           <Box>
-                            <PlusIcon
-                              size={35}
-                              style={{ color: '#fff' }}
-                            />
-                            <FileIcon
-                              size={35}
-                              style={{ color: '#fff' }}
-                            />
+                            <PlusIcon size={35} style={{ color: '#fff' }} />
+                            <FileIcon size={35} style={{ color: '#fff' }} />
                           </Box>
                           <Box style={{ textAlign: 'center' }}>
                             <Typography style={{ color: '#fff' }}>
-                              Upload Document
+                              {t('Upload Document')}
                             </Typography>
                           </Box>
                         </Box>
-                      </label>{' '}
+                      </label>
                     </Box>
                   </Box>
                 </Box>
-              </LoadingOverlay>{' '}
+              </LoadingOverlay>
             </Grid>
           </Grid>
           <Box
@@ -614,7 +580,7 @@ const CreateProduct = () => {
               style={{ width: 150 }}
               onClick={handleSubmit}
             >
-              create
+              {t('CREATE')}
             </Button>
           </Box>
         </Box>

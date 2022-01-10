@@ -15,6 +15,7 @@ import { OffersContext } from 'Contexts/OffersContext';
 import { getMuiDateFormat } from 'utils/dateMethods';
 import { useManyInputs, useToggleInput } from 'hooks';
 import { ConfirmDialog } from '../Dialogs';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -50,6 +51,7 @@ const CustomTrip = () => {
   const { getOfferById, customOffers, updateCustomOffer } =
     useContext(OffersContext);
   const classes = styles();
+  const { t } = useTranslation();
   const [isDeleteOpen, toggleDeleteOpen] = useToggleInput(false);
   const initialState = {};
   const [offer, handleTxtChange, , , , setOffer] = useManyInputs(initialState);
@@ -79,7 +81,7 @@ const CustomTrip = () => {
   return (
     <div>
       <Typography variant='h4' m={2}>
-        Tailor-made Travel Management
+        {t('Tailor-made Travel Management')}
       </Typography>
       {offer ? (
         <Box className={classes.main}>
@@ -93,7 +95,7 @@ const CustomTrip = () => {
           >
             <Button variant='outlined' component={Link} to='/app/customtrips'>
               <ArrowLeftIcon />
-              Back to the List
+              {t('Back to the List')}
             </Button>
             <Box display='flex' alignItems='center' style={{ gap: '20px' }}>
               <div>
@@ -126,28 +128,28 @@ const CustomTrip = () => {
               padding: '30px 30px',
             }}
           >
-            <Typography variant='h6'>Contact Details</Typography>
+            <Typography variant='h6'>{t('Contact Details')}</Typography>
             <Box>
               <Box className={classes.form}>
                 <TextField
                   value={offer.pronoun}
                   name='pronoun'
                   id='standard-basic'
-                  label='Civilite'
+                  label={t('Civility')}
                   variant='standard'
                 />
                 <TextField
                   name='firstName'
                   value={offer.visitor?.firstName}
                   id='standard-basic'
-                  label='firstname'
+                  label={t('First Name')}
                   variant='standard'
                 />
                 <TextField
                   name='lastName'
                   value={offer.visitor?.lastName}
                   id='standard-basic'
-                  label='lastName'
+                  label={t('Last Name')}
                   variant='standard'
                 />
               </Box>
@@ -156,21 +158,21 @@ const CustomTrip = () => {
                   name='birthDate'
                   value={getMuiDateFormat(offer.visitor?.dateOfBirth)}
                   id='standard-basic'
-                  label='Date of Birth'
+                  label={t('Date of Birth')}
                   variant='standard'
                 />
                 <TextField
                   name='email'
                   value={offer.visitor?.email}
                   id='standard-basic'
-                  label='Email Address'
+                  label={t('Email Address')}
                   variant='standard'
                 />
                 <TextField
                   name='phone'
                   value={offer.visitor?.telephoneNumber}
                   id='standard-basic'
-                  label='Telephone mobile'
+                  label={`${t('Telephone')}/${t('Mobile')}`}
                   variant='standard'
                 />
               </Box>
@@ -178,7 +180,7 @@ const CustomTrip = () => {
                 <TextField
                   value={offer.visitor?.address}
                   id='standard-basic'
-                  label='Address'
+                  label={t('Address')}
                   variant='standard'
                   style={{ width: '69%' }}
                 />
@@ -187,24 +189,24 @@ const CustomTrip = () => {
                 <TextField
                   value={offer.visitor?.postalCode}
                   id='standard-basic'
-                  label='Postal Code'
+                  label={t('Postal Code')}
                   variant='standard'
                 />
                 <TextField
                   value={offer.visitor?.city}
                   id='standard-basic'
-                  label='City'
+                  label={t('City')}
                   variant='standard'
                 />
                 <TextField
                   value={offer.visitor?.country}
                   id='standard-basic'
-                  label='Country'
+                  label={t('Country')}
                   variant='standard'
                 />
               </Box>
             </Box>
-            <Typography variant='h6'>Trip Details</Typography>
+            <Typography variant='h6'>{t('Trip Details')}</Typography>
             <Box>
               <Box className={classes.form} style={{ width: '43%' }}>
                 <TextField
@@ -212,7 +214,7 @@ const CustomTrip = () => {
                   value={offer.totalAmount}
                   onChange={handleTxtChange}
                   id='standard-basic'
-                  label='Total Price'
+                  label={t('Total Price')}
                   type='number'
                   autoFocus
                   variant='standard'
@@ -227,7 +229,7 @@ const CustomTrip = () => {
                   type='number'
                   id='standard-basic'
                   autoFocus
-                  label='Number of Participants'
+                  label={t('Number of Participants')}
                   variant='standard'
                 />
                 <TextField
@@ -242,7 +244,7 @@ const CustomTrip = () => {
                   name={`${offer.type2 ? 'type2' : 'groupType'}`}
                   value={offer.type2 || offer.groupType}
                   id='standard-basic'
-                  label='Group Type'
+                  label={t('Group Type')}
                   variant='standard'
                 />
               </Box>
@@ -252,7 +254,7 @@ const CustomTrip = () => {
                   value={offer.destination?.join(',')}
                   // onChange={handleTxtChange}
                   id='standard-basic'
-                  label='Destinations'
+                  label={t('Destinations')}
                   variant='standard'
                   style={{ width: '69%' }}
                 />
@@ -263,7 +265,7 @@ const CustomTrip = () => {
                   value={offer.numOfAdults}
                   onChange={handleTxtChange}
                   id='numOfAdults'
-                  label='Number of Adults'
+                  label={t('Number of Adults')}
                   type='number'
                   variant='standard'
                 />
@@ -274,7 +276,7 @@ const CustomTrip = () => {
                   onChange={handleTxtChange}
                   id='numOfAdolescants'
                   type='number'
-                  label='Number of Adolescants'
+                  label={t('Number of Adolescants')}
                   variant='standard'
                 />
 
@@ -284,7 +286,7 @@ const CustomTrip = () => {
                   onChange={handleTxtChange}
                   id='numOfChildren'
                   type='number'
-                  label='Children'
+                  label={t('Children')}
                   variant='standard'
                 />
               </Box>
@@ -296,7 +298,7 @@ const CustomTrip = () => {
                   onChange={handleTxtChange}
                   id='numOfBabies'
                   type='number'
-                  label='Babies'
+                  label={t('Babies')}
                   variant='standard'
                 />
                 <TextField
@@ -304,7 +306,7 @@ const CustomTrip = () => {
                   value={offer.departureDate}
                   onChange={handleTxtChange}
                   id='standard-basic'
-                  label='Desired Departure'
+                  label={t('Desired Departure')}
                   variant='standard'
                   type='date'
                 />
@@ -313,7 +315,7 @@ const CustomTrip = () => {
                   value={offer.desiredReturnOn}
                   onChange={handleTxtChange}
                   id='standard-basic'
-                  label='Desired Return Date'
+                  label={t('Desired Return Date')}
                   variant='standard'
                   type='date'
                 />
@@ -325,14 +327,14 @@ const CustomTrip = () => {
                   value={offer.year}
                   onChange={handleTxtChange}
                   id='standard-basic'
-                  label='Year'
+                  label={t('Year')}
                   variant='standard'
                 />
                 <TextField
                   name='month'
                   value={offer.month}
                   id='standard-basic'
-                  label='Month'
+                  label={t('Month')}
                   variant='standard'
                   type='number'
                 />
@@ -340,7 +342,7 @@ const CustomTrip = () => {
                   name='duration'
                   value={offer.duration}
                   id='standard-basic'
-                  label='Duration'
+                  label={t('Duration')}
                   variant='standard'
                   type='number'
                 />
@@ -352,7 +354,7 @@ const CustomTrip = () => {
                   value={offer.tripType}
                   onChange={handleTxtChange}
                   id='tripType'
-                  label='Trip Type'
+                  label={t('Trip Type')}
                   variant='standard'
                   style={{ width: '69%' }}
                 />
@@ -364,7 +366,7 @@ const CustomTrip = () => {
                   value={offer.accomodationType}
                   onChange={handleTxtChange}
                   id='accomodationType'
-                  label='Type of accommodation'
+                  label={t('Type of Accommodation')}
                   variant='standard'
                 />
                 <TextField
@@ -372,7 +374,7 @@ const CustomTrip = () => {
                   value={offer.flightsType}
                   onChange={handleTxtChange}
                   id='flightsType'
-                  label='Flight Type'
+                  label={t('Flight Type')}
                   variant='standard'
                 />
               </Box>
@@ -389,7 +391,7 @@ const CustomTrip = () => {
                   name='transportOnSite'
                   value={offer.transportOnSite}
                   id='transportOnSite'
-                  label='Transport Type'
+                  label={t('Transport Type')}
                   variant='standard'
                 />
                 <TextField
@@ -397,7 +399,7 @@ const CustomTrip = () => {
                   value={offer.guideAccompany}
                   onChange={handleTxtChange}
                   id='guideAccompany'
-                  label='Guide Accompany'
+                  label={t('Guide Accompany')}
                   variant='standard'
                 />
               </Box>
@@ -407,7 +409,7 @@ const CustomTrip = () => {
                   value={offer.budgetPerPerson * offer.numOfParticipants}
                   onChange={handleTxtChange}
                   id='standard-basic'
-                  label='global budget'
+                  label={t('Global Budget')}
                   variant='standard'
                 />
                 <TextField
@@ -415,7 +417,7 @@ const CustomTrip = () => {
                   value={offer.phone}
                   onChange={handleTxtChange}
                   id='conatactClient'
-                  label='Contact Client'
+                  label={t('Contact Client')}
                   variant='standard'
                 />
               </Box>
@@ -424,7 +426,7 @@ const CustomTrip = () => {
                   variant='h5'
                   style={{ color: '#c6c6c6', marginBottom: '1rem' }}
                 >
-                  Desires
+                  {t('Desires')}
                 </Typography>
                 <Typography variant='text' style={{ color: '#8f8f8f' }}>
                   {offer.desires}

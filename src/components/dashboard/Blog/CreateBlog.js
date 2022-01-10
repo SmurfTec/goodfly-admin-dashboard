@@ -25,6 +25,7 @@ import useTextInput from 'hooks/useTextInput';
 
 import { BlogsContext } from 'Contexts/BlogsContext';
 import { useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles((theme) => ({
   image: {
@@ -54,6 +55,7 @@ const CreateBlog = () => {
 
   const navigate = useNavigate();
   const { createNewBlog } = useContext(BlogsContext);
+  const { t } = useTranslation();
 
   const initialState = {
     publishDate: new Date(),
@@ -180,7 +182,7 @@ const CreateBlog = () => {
       <Grid container style={{ marginTop: 50 }}>
         <Grid item sm={3} md={3}>
           <Box style={{ margin: 20 }}>
-            <Typography variant='h5'>New Article</Typography>
+            <Typography variant='h5'>{t('New Article')}</Typography>
             <LoadingOverlay
               active={isImageUploading}
               spinner
@@ -202,7 +204,7 @@ const CreateBlog = () => {
                         onChange={handleImage}
                       />
                       <Typography style={{ color: '#808080' }}>
-                        Upload Image
+                        {t('Upload Image')}
                       </Typography>
                     </Box>
                   </Box>
@@ -219,7 +221,7 @@ const CreateBlog = () => {
               textAlign: 'right',
             }}
           >
-            Offline
+            {t('Offline')}
             <Switch
               checked={state.upload}
               name='upload'
@@ -250,7 +252,7 @@ const CreateBlog = () => {
                 value={state.theme}
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='Theme of Article'
+                label={t('Theme of Article')}
                 variant='standard'
               />
               <TextField
@@ -258,7 +260,7 @@ const CreateBlog = () => {
                 value={state.Title}
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='Title of Article'
+                label={t('Title of Article')}
                 variant='standard'
                 style={{ width: '100%' }}
               />
@@ -269,11 +271,11 @@ const CreateBlog = () => {
           <form onSubmit={handleAddKeyword}>
             <Box>
               <TextField
-                name='Keywords'
+                // name='Keywords'
                 value={keyword}
                 onChange={handleChangeKeyword}
                 id='standard-basic'
-                label='keywords'
+                label={t('keywords')}
                 variant='standard'
                 name='keywords'
               />
@@ -296,7 +298,7 @@ const CreateBlog = () => {
         }}
       >
         <Editor
-          initialValue='<p>Your Blog Content Here</p>'
+          initialValue={`<p>${t('Your Blog Content Here')}</p>'`}
           init={{
             height: 500,
             menubar: false,
@@ -363,7 +365,7 @@ const CreateBlog = () => {
           style={{ backgroundColor: 'red', width: 150 }}
           onClick={toggleIsOpen}
         >
-          Cancel
+          {t('CANCEL')}
         </Button>
         <Button
           onClick={handleCreateBlog}
@@ -371,7 +373,7 @@ const CreateBlog = () => {
           size='medium'
           style={{ width: 150 }}
         >
-          Create
+          {t('CREATE')}
         </Button>
       </Box>
 

@@ -18,6 +18,7 @@ import { Search as SearchIcon } from 'react-feather';
 import styles from './styles';
 import { OffersContext } from 'Contexts/OffersContext';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -30,6 +31,7 @@ const CustomTrips = () => {
   const [filteredItems, setFilteredItems] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const { t } = useTranslation();
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -65,7 +67,7 @@ const CustomTrips = () => {
   return (
     <div>
       <Typography variant='h4' m={2}>
-        Tailor-made Travel Management
+        {t('Tailor-made Travel Management')}
       </Typography>
       <Box className={classes.main}>
         <Box
@@ -77,13 +79,13 @@ const CustomTrips = () => {
           }}
         >
           <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
-            Search Client
+            {t('Search Client')}
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
           <TextField
             hiddenLabel
             id='filled-hidden-label-small'
-            placeholder='client name'
+            placeholder={t('client name')}
             size='small'
             style={{ margin: '0px 5px 0px', width: '30%' }}
             className={classes.textInput}
@@ -98,11 +100,11 @@ const CustomTrips = () => {
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell align='center'>Date of Reservation</TableCell>
-                <TableCell align='center'>Emails</TableCell>
-                <TableCell align='center'>Telephone</TableCell>
-                <TableCell align='center'>Actions</TableCell>
+                <TableCell>{t('Name')}</TableCell>
+                <TableCell align='center'>{t('Date of Reservation')}</TableCell>
+                <TableCell align='center'>{t('Emails')}</TableCell>
+                <TableCell align='center'>{t('Telephone')}</TableCell>
+                <TableCell align='center'>{t('Actions')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

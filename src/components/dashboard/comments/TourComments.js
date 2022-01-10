@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   Box,
@@ -27,6 +28,7 @@ const TourComments = ({
   showComment,
 }) => {
   const [rows, setRows] = useState();
+  const { t } = useTranslation();
 
   const statuses = useMemo(() => {
     let waiting = 0,
@@ -85,16 +87,16 @@ const TourComments = ({
     <>
       <Box className={classes.flexLeft}>
         <Button m={1} data-status='waiting' onClick={filterComments}>
-          Waiting : {statuses[0]}
+          {t('WAITING')} : {statuses[0]}
         </Button>
         <Button m={1} data-status='approved' onClick={filterComments}>
-          Approved : {statuses[1]}
+          {t('APPROVED')} : {statuses[1]}
         </Button>
         <Button m={1} data-status='undesireable' onClick={filterComments}>
-          Undesirable :{statuses[2]}
+          {t('UNDESIRABLE')} :{statuses[2]}
         </Button>
         <Button m={1} data-status='basket' onClick={filterComments}>
-          Basket: {statuses[3]}
+          {t('BASKET')}: {statuses[3]}
         </Button>
       </Box>
       <Box mt={3}></Box>
@@ -103,10 +105,10 @@ const TourComments = ({
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell align='center'>Author</TableCell>
-              <TableCell align='center'>Comments</TableCell>
-              <TableCell align='center'>Blog</TableCell>
-              <TableCell align='center'>Date</TableCell>
+              <TableCell align='center'>{t('Author')}</TableCell>
+              <TableCell align='center'>{t('Comments')}</TableCell>
+              <TableCell align='center'>{t('Blog')}</TableCell>
+              <TableCell align='center'>{t('Date')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -144,7 +146,7 @@ const TourComments = ({
                             mr={1}
                             style={{ color: 'green' }}
                           >
-                            Approve
+                            {t('APPROVE')}
                           </Button>
                           <Button mr={1}>Reply</Button>
                           <Button mr={1}>Modify</Button>
@@ -154,7 +156,7 @@ const TourComments = ({
                             onClick={handleUpdate}
                             mr={1}
                           >
-                            Undesirable
+                            {t('UNDESIRABLE')}
                           </Button>
                           <Button
                             data-status='basket'
@@ -163,7 +165,7 @@ const TourComments = ({
                             mr={1}
                             style={{ color: 'red' }}
                           >
-                            Basket
+                            {t('BASKET')}
                           </Button>
                         </Box>
                       </TableCell>

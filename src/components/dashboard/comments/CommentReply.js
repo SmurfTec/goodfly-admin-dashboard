@@ -8,6 +8,7 @@ import { DialogActions, DialogContent, TextField } from '@material-ui/core';
 import { useManyInputs, useTextInput } from 'hooks';
 import { toast } from 'react-toastify';
 import { getMuiDateFormat } from 'utils/dateMethods';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   root: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles({
 export default function CommentReply(props) {
   const { open, success, toggleDialog } = props;
   const classes = useStyles();
-
+  const { t } = useTranslation();
   const [reply, handleReply, resetReply] = useTextInput('');
 
   const handleSubmit = (e) => {
@@ -44,7 +45,7 @@ export default function CommentReply(props) {
       className={classes.root}
     >
       <DialogTitle id='simple-dialog-title' className={classes.Title}>
-        Reply To Comment
+        {t('Reply To Comment')}
       </DialogTitle>
       <DialogContent>
         <form id='form' onSubmit={handleSubmit}>
@@ -53,7 +54,7 @@ export default function CommentReply(props) {
             value={reply}
             onChange={handleReply}
             fullWidth
-            label='Reply'
+            label={t('Reply')}
             type='text'
             required
           />
@@ -61,10 +62,10 @@ export default function CommentReply(props) {
       </DialogContent>
       <DialogActions>
         <Button variant='contained' color='success' type='submit' form='form'>
-          Reply
+          {t('REPLY')}
         </Button>
         <Button variant='contained' color='info' onClick={toggleDialog}>
-          Cancel
+          {t('CANCEL')}
         </Button>
       </DialogActions>
     </Dialog>

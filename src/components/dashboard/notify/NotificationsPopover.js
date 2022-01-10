@@ -33,6 +33,7 @@ import { makeStyles } from '@material-ui/styles';
 
 import { ShoppingBagOutlined } from '@material-ui/icons';
 import FlightTakeoffIcon from '@mui/icons-material/Flight';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   badge: {
@@ -155,6 +156,7 @@ const NotificationsPopover = () => {
   const [open, setOpen] = useState(false);
   const { notifications, makeNotficationsAsRead } = useContext(SocketContext);
   const [localNotifications, setLocalNotifications] = useState([]);
+  const { t } = useTranslation();
   const totalUnRead = useMemo(() => {
     let unread = localNotifications.filter(
       (item) => item.isRead === false
@@ -229,9 +231,10 @@ const NotificationsPopover = () => {
           }}
         >
           <Box sx={{ flexGrow: 1 }}>
-            <Typography variant='subtitle1'>Notifications</Typography>
+            <Typography variant='subtitle1'>{t('Notifications')}</Typography>
             <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-              You have {totalUnRead} unread messages
+              {/* You have {totalUnRead} unread messages */}
+              {t('You Have unread messages', { totalUnRead })}
             </Typography>
           </Box>
 
@@ -254,7 +257,7 @@ const NotificationsPopover = () => {
                 disableSticky
                 sx={{ py: 1, px: 2.5, typography: 'overline' }}
               >
-                New
+                {t('New')}
               </ListSubheader>
             }
           >
@@ -276,7 +279,7 @@ const NotificationsPopover = () => {
                 disableSticky
                 sx={{ py: 1, px: 2.5, typography: 'overline' }}
               >
-                Before that
+                {t('Before that')}
               </ListSubheader>
             }
           >

@@ -24,6 +24,7 @@ import useToggleInput from 'hooks/useToggleInput';
 import LoadingOverlay from 'react-loading-overlay';
 import v4 from 'uuid/dist/v4';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles(() => ({
   account: {
@@ -77,6 +78,7 @@ const styles = makeStyles(() => ({
 
 const VisitorProfile = () => {
   const classes = styles();
+  const { t } = useTranslation();
 
   const { createNewCustomer } = useContext(CustomersContext);
 
@@ -244,7 +246,7 @@ const VisitorProfile = () => {
             variant='h4'
             style={{ width: '100%', margin: '60px 20px 0px' }}
           >
-            New Customer
+            {t('New Customer')}
           </Typography>
         </Box>
         <form onSubmit={handleSubmit}>
@@ -259,7 +261,7 @@ const VisitorProfile = () => {
                     margin: '10px 0px 30px ',
                   }}
                 >
-                  <Typography variant='h4'>Client Profile</Typography>
+                  <Typography variant='h4'>{t('Client Profile')}</Typography>
                   {/* <div style={{ display: 'flex' }}>
                     <Typography
                       variant='h5'
@@ -288,7 +290,7 @@ const VisitorProfile = () => {
                   }}
                 >
                   <Typography variant='h5' style={{ width: '25%' }}>
-                    Pronoun
+                    {t('Pronoun')}
                   </Typography>
                   <FormControl component='fieldset'>
                     <RadioGroup
@@ -301,29 +303,29 @@ const VisitorProfile = () => {
                       <FormControlLabel
                         value='Mr'
                         control={<Radio />}
-                        label='Mr'
+                        label={t('Mr')}
                       />
                       <FormControlLabel
                         value='Mrs'
                         control={<Radio />}
-                        label='Mrs'
+                        label={t('Mrs')}
                       />
                       <FormControlLabel
                         value='Ms'
                         control={<Radio />}
-                        label='Ms'
+                        label={t('Ms')}
                       />
                     </RadioGroup>
                   </FormControl>
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    First Name
+                    {t('First Name')}
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    placeholder='First Name'
+                    placeholder={t('First Name')}
                     size='small'
                     className={classes.textInput}
                     name='firstName'
@@ -334,12 +336,12 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Last Name
+                    {t('Last Name')}
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    placeholder='Last Name'
+                    placeholder={t('Last Name')}
                     size='small'
                     className={classes.textInput}
                     name='lastName'
@@ -350,7 +352,7 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Spouse Name
+                    {t('Spouse Name')}
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -367,7 +369,7 @@ const VisitorProfile = () => {
 
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Email
+                    {t('Email')}
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -383,7 +385,7 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Mobile
+                    {t('Mobile')}
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -399,7 +401,7 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    TelePhone
+                    {t('TelePhone')}
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -415,7 +417,7 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Address
+                    {t('Address')}
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -431,7 +433,7 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Additional Address
+                    {t('Additional Address')}
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -446,7 +448,7 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox} style={{ marginBottom: 5 }}>
                   <Typography variant='h5' style={{ width: '25%' }}>
-                    Postal Code
+                    {t('Postal Code')}
                   </Typography>
                   <Box
                     style={{
@@ -472,7 +474,7 @@ const VisitorProfile = () => {
                       required
                     />
                     <Typography variant='h5' style={{ textAlign: 'center' }}>
-                      City
+                      {t('City')}
                     </Typography>
                     <TextField
                       hiddenLabel
@@ -493,12 +495,12 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Country
+                    {t('Country')}
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    placeholder='pakistan'
+                    placeholder='Pakistan'
                     size='small'
                     className={classes.textInput}
                     name='country'
@@ -509,7 +511,7 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Birth Date
+                    {t('Birth Date')}
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -525,7 +527,7 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Nationality
+                    {t('Nationality')}
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -541,7 +543,7 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Passport No
+                    {t('Passport No')}
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -557,7 +559,7 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Date of Issue
+                    {t('Date of Issue')}
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -573,7 +575,7 @@ const VisitorProfile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Place of Issue
+                    {t('Place of Issue')}
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -666,7 +668,7 @@ const VisitorProfile = () => {
                     padding: '0rem 0.5rem 0rem',
                   }}
                 >
-                  Photo
+                  {t('Photo')}
                 </Typography>
                 <Avatar
                   style={{
@@ -708,7 +710,7 @@ const VisitorProfile = () => {
                           <FileIcon size={35} style={{ color: '#fff' }} />
                         </Box>
                         <Typography style={{ color: '#fff' }}>
-                          Upload Photo
+                          {`${t('Upload')} ${t('Photo')}`}
                         </Typography>
                       </Box>
                     </label>
@@ -729,7 +731,7 @@ const VisitorProfile = () => {
                   size='medium'
                   style={{ width: 150 }}
                 >
-                  Validate
+                  {t('Validate')}
                 </Button>
               </Box>
             </Grid>
@@ -739,7 +741,7 @@ const VisitorProfile = () => {
                   variant='h3'
                   style={{ width: '100%', marginTop: '3rem' }}
                 >
-                  Attachments
+                  {t('Attachments')}
                 </Typography>
 
                 <Grid container spacing={3}>
@@ -769,7 +771,7 @@ const VisitorProfile = () => {
                               )}
                               style={{ color: 'red' }}
                             >
-                              Delete
+                              {t('Delete')}
                             </Button>
                           </Box>
                         </div>
@@ -824,7 +826,7 @@ const VisitorProfile = () => {
                                 </Box>
                                 <Box style={{ textAlign: 'center' }}>
                                   <Typography style={{ color: '#fff' }}>
-                                    Upload Document
+                                    {t('Upload Document')}
                                   </Typography>
                                 </Box>
                               </Box>

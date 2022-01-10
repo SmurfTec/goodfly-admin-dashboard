@@ -45,6 +45,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { useNavigate } from 'react-router-dom';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles((theme) => ({
   header: {
@@ -167,6 +168,7 @@ const EditVisitor = () => {
   const [isImageUploading, toggleImageUploading] = useToggleInput(false);
   const [uploadingText, setUploadingText] = useState('Uploading Image...');
   const [isSubscribeOpen, toggleSubscribeOpen] = useToggleInput(false);
+  const { t } = useTranslation();
 
   const [state, handleTxtChange, handleToggleChange, changeInput, , setState] =
     useManyInputs(initialState);
@@ -292,7 +294,7 @@ const EditVisitor = () => {
         <>
           <Box>
             <Box className={classes.header}>
-              <Typography variant='h4'>Client Area</Typography>
+              <Typography variant='h4'>{t('Client Area')}</Typography>
               <Button
                 variant='outlined'
                 size='medium'
@@ -303,7 +305,7 @@ const EditVisitor = () => {
                 }}
                 onClick={handleDeleteCustomer}
               >
-                To Delete
+                {t('TO DELETE')}
               </Button>
               <Button
                 // onClick={handleSubmit}
@@ -312,7 +314,7 @@ const EditVisitor = () => {
                 variant='outlined'
                 size='medium'
               >
-                To Modify
+                {t('TO MODIFY')}
               </Button>
 
               <Button
@@ -323,7 +325,7 @@ const EditVisitor = () => {
                 endIcon={<Send size={20} />}
                 color='success'
               >
-                Send Email
+                {t('SEND EMAIL')}
               </Button>
 
               <Box>
@@ -344,7 +346,7 @@ const EditVisitor = () => {
               <Box>
                 {state.isVerified === false ? (
                   <Button variant='outlined' onClick={handleVerify}>
-                    Verify
+                    {t('Verify')}
                   </Button>
                 ) : (
                   <Button
@@ -355,7 +357,7 @@ const EditVisitor = () => {
                       />
                     }
                   >
-                    Verified
+                    {t('Verified')}
                   </Button>
                 )}
               </Box>
@@ -373,7 +375,7 @@ const EditVisitor = () => {
                 color='success'
                 disabled={state.isSubscribed}
               >
-                Subscribe{state.isSubscribed && 'd'}
+                {state.isSubscribed ? t('SUBSCRIBED') : t('SUBSCRIBE')}
               </Button>
             </Box>
             <form onSubmit={handleSubmit} id='customerForm'>
@@ -388,13 +390,15 @@ const EditVisitor = () => {
                         margin: '10px 0px 30px ',
                       }}
                     >
-                      <Typography variant='h4'>Client Profile</Typography>
+                      <Typography variant='h4'>
+                        {t('Client Profile')}
+                      </Typography>
                       <Box style={{ display: 'flex' }}>
                         <Typography
                           variant='h5'
                           style={{ margin: '0px 10px 0px' }}
                         >
-                          Number
+                          {t('Number')}
                         </Typography>
                         <Paper
                           style={{
@@ -417,13 +421,12 @@ const EditVisitor = () => {
                       }}
                     >
                       <Typography variant='h5' style={{ width: '25%' }}>
-                        Civilite
+                        {t('Civility')}
                       </Typography>
                       <FormControl component='fieldset'>
                         <RadioGroup
                           row
                           aria-label='gender'
-                          name='row-radio-buttons-group'
                           value={state.pronoun}
                           name='pronoun'
                           onChange={handleToggleChange}
@@ -431,24 +434,24 @@ const EditVisitor = () => {
                           <FormControlLabel
                             value='Mr'
                             control={<Radio />}
-                            label='Mr'
+                            label={t('Mr')}
                           />
                           <FormControlLabel
                             value='Mrs'
                             control={<Radio />}
-                            label='Mrs'
+                            label={t('Mrs')}
                           />
                           <FormControlLabel
                             value='Ms'
                             control={<Radio />}
-                            label='Ms'
+                            label={t('Ms')}
                           />
                         </RadioGroup>
                       </FormControl>
                     </Box>
                     <Box className={classes.inputBox}>
                       <Typography variant='h5' className={classes.typo}>
-                        First Name
+                        {t('First Name')}
                       </Typography>
                       <TextField
                         hiddenLabel
@@ -464,7 +467,7 @@ const EditVisitor = () => {
                     </Box>
                     <Box className={classes.inputBox}>
                       <Typography variant='h5' className={classes.typo}>
-                        Last Name
+                        {t('Last Name')}
                       </Typography>
                       <TextField
                         hiddenLabel
@@ -480,7 +483,7 @@ const EditVisitor = () => {
                     </Box>
                     <Box className={classes.inputBox}>
                       <Typography variant='h5' className={classes.typo}>
-                        Spouse Name
+                        {t('Spouse Name')}
                       </Typography>
                       <TextField
                         hiddenLabel
@@ -496,7 +499,7 @@ const EditVisitor = () => {
                     </Box>
                     <Box className={classes.inputBox}>
                       <Typography variant='h5' className={classes.typo}>
-                        Email
+                        {t('Email')}
                       </Typography>
                       <TextField
                         hiddenLabel
@@ -513,7 +516,7 @@ const EditVisitor = () => {
                     </Box>
                     <Box className={classes.inputBox}>
                       <Typography variant='h5' className={classes.typo}>
-                        Mobile
+                        {t('Mobile')}
                       </Typography>
                       <TextField
                         hiddenLabel
@@ -529,7 +532,7 @@ const EditVisitor = () => {
                     </Box>
                     <Box className={classes.inputBox}>
                       <Typography variant='h5' className={classes.typo}>
-                        TelePhone
+                        {t('TelePhone')}
                       </Typography>
                       <TextField
                         hiddenLabel
@@ -545,7 +548,7 @@ const EditVisitor = () => {
                     </Box>
                     <Box className={classes.inputBox}>
                       <Typography variant='h5' className={classes.typo}>
-                        Address
+                        {t('Address')}
                       </Typography>
                       <TextField
                         hiddenLabel
@@ -561,7 +564,7 @@ const EditVisitor = () => {
                     </Box>
                     <Box className={classes.inputBox}>
                       <Typography variant='h5' className={classes.typo}>
-                        Additional Address
+                        {t('Additional Address')}
                       </Typography>
                       <TextField
                         hiddenLabel
@@ -580,7 +583,7 @@ const EditVisitor = () => {
                       style={{ marginBottom: 5 }}
                     >
                       <Typography variant='h5' style={{ width: '30%' }}>
-                        Postal Code
+                        {t('Postal Code')}
                       </Typography>
                       <Box
                         style={{
@@ -609,7 +612,7 @@ const EditVisitor = () => {
                           variant='h5'
                           style={{ textAlign: 'center' }}
                         >
-                          City
+                          {t('City')}
                         </Typography>
                         <TextField
                           hiddenLabel
@@ -629,7 +632,7 @@ const EditVisitor = () => {
                     </Box>
                     <Box className={classes.inputBox}>
                       <Typography variant='h5' className={classes.typo}>
-                        Country
+                        {t('Country')}
                       </Typography>
                       <TextField
                         hiddenLabel
@@ -645,7 +648,7 @@ const EditVisitor = () => {
                     </Box>
                     <Box className={classes.inputBox}>
                       <Typography variant='h5' className={classes.typo}>
-                        Birth Date
+                        {t('Birth Date')}
                       </Typography>
                       <TextField
                         hiddenLabel
@@ -660,7 +663,7 @@ const EditVisitor = () => {
                     </Box>
                     <Box className={classes.inputBox}>
                       <Typography variant='h5' className={classes.typo}>
-                        Nationality
+                        {t('Nationality')}
                       </Typography>
                       <TextField
                         hiddenLabel
@@ -676,7 +679,7 @@ const EditVisitor = () => {
                     </Box>
                     <Box className={classes.inputBox}>
                       <Typography variant='h5' className={classes.typo}>
-                        Passport No
+                        {t('Passport No')}
                       </Typography>
                       <TextField
                         hiddenLabel
@@ -692,7 +695,7 @@ const EditVisitor = () => {
                     </Box>
                     <Box className={classes.inputBox}>
                       <Typography variant='h5' className={classes.typo}>
-                        Deliverance date
+                        {t('Deliverance date')}
                       </Typography>
                       <TextField
                         hiddenLabel
@@ -708,7 +711,7 @@ const EditVisitor = () => {
                     </Box>
                     <Box className={classes.inputBox}>
                       <Typography variant='h5' className={classes.typo}>
-                        place of delivery
+                        {t('Place of Delivery')}
                       </Typography>
                       <TextField
                         hiddenLabel
@@ -809,7 +812,7 @@ const EditVisitor = () => {
                       variant='h4'
                       style={{ width: '90%', margin: 15 }}
                     >
-                      Last customer order
+                      {t('Last Customer Order')}
                     </Typography>
                     <Box
                       style={{
@@ -823,7 +826,7 @@ const EditVisitor = () => {
                         variant='text'
                         style={{ color: '#c6c6c6', margin: 10 }}
                       >
-                        Fake order details
+                        {t('Fake Order Details')}
                       </Typography>
                     </Box>
                   </Box>
@@ -840,15 +843,17 @@ const EditVisitor = () => {
                       onClick={toggleSubscribeOpen}
                       sx={{ marginBottom: '2rem' }}
                     >
-                      Subscribe this customer to an offer
+                      {t('SUBSCRIBE THIS CUSTOMER TO AN OFFER')}
                     </Button>
 
-                    <Typography variant='h5'>Current Subscriptions</Typography>
+                    <Typography variant='h5'>
+                      {t('Current Subscriptions')}
+                    </Typography>
                     <List>
                       {!state.subscriptions?.length ? (
                         <ListItem>
                           <ListItemText>
-                            The Customer is NOT Subscribed to any offer
+                            {t('The Customer is NOT Subscribed to any offer')}
                           </ListItemText>
                         </ListItem>
                       ) : (
@@ -887,7 +892,7 @@ const EditVisitor = () => {
                   variant='h3'
                   style={{ width: '100%', marginTop: '3rem' }}
                 >
-                  Attachments
+                  {t('Attachments')}
                 </Typography>
 
                 <Grid container spacing={3}>
@@ -917,7 +922,7 @@ const EditVisitor = () => {
                               )}
                               style={{ color: 'red' }}
                             >
-                              Delete
+                              {t('DELETE')}
                             </Button>
                             <Switch
                               checked={attachment.isVerified}
@@ -984,7 +989,7 @@ const EditVisitor = () => {
                                 </Box>
                                 <Box style={{ textAlign: 'center' }}>
                                   <Typography style={{ color: '#fff' }}>
-                                    Upload Document
+                                    {t('Upload Document')}
                                   </Typography>
                                 </Box>
                               </Box>

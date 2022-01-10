@@ -22,6 +22,7 @@ import v4 from 'uuid/dist/v4';
 import { StaffersContext } from 'Contexts/StaffersContext';
 import useToggleInput from 'hooks/useToggleInput';
 import { ConfirmDialog } from '../Dialogs';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -45,8 +46,8 @@ const styles = makeStyles((theme) => ({
 
 const Staffers = () => {
   const classes = styles();
-  const { staffers, deleteStaffer, loading } =
-    useContext(StaffersContext);
+  const { staffers, deleteStaffer, loading } = useContext(StaffersContext);
+  const { t } = useTranslation();
 
   const [currentDeleteId, setCurrentDeleteId] = useState();
   const [isDeleteOpen, toggleDeleteOpen] = useToggleInput();
@@ -66,9 +67,7 @@ const Staffers = () => {
     rowsPerPage -
     Math.min(
       rowsPerPage,
-      staffers === 'loading'
-        ? 0
-        : staffers?.length - page * rowsPerPage
+      staffers === 'loading' ? 0 : staffers?.length - page * rowsPerPage
     );
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -90,9 +89,7 @@ const Staffers = () => {
         ? 'loading'
         : staffers?.filter(
             (row) =>
-              row.fullName
-                .toLowerCase()
-                .indexOf(filter.toLowerCase()) !== -1
+              row.fullName.toLowerCase().indexOf(filter.toLowerCase()) !== -1
           )
     );
   }, [filter]);
@@ -118,7 +115,7 @@ const Staffers = () => {
         m={2}
       >
         <Typography variant='h4' m={2}>
-          User Management
+          {t('User Management')}
         </Typography>
         <Button
           variant='contained'
@@ -126,7 +123,7 @@ const Staffers = () => {
           component={Link}
           to='/app/staffers/create'
         >
-          Add a Staffer
+          {t('ADD A STAFFER')}
         </Button>
       </Box>
       <Box className={classes.main}>
@@ -138,17 +135,14 @@ const Staffers = () => {
             width: '100%',
           }}
         >
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
-          >
-            Search Staffers
+          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+            {t('Search Staffers')}
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
           <TextField
             hiddenLabel
             id='filled-hidden-label-small'
-            placeholder='staffer name'
+            placeholder={t('staffer name')}
             size='small'
             style={{ margin: '0px 5px 0px', width: '30%' }}
             className={classes.textInput}
@@ -163,13 +157,13 @@ const Staffers = () => {
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell align='right'>Reference</TableCell>
-                <TableCell align='right'>Date of Creation</TableCell>
-                <TableCell align='right'>Role</TableCell>
-                <TableCell align='right'>Emails</TableCell>
-                <TableCell align='right'>Telephone</TableCell>
-                <TableCell align='right'>Actions</TableCell>
+                <TableCell>{t('Name')}</TableCell>
+                <TableCell align='right'>{t('Reference')}</TableCell>
+                <TableCell align='right'>{t('Date of Creation')}</TableCell>
+                <TableCell align='right'>{t('Role')}</TableCell>
+                <TableCell align='right'>{t('Emails')}</TableCell>
+                <TableCell align='right'>{t('Telephone')}</TableCell>
+                <TableCell align='right'>{t('Actions')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -220,12 +214,8 @@ const Staffers = () => {
                           {' '}
                           {new Date(row.createdAt).toDateString()}
                         </TableCell>
-                        <TableCell align='right'>
-                          {row.role}
-                        </TableCell>
-                        <TableCell align='right'>
-                          {row.email}
-                        </TableCell>
+                        <TableCell align='right'>{row.role}</TableCell>
+                        <TableCell align='right'>{row.email}</TableCell>
                         <TableCell align='right'>
                           {row.telephoneNumber}
                         </TableCell>
@@ -234,13 +224,13 @@ const Staffers = () => {
                             component={Link}
                             to={`/app/staffers/edit/${row._id}`}
                           >
-                            Edit
+                            {t('EDIT')}
                           </Button>
                           <Button
                             onClick={handleDelete.bind(this, row._id)}
                             style={{ color: 'red' }}
                           >
-                            Delete
+                            {t('DELETE')}
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -267,7 +257,7 @@ const Staffers = () => {
         open={isDeleteOpen}
         toggleDialog={toggleDeleteOpen}
         success={handleDeleteStaffer}
-        dialogTitle='Delete this Staffer ?'
+        dialogTitle={`${t('Delete this Staffer')} ?`}
       />
     </div>
   );

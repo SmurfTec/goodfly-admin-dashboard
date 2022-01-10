@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom';
+import { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
@@ -23,7 +24,37 @@ import { OrderProvider } from 'Contexts/OrderContext';
 import { SocketProvider } from 'Contexts/SocketContext';
 import { CategoriesProvider } from 'Contexts/CategoriesContext';
 
+// * ------ Translation ----------
+
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import HttpApi from 'i18next-http-backend';
+import LanguageDetector from 'i18next-browser-languagedetector';
+
 // * -------------------------------- * //
+
+i18n
+  .use(HttpApi)
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    supportedLngs: ['en', 'ar', 'fr'],
+    fallbackLng: 'en',
+    debug: false,
+    detection: {
+      order: ['path', 'cookie', 'htmlTag'],
+      caches: ['cookie'],
+    },
+    backend: {
+      loadPath: '/locales/{{lng}}/translation.json',
+    },
+  });
+
+const loadingMarkup = (
+  <div className='py-4 text-center'>
+    <h3>Loading..</h3>
+  </div>
+);
 
 ReactDOM.render(
   <BrowserRouter>
@@ -48,7 +79,9 @@ ReactDOM.render(
                           draggable
                           pauseOnHover
                         />
-                        <App />
+                        <Suspense fallback={loadingMarkup}>
+                          <App />
+                        </Suspense>
                       </ReservationsProvider>
                     </OffersProvider>
                   </CategoriesProvider>

@@ -9,6 +9,7 @@ import { BlogsContext } from 'Contexts/BlogsContext';
 import { useToggleInput } from 'hooks';
 import { ProductContext } from 'Contexts/ProductContext';
 import { OffersContext } from 'Contexts/OffersContext';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles(() => ({
   options: {
@@ -47,6 +48,7 @@ const styles = makeStyles(() => ({
 
 const Comments = () => {
   const classes = styles();
+  const { t } = useTranslation();
   const { blogComments, modifyBlogComment } = useContext(BlogsContext);
   const { productComments, modifyProductComment } = useContext(ProductContext);
   const { offerComments, modifyOfferComment } = useContext(OffersContext);
@@ -143,7 +145,7 @@ const Comments = () => {
   return (
     <div style={{ margin: '0.5rem 0rem 1rem' }}>
       <Typography variant='h4' m={2}>
-        Opinions & Comments
+        {t('Opinions & Comments')}
       </Typography>
       <Box
         style={{
@@ -168,9 +170,9 @@ const Comments = () => {
                 backgroundColor: 'white',
               }}
             >
-              <Tab label='Tour Reviews' {...a11yProps(0)} />
-              <Tab label='Product Reviews' {...a11yProps(1)} />
-              <Tab label='Blog Reviews' {...a11yProps(2)} />
+              <Tab label={t('TOUR REVIEWS')} {...a11yProps(0)} />
+              <Tab label={t('PRODUCT REVIEWS')} {...a11yProps(1)} />
+              <Tab label={t('BLOG REVIEWS')} {...a11yProps(2)} />
             </Tabs>
           </Box>
 

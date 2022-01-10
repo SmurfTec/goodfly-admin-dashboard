@@ -10,6 +10,7 @@ import SidebarContent from './SidebarContent';
 import { AuthContext } from 'Contexts/AuthContext';
 import logo from 'Assets/img/logo.png';
 import { useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 // import SidebarContent2 from './SidebarContent2';
 
@@ -26,6 +27,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const { user } = useContext(AuthContext);
   const classes = useStyles();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
@@ -57,7 +59,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           variant='h5'
           style={{ marginBottom: '1rem' }}
         >
-          Administration Interface
+          {t('Administration Interface')}
         </Typography>
         <img
           src={logo}
@@ -66,6 +68,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
             cursor: 'pointer',
           }}
           onClick={homePage}
+          alt=''
         />
       </Box>
       {/* <Divider /> */}
@@ -79,7 +82,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           textAlign: 'center',
         }}
       >
-        Tableau de bord
+        {t('Dashboard')}
       </Typography>
 
       <Box sx={{ padding: '5px' }} mt={1}>
@@ -102,7 +105,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           <NavItem
             href='/logout'
             key='Logout'
-            title='Logout'
+            title={t('Logout')}
             icon={LogoutIcon}
           />
         </Box>

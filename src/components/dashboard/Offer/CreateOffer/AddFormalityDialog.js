@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import { useManyInputs } from 'hooks';
 import { Editor } from '@tinymce/tinymce-react';
+import { useTranslation } from 'react-i18next';
 
 const AddFormalityDialog = ({ open, toggleDialog, submit, formality }) => {
   const initialState = {
@@ -19,6 +20,7 @@ const AddFormalityDialog = ({ open, toggleDialog, submit, formality }) => {
   };
   const [state, handleTxtChange, , , resetState, setState] =
     useManyInputs(initialState);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (formality) setState(formality);
@@ -42,11 +44,11 @@ const AddFormalityDialog = ({ open, toggleDialog, submit, formality }) => {
   return (
     <Dialog open={open} fullWidth onClose={toggleDialog}>
       <form onSubmit={handleSubmit}>
-        <DialogTitle>Add a Formality</DialogTitle>
+        <DialogTitle>{t('Add A Formality')}</DialogTitle>
         <DialogContent>
           <TextField
             type='text'
-            placeholder='Title of Formality '
+            placeholder={t('Title of Formality')}
             name='title'
             size='small'
             style={{
@@ -58,7 +60,7 @@ const AddFormalityDialog = ({ open, toggleDialog, submit, formality }) => {
             value={state.title}
           />
           <Typography sx={{ mt: 2, mb: 2 }} variant='h5'>
-            Description
+            {t('Description')}
           </Typography>
           <Editor
             initialValue={formality ? formality.content : ''}
@@ -99,10 +101,10 @@ const AddFormalityDialog = ({ open, toggleDialog, submit, formality }) => {
               style={{ width: '8rem', marginRight: '1rem' }}
               onClick={toggleDialog}
             >
-              Cancel
+              {t('CANCEL')}
             </Button>
             <Button variant='contained' style={{ width: '8rem' }} type='submit'>
-              Validate
+              {t('VALIDATE')}
             </Button>
           </Box>
         </DialogActions>

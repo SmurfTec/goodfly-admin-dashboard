@@ -29,6 +29,7 @@ import v4 from 'uuid/dist/v4';
 
 import { ProductContext } from 'Contexts/ProductContext';
 import { useTextInput, useToggleInput } from 'hooks';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles(() => ({
   main: {
@@ -64,6 +65,7 @@ const TourSubCategories = () => {
   const [filteredItems, setFilteredItems] = useState([]);
   const [currentCatId, setCurrentCatId] = useState();
   const [isEditOpen, toggleIsEditOpen] = useToggleInput(false);
+  const { t } = useTranslation();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -129,7 +131,7 @@ const TourSubCategories = () => {
         }}
       >
         <Typography variant='h4' m={2}>
-          Category Management
+          {t('Category Management')}
         </Typography>
         <Button
           variant='contained'
@@ -137,7 +139,7 @@ const TourSubCategories = () => {
           onClick={handleClickOpenCat}
         >
           {' '}
-          Add a Category
+          {t('ADD A CATEGORY')}
         </Button>
       </Box>
       <Box className={classes.main}>
@@ -150,13 +152,13 @@ const TourSubCategories = () => {
           }}
         >
           <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
-            Search Category
+            {t('Search Category')}
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
           <TextField
             hiddenLabel
             id='filled-hidden-label-small'
-            placeholder='category name'
+            placeholder={t('category name')}
             size='small'
             style={{ margin: '0px 5px 0px', width: '30%' }}
             className={classes.textInput}
@@ -171,10 +173,10 @@ const TourSubCategories = () => {
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
-                <TableCell align='center'>Id</TableCell>
-                <TableCell align='center'>Name</TableCell>
-                <TableCell align='center'>Creation Date</TableCell>
-                <TableCell align='center'>Actions</TableCell>
+                <TableCell align='center'>{t('Id')}</TableCell>
+                <TableCell align='center'>{t('Name')}</TableCell>
+                <TableCell align='center'>{t('Creation Date')}</TableCell>
+                <TableCell align='center'>{t('Actions')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -201,7 +203,7 @@ const TourSubCategories = () => {
                           }, 1000);
                         }}
                       >
-                        Edit
+                        {t('EDIT')}
                       </Button>
                       <Button
                         style={{ color: 'red' }}
@@ -210,7 +212,7 @@ const TourSubCategories = () => {
                           handleClickOpen();
                         }}
                       >
-                        Delete
+                        {t('DELETE')}
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -242,16 +244,16 @@ const TourSubCategories = () => {
           aria-describedby='alert-dialog-description'
         >
           <DialogTitle id='alert-dialog-title'>
-            {'Confirmation for Deletion'}
+            {t('Confirmation for Deletion')}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id='alert-dialog-description'>
-              Are you Sure you want to Delete Category
+              {t('Are you Sure you want to Delete Category')}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} variant='outlined'>
-              Cancel
+              {t('CANCEL')}
             </Button>
             <Button
               onClick={() => {
@@ -262,7 +264,7 @@ const TourSubCategories = () => {
               autoFocus
               style={{ color: 'red', border: '1px solid red' }}
             >
-              Confirm
+              {t('CONFIRM')}
             </Button>
           </DialogActions>
         </Dialog>
@@ -277,7 +279,7 @@ const TourSubCategories = () => {
           }}
         >
           <Box p={3}>
-            <Typography variant='h4'>Add New Category</Typography>
+            <Typography variant='h4'>{t('Add New Category')}</Typography>
           </Box>
           <DialogContent>
             <form
@@ -299,7 +301,7 @@ const TourSubCategories = () => {
                   autoFocus
                   margin='dense'
                   id='name'
-                  label='Name of Category'
+                  label={t('Name of a Category')}
                   type='text'
                   fullWidth
                   style={{ width: '40rem', marginRight: '2rem' }}
@@ -315,7 +317,7 @@ const TourSubCategories = () => {
             style={{ margin: '1rem', justifyContent: 'flex-end' }}
           >
             <Button variant='contained' form='addCat' type='submit'>
-              Create
+              {t('CREATE')}
             </Button>
             <Button
               variant='contained'
@@ -323,7 +325,7 @@ const TourSubCategories = () => {
               onClick={() => handleCloseCat()}
               color='error'
             >
-              Cancell
+              {t('Cancel')}
             </Button>
           </DialogActions>
         </Dialog>
@@ -338,7 +340,7 @@ const TourSubCategories = () => {
           }}
         >
           <Box p={3}>
-            <Typography variant='h4'>Update Category</Typography>
+            <Typography variant='h4'>{t('Update Category')}</Typography>
           </Box>
           <DialogContent>
             <form
@@ -360,7 +362,7 @@ const TourSubCategories = () => {
                   autoFocus
                   margin='dense'
                   id='name'
-                  label='Name of Category'
+                  label={t('Name of a Category')}
                   type='text'
                   fullWidth
                   style={{ width: '40rem', marginRight: '2rem' }}
@@ -376,7 +378,7 @@ const TourSubCategories = () => {
             style={{ margin: '1rem', justifyContent: 'flex-end' }}
           >
             <Button variant='contained' form='addCat' type='submit'>
-              Update
+              {t('UPDATE')}
             </Button>
             <Button
               variant='contained'
@@ -384,7 +386,7 @@ const TourSubCategories = () => {
               onClick={toggleIsEditOpen}
               color='error'
             >
-              Cancell
+              {t('CANCEL')}
             </Button>
           </DialogActions>
         </Dialog>

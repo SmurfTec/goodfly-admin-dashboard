@@ -9,6 +9,7 @@ import { DialogActions, DialogContent, TextField } from '@material-ui/core';
 import { useManyInputs } from 'hooks';
 import { toast } from 'react-toastify';
 import { getMuiDateFormat } from 'utils/dateMethods';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   root: {},
@@ -36,6 +37,7 @@ const useStyles = makeStyles({
 export default function AddFlashSale(props) {
   const { open, toggleDialog, success, offer, removeFromSale } = props;
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const initialState = {
     discount: '50',
@@ -76,7 +78,7 @@ export default function AddFlashSale(props) {
       className={classes.root}
     >
       <DialogTitle id='simple-dialog-title' className={classes.Title}>
-        Make Flash Sale
+        {t('Make Flash Sale')}
       </DialogTitle>
       <DialogContent>
         <form id='form' onSubmit={handleSubmit}>
@@ -86,7 +88,7 @@ export default function AddFlashSale(props) {
             onChange={handleTxtChange}
             name='discount'
             fullWidth
-            label='Discount Percentage'
+            label={t('Discount Percentage')}
             sx={{ marginBottom: 2, marginTop: 2 }}
             type='Number'
             inputProps={{ min: 5, max: 99 }}
@@ -97,7 +99,7 @@ export default function AddFlashSale(props) {
             onChange={handleTxtChange}
             name='saleExpires'
             fullWidth
-            label='Sale Finish Date'
+            label={t('Sale Finish Date')}
             type='date'
           />
         </form>
@@ -110,7 +112,7 @@ export default function AddFlashSale(props) {
           form='form'
           size='small'
         >
-          {offer.sale ? 'Update' : 'Create Sale'}
+          {offer.sale ? t('Update') : t('Create Sale')}
         </Button>
         {offer.sale && (
           <Button
@@ -120,7 +122,7 @@ export default function AddFlashSale(props) {
             form='form'
             size='small'
           >
-            Remove From Sale
+            {t('Remove From Sale')}
           </Button>
         )}
         <Button
@@ -129,7 +131,7 @@ export default function AddFlashSale(props) {
           onClick={toggleDialog}
           size='small'
         >
-          Cancel
+          {t('CANCEL')}
         </Button>
       </DialogActions>
     </Dialog>

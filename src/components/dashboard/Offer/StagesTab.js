@@ -15,11 +15,13 @@ import {
 } from '@material-ui/core';
 // import { makeStyles } from '@material-ui/styles';
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
+import { useTranslation } from 'react-i18next';
 
 // const useStyles = makeStyles((theme) => ({}));
 
 const StagesTab = ({ stages }) => {
   // const classes = useStyles();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -54,7 +56,7 @@ const StagesTab = ({ stages }) => {
                 <Grid item sm={2} lg={1}></Grid>
                 <Grid item sm={7} lg={9}>
                   <Typography variant='h5' textAlign='left' gutterBottom>
-                    {`Stage : ${idx + 1} ${stage.location}`}
+                    {`${t('Stage')} : ${idx + 1} ${stage.location}`}
                   </Typography>
                   <Typography variant='h6' textAlign='left' fontWeight='normal'>
                     {stage.description}

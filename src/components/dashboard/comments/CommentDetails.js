@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 
 import { DialogActions, DialogContent, Typography } from '@material-ui/core';
 import { useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   root: {
@@ -26,6 +27,7 @@ export default function CommentDetails(props) {
   const { open, toggleDialog, comment, slug } = props;
   const classes = useStyles();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <Dialog
@@ -34,7 +36,7 @@ export default function CommentDetails(props) {
       className={classes.root}
     >
       <DialogTitle id='simple-dialog-title' className={classes.Title}>
-        Comment Details
+        {t('Comment Details')}
       </DialogTitle>
       <DialogContent>
         <Typography
@@ -44,15 +46,15 @@ export default function CommentDetails(props) {
           variant='body1'
           style={{ marginBottom: '2rem', cursor: 'pointer' }}
         >
-          Visitor :{comment?.user?.fullName || 'Visitor maybe deleted'}
+          {t('Visitor')} :{comment?.user?.fullName || 'Visitor maybe deleted'}
         </Typography>
 
-        <Typography variant='subtitl2'>Comment</Typography>
+        <Typography variant='subtitl2'>{t('Comment')}</Typography>
         <Typography variant='body1'>{comment?.text}</Typography>
       </DialogContent>
       <DialogActions>
         <Button variant='contained' color='info' onClick={toggleDialog}>
-          Close
+          {t('Close')}
         </Button>
       </DialogActions>
     </Dialog>

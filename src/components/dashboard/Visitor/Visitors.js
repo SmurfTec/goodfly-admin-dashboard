@@ -22,6 +22,7 @@ import { CustomersContext } from 'Contexts/CustomersContext';
 import { Link } from 'react-router-dom';
 import useToggleInput from 'hooks/useToggleInput';
 import { ConfirmDialog } from '../Dialogs';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -44,8 +45,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Visitors = () => {
-  const { customers, deleteCustomer, loading } =
-    useContext(CustomersContext);
+  const { customers, deleteCustomer, loading } = useContext(CustomersContext);
+  const { t } = useTranslation();
 
   const classes = useStyles();
   const [filter, setFilter] = useState('');
@@ -64,9 +65,7 @@ const Visitors = () => {
     rowsPerPage -
     Math.min(
       rowsPerPage,
-      customers === 'loading'
-        ? 0
-        : customers?.length - page * rowsPerPage
+      customers === 'loading' ? 0 : customers?.length - page * rowsPerPage
     );
 
   const handleChangePage = (event, newPage) => {
@@ -90,9 +89,7 @@ const Visitors = () => {
         ? 'loading'
         : customers?.filter(
             (row) =>
-              row.fullName
-                .toLowerCase()
-                .indexOf(filter.toLowerCase()) !== -1
+              row.fullName.toLowerCase().indexOf(filter.toLowerCase()) !== -1
           )
     );
   }, [filter]);
@@ -122,14 +119,14 @@ const Visitors = () => {
         alignItems='center'
         m={3}
       >
-        <Typography variant='h4'>Customer management</Typography>
+        <Typography variant='h4'>{t('Customer Management')}</Typography>
         <Button
           variant='contained'
           style={{ width: '12rem' }}
           component={Link}
           to='/app/customers/new'
         >
-          Create Customer
+          {t('CREATE CUSTOMER')}
         </Button>
       </Box>
       <Box className={classes.main}>
@@ -141,17 +138,14 @@ const Visitors = () => {
             width: '100%',
           }}
         >
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
-          >
-            Search Client
+          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+            {t('Search Client')}
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
           <TextField
             hiddenLabel
             id='filled-hidden-label-small'
-            placeholder='client name'
+            placeholder={t('client name')}
             size='small'
             style={{ margin: '0px 5px 0px', width: '30%' }}
             className={classes.textInput}
@@ -166,12 +160,12 @@ const Visitors = () => {
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
-                <TableCell>Clients</TableCell>
-                <TableCell align='right'>Emails</TableCell>
-                <TableCell align='right'>Telephone</TableCell>
-                <TableCell align='right'>Customer Ref</TableCell>
-                <TableCell align='right'>date of creation</TableCell>
-                <TableCell align='right'>Actions</TableCell>
+                <TableCell>{t('Clients')}</TableCell>
+                <TableCell align='right'>{t('Emails')}</TableCell>
+                <TableCell align='right'>{t('Telephone')}</TableCell>
+                <TableCell align='right'>{t('Customer Ref')}</TableCell>
+                <TableCell align='right'>{t('Date of Creation')}</TableCell>
+                <TableCell align='right'>{t('Actions')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -183,11 +177,7 @@ const Visitors = () => {
                         {Array(5)
                           .fill()
                           .map(() => (
-                            <TableCell
-                              component='th'
-                              scope='row'
-                              key={v4()}
-                            >
+                            <TableCell component='th' scope='row' key={v4()}>
                               <Skeleton />
                             </TableCell>
                           ))}
@@ -207,9 +197,7 @@ const Visitors = () => {
                         <TableCell component='th' scope='row'>
                           {row.fullName}
                         </TableCell>
-                        <TableCell align='right'>
-                          {row.email}
-                        </TableCell>
+                        <TableCell align='right'>{row.email}</TableCell>
                         <TableCell align='right'>
                           {row.telephoneNumber}
                         </TableCell>
@@ -222,13 +210,13 @@ const Visitors = () => {
                             component={Link}
                             to={`/app/customers/edit/${row._id}`}
                           >
-                            Edit
+                            {t('EDIT')}
                           </Button>
                           <Button
                             onClick={handleDelete.bind(this, row._id)}
                             style={{ color: 'red' }}
                           >
-                            Delete
+                            {t('DELETE')}
                           </Button>
                         </TableCell>
                       </TableRow>

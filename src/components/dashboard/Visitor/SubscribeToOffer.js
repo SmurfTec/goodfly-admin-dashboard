@@ -25,6 +25,7 @@ import UserListHead from './UserListHead';
 
 import { withStyles } from '@material-ui/styles';
 import v4 from 'uuid/dist/v4';
+import { useTranslation } from 'react-i18next';
 
 const Styles = {
   Dialog: {
@@ -37,9 +38,10 @@ const Styles = {
 
 const SubscribeToOfferModal = (props) => {
   const { open, toggleDialog, offers, handleAdd } = props;
+  const { t } = useTranslation();
 
   const tableHeadings = [
-    { id: 'title', label: 'Title', alignRight: false },
+    { id: 'title', label: t('Title'), alignRight: false },
     // { id: 'image', label: 'Name', alignRight: false },
   ];
 
@@ -64,7 +66,9 @@ const SubscribeToOfferModal = (props) => {
         onClose={toggleDialog}
         aria-labelledby='form-dialog-title'
       >
-        <DialogTitle id='form-dialog-title'>Subscribe to an Offer</DialogTitle>
+        <DialogTitle id='form-dialog-title'>
+          {t('Subscribe to an Offer')}
+        </DialogTitle>
         <DialogContent>
           <Card>
             <TableContainer>
@@ -105,11 +109,7 @@ const SubscribeToOfferModal = (props) => {
                                   gap: 10,
                                 }}
                               >
-                                <Avatar
-                                  alt={title}
-                                  src={image}
-                                  alt='offer img'
-                                />
+                                <Avatar alt={title} src={image} />
                                 <Typography variant='subtitle2' noWrap>
                                   {title}
                                 </Typography>
@@ -147,10 +147,10 @@ const SubscribeToOfferModal = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleSubmit} variant='contained' color='primary'>
-            Add
+            {t('ADD')}
           </Button>
           <Button onClick={toggleDialog} variant='contained' color='error'>
-            Cancel
+            {t('CANCEL')}
           </Button>
         </DialogActions>
       </Dialog>

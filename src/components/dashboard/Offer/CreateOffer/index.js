@@ -11,13 +11,14 @@ import { handleCatch, makeReq } from 'utils/makeReq';
 import useStyles from '../styles';
 import { useToggleInput } from 'hooks';
 import AddPromo from 'components/dashboard/Dialogs/AddPromo';
+import { useTranslation } from 'react-i18next';
 
 const CreateOffer = () => {
   const classes = useStyles();
   const { createOffer } = useContext(OffersContext);
   const [formalities, setFormalities] = useState([]);
-  const [isPromoDialogOpen, togglePromoDialog] =
-    useToggleInput(false);
+  const { t } = useTranslation();
+  const [isPromoDialogOpen, togglePromoDialog] = useToggleInput(false);
 
   // TODO Edit it to 0
   const [value, setValue] = useState(0);
@@ -128,21 +129,21 @@ const CreateOffer = () => {
                 disableFocusRipple
                 disableRipple
                 sx={{ cursor: 'unset' }}
-                label='Offer'
+                label={t('Offer')}
                 {...a11yProps(0)}
                 className={classes.tabRoot}
               />
               <Tab
                 disableFocusRipple
                 disableRipple
-                label='Stages'
+                label={t('Stages')}
                 sx={{ cursor: 'unset' }}
                 {...a11yProps(1)}
               />
               <Tab
                 disableFocusRipple
                 disableRipple
-                label='Formalities'
+                label={t('Formalities')}
                 sx={{ cursor: 'unset' }}
                 {...a11yProps(2)}
               />

@@ -27,6 +27,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { handleCatch, makeReq } from 'utils/makeReq';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   root: {
@@ -45,6 +46,7 @@ export default function PromosDialog(props) {
   const { open, success, promos, toggleDialog, deletePromo } = props;
   const classes = useStyles();
   const theme = useTheme();
+  const { t } = useTranslation();
 
   const initialState = {
     promoExpires: getMuiDateFormat(new Date()),
@@ -76,7 +78,7 @@ export default function PromosDialog(props) {
       onClose={toggleDialog}
     >
       <DialogTitle id='simple-dialog-title' className={classes.Title}>
-        Create PromoCode
+        {t('Create Promo Code')}
       </DialogTitle>
       <DialogContent>
         <form id='form' onSubmit={handleSubmit}>
@@ -93,7 +95,7 @@ export default function PromosDialog(props) {
               value={state.promoExpires}
               onChange={handleTxtChange}
               name='promoExpires'
-              label='Promo Expire Date'
+              label={t('Promo Expire Date')}
               type='date'
               sx={{ marginBottom: 2, flexGrow: 1 }}
             />
@@ -102,7 +104,7 @@ export default function PromosDialog(props) {
               value={state.limit}
               onChange={handleTxtChange}
               name='limit'
-              label='Promo Usage Limit'
+              label={t('Promo Usage Limit')}
               type='number'
               inputProps={{ min: 1 }}
               sx={{ marginBottom: 2, flexGrow: 1 }}
@@ -114,25 +116,27 @@ export default function PromosDialog(props) {
             onChange={handleTxtChange}
             name='discountPercentage'
             fullWidth
-            label='Promo Discount Percentage'
+            label={t('Promo Discount Percentage')}
             type='number'
             inputProps={{ min: 1, max: 100 }}
           />
         </form>
 
         <Typography variant='h5' sx={{ marginBlock: '1rem' }}>
-          Promo Codes
+          {t('Promo Codes')}
         </Typography>
         {promos && (
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label='simple table'>
               <TableHead>
                 <TableRow>
-                  <TableCell>Promo Code</TableCell>
-                  <TableCell align='center'>Discount Percentage</TableCell>
-                  <TableCell align='center'>Limit</TableCell>
-                  <TableCell align='center'>Expiry Date</TableCell>
-                  <TableCell align='center'>Action</TableCell>
+                  <TableCell>{t('Promo Code')}</TableCell>
+                  <TableCell align='center'>
+                    {t('Discount Percentage')}
+                  </TableCell>
+                  <TableCell align='center'>{t('Limit')}</TableCell>
+                  <TableCell align='center'>{t('Expiry Date')}</TableCell>
+                  <TableCell align='center'>{t('Action')}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -186,10 +190,10 @@ export default function PromosDialog(props) {
       </DialogContent>
       <DialogActions>
         <Button variant='contained' color='success' type='submit' form='form'>
-          Generate New Promo
+          {t('GENERATE NEW PROMO')}
         </Button>
         <Button variant='contained' color='error' onClick={toggleDialog}>
-          Cancel
+          {t('CANCEL')}
         </Button>
       </DialogActions>
     </Dialog>

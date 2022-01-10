@@ -12,6 +12,7 @@ import React from 'react';
 import { TabPanel, a11yProps } from '../../common/TabPanel';
 import FormalitiesTab from './FormalitiesTab';
 import StagesTab from './StagesTab';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -46,6 +47,7 @@ const OfferView = ({ offer }) => {
   const classes = useStyles();
 
   const [tabValue, setTabValue] = React.useState(0);
+  const { t } = useTranslation();
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -76,7 +78,7 @@ const OfferView = ({ offer }) => {
               <Typography variant='h4'>
                 {offer.startingDate
                   ? new Date(offer.startingDate).toDateString()
-                  : 'Open Offer'}
+                  : t('Open Offer')}
               </Typography>
             ) : (
               <Skeleton variant='rect' width='80%' />
@@ -105,8 +107,8 @@ const OfferView = ({ offer }) => {
             centered
             className={classes.Tabs}
           >
-            <Tab label='Journey' {...a11yProps(0)} />
-            <Tab label='Formalities' {...a11yProps(1)} />
+            <Tab label={t('JOURNEY')} {...a11yProps(0)} />
+            <Tab label={t('FORMALITIES')} {...a11yProps(1)} />
           </Tabs>
         </Box>
         <Box className={classes.options2}>

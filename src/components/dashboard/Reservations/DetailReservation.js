@@ -45,6 +45,7 @@ import useStyles from './styles/detailReservation';
 import { AddDeparture as AddDepartureDialog } from '../Dialogs';
 import NotFound from 'pages/NotFound';
 import UserInfo from './UserInfo';
+import { useTranslation } from 'react-i18next';
 
 const DetailReservation = () => {
   const classes = useStyles();
@@ -62,6 +63,7 @@ const DetailReservation = () => {
   const [value, setValue] = React.useState(0);
   const [reservationStatus, setReservationStatus] = React.useState('');
   const [notFound, setNotFound] = useState(false);
+  const { t } = useTranslation();
 
   const [installments, handleInstallments, , setInstallments] =
     useTextInput('');
@@ -224,7 +226,7 @@ const DetailReservation = () => {
             {loading ? (
               <Skeleton width='30%' />
             ) : (
-              ` Reservation Reference : ${reservation?._id}`
+              ` ${t('Reservation Reference')} : ${reservation?._id}`
             )}
           </Typography>
           <Box
@@ -236,7 +238,7 @@ const DetailReservation = () => {
               flexWrap: 'wrap',
             }}
           >
-            <Typography variant='h5'> Reservation Status :</Typography>
+            <Typography variant='h5'> {t('Reservation Status')} :</Typography>
             {loading ? (
               <Skeleton variant='rect' width='30%' />
             ) : (
@@ -249,7 +251,7 @@ const DetailReservation = () => {
                 }}
               >
                 <InputLabel id='demo-simple-select-label'>
-                  Reservation Status
+                  {t('Reservation Status')}
                 </InputLabel>
 
                 <Select
@@ -257,34 +259,34 @@ const DetailReservation = () => {
                   id='demo-simple-select'
                   value={reservationStatus}
                   // value={reservation.status}
-                  label='Reservation Status'
+                  label={t('Reservation Status')}
                   onChange={handleReservationStatus}
                 >
                   <MenuItem
                     value={'pre-reservation'}
                     disabled={reservation?.status !== 'pre-reservation'}
                   >
-                    Pre Reservation
+                    {t('Pre Reservation')}
                   </MenuItem>
-                  <MenuItem value={'validated'}>Validated</MenuItem>
+                  <MenuItem value={'validated'}>{t('Validated')}</MenuItem>
                   <MenuItem
                     value={'schedule-inProgress'}
                     sx={{ display: 'none' }}
                   >
-                    Schedule in Progress
+                    {t('Schedule in Progress')}
                   </MenuItem>
                   <MenuItem value={'reservation-paid'} sx={{ display: 'none' }}>
-                    Finalized
+                    {t('Finalized')}
                   </MenuItem>
                   <MenuItem value={'archived'} sx={{ display: 'none' }}>
-                    Archived
+                    {t('Archived')}
                   </MenuItem>
-                  <MenuItem value={'cancelled'}>Cancelled</MenuItem>
+                  <MenuItem value={'cancelled'}>{t('Cancelled')}</MenuItem>
                   <MenuItem
                     value={'cancellation-request'}
                     sx={{ display: 'none' }}
                   >
-                    Cancellation Request
+                    {t('Cancellation Request')}
                   </MenuItem>
                   {/* <MenuItem value={20}>Two</MenuItem>
               <MenuItem value={30}>Three</MenuItem> */}
@@ -304,7 +306,7 @@ const DetailReservation = () => {
           >
             {' '}
             <Typography variant='h5' style={{ marginRight: '1rem' }}>
-              Payment :{' '}
+              {t('Payment')} :{' '}
             </Typography>
             <FormControl component='fieldset'>
               <RadioGroup
@@ -318,7 +320,7 @@ const DetailReservation = () => {
                   disabled={reservation?.status !== 'pre-reservation'}
                   value='1'
                   control={<Radio />}
-                  label='Total'
+                  label={t('Total')}
                 />
                 <FormControlLabel
                   disabled={reservation?.status !== 'pre-reservation'}
@@ -367,12 +369,12 @@ const DetailReservation = () => {
                       backgroundColor: 'white',
                     }}
                   >
-                    <Tab label='Offer' {...a11yProps(0)} />
-                    <Tab label='Client' {...a11yProps(1)} />
+                    <Tab label={t('OFFER')} {...a11yProps(0)} />
+                    <Tab label={t('CLIENT')} {...a11yProps(1)} />
                     {reservation?.type === 'reserveForAnother' && (
-                      <Tab label='Reservation User' {...a11yProps(2)} />
+                      <Tab label={t('Reservation User')} {...a11yProps(2)} />
                     )}
-                    <Tab label='Payment' {...a11yProps(3)} />
+                    <Tab label={t('PAYMENT')} {...a11yProps(3)} />
 
                     <Box
                       style={{
@@ -423,19 +425,21 @@ const DetailReservation = () => {
                         variant='h3'
                         style={{ width: '100%', marginTop: '3rem' }}
                       >
-                        Visitor No Longer Exists
+                        {t('Visitor No Longer Exists')}
                       </Typography>
                     )}
                     {reservation?.visitor && (
                       <>
                         <Box className={classes.header}>
-                          <Typography variant='h4'>Client Area</Typography>
+                          <Typography variant='h4'>
+                            {t('Client Area')}
+                          </Typography>
                           <div style={{ display: 'flex' }}>
                             <Typography
                               variant='h5'
                               style={{ margin: '0px 10px 0px' }}
                             >
-                              Number
+                              {t('Number')}
                             </Typography>
                             <Paper
                               style={{
@@ -476,8 +480,8 @@ const DetailReservation = () => {
                               }}
                               onClick={handleModifyCustomer}
                             >
-                              Modify
-                            </Button>{' '}
+                              {t('MODIFY')}
+                            </Button>
                           </Box>
                         </Box>
                         <Box
@@ -489,7 +493,7 @@ const DetailReservation = () => {
                           }}
                         >
                           <Typography variant='h5' style={{ width: '25%' }}>
-                            Civilite
+                            {t('Civility')}
                           </Typography>
                           <FormControl component='fieldset'>
                             <RadioGroup
@@ -501,17 +505,17 @@ const DetailReservation = () => {
                               <FormControlLabel
                                 value='Mr'
                                 control={<Radio />}
-                                label='Mr'
+                                label={t('Mr')}
                               />
                               <FormControlLabel
                                 value='Mrs'
                                 control={<Radio />}
-                                label='Mrs'
+                                label={t('Mrs')}
                               />
                               <FormControlLabel
                                 value='Ms'
                                 control={<Radio />}
-                                label='Ms'
+                                label={t('Ms')}
                               />
                             </RadioGroup>
                           </FormControl>
@@ -533,7 +537,7 @@ const DetailReservation = () => {
                                 marginTop: '3rem',
                               }}
                             >
-                              Attachments
+                              {t('Attachments')}
                             </Typography>
                             <Grid container spacing={3}>
                               <Grid item md={9}>
@@ -617,7 +621,7 @@ const DetailReservation = () => {
                                                   color: '#fff',
                                                 }}
                                               >
-                                                Upload Document
+                                                {t('Upload Document')}
                                               </Typography>
                                             </Box>
                                           </Box>

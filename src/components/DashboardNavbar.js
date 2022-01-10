@@ -12,6 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import PersonIcon from '@material-ui/icons/Person';
 import { AuthContext } from 'Contexts/AuthContext';
 import NotificationsPopover from './dashboard/notify/NotificationsPopover';
+import TranslationButton from './translate';
 
 const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
   const { user } = useContext(AuthContext);
@@ -39,6 +40,7 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
             alignItems: 'center',
           }}
         >
+          <TranslationButton />
           <NotificationsPopover />
           <Hidden mdDown>
             <Typography>{new Date().toDateString()}</Typography>

@@ -18,6 +18,7 @@ import { toast } from 'react-toastify';
 import parse from 'html-react-parser';
 import { Delete, Edit } from '@material-ui/icons';
 import { ConfirmDialog as ConfirmDelFormality } from '../../Dialogs';
+import { useTranslation } from 'react-i18next';
 
 const FormalitiesTab = ({
   value,
@@ -31,6 +32,7 @@ const FormalitiesTab = ({
     useTextInput(''); //* for Menu Select
 
   const [currentFormality, setCurrentFormality] = useState();
+  const { t } = useTranslation();
 
   const [isDialogOpen, toggleDialogOpen] = useToggleInput(false);
   const [isUpdateFormalityOpen, toggleUpdateFormalityOpen] =
@@ -129,14 +131,14 @@ const FormalitiesTab = ({
           }}
         >
           <InputLabel id='demo-simple-select-label'>
-            Choose an existing formality
+            {t('Choose an existing formality')}
           </InputLabel>
 
           <Select
             labelId='demo-simple-select-label'
             id='formality'
             value={formality?.title}
-            label='Choose an existing formality'
+            label={t('Choose an existing formality')}
             onChange={handleFormalityChange}
           >
             {formalitiesState?.map((el) => (
@@ -151,8 +153,7 @@ const FormalitiesTab = ({
           style={{ width: '12rem' }}
           onClick={toggleDialogOpen}
         >
-          {' '}
-          Add a Formality
+          {t('Add a Formality')}
         </Button>
       </Box>
       {currentFormality && (
@@ -189,8 +190,7 @@ const FormalitiesTab = ({
                 endIcon={<Delete />}
                 color='error'
               >
-                {' '}
-                Delete
+                {t('DELETE')}
               </Button>
               <Button
                 endIcon={<Edit />}
@@ -198,7 +198,7 @@ const FormalitiesTab = ({
                 style={{ width: '8rem' }}
                 onClick={handleUpdateFormality}
               >
-                Update
+                {t('UPDATE')}
               </Button>
             </Box>
           </Box>
@@ -217,8 +217,7 @@ const FormalitiesTab = ({
           style={{ width: '8rem' }}
           onClick={handleSubmit}
         >
-          {' '}
-          Validate
+          {t('VALIDATE')}
         </Button>
       </Box>
       <AddFormalityDialog
@@ -236,7 +235,7 @@ const FormalitiesTab = ({
         open={isDelFormalityOpen}
         toggleDialog={toggleDelFormalityOpen}
         success={handleDeleteFormality}
-        dialogTitle='Delete this formality ?'
+        dialogTitle={t('Delete this formality ?')}
       />
     </TabPanel>
   );

@@ -17,12 +17,14 @@ import { useToggleInput } from 'hooks';
 import React, { useContext, useState } from 'react';
 import v4 from 'uuid/dist/v4';
 import PaymentDetailsDialog from './PaymentDetailsDialog';
+import { useTranslation } from 'react-i18next';
 
 const PaymentsTable = ({ classes, data, purchaseId }) => {
   const theme = useTheme();
   const [isDialogOpen, toggleDialogOpen] = useToggleInput(false);
   const [currentPayment, setCurrentPayment] = useState();
   const { makePayment } = useContext(ReservationsContext);
+  const { t } = useTranslation();
 
   const handlePayment = (updatedPayment) => {
     makePayment(purchaseId, currentPayment._id, updatedPayment);
@@ -36,18 +38,18 @@ const PaymentsTable = ({ classes, data, purchaseId }) => {
 
   return (
     <>
-      <h1>Payments</h1>
+      <h1>{t('Payments')}</h1>
       <TableContainer component={Paper} className={classes.table}>
         <Table sx={{ minWidth: 750 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
               <TableCell>Reference</TableCell>
-              <TableCell align='right'>Deadline</TableCell>
-              <TableCell align='right'>Status </TableCell>
-              <TableCell align='right'>Payment Date </TableCell>
-              <TableCell align='right'>Payroll amount</TableCell>
-              <TableCell align='right'>Payment means</TableCell>
-              <TableCell align='right'>Actions</TableCell>
+              <TableCell align='right'>{t('Deadline')}</TableCell>
+              <TableCell align='right'>{t('Status')} </TableCell>
+              <TableCell align='right'>{t('Payment Date')} </TableCell>
+              <TableCell align='right'>{t('Payroll amount')}</TableCell>
+              <TableCell align='right'>{t('Payment means')}</TableCell>
+              <TableCell align='right'>{t('Actions')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -68,7 +70,7 @@ const PaymentsTable = ({ classes, data, purchaseId }) => {
                           : theme.palette.error.main,
                       }}
                     >
-                      {item.isPaid ? 'paid' : 'not-paid'}
+                      {item.isPaid ? t('paid') : t('not-paid')}
                     </TableCell>
                     <TableCell align='right'>
                       {item.isPaid
@@ -85,8 +87,8 @@ const PaymentsTable = ({ classes, data, purchaseId }) => {
                     >
                       <Button>
                         {item.isPaid || item.paymentMethod === 'cash'
-                          ? 'Details'
-                          : 'Validate'}
+                          ? t('DETAILS')
+                          : t('VALIDATE')}
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -142,13 +144,13 @@ const PaymentsTable = ({ classes, data, purchaseId }) => {
         >
           <Box>
             <Typography variant='h5' m={1}>
-              Total Reservations
+              {t('Total Reservations')}
             </Typography>
             <Typography variant='h5' m={1}>
-              Total Paye
+              {t('Total Paye')}
             </Typography>
             <Typography variant='h5' m={1}>
-              Stay paid
+              {t('Stay paid')}
             </Typography>
           </Box>
           <Box>

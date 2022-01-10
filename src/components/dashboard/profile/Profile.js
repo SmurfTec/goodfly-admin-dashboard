@@ -21,11 +21,12 @@ import LoadingOverlay from 'react-loading-overlay';
 import useToggleInput from 'hooks/useToggleInput';
 import { AuthContext } from 'Contexts/AuthContext';
 import { makeReq } from 'utils/makeReq';
+import { useTranslation } from 'react-i18next';
 
 const Profile = () => {
   const classes = useStyles();
-  const { user, updateMe, changeMyPassword } =
-    useContext(AuthContext);
+  const { user, updateMe, changeMyPassword } = useContext(AuthContext);
+  const { t } = useTranslation();
 
   const [isPassOpen, togglePassOpen] = useToggleInput(false);
 
@@ -41,20 +42,16 @@ const Profile = () => {
     photo: user.photo || '',
   };
 
-  const [passwordState, handlePassChange, , , resetPassState] =
-    useManyInputs({
-      password: '',
-      passwordConfirm: '',
-    });
+  const [passwordState, handlePassChange, , , resetPassState] = useManyInputs({
+    password: '',
+    passwordConfirm: '',
+  });
 
   const [state, handleTxtChange, , changeInput, , setState] =
     useManyInputs(initialState);
 
-  const [isImageUploading, toggleImageUploading] =
-    useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState(
-    'Uploading Image...'
-  );
+  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
   const handleUpdatePass = (e) => {
     e.preventDefault();
@@ -126,9 +123,7 @@ const Profile = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message ||
-          err.message ||
-          'Something Went Wrong'
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
       );
       // console.log(`err`, err);
     }
@@ -142,30 +137,24 @@ const Profile = () => {
             variant='h4'
             style={{ width: '100%', margin: '10px 20px 0px' }}
           >
-            My Profile
+            {t('My Profile')}
           </Typography>
         </Box>
 
         <form id='profileForm' onSubmit={handleSubmit}>
           <Grid container>
-            <Grid
-              item
-              xs={12}
-              sm={7}
-              md={7}
-              style={{ minHeight: 400 }}
-            >
+            <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
               <Box className={classes.mainBox}>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    First Name
+                    {t('First Name')}
                   </Typography>
                   <TextField
                     hiddenLabel
                     id='filled-hidden-label-small'
                     size='small'
                     className={classes.textInput}
-                    placeholder='First Name'
+                    placeholder={t('First Name')}
                     name='firstName'
                     value={state.firstName}
                     onChange={handleTxtChange}
@@ -174,7 +163,7 @@ const Profile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Last Name
+                    {t('Last Name')}
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -182,7 +171,7 @@ const Profile = () => {
                     defaultValue='m.zain'
                     size='small'
                     className={classes.textInput}
-                    placeholder='Last Name'
+                    placeholder={t('Last Name')}
                     name='lastName'
                     value={state.lastName}
                     onChange={handleTxtChange}
@@ -191,7 +180,7 @@ const Profile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Email
+                    {t('Email')}
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -200,7 +189,7 @@ const Profile = () => {
                     size='small'
                     className={classes.textInput}
                     inputProps={{ readOnly: true }}
-                    placeholder='Your Email'
+                    placeholder={t('Your Email')}
                     name='email'
                     value={state.email}
                     required
@@ -208,7 +197,7 @@ const Profile = () => {
                 </Box>
                 <Box className={classes.inputBox}>
                   <Typography variant='h5' className={classes.typo}>
-                    Telephone
+                    {t('Telephone')}
                   </Typography>
                   <TextField
                     hiddenLabel
@@ -216,7 +205,7 @@ const Profile = () => {
                     defaultValue='+2123123131'
                     size='small'
                     className={classes.textInput}
-                    placeholder='TelephoneNumber'
+                    placeholder={t('Telephone No')}
                     name='telephoneNumber'
                     value={state.telephoneNumber}
                     onChange={handleTxtChange}
@@ -290,16 +279,10 @@ const Profile = () => {
                 </Box>
               </Box>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={5}
-              md={5}
-              className={classes.account}
-            >
+            <Grid item xs={12} sm={5} md={5} className={classes.account}>
               <Box className={classes.mainBox}>
                 <Typography variant='h5' style={{ width: '100%' }}>
-                  Account managment
+                  {t('Account Management')}
                 </Typography>
                 <Box
                   style={{
@@ -327,7 +310,7 @@ const Profile = () => {
                       alignItems='center'
                     >
                       <Typography variant='h5' mb={1}>
-                        Profile Photo
+                        {t('Profile Photo')}
                       </Typography>
                       <Avatar
                         style={{
@@ -362,7 +345,7 @@ const Profile = () => {
                             component='span'
                             style={{ minWidth: '10rem' }}
                           >
-                            Upload
+                            {t('UPLOAD')}
                           </Button>
                         </label>
                       </Box>
@@ -370,18 +353,15 @@ const Profile = () => {
                   </LoadingOverlay>
 
                   <Box style={{ marginBottom: 65 }}>
-                    <Typography
-                      variant='h5'
-                      style={{ width: '100%' }}
-                    >
-                      New Password
+                    <Typography variant='h5' style={{ width: '100%' }}>
+                      {t('New Password')}
                     </Typography>
                     <Button
                       variant='contained'
                       style={{ marginTop: 15, width: 150 }}
                       onClick={togglePassOpen}
                     >
-                      Set New Pass
+                      {t('SET NEW PASS')}
                     </Button>
                   </Box>
                 </Box>
@@ -401,7 +381,7 @@ const Profile = () => {
                   size='medium'
                   style={{ width: 150 }}
                 >
-                  Update
+                  {t('UPDATE')}
                 </Button>
               </Box>
             </Grid>
@@ -416,7 +396,7 @@ const Profile = () => {
         }}
       >
         <DialogTitle>
-          <Typography variant='h4'>Changing the Paasword</Typography>
+          <Typography variant='h4'>{t('Changing the Paasword')}</Typography>
         </DialogTitle>
         <DialogContent>
           <Box
@@ -428,7 +408,7 @@ const Profile = () => {
               autoFocus
               margin='dense'
               id='name'
-              label='New Password'
+              label={t('New Password')}
               type='password'
               name='password'
               value={passwordState.password}
@@ -440,7 +420,7 @@ const Profile = () => {
               autoFocus
               margin='dense'
               id='name'
-              label='Confirm new password'
+              label={t('Confirm New Password')}
               name='passwordConfirm'
               value={passwordState.passwordConfirm}
               onChange={handlePassChange}
@@ -456,10 +436,10 @@ const Profile = () => {
           style={{ margin: '1rem', justifyContent: 'right' }}
         >
           <Button variant='outlined' onClick={togglePassOpen}>
-            Cancel
+            {t('CANCEL')}
           </Button>
           <Button variant='contained' onClick={handleUpdatePass}>
-            Update
+            {t('UPDATE')}
           </Button>
         </DialogActions>
       </Dialog>

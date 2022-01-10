@@ -8,6 +8,7 @@ import { blue, red } from '@material-ui/core/colors';
 import { DialogActions, DialogContent, TextField } from '@material-ui/core';
 import { useManyInputs } from 'hooks';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   root: {},
@@ -35,6 +36,7 @@ const useStyles = makeStyles({
 export default function AddDepartureDates(props) {
   const { open, toggleDialog, dialogTitle, success } = props;
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const initialState = {
     departureDate: '',
@@ -66,7 +68,7 @@ export default function AddDepartureDates(props) {
       className={classes.root}
     >
       <DialogTitle id='simple-dialog-title' className={classes.Title}>
-        Add Reservation Dates
+        {t('Add Reservation Dates')}
       </DialogTitle>
       <DialogContent>
         <form id='form' onSubmit={handleSubmit}>
@@ -76,7 +78,7 @@ export default function AddDepartureDates(props) {
             onChange={handleTxtChange}
             name='departureDate'
             fullWidth
-            label='Departure Date'
+            label={t('Departure Date')}
             sx={{ marginBottom: 2, marginTop: 2 }}
             type='date'
           />
@@ -86,17 +88,17 @@ export default function AddDepartureDates(props) {
             onChange={handleTxtChange}
             name='returnDate'
             fullWidth
-            label='Return Date'
+            label={t('Return Date')}
             type='date'
           />
         </form>
       </DialogContent>
       <DialogActions>
         <Button variant='contained' color='success' type='submit' form='form'>
-          Add
+          {t('ADD')}
         </Button>
         <Button variant='contained' color='error' onClick={toggleDialog}>
-          Cancel
+          {t('CANCEL')}
         </Button>
       </DialogActions>
     </Dialog>

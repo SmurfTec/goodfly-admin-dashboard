@@ -22,6 +22,7 @@ import v4 from 'uuid/dist/v4';
 import { ProductContext } from 'Contexts/ProductContext';
 import useToggleInput from 'hooks/useToggleInput';
 import { ConfirmDialog } from '../Dialogs';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -55,6 +56,7 @@ const Products = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [currentDeleteId, setCurrentDeleteId] = useState();
   const [isDeleteOpen, toggleDeleteOpen] = useToggleInput();
+  const { t } = useTranslation();
 
   useEffect(() => {
     setFilteredProducts(products);
@@ -65,9 +67,7 @@ const Products = () => {
     rowsPerPage -
     Math.min(
       rowsPerPage,
-      products === 'loading'
-        ? 0
-        : products?.length - page * rowsPerPage
+      products === 'loading' ? 0 : products?.length - page * rowsPerPage
     );
 
   const handleChangePage = (event, newPage) => {
@@ -89,9 +89,7 @@ const Products = () => {
       products === 'loading'
         ? 'loading'
         : products?.filter(
-            (row) =>
-              row.name.toLowerCase().indexOf(filter.toLowerCase()) !==
-              -1
+            (row) => row.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
           )
     );
   }, [filter]);
@@ -115,7 +113,7 @@ const Products = () => {
         m={2}
       >
         <Typography variant='h4' m={2}>
-          Product Management
+          {t('Product Management')}
         </Typography>
         <Button
           variant='contained'
@@ -123,7 +121,7 @@ const Products = () => {
           component={Link}
           to='/app/products/create'
         >
-          Add a Product
+          {t('ADD A PRODUCT')}
         </Button>
       </Box>
       <Box className={classes.main}>
@@ -136,11 +134,8 @@ const Products = () => {
             marginTop: '1rem',
           }}
         >
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
-          >
-            Search Product
+          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+            {t('Search Product')}
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
           <TextField
@@ -162,12 +157,12 @@ const Products = () => {
             <TableHead>
               <TableRow>
                 <TableCell></TableCell>
-                <TableCell align='left'>Product</TableCell>
-                <TableCell align='left'>State</TableCell>
-                <TableCell align='left'>Category</TableCell>
-                <TableCell align='left'>Reference</TableCell>
-                <TableCell align='left'>Date of Creation</TableCell>
-                <TableCell align='left'>Actions</TableCell>
+                <TableCell align='left'>{t('Product')}</TableCell>
+                <TableCell align='left'>{t('State')}</TableCell>
+                <TableCell align='left'>{t('Category')}</TableCell>
+                <TableCell align='left'>{t('Reference')}</TableCell>
+                <TableCell align='left'>{t('Date of Creation')}</TableCell>
+                <TableCell align='left'>{t('Actions')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -180,11 +175,7 @@ const Products = () => {
                     )
                     .map((row, index) => (
                       <TableRow key={v4()}>
-                        <TableCell
-                          component='th'
-                          scope='row'
-                          align='left'
-                        >
+                        <TableCell component='th' scope='row' align='left'>
                           <Box
                             style={{
                               display: 'flex',
@@ -202,7 +193,7 @@ const Products = () => {
                                   ? row.images?.[0]?.image
                                   : 'https://picsum.photos/200/300?random=2'
                               }
-                              title='product name'
+                              title={t('product name')}
                             />
                           </Box>
                         </TableCell>
@@ -211,9 +202,7 @@ const Products = () => {
                           {row.isOnline ? 'online' : 'offline'}
                         </TableCell>
                         <TableCell align='left'>
-                          {row.category
-                            ? row.category.name
-                            : 'No Category'}
+                          {row.category ? row.category.name : 'No Category'}
                         </TableCell>
                         <TableCell align='left'>{row._id}</TableCell>
                         <TableCell align='left'>
@@ -224,13 +213,13 @@ const Products = () => {
                             component={Link}
                             to={`/app/products/edit/${row._id}`}
                           >
-                            Edit
+                            {t('EDIT')}
                           </Button>
                           <Button
                             style={{ color: 'red' }}
                             onClick={handleDelete.bind(this, row._id)}
                           >
-                            Delete
+                            {t('DELETE')}
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -258,7 +247,7 @@ const Products = () => {
         open={isDeleteOpen}
         toggleDialog={toggleDeleteOpen}
         success={handleDeleteProduct}
-        dialogTitle='Delete this Product ?'
+        dialogTitle={t('Delete this Product ?')}
       />
     </div>
   );

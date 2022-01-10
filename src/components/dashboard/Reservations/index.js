@@ -30,6 +30,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { useTextInput } from 'hooks';
 import { formatDistanceToNow } from 'date-fns';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles(() => ({
   main: {
@@ -137,6 +138,7 @@ const Reservations = ({ isSpiritual }) => {
   const [greyReservations, setGreyReservations] = useState([]);
   const [whiteReservations, setWhiteReservations] = useState([]);
   const [redReservations, setRedReservations] = useState([]);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -385,7 +387,7 @@ const Reservations = ({ isSpiritual }) => {
   return (
     <Container>
       <Typography variant='h4' m={2}>
-        Reservation Management
+        {t('Reservation Management')}
       </Typography>
       <Box
         mt={3}
@@ -402,7 +404,7 @@ const Reservations = ({ isSpiritual }) => {
           <FilterButton
             key={v4()}
             currentStatus={currentStatus}
-            text={btn.text}
+            text={t(btn.text.toUpperCase())}
             handleFilter={filterReservations}
             status={btn.status}
             color={btn.color}
@@ -426,7 +428,7 @@ const Reservations = ({ isSpiritual }) => {
             size='small'
             sx={{ marginRight: 'auto' }}
           >
-            Fetch
+            {t('FETCH')}
           </Button>
           <Box
             style={{
@@ -435,7 +437,7 @@ const Reservations = ({ isSpiritual }) => {
               gap: 15,
             }}
           >
-            <Typography variant='h5'>Search By</Typography>
+            <Typography variant='h5'>{t('Search By')}</Typography>
             <FormControl component='fieldset' size='small'>
               <RadioGroup
                 row
@@ -450,17 +452,17 @@ const Reservations = ({ isSpiritual }) => {
                 <FormControlLabel
                   value='fullName'
                   control={<Radio size='small' />}
-                  label='Name'
+                  label={t('fullName')}
                 />
                 <FormControlLabel
                   value='email'
                   control={<Radio size='small' />}
-                  label='Email'
+                  label={t('Email')}
                 />
                 <FormControlLabel
                   value='date'
                   control={<Radio size='small' />}
-                  label='Date'
+                  label={t('Date')}
                 />
               </RadioGroup>
             </FormControl>
@@ -470,7 +472,7 @@ const Reservations = ({ isSpiritual }) => {
           <TextField
             hiddenLabel
             id='filled-hidden-label-small'
-            placeholder={`Search By ${searchBy}`}
+            placeholder={`${t('Search By')} ${t(searchBy)}`}
             size='small'
             style={{ margin: '0px 5px 0px', width: '30%' }}
             className={classes.textInput}
@@ -485,13 +487,13 @@ const Reservations = ({ isSpiritual }) => {
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
-                <TableCell>Ref Reservation</TableCell>
-                <TableCell align='center'>reservation date</TableCell>
-                <TableCell align='center'>Status</TableCell>
-                <TableCell align='center'>Clients</TableCell>
-                <TableCell align='center'>Emails</TableCell>
-                <TableCell align='center'>Telephone</TableCell>
-                <TableCell align='center'>Actions</TableCell>
+                <TableCell>{t('Ref Reservation')}</TableCell>
+                <TableCell align='center'>{t('reservation date')}</TableCell>
+                <TableCell align='center'>{t('Status')}</TableCell>
+                <TableCell align='center'>{t('Clients')}</TableCell>
+                <TableCell align='center'>{t('Emails')}</TableCell>
+                <TableCell align='center'>{t('Telephone')}</TableCell>
+                <TableCell align='center'>{t('Actions')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -549,7 +551,7 @@ const Reservations = ({ isSpiritual }) => {
                             endIcon={<Edit />}
                             onClick={handleClick.bind(this, purchase._id)}
                           >
-                            Edit
+                            {t('EDIT')}
                           </Button>
                         </TableCell>
                       </TableRow>

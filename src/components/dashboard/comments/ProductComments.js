@@ -18,6 +18,7 @@ import { useToggleInput } from 'hooks';
 import { ProductContext } from 'Contexts/ProductContext';
 import CommentReply from './CommentReply';
 import CommentDetails from './CommentDetails';
+import { useTranslation } from 'react-i18next';
 
 const ProductComments = ({
   comments,
@@ -34,6 +35,7 @@ const ProductComments = ({
   const [isReplyOpen, toggleReplyOpen] = useToggleInput(false);
   const [isDetailsOpen, toggleDetailsOpen] = useToggleInput(false);
   const [currentCommment, setReplyComment] = useState(null);
+  const { t } = useTranslation();
 
   const { replyComment } = useContext(ProductContext);
   const statuses = useMemo(() => {
@@ -98,16 +100,16 @@ const ProductComments = ({
     <>
       <Box className={classes.flexLeft}>
         <Button m={1} data-status='waiting' onClick={filterComments}>
-          Waiting : {statuses[0]}
+          {t('WAITING')} : {statuses[0]}
         </Button>
         <Button m={1} data-status='approved' onClick={filterComments}>
-          Approved : {statuses[1]}
+          {t('APPROVED')} : {statuses[1]}
         </Button>
         <Button m={1} data-status='undesireable' onClick={filterComments}>
-          Undesirable :{statuses[2]}
+          {t('UNDESIRABLE')} :{statuses[2]}
         </Button>
         <Button m={1} data-status='basket' onClick={filterComments}>
-          Basket: {statuses[3]}
+          {t('BASKET')}: {statuses[3]}
         </Button>
       </Box>
       <Box mt={3}></Box>
@@ -116,10 +118,10 @@ const ProductComments = ({
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell align='center'>Author</TableCell>
-              <TableCell align='center'>Comments</TableCell>
-              <TableCell align='center'>Product</TableCell>
-              <TableCell align='center'>Date</TableCell>
+              <TableCell align='center'>{t('Author')}</TableCell>
+              <TableCell align='center'>{t('Comments')}</TableCell>
+              <TableCell align='center'>{t('Product')}</TableCell>
+              <TableCell align='center'>{t('Date')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -157,7 +159,7 @@ const ProductComments = ({
                             mr={1}
                             style={{ color: 'green' }}
                           >
-                            Approve
+                            {t('APPROVE')}
                           </Button>
                           <Button
                             mr={1}
@@ -169,7 +171,7 @@ const ProductComments = ({
                               }, 1000);
                             }}
                           >
-                            Reply
+                            {t('REPLY')}
                           </Button>
                           <Button
                             mr={1}
@@ -181,7 +183,7 @@ const ProductComments = ({
                               }, 1000);
                             }}
                           >
-                            View
+                            {t('VIEW')}
                           </Button>
                           <Button
                             data-status='undesireable'
@@ -189,7 +191,7 @@ const ProductComments = ({
                             onClick={handleUpdate}
                             mr={1}
                           >
-                            Undesirable
+                            {t('UNDESIRABLE')}
                           </Button>
                           <Button
                             data-status='basket'
@@ -198,7 +200,7 @@ const ProductComments = ({
                             mr={1}
                             style={{ color: 'red' }}
                           >
-                            Basket
+                            {t('BASKET')}
                           </Button>
                         </Box>
                       </TableCell>

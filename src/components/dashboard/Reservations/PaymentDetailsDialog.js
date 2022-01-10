@@ -18,6 +18,7 @@ import {
 import { Plus as PlusIcon } from 'react-feather';
 import { useManyInputs } from 'hooks';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const PaymentDetailsDialog = ({
   open,
@@ -39,6 +40,7 @@ const PaymentDetailsDialog = ({
     transactionNumber: '',
   };
   const [state, handleTxtChange, , , , setState] = useManyInputs(initialState);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!payment) return;
@@ -54,13 +56,13 @@ const PaymentDetailsDialog = ({
     <Dialog open={open} maxWidth='lg' onClose={toggleDialog}>
       <DialogTitle>
         <Typography variant='h4'>
-          Payment of the due date Ref : GF125487
+          {t('Payment of the due date Ref')} : GF125487
         </Typography>
       </DialogTitle>
       <DialogContent>
         <Box className={classes.flexBetween} style={{ margin: 0 }}>
           <Typography variant='h5'>
-            Amount of the due date :{' '}
+            {t('Amount of the due date')} :{' '}
             {payment ? (
               payment.amount
             ) : (
@@ -68,7 +70,7 @@ const PaymentDetailsDialog = ({
             )}
           </Typography>
           <Box className={classes.flexAround}>
-            <Typography variant='text'>Add a payment method</Typography>
+            <Typography variant='text'>{t('Add a payment method')}</Typography>
             <Box>
               <PlusIcon
                 style={{
@@ -92,12 +94,13 @@ const PaymentDetailsDialog = ({
             }}
           >
             <Typography variant='h5' mr={1}>
-              Payment Method : {payment?.paymentMethod}
+              {t('Payment Method')} : {payment?.paymentMethod}
             </Typography>
             {payment?.isPaid ? (
               <Box>
                 <Typography variant='h5'>
-                  Paid On {new Date(payment.paidDate).toLocaleDateString()}
+                  {t('Paid On')}{' '}
+                  {new Date(payment.paidDate).toLocaleDateString()}
                 </Typography>
               </Box>
             ) : (
@@ -112,28 +115,28 @@ const PaymentDetailsDialog = ({
                   <FormControlLabel
                     value='bankCard'
                     control={<Radio />}
-                    label='Bank Card'
+                    label={t('Bank Card')}
                   />
 
                   <FormControlLabel
                     value='bankTransaction'
                     control={<Radio />}
-                    label='Bank Transfer'
+                    label={t('Bank Transfer')}
                   />
                   <FormControlLabel
                     value='bankCheck'
                     control={<Radio />}
-                    label='Bank check'
+                    label={t('Bank Check')}
                   />
                   <FormControlLabel
                     value='cash'
                     control={<Radio />}
-                    label='Espece'
+                    label={t('Cash')}
                   />
                   <FormControlLabel
                     value='Loyalty points'
                     control={<Radio />}
-                    label='Loyalty points'
+                    label={t('Loyalty points')}
                   />
                 </RadioGroup>
               </FormControl>
@@ -147,7 +150,7 @@ const PaymentDetailsDialog = ({
                     autoFocus
                     margin='dense'
                     id='name'
-                    label='Cash'
+                    label={t('Cash')}
                     type='text'
                     value='Cash'
                     fullWidth
@@ -160,7 +163,7 @@ const PaymentDetailsDialog = ({
                     autoFocus
                     margin='dense'
                     id='name'
-                    label='Transaction number'
+                    label={t('Transaction number')}
                     type='text'
                     fullWidth
                     style={{ marginRight: '2rem' }}
@@ -176,7 +179,7 @@ const PaymentDetailsDialog = ({
                   autoFocus
                   margin='dense'
                   id='date'
-                  label='Date'
+                  label={t('Date')}
                   type='date'
                   fullWidth
                   style={{ marginRight: '2rem' }}
@@ -192,7 +195,7 @@ const PaymentDetailsDialog = ({
                   autoFocus
                   margin='dense'
                   id='payment'
-                  label='Payment Amount'
+                  label={t('Payment Amount')}
                   fullWidth
                   style={{ marginRight: '2rem' }}
                   value={state.amount}
@@ -210,11 +213,11 @@ const PaymentDetailsDialog = ({
         style={{ margin: '1rem', justifyContent: 'right' }}
       >
         <Button variant='outlined' onClick={toggleDialog}>
-          Cancel
+          {t('CANCEL')}
         </Button>
         {!!!payment?.isPaid && (
           <Button variant='contained' form='paymentForm' type='submit'>
-            Validate
+            {t('VALIDATE')}
           </Button>
         )}
       </DialogActions>

@@ -27,6 +27,7 @@ import axios from 'axios';
 import { useParams } from 'react-router';
 import CarouselLayout from 'components/common/Carousel/CarouselLayout';
 import v4 from 'uuid/dist/v4';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles((theme) => ({
   account: {
@@ -93,6 +94,7 @@ const EditProduct = () => {
   const { products, getProductById, modifyProduct, categories } =
     useContext(ProductContext);
   const { id } = useParams();
+  const { t } = useTranslation();
 
   const initialState = {
     name: '',
@@ -110,20 +112,11 @@ const EditProduct = () => {
     isOnline: false,
   };
 
-  const [isImageUploading, toggleImageUploading] =
-    useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState(
-    'Uploading Image...'
-  );
+  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState('Uploading Image...');
 
-  const [
-    state,
-    handleTxtChange,
-    handleToggleChange,
-    changeInput,
-    ,
-    setState,
-  ] = useManyInputs(initialState);
+  const [state, handleTxtChange, handleToggleChange, changeInput, , setState] =
+    useManyInputs(initialState);
 
   useEffect(() => {
     const product = getProductById(id);
@@ -208,9 +201,7 @@ const EditProduct = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message ||
-          err.message ||
-          'Something Went Wrong'
+        err?.response?.data?.message || err.message || 'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -224,22 +215,13 @@ const EditProduct = () => {
             variant='h4'
             style={{ width: '100%', margin: '10px 20px 0px' }}
           >
-            New product
+            {t('New Product')}
           </Typography>
         </Box>
 
         <Grid container>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={12}
-            style={{ minHeight: 400 }}
-          >
-            <Box
-              className={classes.mainBox}
-              style={{ padding: '5rem' }}
-            >
+          <Grid item xs={12} sm={12} md={12} style={{ minHeight: 400 }}>
+            <Box className={classes.mainBox} style={{ padding: '5rem' }}>
               <Box
                 style={{
                   display: 'flex',
@@ -248,7 +230,7 @@ const EditProduct = () => {
                 }}
               >
                 <Typography variant='h5'>
-                  Online
+                  {t('Online')}
                   <Switch
                     checked={state.isOnline}
                     onChange={handleToggleChange}
@@ -259,12 +241,12 @@ const EditProduct = () => {
               </Box>
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  Name
+                  {t('Name')}
                 </Typography>
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  placeholder='name'
+                  placeholder={t('Name').toLowerCase()}
                   size='small'
                   className={classes.textInput}
                   name='name'
@@ -274,12 +256,12 @@ const EditProduct = () => {
               </Box>
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  Price
+                  {t('Price')}
                 </Typography>
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  placeholder='price $'
+                  placeholder={`${t('price')} $`}
                   size='small'
                   type='number'
                   InputProps={{ min: 5 }}
@@ -291,7 +273,7 @@ const EditProduct = () => {
               </Box>
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  Category
+                  {t('Category')}
                 </Typography>
                 <FormControl
                   fullWidth
@@ -303,13 +285,13 @@ const EditProduct = () => {
                   }}
                 >
                   <InputLabel id='demo-simple-select-label'>
-                    Category
+                    {t('Category')}
                   </InputLabel>
 
                   <Select
                     labelId='demo-simple-select-label'
                     id='demo-simple-select'
-                    label='Category'
+                    label={t('Category')}
                     name='category'
                     value={state.category}
                     onChange={handleTxtChange}
@@ -317,10 +299,7 @@ const EditProduct = () => {
                     {/* <MenuItem value={10}>One</MenuItem>
                     <MenuItem value={20}>Two</MenuItem> */}
                     {categories?.map((category) => (
-                      <MenuItem
-                        value={category._id}
-                        key={category._id}
-                      >
+                      <MenuItem value={category._id} key={category._id}>
                         {category.name}
                       </MenuItem>
                     ))}
@@ -329,8 +308,7 @@ const EditProduct = () => {
               </Box>{' '}
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  {' '}
-                  Weight{' '}
+                  {t('Weight')}
                 </Typography>
                 <TextField
                   hiddenLabel
@@ -343,10 +321,10 @@ const EditProduct = () => {
                   value={state.weight}
                   onChange={handleTxtChange}
                 />
-              </Box>{' '}
+              </Box>
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  Price Per Kilo
+                  {t('Price Per Kilo')}
                 </Typography>
                 <TextField
                   hiddenLabel
@@ -361,7 +339,7 @@ const EditProduct = () => {
               </Box>
               <Box className={classes.inputBox}>
                 <Typography variant='h5' className={classes.typo}>
-                  Dimensions
+                  {t('Dimensions')}
                 </Typography>
                 <Box
                   style={{
@@ -376,7 +354,7 @@ const EditProduct = () => {
                     InputProps={{ min: 1 }}
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    placeholder='Length (cm)'
+                    placeholder={`${t('Length')} (cm)`}
                     size='small'
                     className={classes.dimensions}
                     name='length'
@@ -388,7 +366,7 @@ const EditProduct = () => {
                     InputProps={{ min: 1 }}
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    placeholder='Width (cm)'
+                    placeholder={`${t('Width')} (cm)`}
                     size='small'
                     className={classes.dimensions}
                     name='width'
@@ -400,7 +378,7 @@ const EditProduct = () => {
                     InputProps={{ min: 1 }}
                     hiddenLabel
                     id='filled-hidden-label-small'
-                    placeholder='Height (cm)'
+                    placeholder={`${t('Height')} (cm)`}
                     size='small'
                     className={classes.dimensions}
                     name='height'
@@ -415,12 +393,12 @@ const EditProduct = () => {
                 mt={1}
               >
                 <Typography variant='h5'>
-                  Description of Product
+                  {t('Description of Product')}
                 </Typography>
                 <TextField
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  placeholder='Add product description'
+                  placeholder={t('Add product description')}
                   size='small'
                   multiline
                   rows={7}
@@ -438,20 +416,16 @@ const EditProduct = () => {
                 className={classes.inputBox}
                 style={{ display: 'inline-block' }}
               >
-                <Box
-                  display='flex'
-                  justifyContent='left'
-                  alignItems='center'
-                >
+                <Box display='flex' justifyContent='left' alignItems='center'>
                   <Typography variant='h5' mr={12}>
-                    Labels
+                    {t('Labels')}
                   </Typography>
                   <form id='labelForm' onSubmit={handleLabel}>
                     <TextField
                       hiddenLabel
                       required
                       id='filled-hidden-label-small'
-                      placeholder='Add Five Labels'
+                      placeholder={t('Add Five Labels')}
                       size='small'
                       style={{
                         width: lgDown ? '60%' : '50%',
@@ -469,7 +443,7 @@ const EditProduct = () => {
                       style={{ marginLeft: '0.5rem' }}
                       type='submit'
                     >
-                      Add
+                      {t('ADD')}
                     </Button>
                   </form>
                 </Box>
@@ -519,21 +493,15 @@ const EditProduct = () => {
         {/*  product photos  */}
 
         <Box className={classes.mainBox}>
-          <Typography
-            variant='h3'
-            style={{ width: '100%', marginTop: '1rem' }}
-          >
-            Products images
+          <Typography variant='h3' style={{ width: '100%', marginTop: '1rem' }}>
+            {t('Products images')}
           </Typography>
 
           <Grid container spacing={3}>
             <Grid item md={9}>
               <CarouselLayout>
                 {state.images?.map((image) => (
-                  <div
-                    key={image._id}
-                    className={classes.carouselCard}
-                  >
+                  <div key={image._id} className={classes.carouselCard}>
                     <CardMedia
                       style={{ height: '10rem' }}
                       image={image.image}
@@ -550,7 +518,7 @@ const EditProduct = () => {
                         onClick={deleteImage.bind(this, image._id)}
                         style={{ color: 'red' }}
                       >
-                        Delete
+                        {t('DELETE')}
                       </Button>
                     </Box>
                   </div>
@@ -594,18 +562,12 @@ const EditProduct = () => {
                       >
                         <Box className={classes.image}>
                           <Box>
-                            <PlusIcon
-                              size={35}
-                              style={{ color: '#fff' }}
-                            />
-                            <FileIcon
-                              size={35}
-                              style={{ color: '#fff' }}
-                            />
+                            <PlusIcon size={35} style={{ color: '#fff' }} />
+                            <FileIcon size={35} style={{ color: '#fff' }} />
                           </Box>
                           <Box style={{ textAlign: 'center' }}>
                             <Typography style={{ color: '#fff' }}>
-                              Upload Document
+                              {t('Upload Document')}
                             </Typography>
                           </Box>
                         </Box>
@@ -633,7 +595,7 @@ const EditProduct = () => {
               style={{ width: 150 }}
               onClick={handleSubmit}
             >
-              Update
+              {t('UPDATE')}
             </Button>
           </Box>
         </Box>

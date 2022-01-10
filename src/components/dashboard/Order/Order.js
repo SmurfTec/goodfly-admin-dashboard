@@ -43,6 +43,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { a11yProps, TabPanel } from 'components/common/TabPanel';
 import { OrderContext } from 'Contexts/OrderContext';
 import { useParams } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -98,10 +99,7 @@ const styles = makeStyles((theme) => ({
     '& .MuiSwitch-switchBase.Mui-checked': {
       color: '#018786',
       '&:hover': {
-        backgroundColor: alpha(
-          '#018786',
-          theme.palette.action.hoverOpacity
-        ),
+        backgroundColor: alpha('#018786', theme.palette.action.hoverOpacity),
       },
     },
     '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
@@ -112,10 +110,7 @@ const styles = makeStyles((theme) => ({
     '& .MuiSwitch-switchBase.Mui-checked': {
       color: '#B00020',
       '&:hover': {
-        backgroundColor: alpha(
-          '#B00020',
-          theme.palette.action.hoverOpacity
-        ),
+        backgroundColor: alpha('#B00020', theme.palette.action.hoverOpacity),
       },
     },
     '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
@@ -133,9 +128,9 @@ const Order = () => {
   const classes = styles();
   const theme = useTheme();
   const lgDown = useMediaQuery(theme.breakpoints.down('lg'));
+  const { t } = useTranslation();
 
-  const { orders, getOrderById, modifyOrder } =
-    useContext(OrderContext);
+  const { orders, getOrderById, modifyOrder } = useContext(OrderContext);
 
   const { id } = useParams();
 
@@ -193,7 +188,7 @@ const Order = () => {
   return (
     <div>
       <Typography variant='h4' m={3}>
-        Order REf : {singleOrder?._id}
+        {t('Order REf')} : {singleOrder?._id}
       </Typography>
       <Box className={classes.main}>
         <Box sx={{ width: '100%' }}>
@@ -203,10 +198,10 @@ const Order = () => {
               onChange={handleChange}
               aria-label='basic tabs example'
             >
-              <Tab label='Product' {...a11yProps(0)} />
-              <Tab label='Client' {...a11yProps(1)} />
-              <Tab label='Carrier' {...a11yProps(2)} />
-              <Tab label='Payment' {...a11yProps(2)} />
+              <Tab label={t('Product')} {...a11yProps(0)} />
+              <Tab label={t('Client')} {...a11yProps(1)} />
+              <Tab label={t('Carrier')} {...a11yProps(2)} />
+              <Tab label={t('Payment')} {...a11yProps(2)} />
               <Box
                 style={{
                   width: '280%',
@@ -224,7 +219,7 @@ const Order = () => {
                   }}
                 >
                   <InputLabel id='demo-simple-select-label'>
-                    order status
+                    {t('Order Status')}
                   </InputLabel>
 
                   <Select
@@ -234,14 +229,14 @@ const Order = () => {
                     onChange={handleOrderStatus}
                   >
                     <MenuItem value='unpaid' disabled>
-                      Unpaid
+                      {t('Unpaid')}
                     </MenuItem>
                     <MenuItem value='paid' disabled>
-                      Paid
+                      {t('Paid')}
                     </MenuItem>
-                    <MenuItem value='inProgress'>InProgress</MenuItem>
-                    <MenuItem value='dispatched'>Dispatched</MenuItem>
-                    <MenuItem value='delivered'>Delivered</MenuItem>
+                    <MenuItem value='inProgress'>{t('InProgress')}</MenuItem>
+                    <MenuItem value='dispatched'>{t('Dispatched')}</MenuItem>
+                    <MenuItem value='delivered'>{t('Delivered')}</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
@@ -259,10 +254,7 @@ const Order = () => {
                   <SidebarIcon className={classes.icons} />
                   <PrintIcon className={classes.icons} />
                   <Trash2Icon className={classes.icons} />
-                  <PlayIcon
-                    className={classes.icons}
-                    onClick={handleSubmit}
-                  />
+                  <PlayIcon className={classes.icons} onClick={handleSubmit} />
                 </Box>
               </Box>
             </Tabs>
@@ -355,7 +347,7 @@ const Order = () => {
                       ml={5}
                     >
                       <Typography variant='h5' m={2}>
-                        Order Quantity:
+                        {t('Order Quantity')}:
                       </Typography>
                       <Typography
                         variant='h1'
@@ -373,7 +365,7 @@ const Order = () => {
                 (singleOrder.visitor ? (
                   <>
                     <Typography variant='h5'>
-                      Client Ref :{singleOrder?.visitor._id}
+                      {t('Client Ref')} :{singleOrder?.visitor._id}
                     </Typography>
                     <Box
                       mt={3}
@@ -385,28 +377,28 @@ const Order = () => {
                     >
                       <TextField
                         id='standard-helperText'
-                        label='name'
+                        label={t('Name')}
                         value={singleOrder?.visitor.firstName}
                         variant='outlined'
                         inputProps={{ readOnly: true }}
                       />
                       <TextField
                         id='standard-helperText'
-                        label='firstname'
+                        label={t('First Name')}
                         value={singleOrder?.visitor.lastName}
                         variant='outlined'
                         inputProps={{ readOnly: true }}
                       />
                       <TextField
                         id='standard-helperText'
-                        label='email'
+                        label={t('Email')}
                         value={singleOrder?.visitor.email}
                         variant='outlined'
                         inputProps={{ readOnly: true }}
                       />
                       <TextField
                         id='standard-helperText'
-                        label='Telephone'
+                        label={t('Telephone')}
                         value={singleOrder?.visitor.telephoneNumber}
                         variant='outlined'
                         inputProps={{ readOnly: true }}
@@ -415,7 +407,7 @@ const Order = () => {
                   </>
                 ) : (
                   <Typography variant='h5'>
-                    Visitor no longer exists
+                    {t('Visitor No Longer Exists')}
                   </Typography>
                 ))}
               <Box
@@ -434,26 +426,23 @@ const Order = () => {
                     padding: '3%',
                   }}
                 >
-                  <Typography
-                    variant='h4'
-                    className={classes.address}
-                  >
-                    Shipping Address
+                  <Typography variant='h4' className={classes.address}>
+                    {t('Shipping Address')}
                   </Typography>
                   <Typography className={classes.address}>
-                    <b>Address:</b>{' '}
+                    <b>{t('Address')}:</b>{' '}
                     {singleOrder?.shippingAddress?.address}
                   </Typography>
                   <Typography className={classes.address}>
-                    <b>country:</b>
+                    <b>{t('Country')}:</b>
                     {singleOrder?.shippingAddress?.country}
                   </Typography>
                   <Typography className={classes.address}>
-                    <b>city:</b>
+                    <b>{t('City')}:</b>
                     {singleOrder?.shippingAddress?.city}
                   </Typography>
                   <Typography className={classes.address}>
-                    <b>postalCode:</b>
+                    <b>{t('Postal Code')}:</b>
                     {singleOrder?.shippingAddress?.postalCode}
                   </Typography>
                 </Box>
@@ -466,35 +455,30 @@ const Order = () => {
                     // verticalAlign: 'top',
                   }}
                 >
-                  <Typography
-                    variant='h4'
-                    className={classes.address}
-                  >
-                    Billing Address
+                  <Typography variant='h4' className={classes.address}>
+                    {t('Billing Address')}
                   </Typography>
                   <Typography className={classes.address}>
-                    <b>Address:</b>{' '}
+                    <b>{t('Address')}:</b>{' '}
                     {singleOrder?.shippingAddress?.address}
                   </Typography>
                   <Typography className={classes.address}>
-                    <b>country:</b>
+                    <b>{t('Country')}:</b>
                     {singleOrder?.shippingAddress?.country}
                   </Typography>
                   <Typography className={classes.address}>
-                    <b>city:</b>
+                    <b>{t('City')}:</b>
                     {singleOrder?.shippingAddress?.city}
                   </Typography>
                   <Typography className={classes.address}>
-                    <b>postalCode:</b>
+                    <b>{t('Postal Code')}:</b>
                     {singleOrder?.shippingAddress?.postalCode}
                   </Typography>
                 </Box>
               </Box>
             </TabPanel>
             <TabPanel value={value} index={2}>
-              <Typography variant='h5'>
-                Transport Management
-              </Typography>
+              <Typography variant='h5'>{t('Transport Management')}</Typography>
               <Box
                 mt={3}
                 style={{
@@ -505,23 +489,20 @@ const Order = () => {
               >
                 <TextField
                   id='standard-helperText'
-                  label='Delivery Method'
+                  label={t('Delivery Method')}
                   value={singleOrder?.deliveryMethod}
                   variant='outlined'
                   inputProps={{ readOnly: true }}
                 />
                 <TextField
                   id='standard-helperText'
-                  label='Relay Point'
+                  label={t('Relay Point')}
                   value={singleOrder?.relayPoint}
                   inputProps={{ readOnly: true }}
                 />
 
-                <Button
-                  variant='contained'
-                  style={{ width: '12rem' }}
-                >
-                  Add a Carrier
+                <Button variant='contained' style={{ width: '12rem' }}>
+                  {t('ADD A CARRIER')}
                 </Button>
               </Box>
               <Box
@@ -540,26 +521,23 @@ const Order = () => {
                     padding: '3%',
                   }}
                 >
-                  <Typography
-                    variant='h4'
-                    className={classes.address}
-                  >
-                    Shipping Address
+                  <Typography variant='h4' className={classes.address}>
+                    {t('Shipping Address')}
                   </Typography>
                   <Typography className={classes.address}>
-                    <b>Address:</b>{' '}
+                    <b>{t('Address')}:</b>{' '}
                     {singleOrder?.shippingAddress?.address}
                   </Typography>
                   <Typography className={classes.address}>
-                    <b>country:</b>
+                    <b>{t('Country')}:</b>
                     {singleOrder?.shippingAddress?.country}
                   </Typography>
                   <Typography className={classes.address}>
-                    <b>city:</b>
+                    <b>{t('City')}:</b>
                     {singleOrder?.shippingAddress?.city}
                   </Typography>
                   <Typography className={classes.address}>
-                    <b>postalCode:</b>
+                    <b>{t('Postal Code')}:</b>
                     {singleOrder?.shippingAddress?.postalCode}
                   </Typography>
                 </Box>
@@ -572,26 +550,23 @@ const Order = () => {
                     // verticalAlign: 'top',
                   }}
                 >
-                  <Typography
-                    variant='h4'
-                    className={classes.address}
-                  >
-                    Billing Address
+                  <Typography variant='h4' className={classes.address}>
+                    {t('Billing Address')}
                   </Typography>
                   <Typography className={classes.address}>
-                    <b>Address:</b>{' '}
+                    <b>{t('Address')}:</b>{' '}
                     {singleOrder?.shippingAddress?.address}
                   </Typography>
                   <Typography className={classes.address}>
-                    <b>country:</b>
+                    <b>{t('Country')}:</b>
                     {singleOrder?.shippingAddress?.country}
                   </Typography>
                   <Typography className={classes.address}>
-                    <b>city:</b>
+                    <b>{t('City')}:</b>
                     {singleOrder?.shippingAddress?.city}
                   </Typography>
                   <Typography className={classes.address}>
-                    <b>postalCode:</b>
+                    <b>{t('Postal Code')}:</b>
                     {singleOrder?.shippingAddress?.postalCode}
                   </Typography>
                 </Box>
@@ -603,38 +578,29 @@ const Order = () => {
                   margin: '1rem',
                 }}
               >
-                <Button
-                  variant='contained'
-                  style={{ marginRight: '1rem' }}
-                >
-                  Download the packaging Slip
+                <Button variant='contained' style={{ marginRight: '1rem' }}>
+                  {t('DOWNLOAD THE PACKAGING SLIP')}
                 </Button>
                 <Button variant='contained' onClick={handleSubmit}>
-                  Validate the Modifications
+                  {t('VALIDATE THE MODIFICATIONS')}
                 </Button>
               </Box>
             </TabPanel>
             <TabPanel value={value} index={3}>
-              <TableContainer
-                component={Paper}
-                className={classes.table}
-              >
-                <Table
-                  sx={{ minWidth: 650 }}
-                  aria-label='simple table'
-                >
+              <TableContainer component={Paper} className={classes.table}>
+                <Table sx={{ minWidth: 650 }} aria-label='simple table'>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Payment</TableCell>
-                      <TableCell align='right'>Type</TableCell>
+                      <TableCell>{t('Payment')}</TableCell>
+                      <TableCell align='right'>{t('Type')}</TableCell>
                       <TableCell align='right'>
-                        Transaction Date
+                        {t('Transaction Date')}
                       </TableCell>
                       <TableCell align='right'>
-                        Transaction Amount
+                        {t('Transaction Amount')}
                       </TableCell>
                       <TableCell align='right'>
-                        Transaction Status
+                        {t('Transaction Status')}
                       </TableCell>
                     </TableRow>
                   </TableHead>
@@ -644,16 +610,10 @@ const Order = () => {
                         <TableCell component='th' scope='row'>
                           {row.name}
                         </TableCell>
-                        <TableCell align='right'>
-                          {row.calories}
-                        </TableCell>
+                        <TableCell align='right'>{row.calories}</TableCell>
                         <TableCell align='right'>{row.fat}</TableCell>
-                        <TableCell align='right'>
-                          {row.carbs}
-                        </TableCell>
-                        <TableCell align='right'>
-                          {row.protein}
-                        </TableCell>
+                        <TableCell align='right'>{row.carbs}</TableCell>
+                        <TableCell align='right'>{row.protein}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -669,7 +629,7 @@ const Order = () => {
       <div>
         <Dialog open={manualPayment} onClose={closeManualPayment}>
           <DialogTitle>
-            <Typography variant='h4'>Manual Payment</Typography>
+            <Typography variant='h4'>{t('Manual Payment')}</Typography>
           </DialogTitle>
           <DialogContent>
             <Box
@@ -685,7 +645,7 @@ const Order = () => {
               >
                 <FormControl component='fieldset'>
                   <FormLabel component='legend'>
-                    Payment Method
+                    {t('Payment Method')}
                   </FormLabel>
                   <RadioGroup
                     row
@@ -695,12 +655,12 @@ const Order = () => {
                     <FormControlLabel
                       value='Bank Check'
                       control={<Radio />}
-                      label='Bank check'
+                      label={t('Bank check')}
                     />
                     <FormControlLabel
                       value='Bank Transfer'
                       control={<Radio />}
-                      label='Bank Transfer'
+                      label={t('Bank Transfer')}
                     />
                   </RadioGroup>
                 </FormControl>
@@ -714,19 +674,19 @@ const Order = () => {
                   }}
                 >
                   <InputLabel id='demo-simple-select-label'>
-                    Status
+                    {t('Status')}
                   </InputLabel>
 
                   <Select
                     labelId='demo-simple-select-label'
                     id='demo-simple-select'
                     value={orderStatus}
-                    label='RelayPoints'
+                    label={t('RelayPoints')}
                     onChange={handleRelayPoints}
                   >
-                    <MenuItem value={10}>One</MenuItem>
-                    <MenuItem value={20}>Two</MenuItem>
-                    <MenuItem value={30}>Three</MenuItem>
+                    <MenuItem value={10}>{t('One')}</MenuItem>
+                    <MenuItem value={20}>{t('Two')}</MenuItem>
+                    <MenuItem value={30}>{t('Three')}</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
@@ -735,7 +695,7 @@ const Order = () => {
                   autoFocus
                   margin='dense'
                   id='name'
-                  label='Transaction number'
+                  label={t('Transaction number')}
                   type='text'
                   fullWidth
                   style={{ marginRight: '2rem' }}
@@ -744,7 +704,7 @@ const Order = () => {
                   autoFocus
                   margin='dense'
                   id='name'
-                  label='Date of Transaction'
+                  label={t('Date of Transaction')}
                   type='text'
                   fullWidth
                   style={{ marginRight: '2rem' }}
@@ -753,7 +713,7 @@ const Order = () => {
                   autoFocus
                   margin='dense'
                   id='name'
-                  label='Amount of Transaction'
+                  label={t('Amount of Transaction')}
                   type='email'
                   fullWidth
                   style={{ marginRight: '2rem' }}
@@ -766,10 +726,10 @@ const Order = () => {
             style={{ margin: '1rem', justifyContent: 'right' }}
           >
             <Button variant='outlined' onClick={closeManualPayment}>
-              Cancel
+              {t('CANCEL')}
             </Button>
             <Button variant='contained' onClick={closeManualPayment}>
-              Validate
+              {t('VALIDATE')}
             </Button>
           </DialogActions>
         </Dialog>

@@ -19,6 +19,7 @@ import useManyInputs from 'hooks/useManyInputs';
 import { toast } from 'react-toastify';
 import Loading from 'pages/Loading';
 import NotFound from 'pages/NotFound';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -68,6 +69,7 @@ const EditStaffer = () => {
   const [notFound, setNotFound] = useState(false);
 
   const [openPass, setOpenPass] = useState(false);
+  const { t } = useTranslation();
 
   const [state, handleTxtChange, , , , setState] = useManyInputs(initialState);
 
@@ -117,7 +119,7 @@ const EditStaffer = () => {
         <>
           <div>
             <Typography variant='h5' m={2}>
-              Modify the Staffer Ref:GO1245
+              {t('Modify the Staffer Ref')}:GO1245
             </Typography>
             {loading ? (
               <div className='loader'></div>
@@ -130,14 +132,14 @@ const EditStaffer = () => {
                     to='/app/staffers'
                     className={classes.topButtons}
                   >
-                    Back to the List
+                    {t('Back to the List')}
                   </Button>
                   <Button
                     variant='outlined'
                     onClick={handleClickOpenPass}
                     className={classes.topButtons}
                   >
-                    Change Password
+                    {t('Change Password')}
                   </Button>
                 </Box>
                 <div
@@ -156,7 +158,7 @@ const EditStaffer = () => {
                       type='text'
                       onChange={handleTxtChange}
                       id='standard-basic'
-                      label='firstName'
+                      label={t('First Name')}
                       variant='standard'
                     />
                     <TextField
@@ -165,7 +167,7 @@ const EditStaffer = () => {
                       name='lastName'
                       onChange={handleTxtChange}
                       id='standard-basic'
-                      label='Last Name'
+                      label={t('Last Name')}
                       variant='standard'
                       type='text'
                     />
@@ -175,7 +177,7 @@ const EditStaffer = () => {
                       name='telephoneNumber'
                       onChange={handleTxtChange}
                       id='standard-basic'
-                      label='Telephone mobile'
+                      label={`${t('Telephone')}/${t('Mobile')}`}
                       variant='standard'
                       type='number'
                     />
@@ -187,7 +189,7 @@ const EditStaffer = () => {
                       name='email'
                       onChange={handleTxtChange}
                       id='standard-basic'
-                      label='Email Address'
+                      label={t('Email Address')}
                       variant='standard'
                       style={{ width: '45%' }}
                       type='email'
@@ -198,7 +200,7 @@ const EditStaffer = () => {
                       name='telephoneLineNumber'
                       onChange={handleTxtChange}
                       id='standard-basic'
-                      label='Telephone Home'
+                      label={t('Telephone Home')}
                       variant='standard'
                       type='number'
                     />
@@ -210,7 +212,7 @@ const EditStaffer = () => {
                       name='address'
                       onChange={handleTxtChange}
                       id='standard-basic'
-                      label='Address'
+                      label={t('Address')}
                       variant='standard'
                       style={{ width: '75%' }}
                       type='text'
@@ -223,7 +225,7 @@ const EditStaffer = () => {
                       name='postalCode'
                       onChange={handleTxtChange}
                       id='standard-basic'
-                      label='Postal Code'
+                      label={t('Postal Code')}
                       variant='standard'
                       type='number'
                     />
@@ -233,7 +235,7 @@ const EditStaffer = () => {
                       name='city'
                       onChange={handleTxtChange}
                       id='standard-basic'
-                      label='City'
+                      label={t('City')}
                       variant='standard'
                       type='text'
                     />
@@ -244,7 +246,7 @@ const EditStaffer = () => {
                       name='country'
                       onChange={handleTxtChange}
                       id='standard-basic'
-                      label='Country'
+                      label={t('Country')}
                       variant='standard'
                     />
                   </Box>
@@ -258,7 +260,7 @@ const EditStaffer = () => {
                       onClick={handleSubmit}
                       style={{ width: '12rem' }}
                     >
-                      Update
+                      {t('UPDATE')}
                     </Button>
                   </Box>
                 </div>
@@ -274,7 +276,7 @@ const EditStaffer = () => {
             }}
           >
             <DialogTitle>
-              <Typography variant='h4'>Changing the Paasword</Typography>
+              <Typography variant='h4'>{t('Changing the Password')}</Typography>
             </DialogTitle>
             <DialogContent>
               <Box
@@ -286,7 +288,7 @@ const EditStaffer = () => {
                   autoFocus
                   margin='dense'
                   id='name'
-                  label='New Password'
+                  label={t('New Password')}
                   type='password'
                   name='password'
                   value={state.password}
@@ -298,7 +300,7 @@ const EditStaffer = () => {
                   autoFocus
                   margin='dense'
                   id='name'
-                  label='Confirm new password'
+                  label={t('Confirm New Password')}
                   name='passwordConfirm'
                   value={state.passwordConfirm}
                   onChange={handleTxtChange}
@@ -314,10 +316,10 @@ const EditStaffer = () => {
               style={{ margin: '1rem', justifyContent: 'right' }}
             >
               <Button variant='outlined' onClick={handleClosePass}>
-                Cancel
+                {t('CANCEL')}
               </Button>
               <Button variant='contained' onClick={handleUpdatePass}>
-                Update
+                {t('UPDATE')}
               </Button>
             </DialogActions>
           </Dialog>

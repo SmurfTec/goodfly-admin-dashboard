@@ -15,6 +15,7 @@ import { useArray, useToggleInput } from 'hooks';
 import AddStageDialog from './AddStageDialog';
 import UpdateStateDialog from './AddStageDialog';
 import v4 from 'uuid/dist/v4';
+import { useTranslation } from 'react-i18next';
 
 const StagesTab = memo(({ value, classes, handleSubmit, offer }) => {
   const [stages, setStages, pushStage, , updateStage, removeStage, ,] =
@@ -22,6 +23,7 @@ const StagesTab = memo(({ value, classes, handleSubmit, offer }) => {
   const [isDialogOpen, toggleDialogOpen] = useToggleInput(false);
   const [isUpdateDialogOpen, toggleUpdateDialogOpen] = useToggleInput(false);
   const [currentStage, setCurrentStage] = useState(0);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!offer) return;
@@ -75,7 +77,7 @@ const StagesTab = memo(({ value, classes, handleSubmit, offer }) => {
           style={{ width: '10rem', marginRight: '1rem' }}
           onClick={toggleDialogOpen}
         >
-          Add a Stage
+          {t('ADD A STAGE')}
         </Button>
         <Button
           disabled={stages.length === 0}
@@ -83,7 +85,7 @@ const StagesTab = memo(({ value, classes, handleSubmit, offer }) => {
           style={{ width: '10rem' }}
           onClick={() => handleSubmit(stages)}
         >
-          Next
+          {t('NEXT')}
         </Button>
       </Box>
       <Container
@@ -109,7 +111,7 @@ const StagesTab = memo(({ value, classes, handleSubmit, offer }) => {
                     }}
                     variant='h5'
                   >
-                    Stage {currentStage + 1}
+                    {t('Stage')} {currentStage + 1}
                   </Typography>
                 )}
                 <Button
@@ -191,20 +193,20 @@ const StagesTab = memo(({ value, classes, handleSubmit, offer }) => {
                 }}
                 onClick={handleDelete}
               >
-                Delete
+                {t('DELETE')}
               </Button>
               <Button
                 onClick={toggleUpdateDialogOpen}
                 variant='outlined'
                 style={{ width: '8rem' }}
               >
-                Update
+                {t('UPDATE')}
               </Button>
             </Box>
           </>
         ) : (
           <Typography sx={{ textAlign: 'center' }} variant='h5'>
-            No Stages to show !
+            {t('No Stages to show')} !
           </Typography>
         )}
       </Container>

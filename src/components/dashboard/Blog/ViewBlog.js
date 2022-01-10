@@ -30,6 +30,7 @@ import { getMuiDateFormat } from 'utils/dateMethods';
 import NotFound from 'pages/NotFound';
 import Loading from 'pages/Loading';
 import { Cancel, Delete } from '@material-ui/icons';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles((theme) => ({
   image: {
@@ -58,7 +59,7 @@ const ModifyBlog = () => {
   const classes = styles();
 
   const { id } = useParams();
-
+  const { t } = useTranslation();
   const { modifyBlog, getBlogFromId, blogs, loading, deleteBlog } =
     useContext(BlogsContext);
 
@@ -239,7 +240,7 @@ const ModifyBlog = () => {
                             onChange={handleImage}
                           />
                           <Typography style={{ color: '#808080' }}>
-                            Upload Image
+                            {t('Upload Image')}
                           </Typography>
                         </Box>
                       </Box>
@@ -256,7 +257,7 @@ const ModifyBlog = () => {
                   textAlign: 'right',
                 }}
               >
-                Offline
+                {t('Offline')}
                 <Switch
                   checked={state.upload}
                   name='upload'
@@ -283,7 +284,7 @@ const ModifyBlog = () => {
                     value={state.theme}
                     onChange={handleTxtChange}
                     id='standard-basic'
-                    label='Theme'
+                    label={t('Theme')}
                     variant='standard'
                   />
                   <TextField
@@ -291,7 +292,7 @@ const ModifyBlog = () => {
                     value={state.title}
                     onChange={handleTxtChange}
                     id='standard-basic'
-                    label='Title'
+                    label={t('Title')}
                     variant='standard'
                     style={{ width: '100%' }}
                   />
@@ -302,7 +303,7 @@ const ModifyBlog = () => {
               <form onSubmit={handleAddKeyword}>
                 <Box>
                   <TextField
-                    name='Keywords'
+                    // name='Keywords'
                     value={keyword}
                     onChange={handleChangeKeyword}
                     id='standard-basic'
@@ -404,7 +405,7 @@ const ModifyBlog = () => {
               style={{ backgroundColor: 'red', width: 150 }}
               onClick={toggleIsOpen}
             >
-              Delete
+              {t('DELETE')}
             </Button>
             <Button
               onClick={handleUpdateBlog}
@@ -412,7 +413,7 @@ const ModifyBlog = () => {
               size='medium'
               style={{ width: 150 }}
             >
-              Update
+              {t('UPDATE')}
             </Button>
           </Box>
 
@@ -420,7 +421,7 @@ const ModifyBlog = () => {
             open={isOpen}
             success={handleBlogDelete}
             toggleDialog={toggleIsOpen}
-            dialogTitle=' Are you Sure you want to cancel ?'
+            dialogTitle='Are you Sure you want to cancel ?'
           />
         </>
       )}

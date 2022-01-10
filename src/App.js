@@ -6,7 +6,24 @@ import { publicRoutes, protechtedRoutes, loading } from './routes';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from 'Contexts/AuthContext';
 
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
+import cookies from 'js-cookie';
+
 import './App.css';
+
+const languages = [
+  {
+    code: 'fr',
+    name: 'Français',
+    country_code: 'fr',
+  },
+  {
+    code: 'en',
+    name: 'English',
+    country_code: 'gb',
+  },
+];
 
 const App = () => {
   const [routes, setRoutes] = useState(loading);

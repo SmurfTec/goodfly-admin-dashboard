@@ -1,15 +1,11 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import {
-  Typography,
-  Box,
-  Button,
-  TextField,
-} from '@material-ui/core';
+import { Typography, Box, Button, TextField } from '@material-ui/core';
 import useManyInputs from 'hooks/useManyInputs';
 import { StaffersContext } from 'Contexts/StaffersContext';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles((theme) => ({
   main: {
@@ -30,6 +26,7 @@ const styles = makeStyles((theme) => ({
 
 const AddStaffer = () => {
   const classes = styles();
+  const { t } = useTranslation();
 
   const { createNewStaffer } = useContext(StaffersContext);
 
@@ -47,8 +44,7 @@ const AddStaffer = () => {
     passwordConfirm: '',
   };
 
-  const [state, handleTxtChange, , , resetState] =
-    useManyInputs(initialState);
+  const [state, handleTxtChange, , , resetState] = useManyInputs(initialState);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -62,7 +58,7 @@ const AddStaffer = () => {
   return (
     <div>
       <Typography variant='h5' m={2}>
-        Add new Staffer
+        {t('Add New Staffer')}
       </Typography>
       <form onSubmit={handleSubmit}>
         <Box className={classes.main}>
@@ -78,11 +74,11 @@ const AddStaffer = () => {
               <TextField
                 required
                 value={state.firstName}
-                name='firstName'
+                name={'firstName'}
                 type='text'
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='firstName'
+                label={t('First Name')}
                 variant='standard'
               />
               <TextField
@@ -91,7 +87,7 @@ const AddStaffer = () => {
                 name='lastName'
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='Last Name'
+                label={t('Last Name')}
                 variant='standard'
                 type='text'
               />
@@ -101,7 +97,7 @@ const AddStaffer = () => {
                 name='telephoneNumber'
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='Telephone mobile'
+                label={`${t('Telephone')}/${t('Mobile')}`}
                 variant='standard'
                 type='number'
               />
@@ -113,7 +109,7 @@ const AddStaffer = () => {
                 name='email'
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='Email Address'
+                label={t('Email Address')}
                 variant='standard'
                 style={{ width: '40%' }}
                 type='email'
@@ -124,7 +120,7 @@ const AddStaffer = () => {
                 name='telephoneLineNumber'
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='Telephone Home'
+                label={t('Telephone Home')}
                 variant='standard'
                 type='number'
               />
@@ -136,7 +132,7 @@ const AddStaffer = () => {
                 name='address'
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='Address'
+                label={t('Address')}
                 variant='standard'
                 style={{ width: '68%' }}
                 type='text'
@@ -149,7 +145,7 @@ const AddStaffer = () => {
                 name='postalCode'
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='Postal Code'
+                label={t('Postal Code')}
                 variant='standard'
                 type='number'
               />
@@ -159,7 +155,7 @@ const AddStaffer = () => {
                 name='city'
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='City'
+                label={t('City')}
                 variant='standard'
                 type='text'
               />
@@ -170,7 +166,7 @@ const AddStaffer = () => {
                 name='country'
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='Country'
+                label={t('Country')}
                 variant='standard'
               />
             </Box>
@@ -182,7 +178,7 @@ const AddStaffer = () => {
                 name='password'
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='Password'
+                label={t('Password')}
                 variant='standard'
               />
               <TextField
@@ -192,13 +188,13 @@ const AddStaffer = () => {
                 name='passwordConfirm'
                 onChange={handleTxtChange}
                 id='standard-basic'
-                label='Confirm Password'
+                label={t('Confirm Password')}
                 variant='standard'
               />
             </Box>
             <Box size='large' className={classes.form}>
               <Button variant='contained' type='submit'>
-                Validate
+                {t('VALIDATE')}
               </Button>
             </Box>
           </div>

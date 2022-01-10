@@ -29,9 +29,11 @@ import { toast } from 'react-toastify';
 import { getMuiDateFormat } from 'utils/dateMethods';
 import { countries, regions } from 'utils/constants';
 import { Add, Delete } from '@material-ui/icons';
+import { useTranslation } from 'react-i18next';
 import v4 from 'uuid/dist/v4';
 
 const OffersTabs = ({ classes, value, handleNext, offer }) => {
+  const { t } = useTranslation();
   const initialState = {
     image: '',
     upload: false,
@@ -217,7 +219,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   paddingRight: '1rem',
                 }}
               >
-                <Typography variant='h5'>Offer Gallery</Typography>
+                <Typography variant='h5'>{t('Offer Gallery')}</Typography>
 
                 <input
                   accept='image/*'
@@ -234,7 +236,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                     component='span'
                     style={{ marginTop: '1rem', width: 100 }}
                   >
-                    Add
+                    {t('ADD')}
                   </Button>
                 </label>
 
@@ -247,7 +249,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   }}
                   onClick={handleDeleteImage}
                 >
-                  Delete
+                  {t('DELETE')}
                 </Button>
               </Box>
               <Box>
@@ -283,7 +285,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                     color='primary'
                   />
                 }
-                label='Online'
+                label={t('Online')}
               />
 
               <FormControl
@@ -294,21 +296,21 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                 }}
               >
                 <InputLabel id='demo-simple-select-label'>
-                  Offer Category
+                  {t('Offer Category')}
                 </InputLabel>
 
                 <Select
                   labelId='demo-simple-select-label'
                   id='demo-simple-select'
                   value={state.category}
-                  label='Offer Type'
+                  label={t('Offer Type')}
                   name='category'
                   onChange={handleTxtChange}
                   required
                 >
-                  <MenuItem value={'spiritual'}>Spiritual</MenuItem>
-                  <MenuItem value={'ethical'}>Ethical</MenuItem>
-                  <MenuItem value={'excursions'}>Excursions</MenuItem>
+                  <MenuItem value={'spiritual'}>{t('Spiritual')}</MenuItem>
+                  <MenuItem value={'ethical'}>{t('Ethical')}</MenuItem>
+                  <MenuItem value={'excursions'}>{t('Excursions')}</MenuItem>
                 </Select>
               </FormControl>
 
@@ -321,21 +323,21 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                 }}
               >
                 <InputLabel id='demo-simple-select-label'>
-                  Offer SubCategory
+                  {t('Offer SubCategory')}
                 </InputLabel>
 
                 <Select
                   labelId='demo-simple-select-label'
                   id='demo-simple-select'
                   value={state.subCategory}
-                  label='Offer Type'
+                  label={t('Offer Type')}
                   name='subCategory'
                   onChange={handleTxtChange}
                   required
                 >
                   {subCategories.map((cat) => (
                     <MenuItem key={v4()} value={cat}>
-                      {cat}
+                      {t(cat)}
                     </MenuItem>
                   ))}
                 </Select>
@@ -345,7 +347,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   required
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  placeholder='Title'
+                  placeholder={t('Title')}
                   size='small'
                   className={classes.textInput}
                   name='title'
@@ -359,7 +361,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   required
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  placeholder='Price'
+                  placeholder={t('Price')}
                   size='small'
                   type='number'
                   inputProps={{ min: 100 }}
@@ -441,7 +443,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label='Choose  Region'
+                      label={t('Choose  Region')}
                       inputProps={{
                         ...params.inputProps,
                       }}
@@ -455,7 +457,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   required
                   hiddenLabel
                   id='filled-hidden-label-small'
-                  placeholder='Description'
+                  placeholder={t('Description')}
                   size='small'
                   className={classes.textInput}
                   multiline
@@ -478,7 +480,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
               }}
             >
               <Typography variant='h5' style={{ marginRight: '1rem' }}>
-                Dates
+                {t('Dates')}
               </Typography>
               <FormControl component='fieldset'>
                 <RadioGroup
@@ -491,9 +493,13 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   <FormControlLabel
                     value='yes'
                     control={<Radio />}
-                    label='yes'
+                    label={t('yes')}
                   />
-                  <FormControlLabel value='no' control={<Radio />} label='no' />
+                  <FormControlLabel
+                    value='no'
+                    control={<Radio />}
+                    label={t('no')}
+                  />
                 </RadioGroup>
               </FormControl>
             </Box>
@@ -508,7 +514,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                 <>
                   <TextField
                     type='date'
-                    placeholder='Departure Date'
+                    placeholder={t('Departure Date')}
                     size='small'
                     className={classes.dateFields}
                     name='startingDate'
@@ -518,7 +524,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   />
                   <TextField
                     type='date'
-                    placeholder='Arrival date'
+                    placeholder={t('Arrival date')}
                     size='small'
                     className={classes.dateFields}
                     name='endingDate'
@@ -539,7 +545,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
               }}
             >
               <Typography variant='h5' style={{ marginRight: '1rem' }}>
-                Place of departure
+                {t('Place of departure')}
               </Typography>
               <FormControl component='fieldset'>
                 <RadioGroup
@@ -552,9 +558,13 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   <FormControlLabel
                     value='yes'
                     control={<Radio />}
-                    label='yes'
+                    label={t('yes')}
                   />
-                  <FormControlLabel value='no' control={<Radio />} label='no' />
+                  <FormControlLabel
+                    value='no'
+                    control={<Radio />}
+                    label={t('no')}
+                  />
                 </RadioGroup>
               </FormControl>
             </Box>
@@ -569,7 +579,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                 <>
                   <TextField
                     type='text'
-                    placeholder='Departure'
+                    placeholder={t('Departure')}
                     size='small'
                     className={classes.dateFields}
                     name='departurePlace'
@@ -579,7 +589,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                   />
                   <TextField
                     type='text'
-                    placeholder='Arrival'
+                    placeholder={t('Arrival')}
                     size='small'
                     className={classes.dateFields}
                     name='arrivalPlace'
@@ -596,7 +606,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                 display: 'inline-grid',
               }}
             >
-              <Typography variant='h5'> Services Includes</Typography>
+              <Typography variant='h5'> {t('Services Includes')}</Typography>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -606,7 +616,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                     // value={state.services.guide}
                   />
                 }
-                label='Guide'
+                label={t('Guide')}
               />
               <FormControlLabel
                 control={
@@ -617,7 +627,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                     // value={state.services.airportTransport}
                   />
                 }
-                label='Airport transport'
+                label={t('Airport transport')}
               />
               <FormControlLabel
                 control={
@@ -628,7 +638,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                     // value={state.services.religiousCourse}
                   />
                 }
-                label='Religious courses'
+                label={t('Religious courses')}
               />
               <FormControlLabel
                 control={
@@ -639,7 +649,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                     // value={state.services.legitimateVisit}
                   />
                 }
-                label='Legitimate visit(Mount uhud,Quba mosque)'
+                label={t('Legitimate visit(Mount uhud,Quba mosque)')}
               />
               <FormControlLabel
                 control={
@@ -650,7 +660,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                     // value={state.services.internelTransfer}
                   />
                 }
-                label='Internal transfer'
+                label={t('Internal transfer')}
               />
               <FormControlLabel
                 control={
@@ -661,7 +671,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                     // value={state.services.formalities}
                   />
                 }
-                label='Formalities'
+                label={t('Formalities')}
               />
               <FormControlLabel
                 control={
@@ -672,7 +682,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
                     // value={state.services.sittingNextToScholors}
                   />
                 }
-                label='sitting next to the scholars'
+                label={t('sitting next to the scholars')}
               />
             </Box>
           </Grid>
@@ -686,7 +696,7 @@ const OffersTabs = ({ classes, value, handleNext, offer }) => {
           }}
         >
           <Button type='submit' variant='contained' style={{ width: '8rem' }}>
-            Next
+            {t('NEXT')}
           </Button>
         </Box>
       </form>

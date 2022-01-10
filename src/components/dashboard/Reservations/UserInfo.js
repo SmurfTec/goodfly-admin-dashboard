@@ -1,13 +1,15 @@
 import React from 'react';
 import { Box, Typography, Grid, TextField } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 const UserInfo = ({ reservationUser, classes, isVisitor }) => {
+  const { t } = useTranslation();
   return (
     <Grid container>
       <Grid item md={5}>
         <Box className={classes.inputBox}>
           <Typography variant='h5' className={classes.typo}>
-            firstName
+            {t('First Name')}
           </Typography>
           <TextField
             hiddenLabel
@@ -19,7 +21,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
         </Box>
         <Box className={classes.inputBox}>
           <Typography variant='h5' className={classes.typo}>
-            Last Name
+            {t('Last Name')}
           </Typography>
           <TextField
             hiddenLabel
@@ -32,7 +34,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
         {isVisitor && (
           <Box className={classes.inputBox}>
             <Typography variant='h5' className={classes.typo}>
-              Spouse Name
+              {t('Spouse Name')}
             </Typography>
             <TextField
               hiddenLabel
@@ -46,7 +48,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
         <Box m={5}></Box>
         <Box className={classes.inputBox}>
           <Typography variant='h5' className={classes.typo}>
-            Address
+            {t('Address')}
           </Typography>
           <TextField
             hiddenLabel
@@ -58,7 +60,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
         </Box>
         <Box className={classes.inputBox}>
           <Typography variant='h5' className={classes.typo}>
-            Additional Address
+            {t('Additional Address')}
           </Typography>
           <TextField
             hiddenLabel
@@ -71,7 +73,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
         {isVisitor && (
           <Box className={classes.inputBox}>
             <Typography variant='h5' className={classes.typo}>
-              Postal-Code
+              {t('Postal-Code')}
             </Typography>
             <TextField
               hiddenLabel
@@ -84,7 +86,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
         )}
         <Box className={classes.inputBox}>
           <Typography variant='h5' className={classes.typo}>
-            City
+            {t('City')}
           </Typography>
           <TextField
             hiddenLabel
@@ -97,7 +99,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
         <Box m={11}></Box>
         <Box className={classes.inputBox}>
           <Typography variant='h5' className={classes.typo}>
-            Country
+            {t('Country')}
           </Typography>
           <TextField
             hiddenLabel
@@ -126,7 +128,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
       <Grid item md={6}>
         <Box className={classes.inputBox}>
           <Typography variant='h5' className={classes.typo}>
-            Email
+            {t('Email')}
           </Typography>
           <TextField
             hiddenLabel
@@ -139,7 +141,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
         {isVisitor && (
           <Box className={classes.inputBox}>
             <Typography variant='h5' className={classes.typo}>
-              Mobile
+              {t('Mobile')}
             </Typography>
             <TextField
               hiddenLabel
@@ -153,7 +155,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
         <Box m={5}></Box>
         <Box className={classes.inputBox}>
           <Typography variant='h5' className={classes.typo}>
-            Date of Birth
+            {t('Date of Birth')}
           </Typography>
           <TextField
             hiddenLabel
@@ -166,7 +168,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
         {isVisitor && (
           <Box className={classes.inputBox}>
             <Typography variant='h5' className={classes.typo}>
-              Nationality
+              {t('Nationality')}
             </Typography>
             <TextField
               hiddenLabel
@@ -179,7 +181,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
         )}
         <Box className={classes.inputBox}>
           <Typography variant='h5' className={classes.typo}>
-            Passport No
+            {t('Passport No')}
           </Typography>
           <TextField
             hiddenLabel
@@ -193,7 +195,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
           <>
             <Box className={classes.inputBox}>
               <Typography variant='h5' className={classes.typo}>
-                Date of issue
+                {t('Date of Issue')}
               </Typography>
               <TextField
                 hiddenLabel
@@ -205,7 +207,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
             </Box>
             <Box className={classes.inputBox}>
               <Typography variant='h5' className={classes.typo}>
-                Place of Issue
+                {t('Place of Issue')}
               </Typography>
               <TextField
                 hiddenLabel
