@@ -656,6 +656,10 @@ const DetailReservation = () => {
                     style={{ backgroundColor: '#f2f2f2' }}
                   >
                     <PaymentsTable
+                      purchaseAmounts={[
+                        reservation?.totalAmount || 0,
+                        reservation?.paidAmount || 0,
+                      ]}
                       purchaseId={reservation?._id}
                       data={reservation?.payments}
                       classes={classes}

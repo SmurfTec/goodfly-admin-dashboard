@@ -34,7 +34,7 @@ const styles = makeStyles((theme) => ({
     marginTop: 10,
   },
   typo: {
-    width: '25%',
+    width: '10%',
   },
   mainBox: {
     backgroundColor: '#f2f2f2',
@@ -55,9 +55,10 @@ const styles = makeStyles((theme) => ({
     outline: 0,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
+    gap: 60,
   },
   textInput: {
     width: '80%',
@@ -329,14 +330,7 @@ const CreateProduct = () => {
                 <Typography variant='h5' className={classes.typo}>
                   {t('Dimensions')}
                 </Typography>
-                <Box
-                  style={{
-                    textAlign: 'center',
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                  }}
-                >
+                <Box display='flex' gap='20px'>
                   <TextField
                     type='number'
                     InputProps={{ min: 1 }}

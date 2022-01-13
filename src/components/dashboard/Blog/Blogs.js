@@ -206,7 +206,11 @@ const Blogs = () => {
                                   backgroundColor: '#46B9F6',
                                   width: '2.5rem',
                                   height: '2.5rem',
-                                  borderRadius: '50%',
+                                  borderRadius: '55%',
+                                  position: 'absolute',
+                                  top: '50%',
+                                  right: 21,
+                                  transform: 'translateY(-50%)',
                                 }}
                               >
                                 <Box style={{ padding: '0.5rem' }}>

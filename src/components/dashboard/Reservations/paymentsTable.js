@@ -14,12 +14,12 @@ import {
 } from '@material-ui/core';
 import { ReservationsContext } from 'Contexts/ReservationsContext';
 import { useToggleInput } from 'hooks';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import v4 from 'uuid/dist/v4';
 import PaymentDetailsDialog from './PaymentDetailsDialog';
 import { useTranslation } from 'react-i18next';
 
-const PaymentsTable = ({ classes, data, purchaseId }) => {
+const PaymentsTable = ({ classes, data, purchaseId, purchaseAmounts }) => {
   const theme = useTheme();
   const [isDialogOpen, toggleDialogOpen] = useToggleInput(false);
   const [currentPayment, setCurrentPayment] = useState();
@@ -35,6 +35,12 @@ const PaymentsTable = ({ classes, data, purchaseId }) => {
     setCurrentPayment(payment);
     toggleDialogOpen();
   };
+
+  const info = useMemo(() => {
+    if (!data?.length) return [0, 0, 0];
+
+    let totalAmount = data;
+  }, [data]);
 
   return (
     <>
@@ -155,13 +161,13 @@ const PaymentsTable = ({ classes, data, purchaseId }) => {
           </Box>
           <Box>
             <Typography variant='h5' m={1}>
-              12000.00$
+              €{purchaseAmounts[0]}
             </Typography>
             <Typography variant='h5' m={1}>
-              6300.00$
+              €{purchaseAmounts[1]}
             </Typography>
             <Typography variant='h5' m={1}>
-              2100.00$
+              €{purchaseAmounts[0] - purchaseAmounts[1]}
             </Typography>
           </Box>
         </Box>

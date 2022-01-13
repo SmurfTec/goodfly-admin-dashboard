@@ -494,7 +494,6 @@ const EditVisitor = () => {
                         type='text'
                         value={state.spouseName}
                         onChange={handleTxtChange}
-                        required
                       />
                     </Box>
                     <Box className={classes.inputBox}>
@@ -527,7 +526,6 @@ const EditVisitor = () => {
                         type='text'
                         value={state.telephoneNumber}
                         onChange={handleTxtChange}
-                        required
                       />
                     </Box>
                     <Box className={classes.inputBox}>
@@ -719,7 +717,7 @@ const EditVisitor = () => {
                         size='small'
                         className={classes.textInput}
                         name='passportPlaceOfIssue'
-                        type='date'
+                        type='text'
                         value={state.passportPlaceOfIssue}
                         onChange={handleTxtChange}
                         required
