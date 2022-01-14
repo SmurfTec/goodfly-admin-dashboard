@@ -238,8 +238,12 @@ const Reservations = ({ isSpiritual }) => {
         greenOrangeReservations?.filter((el) => {
           // * Reservations for open offers fall in this category also
           if (!el.departureDate && !el.returnDate) return true;
-          const departureDate = new Date(el.departureDate);
-          // el.trip ? el.trip.startingDate : el.customTrip.startingDate
+          // const departureDate = new Date(el.departureDate);
+          const departureDate = new Date(
+            el.departureDate ||
+              el.trip.startingDate ||
+              el.customTrip.startingDate
+          );
           const currentDate = new Date();
 
           // * 8 Weeks after departure date = > 48 days
@@ -248,13 +252,20 @@ const Reservations = ({ isSpiritual }) => {
 
       const orangeReservationsNew =
         greenOrangeReservations?.filter((el) => {
+          // * Reservations for open offers fall in this category also
+          if (!el.departureDate && !el.returnDate) return true;
+
           const departureDate = new Date(
-            el.trip ? el.trip.startingDate : el.customTrip?.startingDate
+            el.departureDate ||
+              el.trip.startingDate ||
+              el.customTrip.startingDate
           );
           const currentDate = new Date();
 
           // * 8 Weeks before departure date =  <= 48 days
           const daysLeft = daysBetween(departureDate, currentDate);
+          console.log(`departureDate`, departureDate);
+          console.log(`daysLeft`, daysLeft);
           return daysLeft <= 48 && daysLeft > 42;
         }) || [];
 
@@ -493,7 +504,9 @@ const Reservations = ({ isSpiritual }) => {
                 <TableCell align='center'>{t('Clients')}</TableCell>
                 <TableCell align='center'>{t('Emails')}</TableCell>
                 <TableCell align='center'>{t('Telephone')}</TableCell>
-                <TableCell align='center'>{t('Actions')}</TableCell>
+                {currentStatus === 'green' && (
+                  <TableCell align='center'>{t('Actions')}</TableCell>
+                )}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -541,19 +554,21 @@ const Reservations = ({ isSpiritual }) => {
                         </TableCell>
                         <TableCell align='center'>
                           {purchase.trip ? (
-                            <>{purchase?.visitor?.phone}</>
+                            <>{purchase?.visitor?.telephoneNumber}</>
                           ) : (
                             <> {purchase.phone} </>
                           )}
                         </TableCell>
-                        <TableCell align='center'>
-                          <Button
-                            endIcon={<Edit />}
-                            onClick={handleClick.bind(this, purchase._id)}
-                          >
-                            {t('EDIT')}
-                          </Button>
-                        </TableCell>
+                        {currentStatus === 'green' && (
+                          <TableCell align='center'>
+                            <Button
+                              endIcon={<Edit />}
+                              onClick={handleClick.bind(this, purchase._id)}
+                            >
+                              {t('EDIT')}
+                            </Button>
+                          </TableCell>
+                        )}
                       </TableRow>
                     ))
                 : [1, 2, 3, 4, 5].map(() => (

@@ -2,10 +2,10 @@ import React from 'react';
 import { Box, Typography, Grid, TextField } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
-const UserInfo = ({ reservationUser, classes, isVisitor }) => {
+const UserInfo = ({ reservationUser, classes, isVisitor, toPrint = false }) => {
   const { t } = useTranslation();
   return (
-    <Grid container>
+    <Grid container spacing={2}>
       <Grid item md={5}>
         <Box className={classes.inputBox}>
           <Typography variant='h5' className={classes.typo}>
@@ -31,7 +31,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
             className={classes.textInput}
           />
         </Box>
-        {isVisitor && (
+        {isVisitor && !toPrint && (
           <Box className={classes.inputBox}>
             <Typography variant='h5' className={classes.typo}>
               {t('Spouse Name')}
@@ -96,7 +96,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
             className={classes.textInput}
           />
         </Box>
-        <Box m={11}></Box>
+        {!toPrint && <Box m={11}></Box>}
         <Box className={classes.inputBox}>
           <Typography variant='h5' className={classes.typo}>
             {t('Country')}
@@ -109,7 +109,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
             className={classes.textInput}
           />
         </Box>
-        {isVisitor && (
+        {isVisitor && !toPrint && (
           <Box className={classes.inputBox}>
             <Typography variant='h5' className={classes.typo}>
               Facebook
@@ -191,7 +191,7 @@ const UserInfo = ({ reservationUser, classes, isVisitor }) => {
             className={classes.textInput}
           />
         </Box>
-        {isVisitor && (
+        {isVisitor && !toPrint && (
           <>
             <Box className={classes.inputBox}>
               <Typography variant='h5' className={classes.typo}>

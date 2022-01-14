@@ -19,7 +19,13 @@ import v4 from 'uuid/dist/v4';
 import PaymentDetailsDialog from './PaymentDetailsDialog';
 import { useTranslation } from 'react-i18next';
 
-const PaymentsTable = ({ classes, data, purchaseId, purchaseAmounts }) => {
+const PaymentsTable = ({
+  classes,
+  data,
+  purchaseId,
+  purchaseAmounts,
+  noDetails = false,
+}) => {
   const theme = useTheme();
   const [isDialogOpen, toggleDialogOpen] = useToggleInput(false);
   const [currentPayment, setCurrentPayment] = useState();
@@ -87,16 +93,18 @@ const PaymentsTable = ({ classes, data, purchaseId, purchaseAmounts }) => {
                     <TableCell align='right'>
                       {item.paymentMethod ?? '---'}
                     </TableCell>
-                    <TableCell
-                      align='right'
-                      onClick={handleClick.bind(this, item)}
-                    >
-                      <Button>
-                        {item.isPaid || item.paymentMethod === 'cash'
-                          ? t('DETAILS')
-                          : t('VALIDATE')}
-                      </Button>
-                    </TableCell>
+                    {!noDetails && (
+                      <TableCell
+                        align='right'
+                        onClick={handleClick.bind(this, item)}
+                      >
+                        <Button>
+                          {item.isPaid || item.paymentMethod === 'cash'
+                            ? t('DETAILS')
+                            : t('VALIDATE')}
+                        </Button>
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))
               : Array(5)

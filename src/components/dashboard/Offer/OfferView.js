@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const OfferView = ({ offer }) => {
+const OfferView = ({ offer, noTabs = false }) => {
   const classes = useStyles();
 
   const [tabValue, setTabValue] = React.useState(0);
@@ -54,7 +54,7 @@ const OfferView = ({ offer }) => {
   };
 
   return (
-    <Box className={classes.main}>
+    <Box className={classes.main} style={{ minHeight: noTabs && 'unset' }}>
       <Grid container style={{ padding: '1rem 2rem 1rem' }}>
         <Grid sm={3} style={{ padding: '1.5rem' }}>
           {offer ? (
@@ -95,31 +95,33 @@ const OfferView = ({ offer }) => {
           </Box>
         </Grid>
       </Grid>
-      <Box sx={{ width: '100%', padding: '1rem 2rem 1rem' }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs
-            value={tabValue}
-            onChange={handleTabChange}
-            aria-label='basic tabs example'
-            variant='fullWidth'
-            indicatorColor='primary'
-            textColor='primary'
-            centered
-            className={classes.Tabs}
-          >
-            <Tab label={t('JOURNEY')} {...a11yProps(0)} />
-            <Tab label={t('FORMALITIES')} {...a11yProps(1)} />
-          </Tabs>
+      {!noTabs && (
+        <Box sx={{ width: '100%', padding: '1rem 2rem 1rem' }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs
+              value={tabValue}
+              onChange={handleTabChange}
+              aria-label='basic tabs example'
+              variant='fullWidth'
+              indicatorColor='primary'
+              textColor='primary'
+              centered
+              className={classes.Tabs}
+            >
+              <Tab label={t('JOURNEY')} {...a11yProps(0)} />
+              <Tab label={t('FORMALITIES')} {...a11yProps(1)} />
+            </Tabs>
+          </Box>
+          <Box className={classes.options2}>
+            <TabPanel value={tabValue} index={0}>
+              <StagesTab stages={offer?.stages} />
+            </TabPanel>
+            <TabPanel value={tabValue} index={1}>
+              <FormalitiesTab formality={offer?.formality} />
+            </TabPanel>
+          </Box>
         </Box>
-        <Box className={classes.options2}>
-          <TabPanel value={tabValue} index={0}>
-            <StagesTab stages={offer?.stages} />
-          </TabPanel>
-          <TabPanel value={tabValue} index={1}>
-            <FormalitiesTab formality={offer?.formality} />
-          </TabPanel>
-        </Box>
-      </Box>
+      )}
     </Box>
   );
 };

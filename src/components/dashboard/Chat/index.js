@@ -24,9 +24,10 @@ import { useTranslation } from 'react-i18next';
 const Chat = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const { chats, sendNewMessage, user } = useContext(SocketContext);
+  const { chats, sendNewMessage, user, readAllMessages } =
+    useContext(SocketContext);
   const [messageTxt, handleTxtChange, resetMessageTxt] = useTextInput('');
-  const [searchVal, handleSearch, resetSearch] = useTextInput('');
+  const [searchVal, handleSearch] = useTextInput('');
 
   const [activeChat, setActiveChat] = useState();
   const { t } = useTranslation();
@@ -48,7 +49,11 @@ const Chat = () => {
   const handleChatClick = (e) => {
     const { selected } = e.currentTarget.dataset;
     // console.log(`selected`, selected);
-    setActiveChat(chats.find((el) => el._id === selected));
+    let selectedChat = chats.find((el) => el._id === selected);
+    if (getChatUnreadLength(selectedChat) > 0)
+      readAllMessages(selectedChat._id);
+
+    setActiveChat(selectedChat);
   };
 
   const handleCreateMessage = (e) => {
@@ -170,12 +175,14 @@ const Chat = () => {
                           className={classes.ChatTIme}
                         />
                       </ListItem>
-                      <Typography
-                        variant='subtitle2'
-                        className={classes.numUnread}
-                      >
-                        {getChatUnreadLength(chat)}
-                      </Typography>
+                      {getChatUnreadLength(chat) > 0 && (
+                        <Typography
+                          variant='subtitle2'
+                          className={classes.numUnread}
+                        >
+                          {getChatUnreadLength(chat)}
+                        </Typography>
+                      )}
                       <Divider />
                     </React.Fragment>
                   ))
@@ -199,12 +206,14 @@ const Chat = () => {
         <Grid item xs={9} sx={{ backgroundColor: '#fff' }}>
           <List id='messageArea' className={classes.messageArea}>
             {readMessages.map((message) => (
-              <ChatMsg
-                message={message}
-                classes={classes}
-                activeChat={activeChat}
-                user={user}
-              />
+              <React.Fragment key={message._id}>
+                <ChatMsg
+                  message={message}
+                  classes={classes}
+                  activeChat={activeChat}
+                  user={user}
+                />
+              </React.Fragment>
             ))}
 
             {unReadMessages.length > 0 && (
@@ -217,12 +226,14 @@ const Chat = () => {
               </Typography>
             )}
             {unReadMessages.map((message) => (
-              <ChatMsg
-                message={message}
-                classes={classes}
-                activeChat={activeChat}
-                user={user}
-              />
+              <React.Fragment key={message._id}>
+                <ChatMsg
+                  message={message}
+                  classes={classes}
+                  activeChat={activeChat}
+                  user={user}
+                />
+              </React.Fragment>
             ))}
           </List>
           <Divider />
@@ -240,7 +251,7 @@ const Chat = () => {
                   />
                 </form>
               </Grid>
-              <Grid xs={1} align='right'>
+              <Grid item xs={1} align='right'>
                 <Button
                   color='primary'
                   aria-label='add'

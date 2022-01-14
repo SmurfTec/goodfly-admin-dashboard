@@ -108,29 +108,26 @@ export const SocketProvider = (props) => {
     console.log(`msg`, msg);
     socket.emit('newMessage', { ...msg, token });
     console.log(`chatId`, chatId);
+  };
 
-    // // * Push New Message to that chat
-    // setChats((st) =>
-    //   st.map((el) =>
-    //     el._id === chatId
-    //       ? {
-    //           ...el,
-    //           messages: [
-    //             ...el.messages,
-    //             {
-    //               text: msg.text,
-    //               sender: 'goodfly',
-    //               createdAt: new Date(),
-    //             },
-    //           ],
-    //         }
-    //       : el
-    //   )
-    // );
+  const readAllMessages = (chatId) => {
+    console.log(`chatId`, chatId);
+    setChats((el) =>
+      el.map((chat) =>
+        chat._id === chatId
+          ? {
+              ...chat,
+              messages: chat.messages.map((msg) => ({ ...msg, isRead: true })),
+            }
+          : chat
+      )
+    );
+    socket.emit('readAllMessages', { token, chatId: chatId });
   };
 
   return (
     <SocketContext.Provider
+      displayName='Socket Context'
       value={{
         socket,
         notifications,
@@ -138,6 +135,7 @@ export const SocketProvider = (props) => {
         chats,
         sendNewMessage,
         user,
+        readAllMessages,
       }}
     >
       {props.children}

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
   Box,
   Tab,
@@ -46,6 +46,8 @@ import { AddDeparture as AddDepartureDialog } from '../Dialogs';
 import NotFound from 'pages/NotFound';
 import UserInfo from './UserInfo';
 import { useTranslation } from 'react-i18next';
+import { useReactToPrint } from 'react-to-print';
+import PrintDetails from './PrintDetails';
 
 const DetailReservation = () => {
   const classes = useStyles();
@@ -65,6 +67,7 @@ const DetailReservation = () => {
   const [notFound, setNotFound] = useState(false);
   const { t } = useTranslation();
 
+  const [isPrintOpen, togglePrintOpen] = useToggleInput(false);
   const [installments, handleInstallments, , setInstallments] =
     useTextInput('');
 
@@ -216,12 +219,21 @@ const DetailReservation = () => {
     });
   };
 
+  const PrintPurchaseRef = useRef();
+
+  const handlePrint = useReactToPrint({
+    content: () => PrintPurchaseRef.current,
+    onAfterPrint: () => {
+      togglePrintOpen();
+    },
+  });
+
   return (
     <Container>
       {notFound ? (
         <NotFound />
       ) : (
-        <>
+        <div ref={PrintPurchaseRef}>
           <Typography variant='h4' m={1}>
             {loading ? (
               <Skeleton width='30%' />
@@ -346,6 +358,8 @@ const DetailReservation = () => {
 
           {loading ? (
             <Skeleton variant='rect' width='95%' height={700} />
+          ) : isPrintOpen ? (
+            <PrintDetails reservation={reservation} classes={classes} t={t} />
           ) : (
             <Box
               style={{
@@ -386,7 +400,15 @@ const DetailReservation = () => {
                       }}
                     >
                       <Box>
-                        <PrinterIcon className={classes.icons} />
+                        <PrinterIcon
+                          onClick={() => {
+                            togglePrintOpen();
+                            setTimeout(() => {
+                              handlePrint();
+                            }, 500);
+                          }}
+                          className={classes.icons}
+                        />
                         <Trash2Icon
                           onClick={handleCancel}
                           className={classes.icons}
@@ -676,7 +698,7 @@ const DetailReservation = () => {
             toggleDialog={toggleIsDatesModalOpen}
             success={handleAddDates}
           />
-        </>
+        </div>
       )}
     </Container>
   );

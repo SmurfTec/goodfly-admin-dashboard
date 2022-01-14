@@ -52,6 +52,7 @@ import Chat from 'components/dashboard/Chat';
 import TourCategories from 'components/dashboard/categories/TourCategories';
 import TourSubCategories from 'components/dashboard/categories/TourSubCategories';
 import Maintenance from 'pages/Maintenance';
+import PrintCustomTrip from 'components/dashboard/Trip/PrintCustomTrip';
 
 export const protechtedRoutes = [
   {
@@ -112,6 +113,7 @@ export const protechtedRoutes = [
         children: [
           { path: '/', element: <CustomTrips /> },
           { path: '/:id', element: <CustomTrip /> },
+          { path: '/:id/print', element: <PrintCustomTrip /> },
         ],
       },
       {
