@@ -73,7 +73,7 @@ const FormalitiesTab = ({
   };
 
   const handleSubmit = () => {
-    handleNext({ formality: currentFormality._id });
+    handleNext({ formality: currentFormality });
   };
 
   useEffect(() => {

@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const OfferView = ({ offer, noTabs = false }) => {
+const OfferView = ({ offer, departureDate, noTabs = false }) => {
   const classes = useStyles();
 
   const [tabValue, setTabValue] = React.useState(0);
@@ -78,6 +78,8 @@ const OfferView = ({ offer, noTabs = false }) => {
               <Typography variant='h4'>
                 {offer.startingDate
                   ? new Date(offer.startingDate).toDateString()
+                  : departureDate
+                  ? new Date(departureDate).toDateString()
                   : t('Open Offer')}
               </Typography>
             ) : (

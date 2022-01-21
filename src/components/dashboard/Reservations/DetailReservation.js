@@ -399,25 +399,29 @@ const DetailReservation = () => {
                         margin: '0rem 0.5rem 0rem',
                       }}
                     >
-                      <Box>
-                        <PrinterIcon
-                          onClick={() => {
-                            togglePrintOpen();
-                            setTimeout(() => {
-                              handlePrint();
-                            }, 500);
-                          }}
-                          className={classes.icons}
-                        />
-                        <Trash2Icon
-                          onClick={handleCancel}
-                          className={classes.icons}
-                        />
-                        <PlayIcon
-                          className={classes.icons}
-                          onClick={handleValidate}
-                        />
-                      </Box>
+                      {!['reservation-paid', 'cancelled'].includes(
+                        reservation?.status
+                      ) && (
+                        <Box>
+                          <PrinterIcon
+                            onClick={() => {
+                              togglePrintOpen();
+                              setTimeout(() => {
+                                handlePrint();
+                              }, 500);
+                            }}
+                            className={classes.icons}
+                          />
+                          <Trash2Icon
+                            onClick={handleCancel}
+                            className={classes.icons}
+                          />
+                          <PlayIcon
+                            className={classes.icons}
+                            onClick={handleValidate}
+                          />
+                        </Box>
+                      )}
                     </Box>
                   </Tabs>
                 </Box>
@@ -432,7 +436,10 @@ const DetailReservation = () => {
                   >
                     {reservation &&
                       (reservation.trip ? (
-                        <OfferView offer={reservation.trip} />
+                        <OfferView
+                          offer={reservation.trip}
+                          departureDate={reservation.departureDate}
+                        />
                       ) : (
                         <CustomerTripView offer={reservation.customTrip} />
                       ))}

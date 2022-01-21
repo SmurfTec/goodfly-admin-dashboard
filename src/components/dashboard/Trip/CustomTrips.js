@@ -55,7 +55,8 @@ const CustomTrips = () => {
     if (!filter) return;
     setFilteredItems(
       customOffers?.filter(
-        (row) => row.fullName.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+        (row) =>
+          row?.fullName.toLowerCase().indexOf(filter.toLowerCase()) !== -1
       )
     );
   }, [filter]);

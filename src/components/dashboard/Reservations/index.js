@@ -542,7 +542,10 @@ const Reservations = ({ isSpiritual }) => {
                             //     <br />{' '}
                             //   </React.Fragment>
                             // ))
-                            <>{purchase?.customTrip?.fullName}</>
+                            <>
+                              {purchase?.customTrip?.fullName ||
+                                purchase?.visitor?.fullName}
+                            </>
                           )}
                         </TableCell>
                         <TableCell align='center'>
@@ -559,16 +562,15 @@ const Reservations = ({ isSpiritual }) => {
                             <> {purchase.phone} </>
                           )}
                         </TableCell>
-                        {currentStatus === 'green' && (
-                          <TableCell align='center'>
-                            <Button
-                              endIcon={<Edit />}
-                              onClick={handleClick.bind(this, purchase._id)}
-                            >
-                              {t('EDIT')}
-                            </Button>
-                          </TableCell>
-                        )}
+
+                        <TableCell align='center'>
+                          <Button
+                            endIcon={<Edit />}
+                            onClick={handleClick.bind(this, purchase._id)}
+                          >
+                            {t(currentStatus === 'green' ? 'EDIT' : 'DETAILS')}
+                          </Button>
+                        </TableCell>
                       </TableRow>
                     ))
                 : [1, 2, 3, 4, 5].map(() => (

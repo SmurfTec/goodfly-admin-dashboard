@@ -71,7 +71,7 @@ const ModifyOffer = () => {
     // setState((st) => ({ ...st, formalities: data }));
     let newOffer = {
       ...state,
-      formalities: data,
+      ...data,
     };
 
     // // * Fix Services
