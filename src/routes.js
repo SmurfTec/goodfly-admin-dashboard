@@ -49,9 +49,6 @@ import ArchieveOffers from 'components/dashboard/Offer/archievesOffers';
 import FlashSales from 'components/dashboard/Offer/flashSales';
 import Promos from 'components/dashboard/Offer/promos';
 import Chat from 'components/dashboard/Chat';
-import TourCategories from 'components/dashboard/categories/TourCategories';
-import TourSubCategories from 'components/dashboard/categories/TourSubCategories';
-import Maintenance from 'pages/Maintenance';
 import PrintCustomTrip from 'components/dashboard/Trip/PrintCustomTrip';
 
 export const protechtedRoutes = [
@@ -106,8 +103,6 @@ export const protechtedRoutes = [
         ],
       },
       { path: 'categories', element: <ProductCategories /> },
-      { path: '/offers/categories', element: <TourCategories /> },
-      { path: '/offers/subcategories', element: <TourSubCategories /> },
       {
         path: '/customtrips',
         children: [

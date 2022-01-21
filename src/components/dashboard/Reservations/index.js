@@ -181,7 +181,6 @@ const Reservations = ({ isSpiritual }) => {
               .includes(filter.toLowerCase());
             break;
           case 'email':
-            console.log(`el.visitor?.email`, el.visitor?.email);
             filterCondition = el.visitor?.email
               .toLowerCase()
               .includes(filter.toLowerCase());

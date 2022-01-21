@@ -65,26 +65,24 @@ ReactDOM.render(
             <OrderProvider>
               <ProductProvider>
                 <BlogsProvider>
-                  <CategoriesProvider>
-                    <OffersProvider>
-                      <ReservationsProvider>
-                        <ToastContainer
-                          position='top-right'
-                          autoClose={3000}
-                          hideProgressBar
-                          newestOnTop={true}
-                          closeOnClick
-                          rtl={false}
-                          pauseOnFocusLoss
-                          draggable
-                          pauseOnHover
-                        />
-                        <Suspense fallback={loadingMarkup}>
-                          <App />
-                        </Suspense>
-                      </ReservationsProvider>
-                    </OffersProvider>
-                  </CategoriesProvider>
+                  <OffersProvider>
+                    <ReservationsProvider>
+                      <ToastContainer
+                        position='top-right'
+                        autoClose={3000}
+                        hideProgressBar
+                        newestOnTop={true}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                      />
+                      <Suspense fallback={loadingMarkup}>
+                        <App />
+                      </Suspense>
+                    </ReservationsProvider>
+                  </OffersProvider>
                 </BlogsProvider>
               </ProductProvider>
             </OrderProvider>

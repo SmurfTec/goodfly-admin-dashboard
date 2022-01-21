@@ -106,7 +106,7 @@ export const SocketProvider = (props) => {
 
   const sendNewMessage = (msg, chatId) => {
     console.log(`msg`, msg);
-    socket.emit('newMessage', { ...msg, token });
+    socket.emit('newMessage', { ...msg, token, chatId });
     console.log(`chatId`, chatId);
   };
 
@@ -136,6 +136,7 @@ export const SocketProvider = (props) => {
         sendNewMessage,
         user,
         readAllMessages,
+        pushChat,
       }}
     >
       {props.children}

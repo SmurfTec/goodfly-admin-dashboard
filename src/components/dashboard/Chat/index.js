@@ -11,26 +11,30 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
-import { Container, Skeleton, Typography } from '@material-ui/core';
+import { Container, IconButton, Skeleton, Typography } from '@material-ui/core';
 import { SocketContext } from 'Contexts/SocketContext';
 import v4 from 'uuid/dist/v4';
 import clsx from 'clsx';
-import { useTextInput } from 'hooks';
+import { useTextInput, useToggleInput } from 'hooks';
 import useStyles from './styles';
 import { useTheme } from '@material-ui/styles';
 import ChatMsg from './ChatMsg';
 import { useTranslation } from 'react-i18next';
+import { AddCircle } from '@material-ui/icons';
+import AddChatDialog from './AddChatDialog';
+import { makeReq } from 'utils/makeReq';
 
 const Chat = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const { chats, sendNewMessage, user, readAllMessages } =
+  const { chats, sendNewMessage, user, readAllMessages, pushChat } =
     useContext(SocketContext);
   const [messageTxt, handleTxtChange, resetMessageTxt] = useTextInput('');
   const [searchVal, handleSearch] = useTextInput('');
 
   const [activeChat, setActiveChat] = useState();
   const { t } = useTranslation();
+  const [isNewChatOpen, toggleNewChatOpen] = useToggleInput(false);
 
   useEffect(() => {
     if (!chats?.length) return;
@@ -60,7 +64,12 @@ const Chat = () => {
     e.preventDefault();
 
     sendNewMessage(
-      { text: messageTxt, receiver: activeChat.visitor?._id },
+      {
+        text: messageTxt,
+        receiver: activeChat.visitor
+          ? activeChat.visitor?._id
+          : activeChat.participants?.[1]?._id,
+      },
       activeChat._id
     );
 
@@ -107,34 +116,71 @@ const Chat = () => {
     return activeChat.messages.filter((el) => !el.isRead);
   }, [activeChat]);
 
+  const handleNewChat = async (staffer) => {
+    toggleNewChatOpen();
+    console.log('staffer', staffer);
+    // * If staffer already exists in chats , then make that chat as active chat
+    let stafferChat = chats.find((el) =>
+      el.participants.find((st) => st._id === staffer._id)
+    );
+    if (stafferChat) {
+      setActiveChat(stafferChat);
+      return;
+    }
+
+    // * Create new Chat with that staffer
+    const resData = await makeReq(
+      '/chat/staffer',
+      {
+        body: {
+          staffer: staffer._id,
+        },
+      },
+      'POST'
+    );
+    pushChat(resData.chat);
+    setTimeout(() => {
+      setActiveChat(resData.chat);
+    }, 500);
+  };
+
   return (
     <Container disableGutters sx={{ my: 1 }}>
       <Grid container component={Paper} className={classes.chatSection}>
         <Grid item xs={3} className={classes.borderRight500}>
           <Divider />
-          <Grid item xs={12} sx={{ margin: 1, marginLeft: 0 }}>
-            <TextField
-              id='outlined-basic-email'
-              label={t('Search')}
-              variant='outlined'
-              fullWidth
-              size='small'
-              sx={{ marginBottom: 2 }}
-              className={classes.searchField}
-              value={searchVal}
-              onChange={handleSearch}
-            />
-          </Grid>
+          <Box display='flex' marginTop={2}>
+            <Box sx={{ marginBlock: 1 }}>
+              <TextField
+                id='outlined-basic-email'
+                label={t('Search')}
+                variant='outlined'
+                fullWidth
+                size='small'
+                sx={{ marginBottom: 2 }}
+                className={classes.searchField}
+                value={searchVal}
+                onChange={handleSearch}
+              />
+            </Box>
+            <Box sx={{ marginBlock: 1 }}>
+              <IconButton onClick={toggleNewChatOpen} color='primary'>
+                <AddCircle />
+              </IconButton>
+            </Box>
+          </Box>
+
           <Divider />
           <List>
             {/* {1 === 5 */}
             {chats
               ? chats
                   .filter((el) => {
-                    console.log('el.visitor?.fullName', el.visitor?.fullName);
-                    return el.visitor?.fullName
-                      ?.toLowerCase()
-                      ?.includes(searchVal.toLowerCase());
+                    return el.visitor
+                      ? el.visitor?.fullName
+                          ?.toLowerCase()
+                          ?.includes(searchVal.toLowerCase())
+                      : true;
                   })
                   .map((chat) => (
                     <React.Fragment key={chat._id}>
@@ -155,14 +201,22 @@ const Chat = () => {
                             alt='Remy Sharp'
                             src={
                               chat?.visitor?.photo ||
-                              `https://ui-avatars.com/api/?rounded=true&name=${chat?.visitor?.fullName
-                                .split(' ')
-                                .join('+')}`
+                              `https://ui-avatars.com/api/?rounded=true&name=${
+                                chat.visitor
+                                  ? chat.visitor?.fullName
+                                  : chat.participants?.[1]?.fullName
+                                      ?.split(' ')
+                                      .join('+')
+                              }`
                             }
                           />
                         </ListItemIcon>
                         <ListItemText
-                          primary={chat.visitor?.fullName}
+                          primary={
+                            chat.visitor
+                              ? chat.visitor?.fullName
+                              : chat.participants?.[1]?.fullName
+                          }
                           secondary={
                             chat.messages[chat.messages.length - 1]?.text.slice(
                               0,
@@ -270,6 +324,11 @@ const Chat = () => {
           )}
         </Grid>
       </Grid>
+      <AddChatDialog
+        open={isNewChatOpen}
+        toggleDialog={toggleNewChatOpen}
+        handleSelect={handleNewChat}
+      />
     </Container>
   );
 };
