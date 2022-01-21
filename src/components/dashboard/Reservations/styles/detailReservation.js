@@ -107,6 +107,17 @@ const useStyles = makeStyles((theme) => ({
     margin: '3rem 1rem 1rem',
     padding: 20,
   },
+  paymentPart: {
+    padding: 20,
+    border: '1px solid#ccc',
+    marginBlock: '1rem',
+    position: 'relative',
+  },
+  deleteButton: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+  },
 }));
 
 export default useStyles;

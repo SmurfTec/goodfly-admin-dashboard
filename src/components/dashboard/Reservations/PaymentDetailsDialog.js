@@ -13,12 +13,16 @@ import {
   FormControl,
   RadioGroup,
   Skeleton,
+  IconButton,
 } from '@material-ui/core';
 
 import { Plus as PlusIcon } from 'react-feather';
 import { useManyInputs } from 'hooks';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Close } from '@material-ui/icons';
+import { toast } from 'react-toastify';
+import v4 from 'uuid/dist/v4';
 
 const PaymentDetailsDialog = ({
   open,
@@ -29,8 +33,38 @@ const PaymentDetailsDialog = ({
 }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`state`, state);
-    handleSuccess({ ...state, date: new Date(state.date) });
+    console.log(`paymentParts`, paymentParts);
+
+    if (
+      paymentParts.reduce((accum, currentVal) => {
+        return currentVal.amount * 1 + accum * 1;
+      }, 0) !== payment.amount
+    )
+      return toast.error(
+        `Payment Amounts Sum must be equal to installments amount!`
+      );
+
+    if (
+      paymentParts.filter((el) => {
+        if (
+          !el.amount ||
+          !el.date ||
+          !el.paymentMethod ||
+          !el.transactionNumber
+        )
+          return true;
+      }).length > 0
+    ) {
+      return toast.error('Plz fillin all fields');
+    }
+
+    handleSuccess({
+      ...state,
+      paymentParts,
+      date: new Date(state.date),
+      paymentMethod: paymentParts[0].paymentMethod,
+      transactionNumber: paymentParts[0].transactionNumber,
+    });
   };
 
   const initialState = {
@@ -42,6 +76,37 @@ const PaymentDetailsDialog = ({
   const [state, handleTxtChange, , , , setState] = useManyInputs(initialState);
   const { t } = useTranslation();
 
+  const [paymentParts, setPaymentParts] = useState([
+    {
+      ...initialState,
+    },
+  ]);
+
+  const addNewPart = () => {
+    setPaymentParts((st) => [...st, { ...initialState }]);
+  };
+
+  const handleChange = (e, ind) => {
+    if (e.target.name === 'paymentMethod') {
+      if (paymentParts.find((el) => el.paymentMethod === e.target.value))
+        return toast.error(
+          `You Can't choose same payment methods on different parts`
+        );
+    }
+
+    console.log('ind', ind);
+    setPaymentParts((st) =>
+      st.map((part, idx) =>
+        idx === ind
+          ? {
+              ...part,
+              [e.target.name]: e.target.value,
+            }
+          : part
+      )
+    );
+  };
+
   useEffect(() => {
     if (!payment) return;
 
@@ -50,7 +115,14 @@ const PaymentDetailsDialog = ({
       amount: payment.amount,
       paymentMethod: payment.paymentMethod || '',
     }));
+    if (payment?.isPaid) setPaymentParts(payment.paymentParts);
   }, [payment]);
+
+  const handleDeletePart = (e) => {
+    const { idx } = e.currentTarget.dataset;
+    console.log('idx', idx);
+    setPaymentParts((st) => st.filter((el, i) => i != idx));
+  };
 
   return (
     <Dialog open={open} maxWidth='lg' onClose={toggleDialog}>
@@ -69,45 +141,62 @@ const PaymentDetailsDialog = ({
               <Skeleton variant='react' height='10px' width='20px' />
             )}
           </Typography>
-          <Box className={classes.flexAround}>
-            <Typography variant='text'>{t('Add a payment method')}</Typography>
-            <Box>
-              <PlusIcon
-                style={{
-                  borderRadius: '1.2rem',
-                  width: '2.1rem',
-                  marginLeft: '0.5rem',
-                  transform: 'none',
-                }}
-                className={classes.icons}
-              />
+          {paymentParts.length === 1 && (
+            <Box className={classes.flexAround} onClick={addNewPart}>
+              <Typography variant='text'>
+                {t('Add a payment method')}
+              </Typography>
+              <Box>
+                <PlusIcon
+                  style={{
+                    borderRadius: '1.2rem',
+                    width: '2.1rem',
+                    marginLeft: '0.5rem',
+                    transform: 'none',
+                  }}
+                  className={classes.icons}
+                />
+              </Box>
             </Box>
-          </Box>
+          )}
         </Box>
         <Divider />
-        <form id='paymentForm' onSubmit={handleSubmit}>
-          <Box
-            style={{
-              display: 'flex',
-              justifyContent: 'right',
-              alignItems: 'center',
-            }}
+        {paymentParts.map((_, idx) => (
+          <form
+            className={classes.paymentPart}
+            id={`paymentForm${idx}`}
+            onSubmit={handleSubmit}
+            key={v4()}
           >
-            <Typography variant='h5' mr={1}>
-              {t('Payment Method')} : {payment?.paymentMethod}
-            </Typography>
-            {payment?.isPaid ? (
-              <Box>
-                <Typography variant='h5'>
-                  {t('Paid On')}{' '}
-                  {new Date(payment.paidDate).toLocaleDateString()}
-                </Typography>
-              </Box>
-            ) : (
-              <FormControl component='fieldset'>
+            {paymentParts.length > 1 && !payment?.isPaid && (
+              <IconButton
+                onClick={handleDeletePart}
+                data-idx={idx}
+                color='error'
+                className={classes.deleteButton}
+              >
+                <Close />
+              </IconButton>
+            )}
+            <Box
+              style={{
+                display: 'flex',
+                justifyContent: 'right',
+                alignItems: 'center',
+              }}
+            >
+              <Typography variant='h5' mr={1}>
+                {t('Payment Method')} : {payment?.paymentMethod}
+              </Typography>
+              {/* {payment?.isPaid ? ( */}
+
+              <FormControl component='fieldset' disabled={!!payment?.isPaid}>
                 <RadioGroup
-                  value={state.paymentMethod}
-                  onChange={handleTxtChange}
+                  value={paymentParts[idx].paymentMethod}
+                  disabled={!!payment?.isPaid}
+                  onChange={(e) => {
+                    handleChange(e, idx);
+                  }}
                   row
                   aria-label='gender'
                   name='paymentMethod'
@@ -140,12 +229,10 @@ const PaymentDetailsDialog = ({
                   />
                 </RadioGroup>
               </FormControl>
-            )}
-          </Box>
-          {!payment?.isPaid && (
+            </Box>
             <Box className={classes.flexLeft}>
               <Box className={classes.form}>
-                {state.paymentMethod === 'cash' ? (
+                {paymentParts[idx].paymentMethod === 'cash' ? (
                   <TextField
                     autoFocus
                     margin='dense'
@@ -156,7 +243,9 @@ const PaymentDetailsDialog = ({
                     fullWidth
                     style={{ marginRight: '2rem' }}
                     // disabled
-                    required={state.amount === 'cash'}
+                    disabled={!!payment?.isPaid}
+                    onChange={(e) => handleChange(e, idx)}
+                    required={paymentParts[idx].amount === 'cash'}
                   />
                 ) : (
                   <TextField
@@ -167,10 +256,13 @@ const PaymentDetailsDialog = ({
                     type='text'
                     fullWidth
                     style={{ marginRight: '2rem' }}
-                    value={state.transactionNumber}
+                    value={paymentParts[idx].transactionNumber}
+                    disabled={!!payment?.isPaid}
                     onChange={handleTxtChange}
                     name='transactionNumber'
-                    required={state.paymentMethod !== 'cash'}
+                    required={paymentParts[idx].paymentMethod !== 'cash'}
+                    disabled={!!payment?.isPaid}
+                    onChange={(e) => handleChange(e, idx)}
                   />
                 )}
               </Box>
@@ -183,9 +275,10 @@ const PaymentDetailsDialog = ({
                   type='date'
                   fullWidth
                   style={{ marginRight: '2rem' }}
-                  value={state.date}
+                  value={paymentParts[idx].date || state.date}
                   // onChange={(newDate) => changeInput('date', newDate)}
-                  onChange={handleTxtChange}
+                  disabled={!!payment?.isPaid}
+                  onChange={(e) => handleChange(e, idx)}
                   name='date'
                   required
                 />
@@ -198,15 +291,17 @@ const PaymentDetailsDialog = ({
                   label={t('Payment Amount')}
                   fullWidth
                   style={{ marginRight: '2rem' }}
-                  value={state.amount}
+                  value={paymentParts[idx].amount}
                   name='amount'
                   required
                   type='number'
+                  disabled={!!payment?.isPaid}
+                  onChange={(e) => handleChange(e, idx)}
                 />
               </Box>
             </Box>
-          )}
-        </form>
+          </form>
+        ))}
       </DialogContent>
       <DialogActions
         className={classes.form}
@@ -216,7 +311,7 @@ const PaymentDetailsDialog = ({
           {t('CANCEL')}
         </Button>
         {!!!payment?.isPaid && (
-          <Button variant='contained' form='paymentForm' type='submit'>
+          <Button variant='contained' onClick={handleSubmit}>
             {t('VALIDATE')}
           </Button>
         )}

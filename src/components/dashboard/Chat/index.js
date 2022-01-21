@@ -130,9 +130,12 @@ const Chat = () => {
             {/* {1 === 5 */}
             {chats
               ? chats
-                  .filter((el) =>
-                    el.visitor?.fullName?.includes(searchVal.toLowerCase())
-                  )
+                  .filter((el) => {
+                    console.log('el.visitor?.fullName', el.visitor?.fullName);
+                    return el.visitor?.fullName
+                      ?.toLowerCase()
+                      ?.includes(searchVal.toLowerCase());
+                  })
                   .map((chat) => (
                     <React.Fragment key={chat._id}>
                       <ListItem
