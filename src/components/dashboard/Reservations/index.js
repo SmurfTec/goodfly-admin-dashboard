@@ -54,6 +54,11 @@ const styles = makeStyles(() => ({
 
 const filterButtons = [
   {
+    text: 'pre-Reservations',
+    status: 'lightGreen',
+    color: '#90EE90',
+  },
+  {
     text: 'In progress',
     status: 'green',
     color: 'green',
@@ -91,7 +96,13 @@ const filterButtons = [
   },
 ];
 
-const FilterButton = ({ currentStatus, text, handleFilter, status, color }) => (
+const FilterButton = ({
+  currentStatus,
+  text,
+  handleFilter,
+  status,
+  color,
+}) => (
   <Button
     data-statusfilter={status}
     onClick={handleFilter}
@@ -120,8 +131,9 @@ const FilterButton = ({ currentStatus, text, handleFilter, status, color }) => (
 );
 
 const Reservations = ({ isSpiritual }) => {
-  const { reservations, fetchReservations, loading } =
-    useContext(ReservationsContext);
+  const { reservations, fetchReservations, loading } = useContext(
+    ReservationsContext
+  );
   const classes = styles();
   const [filter, setFilter] = useState('');
   const [page, setPage] = useState(0);
@@ -130,7 +142,9 @@ const Reservations = ({ isSpiritual }) => {
 
   const [currentReservations, setCurrentReservations] = useState([]);
 
-  const [currentStatus, setCurrentStatus] = useState('green');
+  const [currentStatus, setCurrentStatus] = useState('lightGreen');
+  const [lightGreenReseravtions, setLightGreenReseravtions] =
+    useState([]);
   const [greenReseravtions, setGreenReseravtions] = useState([]);
   const [orangeReservations, setOrangeReservations] = useState([]);
   const [blueReservations, setBlueReservations] = useState([]);
@@ -145,7 +159,10 @@ const Reservations = ({ isSpiritual }) => {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     rowsPerPage -
-    Math.min(rowsPerPage, (reservations?.length || 0) - page * rowsPerPage);
+    Math.min(
+      rowsPerPage,
+      (reservations?.length || 0) - page * rowsPerPage
+    );
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -220,98 +237,118 @@ const Reservations = ({ isSpiritual }) => {
       }) || []
     );
 
-    const nonPaidStatuses = [
-      'pre-reservation',
-      'validated',
-      'schedule-inProgress',
-    ];
+    // const nonPaidStatuses = [
+    //   'pre-reservation',
+    //   'validated',
+    //   'schedule-inProgress',
+    // ];
 
     try {
-      const greenOrangeReservations =
-        reservations?.filter((el) => nonPaidStatuses.includes(el.status)) || [];
+      // const greenOrangeReservations =
+      //   reservations?.filter((el) =>
+      //     nonPaidStatuses.includes(el.status)
+      //   ) || [];
 
-      console.log(`greenOrangeReservations`, greenOrangeReservations);
+      // console.log(`greenOrangeReservations`, greenOrangeReservations);
       // * Reservations which have more than 8 weeks till departure date
       // * Fall in green category
-      const greenReseravtionsNew =
-        greenOrangeReservations?.filter((el) => {
-          // * Reservations for open offers fall in this category also
-          if (!el.departureDate && !el.returnDate) return true;
-          // const departureDate = new Date(el.departureDate);
-          const departureDate = new Date(
-            el.departureDate ||
-              el.trip.startingDate ||
-              el.customTrip.startingDate
-          );
-          const currentDate = new Date();
+      // const greenReseravtionsNew =
+      //   greenOrangeReservations?.filter((el) => {
+      //     // * Reservations for open offers fall in this category also
+      //     if (!el.departureDate && !el.returnDate) return true;
+      //     // const departureDate = new Date(el.departureDate);
+      //     const departureDate = new Date(
+      //       el.departureDate ||
+      //         el.trip.startingDate ||
+      //         el.customTrip.startingDate
+      //     );
+      //     const currentDate = new Date();
 
-          // * 8 Weeks after departure date = > 48 days
-          return daysBetween(departureDate, currentDate) > 48;
-        }) || [];
+      //     // * 8 Weeks after departure date = > 48 days
+      //     return daysBetween(departureDate, currentDate) > 48;
+      //   }) || [];
 
-      const orangeReservationsNew =
-        greenOrangeReservations?.filter((el) => {
-          // * Reservations for open offers fall in this category also
-          if (!el.departureDate && !el.returnDate) return true;
+      // const orangeReservationsNew =
+      //   greenOrangeReservations?.filter((el) => {
+      //     // * Reservations for open offers fall in this category also
+      //     if (!el.departureDate && !el.returnDate) return true;
 
-          const departureDate = new Date(
-            el.departureDate ||
-              el.trip.startingDate ||
-              el.customTrip.startingDate
-          );
-          const currentDate = new Date();
+      //     const departureDate = new Date(
+      //       el.departureDate ||
+      //         el.trip.startingDate ||
+      //         el.customTrip.startingDate
+      //     );
+      //     const currentDate = new Date();
 
-          // * 8 Weeks before departure date =  <= 48 days
-          const daysLeft = daysBetween(departureDate, currentDate);
-          console.log(`departureDate`, departureDate);
-          console.log(`daysLeft`, daysLeft);
-          return daysLeft <= 48 && daysLeft > 42;
-        }) || [];
+      //     // * 8 Weeks before departure date =  <= 48 days
+      //     const daysLeft = daysBetween(departureDate, currentDate);
+      //     console.log(`departureDate`, departureDate);
+      //     console.log(`daysLeft`, daysLeft);
+      //     return daysLeft <= 48 && daysLeft > 42;
+      //   }) || [];
 
       // * Those reservations , which got archieved since 6 weeks
       // * till 4 weeks , after that they will move to black list
-      const blueReservationsNew =
-        reservations?.filter((el) => {
-          const departureDate = new Date(
-            // el.trip ? el.trip.startingDate : el.customTrip.startingDate
-            el.departureDate
-          );
-          const currentDate = new Date();
+      // const blueReservationsNew =
+      //   reservations?.filter((el) => {
+      //     const departureDate = new Date(
+      //       // el.trip ? el.trip.startingDate : el.customTrip.startingDate
+      //       el.departureDate
+      //     );
+      //     const currentDate = new Date();
 
-          // * Till 4 Weeks from  departure date =  > 28 days
-          // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
-          // * So thats why I put 2nd condition
-          return (
-            (el.status === 'archived' || nonPaidStatuses.includes(el.status)) &&
-            daysBetween(departureDate, currentDate) >= 28 &&
-            daysBetween(departureDate, currentDate) <= 42
-          );
-        }) || [];
+      //     // * Till 4 Weeks from  departure date =  > 28 days
+      //     // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
+      //     // * So thats why I put 2nd condition
+      //     return (
+      //       (el.status === 'archived' ||
+      //         nonPaidStatuses.includes(el.status)) &&
+      //       daysBetween(departureDate, currentDate) >= 28 &&
+      //       daysBetween(departureDate, currentDate) <= 42
+      //     );
+      //   }) || [];
 
       // * Those reservations , which arrive 4 weeks before departure date
       // * till 2 weeks , after that they move to red List
       // * OR is archived since 6 weeks and still not recovered
 
       // console.log(`reservations?.length`, reservations?.length);
+      // const blackReservationsNew =
+      //   reservations?.filter((el) => {
+      //     const departureDate = new Date(
+      //       // el.trip ? el.trip.startingDate : el.customTrip.startingDate
+      //       el.departureDate
+      //     );
+      //     const currentDate = new Date();
+
+      //     // * Till 2 Weeks from  departure date =  > 14 days
+      //     // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
+      //     // * So thats why I put 2nd condition
+
+      //     return (
+      //       (el.status === 'archived' ||
+      //         nonPaidStatuses.includes(el.status)) &&
+      //       daysBetween(departureDate, currentDate) < 28 &&
+      //       daysBetween(departureDate, currentDate) > 14
+      //     );
+      //   }) || [];
+      const lightGreenReseravtionsNew =
+        reservations?.filter(
+          (el) => el.status === 'pre-reservation'
+        ) || [];
+      const greenReseravtionsNew =
+        reservations?.filter(
+          (el) =>
+            el.status === 'schedule-inProgress' ||
+            el.status === 'validated'
+        ) || [];
+      const orangeReservationsNew =
+        reservations?.filter((el) => el.status === 'tobe-Verified') ||
+        [];
+      const blueReservationsNew =
+        reservations?.filter((el) => el.status === 'archived') || [];
       const blackReservationsNew =
-        reservations?.filter((el) => {
-          const departureDate = new Date(
-            // el.trip ? el.trip.startingDate : el.customTrip.startingDate
-            el.departureDate
-          );
-          const currentDate = new Date();
-
-          // * Till 2 Weeks from  departure date =  > 14 days
-          // * If someone reserves at 5 weeks , maybe thay NOT archieved yet
-          // * So thats why I put 2nd condition
-
-          return (
-            (el.status === 'archived' || nonPaidStatuses.includes(el.status)) &&
-            daysBetween(departureDate, currentDate) < 28 &&
-            daysBetween(departureDate, currentDate) > 14
-          );
-        }) || [];
-
+        reservations?.filter((el) => el.status === 'blackList') || [];
       // ! Unrecoverable Reservations (status 'cancelled')
       // ! Either cancelled by staffer , or black reservations with less than 2 weeks
       // * Note : Reservations status will change automatically from backend
@@ -321,13 +358,17 @@ const Reservations = ({ isSpiritual }) => {
 
       // * Cancellation Requests by client
       const greyReservationsNew =
-        reservations?.filter((el) => el.status === 'cancellation-request') ||
-        [];
+        reservations?.filter(
+          (el) => el.status === 'cancellation-request'
+        ) || [];
 
       // * Reservations paid / Finalized
       const whiteReservationsNew =
-        reservations?.filter((el) => el.status === 'reservation-paid') || [];
+        reservations?.filter(
+          (el) => el.status === 'reservation-paid'
+        ) || [];
 
+      setLightGreenReseravtions(lightGreenReseravtionsNew);
       setGreenReseravtions(greenReseravtionsNew);
       setOrangeReservations(orangeReservationsNew);
       setBlueReservations(blueReservationsNew);
@@ -342,6 +383,9 @@ const Reservations = ({ isSpiritual }) => {
 
   useEffect(() => {
     switch (currentStatus) {
+      case 'lightGreen':
+        setCurrentReservations(lightGreenReseravtions);
+        break;
       case 'green':
         setCurrentReservations(greenReseravtions);
         break;
@@ -374,6 +418,7 @@ const Reservations = ({ isSpiritual }) => {
     }
   }, [
     currentStatus,
+    lightGreenReseravtions,
     greenReseravtions,
     orangeReservations,
     blueReservations,
@@ -498,7 +543,9 @@ const Reservations = ({ isSpiritual }) => {
             <TableHead>
               <TableRow>
                 <TableCell>{t('Ref Reservation')}</TableCell>
-                <TableCell align='center'>{t('reservation date')}</TableCell>
+                <TableCell align='center'>
+                  {t('reservation date')}
+                </TableCell>
                 <TableCell align='center'>{t('Status')}</TableCell>
                 <TableCell align='center'>{t('Clients')}</TableCell>
                 <TableCell align='center'>{t('Emails')}</TableCell>
@@ -523,9 +570,13 @@ const Reservations = ({ isSpiritual }) => {
                         </TableCell>
                         <TableCell align='center'>
                           {/* {formatDistanceToNow(new Date(purchase.createdAt))} */}
-                          {new Date(purchase.createdAt).toLocaleDateString()}
+                          {new Date(
+                            purchase.createdAt
+                          ).toLocaleDateString()}
                         </TableCell>
-                        <TableCell align='center'>{purchase.status}</TableCell>
+                        <TableCell align='center'>
+                          {purchase.status}
+                        </TableCell>
                         <TableCell align='center'>
                           {purchase.trip ? (
                             <>
@@ -565,9 +616,16 @@ const Reservations = ({ isSpiritual }) => {
                         <TableCell align='center'>
                           <Button
                             endIcon={<Edit />}
-                            onClick={handleClick.bind(this, purchase._id)}
+                            onClick={handleClick.bind(
+                              this,
+                              purchase._id
+                            )}
                           >
-                            {t(currentStatus === 'green' ? 'EDIT' : 'DETAILS')}
+                            {t(
+                              currentStatus === 'green'
+                                ? 'EDIT'
+                                : 'DETAILS'
+                            )}
                           </Button>
                         </TableCell>
                       </TableRow>
