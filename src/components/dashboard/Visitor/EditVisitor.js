@@ -541,7 +541,6 @@ const EditVisitor = () => {
                         type='text'
                         value={state.telephoneLineNumber}
                         onChange={handleTxtChange}
-                        required
                       />
                     </Box>
                     <Box className={classes.inputBox}>
