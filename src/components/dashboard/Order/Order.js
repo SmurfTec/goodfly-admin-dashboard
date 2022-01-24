@@ -99,7 +99,10 @@ const styles = makeStyles((theme) => ({
     '& .MuiSwitch-switchBase.Mui-checked': {
       color: '#018786',
       '&:hover': {
-        backgroundColor: alpha('#018786', theme.palette.action.hoverOpacity),
+        backgroundColor: alpha(
+          '#018786',
+          theme.palette.action.hoverOpacity
+        ),
       },
     },
     '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
@@ -110,7 +113,10 @@ const styles = makeStyles((theme) => ({
     '& .MuiSwitch-switchBase.Mui-checked': {
       color: '#B00020',
       '&:hover': {
-        backgroundColor: alpha('#B00020', theme.palette.action.hoverOpacity),
+        backgroundColor: alpha(
+          '#B00020',
+          theme.palette.action.hoverOpacity
+        ),
       },
     },
     '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
@@ -130,7 +136,8 @@ const Order = () => {
   const lgDown = useMediaQuery(theme.breakpoints.down('lg'));
   const { t } = useTranslation();
 
-  const { orders, getOrderById, modifyOrder } = useContext(OrderContext);
+  const { orders, getOrderById, modifyOrder } =
+    useContext(OrderContext);
 
   const { id } = useParams();
 
@@ -218,12 +225,7 @@ const Order = () => {
                     marginBottom: 7,
                   }}
                 >
-                  <InputLabel id='demo-simple-select-label'>
-                    {t('Order Status')}
-                  </InputLabel>
-
                   <Select
-                    labelId='demo-simple-select-label'
                     id='demo-simple-select'
                     value={orderStatus}
                     onChange={handleOrderStatus}
@@ -234,9 +236,15 @@ const Order = () => {
                     <MenuItem value='paid' disabled>
                       {t('Paid')}
                     </MenuItem>
-                    <MenuItem value='inProgress'>{t('InProgress')}</MenuItem>
-                    <MenuItem value='dispatched'>{t('Dispatched')}</MenuItem>
-                    <MenuItem value='delivered'>{t('Delivered')}</MenuItem>
+                    <MenuItem value='inProgress'>
+                      {t('InProgress')}
+                    </MenuItem>
+                    <MenuItem value='dispatched'>
+                      {t('Dispatched')}
+                    </MenuItem>
+                    <MenuItem value='delivered'>
+                      {t('Delivered')}
+                    </MenuItem>
                   </Select>
                 </FormControl>
               </Box>
@@ -254,7 +262,10 @@ const Order = () => {
                   <SidebarIcon className={classes.icons} />
                   <PrintIcon className={classes.icons} />
                   <Trash2Icon className={classes.icons} />
-                  <PlayIcon className={classes.icons} onClick={handleSubmit} />
+                  <PlayIcon
+                    className={classes.icons}
+                    onClick={handleSubmit}
+                  />
                 </Box>
               </Box>
             </Tabs>
@@ -426,7 +437,10 @@ const Order = () => {
                     padding: '3%',
                   }}
                 >
-                  <Typography variant='h4' className={classes.address}>
+                  <Typography
+                    variant='h4'
+                    className={classes.address}
+                  >
                     {t('Shipping Address')}
                   </Typography>
                   <Typography className={classes.address}>
@@ -455,7 +469,10 @@ const Order = () => {
                     // verticalAlign: 'top',
                   }}
                 >
-                  <Typography variant='h4' className={classes.address}>
+                  <Typography
+                    variant='h4'
+                    className={classes.address}
+                  >
                     {t('Billing Address')}
                   </Typography>
                   <Typography className={classes.address}>
@@ -478,7 +495,9 @@ const Order = () => {
               </Box>
             </TabPanel>
             <TabPanel value={value} index={2}>
-              <Typography variant='h5'>{t('Transport Management')}</Typography>
+              <Typography variant='h5'>
+                {t('Transport Management')}
+              </Typography>
               <Box
                 mt={3}
                 style={{
@@ -501,7 +520,10 @@ const Order = () => {
                   inputProps={{ readOnly: true }}
                 />
 
-                <Button variant='contained' style={{ width: '12rem' }}>
+                <Button
+                  variant='contained'
+                  style={{ width: '12rem' }}
+                >
                   {t('ADD A CARRIER')}
                 </Button>
               </Box>
@@ -521,7 +543,10 @@ const Order = () => {
                     padding: '3%',
                   }}
                 >
-                  <Typography variant='h4' className={classes.address}>
+                  <Typography
+                    variant='h4'
+                    className={classes.address}
+                  >
                     {t('Shipping Address')}
                   </Typography>
                   <Typography className={classes.address}>
@@ -550,7 +575,10 @@ const Order = () => {
                     // verticalAlign: 'top',
                   }}
                 >
-                  <Typography variant='h4' className={classes.address}>
+                  <Typography
+                    variant='h4'
+                    className={classes.address}
+                  >
                     {t('Billing Address')}
                   </Typography>
                   <Typography className={classes.address}>
@@ -578,7 +606,10 @@ const Order = () => {
                   margin: '1rem',
                 }}
               >
-                <Button variant='contained' style={{ marginRight: '1rem' }}>
+                <Button
+                  variant='contained'
+                  style={{ marginRight: '1rem' }}
+                >
                   {t('DOWNLOAD THE PACKAGING SLIP')}
                 </Button>
                 <Button variant='contained' onClick={handleSubmit}>
@@ -587,8 +618,14 @@ const Order = () => {
               </Box>
             </TabPanel>
             <TabPanel value={value} index={3}>
-              <TableContainer component={Paper} className={classes.table}>
-                <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+              <TableContainer
+                component={Paper}
+                className={classes.table}
+              >
+                <Table
+                  sx={{ minWidth: 650 }}
+                  aria-label='simple table'
+                >
                   <TableHead>
                     <TableRow>
                       <TableCell>{t('Payment')}</TableCell>
@@ -610,10 +647,16 @@ const Order = () => {
                         <TableCell component='th' scope='row'>
                           {row.name}
                         </TableCell>
-                        <TableCell align='right'>{row.calories}</TableCell>
+                        <TableCell align='right'>
+                          {row.calories}
+                        </TableCell>
                         <TableCell align='right'>{row.fat}</TableCell>
-                        <TableCell align='right'>{row.carbs}</TableCell>
-                        <TableCell align='right'>{row.protein}</TableCell>
+                        <TableCell align='right'>
+                          {row.carbs}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {row.protein}
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -629,7 +672,9 @@ const Order = () => {
       <div>
         <Dialog open={manualPayment} onClose={closeManualPayment}>
           <DialogTitle>
-            <Typography variant='h4'>{t('Manual Payment')}</Typography>
+            <Typography variant='h4'>
+              {t('Manual Payment')}
+            </Typography>
           </DialogTitle>
           <DialogContent>
             <Box

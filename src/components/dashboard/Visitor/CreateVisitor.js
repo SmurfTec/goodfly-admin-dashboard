@@ -110,8 +110,11 @@ const VisitorProfile = () => {
   const [state, handleTxtChange, , changeInput, resetState, ,] =
     useManyInputs(initialState);
 
-  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState('Uploading Image...');
+  const [isImageUploading, toggleImageUploading] =
+    useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState(
+    'Uploading Image...'
+  );
 
   const [isAttachmentUploading, toggleAttachmentUploading] =
     useToggleInput(false);
@@ -178,7 +181,9 @@ const VisitorProfile = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message || err.message || 'Something Went Wrong'
+        err?.response?.data?.message ||
+          err.message ||
+          'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -225,7 +230,9 @@ const VisitorProfile = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message || err.message || 'Something Went Wrong'
+        err?.response?.data?.message ||
+          err.message ||
+          'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -251,7 +258,13 @@ const VisitorProfile = () => {
         </Box>
         <form onSubmit={handleSubmit}>
           <Grid container>
-            <Grid item xs={12} sm={7} md={7} style={{ minHeight: 400 }}>
+            <Grid
+              item
+              xs={12}
+              sm={7}
+              md={7}
+              style={{ minHeight: 400 }}
+            >
               <Box className={classes.mainBox}>
                 <Box
                   style={{
@@ -261,7 +274,9 @@ const VisitorProfile = () => {
                     margin: '10px 0px 30px ',
                   }}
                 >
-                  <Typography variant='h4'>{t('Client Profile')}</Typography>
+                  <Typography variant='h4'>
+                    {t('Client Profile')}
+                  </Typography>
                   {/* <div style={{ display: 'flex' }}>
                     <Typography
                       variant='h5'
@@ -363,7 +378,6 @@ const VisitorProfile = () => {
                     name='spouseName'
                     value={state.spouseName}
                     onChange={handleTxtChange}
-                    required
                   />
                 </Box>
 
@@ -412,7 +426,6 @@ const VisitorProfile = () => {
                     name='telephoneLineNumber'
                     value={state.telephoneLineNumber}
                     onChange={handleTxtChange}
-                    required
                   />
                 </Box>
                 <Box className={classes.inputBox}>
@@ -446,7 +459,10 @@ const VisitorProfile = () => {
                     onChange={handleTxtChange}
                   />
                 </Box>
-                <Box className={classes.inputBox} style={{ marginBottom: 5 }}>
+                <Box
+                  className={classes.inputBox}
+                  style={{ marginBottom: 5 }}
+                >
                   <Typography variant='h5' style={{ width: '25%' }}>
                     {t('Postal Code')}
                   </Typography>
@@ -473,7 +489,10 @@ const VisitorProfile = () => {
                       onChange={handleTxtChange}
                       required
                     />
-                    <Typography variant='h5' style={{ textAlign: 'center' }}>
+                    <Typography
+                      variant='h5'
+                      style={{ textAlign: 'center' }}
+                    >
                       {t('City')}
                     </Typography>
                     <TextField
@@ -591,8 +610,17 @@ const VisitorProfile = () => {
                 </Box>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={5} md={5} className={classes.account}>
-              <Box className={classes.mainBox} style={{ padding: 10 }}>
+            <Grid
+              item
+              xs={12}
+              sm={5}
+              md={5}
+              className={classes.account}
+            >
+              <Box
+                className={classes.mainBox}
+                style={{ padding: 10 }}
+              >
                 <Box
                   style={{
                     display: 'flex',
@@ -659,7 +687,10 @@ const VisitorProfile = () => {
                   </Box>
                 </Box>
               </Box>
-              <Box className={classes.mainBox} style={{ padding: 10 }}>
+              <Box
+                className={classes.mainBox}
+                style={{ padding: 10 }}
+              >
                 <Typography
                   variant='h4'
                   style={{
@@ -706,8 +737,14 @@ const VisitorProfile = () => {
                     >
                       <Box className={classes.image}>
                         <Box>
-                          <PlusIcon size={35} style={{ color: '#fff' }} />
-                          <FileIcon size={35} style={{ color: '#fff' }} />
+                          <PlusIcon
+                            size={35}
+                            style={{ color: '#fff' }}
+                          />
+                          <FileIcon
+                            size={35}
+                            style={{ color: '#fff' }}
+                          />
                         </Box>
                         <Typography style={{ color: '#fff' }}>
                           {`${t('Upload')} ${t('Photo')}`}
@@ -825,7 +862,9 @@ const VisitorProfile = () => {
                                   />
                                 </Box>
                                 <Box style={{ textAlign: 'center' }}>
-                                  <Typography style={{ color: '#fff' }}>
+                                  <Typography
+                                    style={{ color: '#fff' }}
+                                  >
                                     {t('Upload Document')}
                                   </Typography>
                                 </Box>
