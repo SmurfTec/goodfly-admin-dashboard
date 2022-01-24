@@ -48,6 +48,7 @@ import UserInfo from './UserInfo';
 import { useTranslation } from 'react-i18next';
 import { useReactToPrint } from 'react-to-print';
 import PrintDetails from './PrintDetails';
+import TravelersTable from './TravelersTable';
 
 const DetailReservation = () => {
   const classes = useStyles();
@@ -389,6 +390,9 @@ const DetailReservation = () => {
                       <Tab label={t('Reservation User')} {...a11yProps(2)} />
                     )}
                     <Tab label={t('PAYMENT')} {...a11yProps(3)} />
+                    {reservation?.numOfTravelers > 0 && (
+                      <Tab label={t('TRAVELERS')} {...a11yProps(3)} />
+                    )}
 
                     <Box
                       style={{
@@ -691,6 +695,16 @@ const DetailReservation = () => {
                       ]}
                       purchaseId={reservation?._id}
                       data={reservation?.payments}
+                      classes={classes}
+                    />
+                  </TabPanel>
+                  <TabPanel
+                    value={value}
+                    index={reservation?.type === 'reserveForAnother' ? 4 : 3}
+                    style={{ backgroundColor: '#f2f2f2' }}
+                  >
+                    <TravelersTable
+                      data={reservation?.travelers}
                       classes={classes}
                     />
                   </TabPanel>

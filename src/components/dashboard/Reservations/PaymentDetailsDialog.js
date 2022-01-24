@@ -23,6 +23,7 @@ import { useTranslation } from 'react-i18next';
 import { Close } from '@material-ui/icons';
 import { toast } from 'react-toastify';
 import v4 from 'uuid/dist/v4';
+import { getMuiDateFormat } from 'utils/dateMethods';
 
 const PaymentDetailsDialog = ({
   open,
@@ -50,7 +51,7 @@ const PaymentDetailsDialog = ({
           !el.amount ||
           !el.date ||
           !el.paymentMethod ||
-          !el.transactionNumber
+          (el.paymentMethod !== 'cash' && !el.transactionNumber)
         )
           return true;
       }).length > 0
@@ -70,7 +71,7 @@ const PaymentDetailsDialog = ({
   const initialState = {
     paymentMethod: '',
     amount: '',
-    date: '',
+    date: getMuiDateFormat(new Date()),
     transactionNumber: '',
   };
   const [state, handleTxtChange, , , , setState] = useManyInputs(initialState);
@@ -274,11 +275,13 @@ const PaymentDetailsDialog = ({
                   label={t('Date')}
                   type='date'
                   fullWidth
+                  disabled
                   style={{ marginRight: '2rem' }}
                   value={paymentParts[idx].date || state.date}
+                  // value={/}
                   // onChange={(newDate) => changeInput('date', newDate)}
-                  disabled={!!payment?.isPaid}
-                  onChange={(e) => handleChange(e, idx)}
+                  // disabled={!!payment?.isPaid}
+                  // onChange={(e) => handleChange(e, idx)}
                   name='date'
                   required
                 />
