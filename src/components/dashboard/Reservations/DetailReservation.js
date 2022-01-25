@@ -1,4 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   Box,
   Tab,
@@ -52,19 +57,33 @@ import TravelersTable from './TravelersTable';
 
 const DetailReservation = () => {
   const classes = useStyles();
-  const { loading, getReservationById, reservations, modifyReservation } =
-    useContext(ReservationsContext);
+  const {
+    loading,
+    getReservationById,
+    reservations,
+    modifyReservation,
+  } = useContext(ReservationsContext);
+
   const { modifyCustomer } = useContext(CustomersContext);
   const { id } = useParams();
 
-  const [isDatesModalOpen, toggleIsDatesModalOpen] = useToggleInput(false);
+  const [isDatesModalOpen, toggleIsDatesModalOpen] =
+    useToggleInput(false);
 
   const [reservation, setReservation] = useState();
-  const [attachments, setAttachments, pushAttachment, , , removeAttachment, ,] =
-    useArray([], '_id');
+  const [
+    attachments,
+    setAttachments,
+    pushAttachment,
+    ,
+    ,
+    removeAttachment,
+    ,
+  ] = useArray([], '_id');
 
   const [value, setValue] = React.useState(0);
-  const [reservationStatus, setReservationStatus] = React.useState('');
+  const [reservationStatus, setReservationStatus] =
+    React.useState('');
   const [notFound, setNotFound] = useState(false);
   const { t } = useTranslation();
 
@@ -82,8 +101,13 @@ const DetailReservation = () => {
     setReservation(newReservation);
   }, [id, reservations, loading]);
 
-  const [isImageUploading, toggleImageUploading] = useToggleInput(false);
-  const [uploadingText, setUploadingText] = useState('Uploading Image...');
+  console.log('RESERVATION', reservation);
+
+  const [isImageUploading, toggleImageUploading] =
+    useToggleInput(false);
+  const [uploadingText, setUploadingText] = useState(
+    'Uploading Image...'
+  );
 
   useEffect(() => {
     if (reservation) {
@@ -148,7 +172,9 @@ const DetailReservation = () => {
       }
     } catch (err) {
       toast(
-        err?.response?.data?.message || err.message || 'Something Went Wrong'
+        err?.response?.data?.message ||
+          err.message ||
+          'Something Went Wrong'
       );
       console.log(`err`, err);
     }
@@ -200,7 +226,9 @@ const DetailReservation = () => {
     }
 
     if (reservationStatus === 'pre-reservation') {
-      toast.error('Plz update reservation status before validation !');
+      toast.error(
+        'Plz update reservation status before validation !'
+      );
       return;
     }
 
@@ -251,7 +279,10 @@ const DetailReservation = () => {
               flexWrap: 'wrap',
             }}
           >
-            <Typography variant='h5'> {t('Reservation Status')} :</Typography>
+            <Typography variant='h5'>
+              {' '}
+              {t('Reservation Status')} :
+            </Typography>
             {loading ? (
               <Skeleton variant='rect' width='30%' />
             ) : (
@@ -277,24 +308,36 @@ const DetailReservation = () => {
                 >
                   <MenuItem
                     value={'pre-reservation'}
-                    disabled={reservation?.status !== 'pre-reservation'}
+                    disabled={
+                      reservation?.status !== 'pre-reservation'
+                    }
                   >
                     {t('Pre Reservation')}
                   </MenuItem>
-                  <MenuItem value={'validated'}>{t('Validated')}</MenuItem>
+                  <MenuItem value={'validated'}>
+                    {t('Validated')}
+                  </MenuItem>
                   <MenuItem
                     value={'schedule-inProgress'}
                     sx={{ display: 'none' }}
                   >
                     {t('Schedule in Progress')}
                   </MenuItem>
-                  <MenuItem value={'reservation-paid'} sx={{ display: 'none' }}>
+                  <MenuItem
+                    value={'reservation-paid'}
+                    sx={{ display: 'none' }}
+                  >
                     {t('Finalized')}
                   </MenuItem>
-                  <MenuItem value={'archived'} sx={{ display: 'none' }}>
+                  <MenuItem
+                    value={'archived'}
+                    sx={{ display: 'none' }}
+                  >
                     {t('Archived')}
                   </MenuItem>
-                  <MenuItem value={'cancelled'}>{t('Cancelled')}</MenuItem>
+                  <MenuItem value={'cancelled'}>
+                    {t('Cancelled')}
+                  </MenuItem>
                   <MenuItem
                     value={'cancellation-request'}
                     sx={{ display: 'none' }}
@@ -360,7 +403,11 @@ const DetailReservation = () => {
           {loading ? (
             <Skeleton variant='rect' width='95%' height={700} />
           ) : isPrintOpen ? (
-            <PrintDetails reservation={reservation} classes={classes} t={t} />
+            <PrintDetails
+              reservation={reservation}
+              classes={classes}
+              t={t}
+            />
           ) : (
             <Box
               style={{
@@ -387,7 +434,10 @@ const DetailReservation = () => {
                     <Tab label={t('OFFER')} {...a11yProps(0)} />
                     <Tab label={t('CLIENT')} {...a11yProps(1)} />
                     {reservation?.type === 'reserveForAnother' && (
-                      <Tab label={t('Reservation User')} {...a11yProps(2)} />
+                      <Tab
+                        label={t('Reservation User')}
+                        {...a11yProps(2)}
+                      />
                     )}
                     <Tab label={t('PAYMENT')} {...a11yProps(3)} />
                     {reservation?.numOfTravelers > 0 && (
@@ -445,7 +495,9 @@ const DetailReservation = () => {
                           departureDate={reservation.departureDate}
                         />
                       ) : (
-                        <CustomerTripView offer={reservation.customTrip} />
+                        <CustomerTripView
+                          offer={reservation.customTrip}
+                        />
                       ))}
                   </TabPanel>
                   <TabPanel
@@ -525,7 +577,10 @@ const DetailReservation = () => {
                             width: '100%',
                           }}
                         >
-                          <Typography variant='h5' style={{ width: '25%' }}>
+                          <Typography
+                            variant='h5'
+                            style={{ width: '25%' }}
+                          >
                             {t('Civility')}
                           </Typography>
                           <FormControl component='fieldset'>
@@ -575,34 +630,39 @@ const DetailReservation = () => {
                             <Grid container spacing={3}>
                               <Grid item md={9}>
                                 <CarouselLayout>
-                                  {attachments.map((attachment, i) => (
-                                    <div
-                                      key={attachment._id}
-                                      className={classes.carouselCard}
-                                    >
-                                      <CardMedia
-                                        style={{ height: '10rem' }}
-                                        image={attachment.image}
-                                        title='Live from space album cover'
-                                      />
-                                      <Box
-                                        style={{
-                                          display: 'flex',
-                                          justifyContent: 'flex-end',
-                                          alignItems: 'center',
-                                        }}
+                                  {attachments.map(
+                                    (attachment, i) => (
+                                      <div
+                                        key={attachment._id}
+                                        className={
+                                          classes.carouselCard
+                                        }
                                       >
-                                        <Button
-                                          color='error'
-                                          startIcon={<Delete />}
-                                          onClick={handleDeleteAttachment.bind(
-                                            this,
-                                            attachment._id
-                                          )}
-                                        ></Button>
-                                      </Box>
-                                    </div>
-                                  ))}
+                                        <CardMedia
+                                          style={{ height: '10rem' }}
+                                          image={attachment.image}
+                                          title='Live from space album cover'
+                                        />
+                                        <Box
+                                          style={{
+                                            display: 'flex',
+                                            justifyContent:
+                                              'flex-end',
+                                            alignItems: 'center',
+                                          }}
+                                        >
+                                          <Button
+                                            color='error'
+                                            startIcon={<Delete />}
+                                            onClick={handleDeleteAttachment.bind(
+                                              this,
+                                              attachment._id
+                                            )}
+                                          ></Button>
+                                        </Box>
+                                      </div>
+                                    )
+                                  )}
                                   {/* one */}
                                 </CarouselLayout>
                               </Grid>
@@ -620,7 +680,9 @@ const DetailReservation = () => {
                                         style={{ display: 'none' }}
                                         id='contained-button-file'
                                         type='file'
-                                        onChange={handleAttachmentChange}
+                                        onChange={
+                                          handleAttachmentChange
+                                        }
                                         disabled={isImageUploading}
                                       />
                                       <LoadingOverlay
@@ -629,7 +691,9 @@ const DetailReservation = () => {
                                         text={uploadingText}
                                       >
                                         <label htmlFor='contained-button-file'>
-                                          <Box className={classes.image}>
+                                          <Box
+                                            className={classes.image}
+                                          >
                                             <Box>
                                               <PlusIcon
                                                 size={35}
@@ -685,7 +749,11 @@ const DetailReservation = () => {
                   )}
                   <TabPanel
                     value={value}
-                    index={reservation?.type === 'reserveForAnother' ? 3 : 2}
+                    index={
+                      reservation?.type === 'reserveForAnother'
+                        ? 3
+                        : 2
+                    }
                     style={{ backgroundColor: '#f2f2f2' }}
                   >
                     <PaymentsTable
@@ -700,7 +768,11 @@ const DetailReservation = () => {
                   </TabPanel>
                   <TabPanel
                     value={value}
-                    index={reservation?.type === 'reserveForAnother' ? 4 : 3}
+                    index={
+                      reservation?.type === 'reserveForAnother'
+                        ? 4
+                        : 3
+                    }
                     style={{ backgroundColor: '#f2f2f2' }}
                   >
                     <TravelersTable

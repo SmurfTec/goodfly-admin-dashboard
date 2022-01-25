@@ -27,6 +27,7 @@ function createData(name, calories, fat, carbs, protein) {
 const CustomTrips = () => {
   const classes = styles();
   const { customOffers } = useContext(OffersContext);
+
   const [filter, setFilter] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
   const [page, setPage] = React.useState(0);

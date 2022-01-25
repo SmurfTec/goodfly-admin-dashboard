@@ -2,7 +2,12 @@ import { makeStyles } from '@material-ui/styles';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button, TextField, Typography, Box } from '@material-ui/core';
+import {
+  Button,
+  TextField,
+  Typography,
+  Box,
+} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -17,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
 const CustomTripView = ({ offer }) => {
   const { t } = useTranslation();
   const classes = useStyles();
+
+  console.log('OFFER', offer);
+
   return (
     <div
       style={{
@@ -28,12 +36,16 @@ const CustomTripView = ({ offer }) => {
       }}
     >
       {!offer && (
-        <Typography variant='h5'>{t('Offer No Longer Exists')}</Typography>
+        <Typography variant='h5'>
+          {t('Offer No Longer Exists')}
+        </Typography>
       )}
       {offer && (
         <>
           <Box>
-            <Typography variant='h6'>{t('Contact Details')}</Typography>
+            <Typography variant='h6'>
+              {t('Contact Details')}
+            </Typography>
             <Box className={classes.form}>
               <TextField
                 value={offer.pronoun}
@@ -120,7 +132,9 @@ const CustomTripView = ({ offer }) => {
             <Box className={classes.form} style={{ width: '42%' }}>
               <TextField
                 name='price'
-                value={offer.budgetPerPerson * offer.numOfParticipants}
+                value={
+                  offer.budgetPerPerson * offer.numOfParticipants
+                }
                 id='standard-basic'
                 label={t('Total Price')}
                 type='number'
@@ -302,7 +316,9 @@ const CustomTripView = ({ offer }) => {
             <Box className={classes.form}>
               <TextField
                 name='budget'
-                value={offer.budgetPerPerson * offer.numOfParticipants}
+                value={
+                  offer.budgetPerPerson * offer.numOfParticipants
+                }
                 id='standard-basic'
                 label={t('Global Budget')}
                 variant='standard'

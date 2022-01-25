@@ -95,7 +95,9 @@ const Blogs = () => {
     console.log(`blogs`, blogs);
     setFilteredBlogs(
       blogs?.filter(
-        (blog) => blog.title.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+        (blog) =>
+          blog?.title?.toLowerCase().indexOf(filter.toLowerCase()) !==
+          -1
       )
     );
   }, [filter, blogs]);
@@ -136,7 +138,10 @@ const Blogs = () => {
               width: '100%',
             }}
           >
-            <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+            <Typography
+              variant='text'
+              style={{ margin: '0px 3px 0px' }}
+            >
               {`${t('Search')} ${t('Article')}`}
             </Typography>
             <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -158,11 +163,18 @@ const Blogs = () => {
                 .fill()
                 .map(() => (
                   <Grid item lg={3} key={v4()}>
-                    <Skeleton variant='rect' width='200px' height='200px' />
+                    <Skeleton
+                      variant='rect'
+                      width='200px'
+                      height='200px'
+                    />
                   </Grid>
                 ))
             : filteredBlogs
-                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                ?.slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 .map((blog) => (
                   <Grid item lg={3} xl={2}>
                     <Card className={classes.root} key={blog.id}>
@@ -199,7 +211,9 @@ const Blogs = () => {
                                   color: '#c6c6c6',
                                 }}
                               >
-                                {new Date(blog.createdAt).toDateString()}
+                                {new Date(
+                                  blog.createdAt
+                                ).toDateString()}
                               </Typography>
                               <Box
                                 style={{
@@ -242,7 +256,9 @@ const Blogs = () => {
                   </Grid>
                 ))}
 
-          {emptyRows > 0 && <Box style={{ height: 53 * emptyRows }}></Box>}
+          {emptyRows > 0 && (
+            <Box style={{ height: 53 * emptyRows }}></Box>
+          )}
         </Grid>
         <TablePagination
           style={{ marginTop: '1rem' }}

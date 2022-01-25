@@ -2,8 +2,14 @@ import React from 'react';
 import { Box, Typography, Grid, TextField } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
-const UserInfo = ({ reservationUser, classes, isVisitor, toPrint = false }) => {
+const UserInfo = ({
+  reservationUser,
+  classes,
+  isVisitor,
+  toPrint = false,
+}) => {
   const { t } = useTranslation();
+  console.log('rrrrrrr', reservationUser);
   return (
     <Grid container spacing={2}>
       <Grid item md={5}>
@@ -160,7 +166,9 @@ const UserInfo = ({ reservationUser, classes, isVisitor, toPrint = false }) => {
           <TextField
             hiddenLabel
             id='filled-hidden-label-small'
-            value={new Date(reservationUser.dateOfBirth).toLocaleDateString()}
+            value={new Date(
+              reservationUser.dateOfBirth
+            ).toLocaleDateString()}
             size='small'
             className={classes.textInput}
           />
