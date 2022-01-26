@@ -1,9 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -16,12 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
-import {
-  Container,
-  IconButton,
-  Skeleton,
-  Typography,
-} from '@material-ui/core';
+import { Container, IconButton, Skeleton, Typography } from '@material-ui/core';
 import { SocketContext } from 'Contexts/SocketContext';
 import v4 from 'uuid/dist/v4';
 import clsx from 'clsx';
@@ -39,8 +29,7 @@ const Chat = () => {
   const theme = useTheme();
   const { chats, sendNewMessage, user, readAllMessages, pushChat } =
     useContext(SocketContext);
-  const [messageTxt, handleTxtChange, resetMessageTxt] =
-    useTextInput('');
+  const [messageTxt, handleTxtChange, resetMessageTxt] = useTextInput('');
 
   const [searchVal, handleSearch] = useTextInput('');
 
@@ -158,11 +147,7 @@ const Chat = () => {
 
   return (
     <Container disableGutters sx={{ my: 1 }}>
-      <Grid
-        container
-        component={Paper}
-        className={classes.chatSection}
-      >
+      <Grid container component={Paper} className={classes.chatSection}>
         <Grid item xs={3} className={classes.borderRight500}>
           <Divider />
           <Box display='flex' marginTop={2}>
@@ -196,7 +181,9 @@ const Chat = () => {
                       ? el.visitor?.fullName
                           ?.toLowerCase()
                           ?.includes(searchVal?.toLowerCase())
-                      : true;
+                      : el.participants?.[1]?.fullName
+                          ?.toLowerCase()
+                          .includes(searchVal?.toLowerCase());
                   })
                   .map((chat) => (
                     <React.Fragment key={chat._id}>
@@ -234,9 +221,10 @@ const Chat = () => {
                               : chat.participants?.[1]?.fullName
                           }
                           secondary={
-                            chat.messages[
-                              chat.messages.length - 1
-                            ]?.text.slice(0, 15) || ''
+                            chat.messages[chat.messages.length - 1]?.text.slice(
+                              0,
+                              15
+                            ) || ''
                           }
                         />
                         <ListItemText
@@ -310,10 +298,7 @@ const Chat = () => {
           </List>
           <Divider />
           {activeChat && (
-            <Grid
-              container
-              style={{ padding: '20px', alignItems: 'center' }}
-            >
+            <Grid container style={{ padding: '20px', alignItems: 'center' }}>
               <Grid item xs={11}>
                 <form id='messageForm' onSubmit={handleCreateMessage}>
                   <TextField

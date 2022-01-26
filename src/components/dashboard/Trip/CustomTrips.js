@@ -57,9 +57,8 @@ const CustomTrips = () => {
     setFilteredItems(
       customOffers?.filter(
         (row) =>
-          row?.fullName
-            ?.toLowerCase()
-            ?.indexOf(filter.toLowerCase()) !== -1
+          row?.status === 'pending' &&
+          row?.fullName?.toLowerCase()?.indexOf(filter.toLowerCase()) !== -1
       )
     );
   }, [filter]);
@@ -84,10 +83,7 @@ const CustomTrips = () => {
             width: '100%',
           }}
         >
-          <Typography
-            variant='text'
-            style={{ margin: '0px 3px 0px' }}
-          >
+          <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
             {t('Search Client')}
           </Typography>
           <SearchIcon style={{ margin: '0px 3px 0px' }} />
@@ -110,9 +106,7 @@ const CustomTrips = () => {
             <TableHead>
               <TableRow>
                 <TableCell>{t('Name')}</TableCell>
-                <TableCell align='center'>
-                  {t('Date of Reservation')}
-                </TableCell>
+                <TableCell align='center'>{t('Date of Reservation')}</TableCell>
                 <TableCell align='center'>{t('Emails')}</TableCell>
                 <TableCell align='center'>{t('Telephone')}</TableCell>
                 <TableCell align='center'>{t('Actions')}</TableCell>
@@ -120,10 +114,7 @@ const CustomTrips = () => {
             </TableHead>
             <TableBody>
               {filteredItems
-                .slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   <TableRow key={row._id}>
                     <TableCell component='th' scope='row'>
@@ -134,9 +125,7 @@ const CustomTrips = () => {
                     <TableCell align='center'>
                       {new Date(row.createdAt).toLocaleDateString()}
                     </TableCell>
-                    <TableCell align='center'>
-                      {row.visitor?.email}
-                    </TableCell>
+                    <TableCell align='center'>{row.visitor?.email}</TableCell>
                     <TableCell align='center'>
                       {row.visitor?.telephoneNumber}
                     </TableCell>
