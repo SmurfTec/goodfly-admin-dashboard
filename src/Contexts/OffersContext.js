@@ -11,32 +11,17 @@ export const OffersProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [offers, setOffers, , , updateOfferById, removeOffer, ,] =
+  const [offers, setOffers, , , updateOfferById, removeOffer, ,] = useArray();
+
+  const [customOffers, setCustomOffers, , , updateCustomOfferById, , ,] =
     useArray();
 
-  const [
-    customOffers,
-    setCustomOffers,
-    ,
-    ,
-    updateCustomOfferById,
-    ,
-    ,
-  ] = useArray();
-
-  const [
-    offerComments,
-    setOfferComments,
-    ,
-    ,
-    updateOfferComment,
-    ,
-    ,
-  ] = useArray([], '_id');
+  const [offerComments, setOfferComments, , , updateOfferComment, , ,] =
+    useArray([], '_id');
 
   const fetchTrips = async () => {
     try {
-      const resData1 = await makeReq(`/trips`);
+      const resData1 = await makeReq(`/trips/withTravelers`);
       setOffers(resData1.trips);
     } catch (err) {
       handleCatch(err);
@@ -94,11 +79,7 @@ export const OffersProvider = ({ children }) => {
 
   const createOffer = async (newOffer) => {
     try {
-      const { trip } = await makeReq(
-        `/trips`,
-        { body: newOffer },
-        'POST'
-      );
+      const { trip } = await makeReq(`/trips`, { body: newOffer }, 'POST');
 
       setOffers([...offers, trip]);
       toast.success('Offer Created Sucessfully !');

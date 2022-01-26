@@ -136,8 +136,6 @@ export const protechtedRoutes = [
         ],
       },
 
-      { path: '/organizedTrips', element: <OrganizedTrips /> }, //* ??????
-
       {
         path: 'orders',
         children: [
@@ -165,6 +163,7 @@ export const protechtedRoutes = [
           { path: '/:id/edit', element: <ModifyOffer /> },
         ],
       },
+      { path: '/registration', element: <OrganizedTrips /> }, //* ??????
 
       //  Other
       // { path: 'account', element: <Account /> },

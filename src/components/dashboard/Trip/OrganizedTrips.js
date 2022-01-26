@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import {
@@ -16,6 +16,7 @@ import {
   Paper,
   Grid,
   CardMedia,
+  IconButton,
 } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import Rating from '@material-ui/core/Rating';
@@ -26,6 +27,10 @@ import {
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
 } from 'react-feather';
+import { OffersContext } from 'Contexts/OffersContext';
+import { useLocation, useParams } from 'react-router';
+import Loading from 'pages/Loading';
+import { Link } from 'react-router-dom';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -178,16 +183,36 @@ const styles = makeStyles((theme) => ({
 
 const OrganizedTrips = () => {
   const classes = styles();
+  const { offers } = useContext(OffersContext);
   const [filter, setFilter] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rating, setRating] = React.useState(2);
 
+  const [offer, setOffer] = useState();
+  const [notFound, setNotFound] = useState();
+  const [offerIndex, setOfferIndex] = useState(0);
+
+  useEffect(() => {
+    if (!offers) return;
+
+    offers.every((el, idx) => {
+      if (el.subCategory === 'organized') {
+        setOffer(el);
+        setOfferIndex(idx);
+        return false; // * equavalent to break
+      }
+      // else {
+
+      // }
+      return true;
+    });
+  }, [offers]);
+
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    rowsPerPage -
-    Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -206,8 +231,7 @@ const OrganizedTrips = () => {
   useEffect(() => {
     setFilteredItems(
       rows.filter(
-        (row) =>
-          row.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+        (row) => row.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
       )
     );
   }, [filter]);
@@ -216,6 +240,48 @@ const OrganizedTrips = () => {
   useEffect(() => {
     setFilteredItems(rows);
   }, []);
+
+  const handlenNext = () => {
+    console.log('next offers', offers);
+    offers.every((el, idx) => {
+      console.log('loop', idx);
+
+      if (idx <= offerIndex) return true;
+      console.log('el.subCategory', el.subCategory);
+      if (el.subCategory === 'organized') {
+        console.log('idx', idx);
+        console.log('offerIndex', offerIndex);
+        setOffer(el);
+        setOfferIndex(idx);
+        return false; // * equavalent to break
+      }
+      // else {
+
+      // }
+      return true;
+    });
+  };
+
+  const handlePrev = () => {
+    let newIndex = offers.findLastIndex((el, idx) => {
+      if (idx >= offerIndex) return false;
+
+      if (el.subCategory === 'organized') {
+        return true; // * equavalent to break
+      }
+      // else {
+
+      // }
+      return false;
+    });
+
+    console.log('newIndex', newIndex);
+    if (newIndex < 0) return;
+    setOffer(offers[newIndex]);
+    setOfferIndex(newIndex);
+  };
+
+  if (!offers || !offer) return <Loading noTitle />;
 
   return (
     <div>
@@ -227,27 +293,8 @@ const OrganizedTrips = () => {
         <Box className={classes.flexBetween}>
           <Box className={classes.flexLeft}>
             <Typography variant='h5' mr={5}>
-              Trip Name
+              {offer.title}
             </Typography>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Typography
-                variant='h5'
-                style={{ margin: '0px 10px 0px' }}
-              >
-                Reference
-              </Typography>
-              <Paper
-                style={{
-                  width: 70,
-                  height: 25,
-                  textAlign: 'right',
-                  padding: 4,
-                }}
-              >
-                {' '}
-                0001
-              </Paper>
-            </div>
           </Box>
           <Box
             style={{
@@ -256,13 +303,17 @@ const OrganizedTrips = () => {
               margin: '1rem',
             }}
           >
-            <ChevronLeftIcon />
+            <IconButton onClick={handlePrev}>
+              <ChevronLeftIcon />
+            </IconButton>
             <Divider
               style={{ margin: '0rem 0.4rem 0rem 0.4rem' }}
               orientation='vertical'
               flexItem
             />
-            <ChevronRightIcon />
+            <IconButton onClick={handlenNext}>
+              <ChevronRightIcon />
+            </IconButton>
           </Box>
         </Box>
         <Box
@@ -283,25 +334,21 @@ const OrganizedTrips = () => {
           >
             <Grid item xs={6} sm={3}>
               <Typography variant='h5' mt={1}>
-                April 5 to 29, 2020
+                {new Date(offer.startingDate).toDateString()}
               </Typography>
               <Typography variant='h2' mt={1}>
-                5100$
+                €{offer.price}
               </Typography>
               <Typography variant='text' mt={1}>
-                Popular: Spanish to English, French to English, and
-                Popular: Spanish to English, French to English, and
-                Japanese to English. Other languages:
+                {offer.description}
               </Typography>
             </Grid>
             <Grid item xs={6} sm={2}>
               <Typography variant='h5' mt={1}>
-                April 5 to 29, 2020
+                {offer.stages?.[0].title}
               </Typography>
               <Typography variant='text' mt={1}>
-                Popular: Spanish to English, French to English, and
-                Popular: Spanish to English, French to English, and
-                Japanese to English. Other languages:
+                {offer.stages?.[0].description}
               </Typography>{' '}
             </Grid>
             <Grid item xs={6} sm={2}>
@@ -309,7 +356,7 @@ const OrganizedTrips = () => {
                 {' '}
                 <CardMedia
                   style={{ height: '8rem' }}
-                  image='https://picsum.photos/200/300?random=2'
+                  image={offer.stages?.[0].images?.[0]?.src}
                   title='trip'
                 />
               </Box>
@@ -323,7 +370,10 @@ const OrganizedTrips = () => {
                 }}
               >
                 <Box className={classes.flexLeft}>
-                  <Typography variant='h5'> hotal name</Typography>
+                  <Typography variant='h5'>
+                    {' '}
+                    {offer.stages?.[0]?.accodomodation?.name}
+                  </Typography>
                   <Rating
                     name='simple-controlled'
                     value={rating}
@@ -336,16 +386,11 @@ const OrganizedTrips = () => {
                 <Box className={classes.flexBetween}>
                   <CardMedia
                     style={{ height: '5rem', width: '5rem' }}
-                    image='https://picsum.photos/200/300?random=2'
+                    image={offer.stages?.[0]?.accodomodation?.images?.[0]?.src}
                     title='trip'
                   />
-                  <Typography
-                    variant='text'
-                    style={{ width: '20rem' }}
-                  >
-                    Popular: Spanish to English, French to English,
-                    and Popular: Spanish to English, French to
-                    English, and Japanese to English. Other languages:
+                  <Typography variant='text' style={{ width: '20rem' }}>
+                    {offer.stages?.[0]?.accodomodation?.boardType}
                   </Typography>
                 </Box>
               </Box>
@@ -363,17 +408,21 @@ const OrganizedTrips = () => {
           <Button
             variant='outlined'
             style={{ marginRight: '0.5rem', minWidth: '7rem' }}
+            component={Link}
+            to={`/app/offers/${offer?._id}/edit`}
           >
             {' '}
             Modify
           </Button>
-          <Button
+          {/* <Button
+            component={Link}
+            to={`/app/offers/${offer?._id}/edit`}
             variant='outlined'
             style={{ color: 'red', minWidth: '7rem' }}
           >
             {' '}
             Delete
-          </Button>
+          </Button> */}
         </Box>
       </Box>
       <Box className={classes.main} style={{ minHeight: '25rem' }}>
@@ -386,7 +435,7 @@ const OrganizedTrips = () => {
             margin: '1rem',
           }}
         >
-          <Typography variant='h5'> List of Registrants</Typography>
+          <Typography variant='h5'> List of Travelers</Typography>
           <Box
             style={{
               display: 'flex',
@@ -394,11 +443,8 @@ const OrganizedTrips = () => {
               justifyContent: 'center',
             }}
           >
-            <Typography
-              variant='text'
-              style={{ margin: '0px 3px 0px' }}
-            >
-              Search Client
+            <Typography variant='text' style={{ margin: '0px 3px 0px' }}>
+              Search By Name
             </Typography>
             <SearchIcon style={{ margin: '0px 3px 0px' }} />
             <TextField
@@ -421,34 +467,25 @@ const OrganizedTrips = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Number</TableCell>
-                <TableCell align='right'>Clients</TableCell>
-                <TableCell align='right'>Telephone</TableCell>
-                <TableCell align='right'>Customer Ref</TableCell>
-                <TableCell align='right'>date of creation</TableCell>
-                <TableCell align='right'>Actions</TableCell>
+                <TableCell align='right'>firstName</TableCell>
+                <TableCell align='right'>lastName</TableCell>
+                <TableCell align='right'>dateOfBirth</TableCell>
+                <TableCell align='right'>passportNumber</TableCell>
+                <TableCell align='right'>email</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredItems
-                .slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+              {offer.travelers
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
                   <TableRow key={v4()}>
                     <TableCell component='th' scope='row'>
-                      {row.name}
+                      {row.firstName}
                     </TableCell>
-                    <TableCell align='right'>
-                      {row.calories}
-                    </TableCell>
-                    <TableCell align='right'>{row.fat}</TableCell>
-                    <TableCell align='right'>{row.carbs}</TableCell>
-                    <TableCell align='right'>{row.protein}</TableCell>
-                    <TableCell align='right'>
-                      <Button>Edit</Button>
-                      <Button style={{ color: 'red' }}>Delete</Button>
-                    </TableCell>
+                    <TableCell align='right'>{row.lastName}</TableCell>
+                    <TableCell align='right'>{row.dateOfBirth}</TableCell>
+                    <TableCell align='right'>{row.passportNumber}</TableCell>
+                    <TableCell align='right'>{row.email}</TableCell>
                   </TableRow>
                 ))}
               {emptyRows > 0 && (

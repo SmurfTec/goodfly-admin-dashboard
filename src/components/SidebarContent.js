@@ -61,13 +61,13 @@ const NavItems = [
         color: '#1a73e8',
         bgColor: '#e8f0fe',
       },
-      // {
-      //   id: '/registration',
-      //   labelText: 'Registration Management',
-      //   icon: FiberManualRecord,
-      //   color: '#1a73e8',
-      //   bgColor: '#e8f0fe',
-      // },
+      {
+        id: '/registration',
+        labelText: 'Registration Management',
+        icon: FiberManualRecord,
+        color: '#1a73e8',
+        bgColor: '#e8f0fe',
+      },
       {
         id: '/customtrips',
         labelText: 'CustomTrips Management',
@@ -79,7 +79,7 @@ const NavItems = [
   },
   {
     id: '/reservations',
-    labelText: 'Registration',
+    labelText: 'Reservations',
     icon: BorderColor,
     children: [
       {
