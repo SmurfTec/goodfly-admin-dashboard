@@ -56,7 +56,7 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const TripCard = ({ trip, isSpecialOffer }) => {
+const TripCard = ({ trip, isSpecialOffer, organized }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const {
@@ -79,7 +79,8 @@ const TripCard = ({ trip, isSpecialOffer }) => {
   );
 
   const handleClick = () => {
-    navigate(`/app/offers/${_id}`);
+    if (organized) navigate(`/app/registration/${_id}`);
+    else navigate(`/app/offers/${_id}`);
   };
 
   return (

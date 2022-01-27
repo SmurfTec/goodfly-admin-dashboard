@@ -13,6 +13,16 @@ export const OffersProvider = ({ children }) => {
 
   const [offers, setOffers, , , updateOfferById, removeOffer, ,] = useArray();
 
+  const [
+    offerOrganizeds,
+    setOfferOrganizeds,
+    ,
+    ,
+    updateOfferOrganizedById,
+    removeOfferOrganized,
+    ,
+  ] = useArray();
+
   const [customOffers, setCustomOffers, , , updateCustomOfferById, , ,] =
     useArray();
 
@@ -21,8 +31,16 @@ export const OffersProvider = ({ children }) => {
 
   const fetchTrips = async () => {
     try {
-      const resData1 = await makeReq(`/trips/withTravelers`);
+      const resData1 = await makeReq(`/trips`);
       setOffers(resData1.trips);
+    } catch (err) {
+      handleCatch(err);
+    }
+  };
+  const fetchTripsOrganized = async () => {
+    try {
+      const resData1 = await makeReq(`/trips/withTravelers`);
+      setOfferOrganizeds(resData1.trips);
     } catch (err) {
       handleCatch(err);
     }
@@ -52,6 +70,7 @@ export const OffersProvider = ({ children }) => {
     // * If user is logged In , only then fetch data
     if (user) {
       fetchTrips();
+      fetchTripsOrganized();
       fetchCustomTrips();
       fetchTripsComments();
     }
@@ -65,6 +84,9 @@ export const OffersProvider = ({ children }) => {
     isCustom
       ? customOffers?.find((el) => el._id === id)
       : offers?.find((el) => el._id === id);
+
+  const getOrganizedOfferByIndex = (index) =>
+    offerOrganizeds?.find((el, idx) => idx === index);
 
   const deleteTrip = async (id) => {
     try {
@@ -118,7 +140,7 @@ export const OffersProvider = ({ children }) => {
       updateCustomOfferById(id, trip);
       if (purchase) updateOfferById(purchase._id, purchase);
       toast.success('Offer Updated Sucessfully !');
-      navigate('/app/customTrips');
+      if (updatedOffer.status === 'validated') navigate('/app/customTrips');
     } catch (err) {
       handleCatch(err);
     }
@@ -153,6 +175,9 @@ export const OffersProvider = ({ children }) => {
         updateCustomOffer,
         offerComments,
         modifyOfferComment,
+        offerOrganizeds,
+        updateOfferOrganizedById,
+        getOrganizedOfferByIndex,
       }}
     >
       {children}

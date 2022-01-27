@@ -307,7 +307,7 @@ const PrintCustomTrip = React.forwardRef((props, ref) => {
               name='guideAccompany'
               id='guideAccompany'
               value={offer.guideAccompany || ''}
-              onChange={handleTxtChange}
+              // onChange={handleTxtChange}
               label={t('Guide Accompany')}
               variant='standard'
             />

@@ -50,6 +50,7 @@ import FlashSales from 'components/dashboard/Offer/flashSales';
 import Promos from 'components/dashboard/Offer/promos';
 import Chat from 'components/dashboard/Chat';
 import PrintCustomTrip from 'components/dashboard/Trip/PrintCustomTrip';
+import OrganizedOffers from 'components/dashboard/Offer/OrganizedOffers';
 
 export const protechtedRoutes = [
   {
@@ -163,7 +164,8 @@ export const protechtedRoutes = [
           { path: '/:id/edit', element: <ModifyOffer /> },
         ],
       },
-      { path: '/registration', element: <OrganizedTrips /> }, //* ??????
+      { path: '/registration', element: <OrganizedOffers /> }, //* ??????
+      { path: '/registration/:id', element: <OrganizedTrips /> }, //* ??????
 
       //  Other
       // { path: 'account', element: <Account /> },

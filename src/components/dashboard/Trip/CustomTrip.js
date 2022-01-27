@@ -52,6 +52,9 @@ const CustomTrip = () => {
   const handleSave = () => {
     updateCustomOffer(id, { ...offer, status: 'validated' });
   };
+  const handleModify = () => {
+    updateCustomOffer(id, { ...offer });
+  };
 
   const PrintOfferRef = useRef();
 
@@ -85,7 +88,10 @@ const CustomTrip = () => {
                 )}
               </div>
               <div>
-                <SettingsIcon className={classes.icons} />
+                <SettingsIcon
+                  className={classes.icons}
+                  onClick={handleModify}
+                />
                 <DownloadIcon className={classes.icons} onClick={handlePrint} />
                 {offer?.status === 'pending' && (
                   <>

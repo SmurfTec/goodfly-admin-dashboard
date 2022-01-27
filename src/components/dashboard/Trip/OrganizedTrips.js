@@ -28,108 +28,16 @@ import {
   ChevronRight as ChevronRightIcon,
 } from 'react-feather';
 import { OffersContext } from 'Contexts/OffersContext';
-import { useLocation, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import Loading from 'pages/Loading';
 import { Link } from 'react-router-dom';
+import NotFound from '../../../pages/NotFound';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
-const rows = [
-  createData(
-    'Muhammadzain',
-    ' zain@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadali',
-    ' ali@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadusman',
-    ' usman@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadkashif',
-    ' kashif@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadumer',
-    ' umer@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadzain',
-    ' zain@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadali',
-    ' ali@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadusman',
-    ' usman@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadkashif',
-    ' kashif@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadumer',
-    ' umer@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadusman',
-    ' usman@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadkashif',
-    ' kashif@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-  createData(
-    'Muhammadumer',
-    ' umer@gmail.com',
-    '+2233123312334',
-    'GF12333',
-    '11/07/2021'
-  ),
-];
-const styles = makeStyles((theme) => ({
+const styles = makeStyles(() => ({
   main: {
     backgroundColor: '#f2f2f2',
     minHeight: '15rem',
@@ -182,33 +90,38 @@ const styles = makeStyles((theme) => ({
 }));
 
 const OrganizedTrips = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const classes = styles();
-  const { offers } = useContext(OffersContext);
+  const { offerOrganizeds: offers, getOrganizedOfferByIndex } =
+    useContext(OffersContext);
   const [filter, setFilter] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rating, setRating] = React.useState(2);
 
+  const [rows, setRows] = useState([]);
   const [offer, setOffer] = useState();
   const [notFound, setNotFound] = useState();
   const [offerIndex, setOfferIndex] = useState(0);
 
   useEffect(() => {
     if (!offers) return;
+    console.log('id', id);
 
-    offers.every((el, idx) => {
-      if (el.subCategory === 'organized') {
-        setOffer(el);
+    let newOffer = offers.find((el, idx) => {
+      if (el._id === id) {
         setOfferIndex(idx);
-        return false; // * equavalent to break
+        return true;
       }
-      // else {
-
-      // }
-      return true;
+      return false;
     });
-  }, [offers]);
+    if (!newOffer) return setNotFound(true);
+
+    setOffer(newOffer);
+    setRows(newOffer.purchases);
+  }, [offers, id]);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -229,59 +142,32 @@ const OrganizedTrips = () => {
   };
   //  filtered
   useEffect(() => {
+    if (!offer) return;
     setFilteredItems(
-      rows.filter(
-        (row) => row.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+      offer.purchases.filter(
+        (row) =>
+          row.visitor?.fullName?.toLowerCase().indexOf(filter.toLowerCase()) !==
+          -1
       )
     );
   }, [filter]);
 
-  // data must be updated
-  useEffect(() => {
-    setFilteredItems(rows);
-  }, []);
-
   const handlenNext = () => {
-    console.log('next offers', offers);
-    offers.every((el, idx) => {
-      console.log('loop', idx);
-
-      if (idx <= offerIndex) return true;
-      console.log('el.subCategory', el.subCategory);
-      if (el.subCategory === 'organized') {
-        console.log('idx', idx);
-        console.log('offerIndex', offerIndex);
-        setOffer(el);
-        setOfferIndex(idx);
-        return false; // * equavalent to break
-      }
-      // else {
-
-      // }
-      return true;
-    });
+    navigate(`/app/registration/${offers?.[offerIndex + 1]?._id}`);
   };
 
   const handlePrev = () => {
-    let newIndex = offers.findLastIndex((el, idx) => {
-      if (idx >= offerIndex) return false;
+    navigate(`/app/registration/${offers?.[offerIndex - 1]?._id}`);
+  };
 
-      if (el.subCategory === 'organized') {
-        return true; // * equavalent to break
-      }
-      // else {
-
-      // }
-      return false;
-    });
-
-    console.log('newIndex', newIndex);
-    if (newIndex < 0) return;
-    setOffer(offers[newIndex]);
-    setOfferIndex(newIndex);
+  const handleRowClick = (e) => {
+    const { visitorid } = e.currentTarget.dataset;
+    navigate(`/app/customers/edit/${visitorid}`);
   };
 
   if (!offers || !offer) return <Loading noTitle />;
+
+  if (notFound) return <NotFound />;
 
   return (
     <div>
@@ -303,7 +189,7 @@ const OrganizedTrips = () => {
               margin: '1rem',
             }}
           >
-            <IconButton onClick={handlePrev}>
+            <IconButton onClick={handlePrev} disabled={offerIndex === 0}>
               <ChevronLeftIcon />
             </IconButton>
             <Divider
@@ -311,7 +197,10 @@ const OrganizedTrips = () => {
               orientation='vertical'
               flexItem
             />
-            <IconButton onClick={handlenNext}>
+            <IconButton
+              onClick={handlenNext}
+              disabled={offerIndex === offers.length - 1}
+            >
               <ChevronRightIcon />
             </IconButton>
           </Box>
@@ -466,7 +355,6 @@ const OrganizedTrips = () => {
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
-                <TableCell>Number</TableCell>
                 <TableCell align='right'>firstName</TableCell>
                 <TableCell align='right'>lastName</TableCell>
                 <TableCell align='right'>dateOfBirth</TableCell>
@@ -475,17 +363,40 @@ const OrganizedTrips = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {offer.travelers
-                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              {rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
-                  <TableRow key={v4()}>
+                  <TableRow
+                    key={v4()}
+                    data-visitorid={row.visitor?._id}
+                    hover
+                    onClick={handleRowClick}
+                  >
                     <TableCell component='th' scope='row'>
-                      {row.firstName}
+                      {row.visitor
+                        ? row.visitor.firstName
+                        : 'Visitor No Longer Exists'}
                     </TableCell>
-                    <TableCell align='right'>{row.lastName}</TableCell>
-                    <TableCell align='right'>{row.dateOfBirth}</TableCell>
-                    <TableCell align='right'>{row.passportNumber}</TableCell>
-                    <TableCell align='right'>{row.email}</TableCell>
+                    <TableCell align='right'>
+                      {row.visitor
+                        ? row.visitor.lastName
+                        : 'Visitor No Longer Exists'}
+                    </TableCell>
+                    <TableCell align='right'>
+                      {row.visitor
+                        ? new Date(row.visitor.dateOfBirth).toLocaleDateString()
+                        : 'Visitor No Longer Exists'}
+                    </TableCell>
+                    <TableCell align='right'>
+                      {row.visitor
+                        ? row.visitor.passportNumber
+                        : 'Visitor No Longer Exists'}
+                    </TableCell>
+                    <TableCell align='right'>
+                      {row.visitor
+                        ? row.visitor.email
+                        : 'Visitor No Longer Exists'}
+                    </TableCell>
                   </TableRow>
                 ))}
               {emptyRows > 0 && (
