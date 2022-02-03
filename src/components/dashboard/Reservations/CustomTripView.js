@@ -2,12 +2,8 @@ import { makeStyles } from '@material-ui/styles';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import {
-  Button,
-  TextField,
-  Typography,
-  Box,
-} from '@material-ui/core';
+import { Button, TextField, Typography, Box } from '@material-ui/core';
+import { getMuiDateFormat } from 'utils/dateMethods';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -36,35 +32,31 @@ const CustomTripView = ({ offer }) => {
       }}
     >
       {!offer && (
-        <Typography variant='h5'>
-          {t('Offer No Longer Exists')}
-        </Typography>
+        <Typography variant='h5'>{t('Offer No Longer Exists')}</Typography>
       )}
       {offer && (
         <>
           <Box>
-            <Typography variant='h6'>
-              {t('Contact Details')}
-            </Typography>
+            <Typography variant='h6'>{t('Contact Details')}</Typography>
             <Box className={classes.form}>
               <TextField
-                value={offer.pronoun}
+                value={offer.visitor?.pronoun}
                 name='pronoun'
-                id='standard-basic'
+                id='pronoun'
                 label={t('Civility')}
                 variant='standard'
               />
               <TextField
                 name='firstName'
-                value={offer.firstName}
-                id='standard-basic'
+                id='firstName'
+                value={offer.visitor?.firstName}
                 label={t('First Name')}
                 variant='standard'
               />
               <TextField
                 name='lastName'
-                value={offer.lastName}
-                id='standard-basic'
+                id='lastName'
+                value={offer.visitor?.lastName}
                 label={t('Last Name')}
                 variant='standard'
               />
@@ -72,22 +64,22 @@ const CustomTripView = ({ offer }) => {
             <Box className={classes.form}>
               <TextField
                 name='birthDate'
-                value={offer.birthDate}
-                id='standard-basic'
+                id='birthDate'
+                value={getMuiDateFormat(offer.visitor?.birthDate)}
                 label={t('Date of Birth')}
                 variant='standard'
               />
               <TextField
                 name='email'
-                value={offer.email}
-                id='standard-basic'
+                id='email'
+                value={offer.visitor?.email}
                 label={t('Email Address')}
                 variant='standard'
               />
               <TextField
                 name='phone'
-                value={offer.phone}
-                id='standard-basic'
+                id='phone'
+                value={offer.visitor?.phone}
                 label={`${t('Telephone')}/${t('Mobile')}`}
                 variant='standard'
               />
@@ -95,8 +87,8 @@ const CustomTripView = ({ offer }) => {
             <Box className={classes.form}>
               <TextField
                 name='address'
-                value={offer.address}
-                id='standard-basic'
+                id='address'
+                value={offer.visitor?.address}
                 label={t('Address')}
                 variant='standard'
                 style={{ width: '75%' }}
@@ -105,22 +97,22 @@ const CustomTripView = ({ offer }) => {
             <Box className={classes.form}>
               <TextField
                 name='zipCode'
-                value={offer.zipCode}
-                id='standard-basic'
+                id='zipCode'
+                value={offer.visitor?.zipCode}
                 label={t('Postal Code')}
                 variant='standard'
               />
               <TextField
                 name='city'
-                value={offer.city}
-                id='standard-basic'
+                id='city'
+                value={offer.visitor?.city}
                 label={t('City')}
                 variant='standard'
               />
               <TextField
                 name='country'
-                value={offer.country}
-                id='standard-basic'
+                id='country'
+                value={offer.visitor?.country}
                 label={t('Country')}
                 variant='standard'
               />
@@ -132,10 +124,8 @@ const CustomTripView = ({ offer }) => {
             <Box className={classes.form} style={{ width: '42%' }}>
               <TextField
                 name='price'
-                value={
-                  offer.budgetPerPerson * offer.numOfParticipants
-                }
-                id='standard-basic'
+                id='price'
+                value={offer.budgetPerPerson * offer.numOfParticipants}
                 label={t('Total Price')}
                 type='number'
                 variant='standard'
@@ -145,23 +135,23 @@ const CustomTripView = ({ offer }) => {
             <Box className={classes.form}>
               <TextField
                 name='numOfParticipants'
+                id='numOfParticipants'
                 value={offer.numOfParticipants}
                 type='number'
-                id='standard-basic'
                 label={t('Number of Participants')}
                 variant='standard'
               />
               <TextField
                 name='type'
+                id='type'
                 value={offer.type}
-                id='standard-basic'
                 label={t('Type')}
                 variant='standard'
               />
               <TextField
                 name={`${offer.type2 ? 'type2' : 'groupType'}`}
+                id={`${offer.type2 ? 'type2' : 'groupType'}`}
                 value={offer.type2 || offer.groupType}
-                id='standard-basic'
                 label={t('Group Type')}
                 variant='standard'
               />
@@ -172,6 +162,7 @@ const CustomTripView = ({ offer }) => {
             >
               <TextField
                 name='numOfAdults'
+                id='numOfAdults'
                 value={offer.numOfAdults}
                 id='numOfAdults'
                 label={t('Number of Adults')}
@@ -180,6 +171,7 @@ const CustomTripView = ({ offer }) => {
               />
               <TextField
                 name='numOfAdolescants'
+                id='numOfAdolescants'
                 value={offer.numOfAdolescants}
                 id='numOfAdolescants'
                 type='number'
@@ -188,6 +180,7 @@ const CustomTripView = ({ offer }) => {
               />
               <TextField
                 name='numOfChildren'
+                id='numOfChildren'
                 value={offer.numOfChildren}
                 id='numOfChildren'
                 type='number'
@@ -196,6 +189,7 @@ const CustomTripView = ({ offer }) => {
               />
               <TextField
                 name='numOfBabies'
+                id='numOfBabies'
                 value={offer.numOfBabies}
                 id='numOfBabies'
                 type='number'
@@ -206,8 +200,8 @@ const CustomTripView = ({ offer }) => {
             <Box className={classes.form}>
               <TextField
                 name='destination'
+                id='destination'
                 value={offer.destination.join(',')}
-                id='standard-basic'
                 label={t('Destinations')}
                 variant='standard'
                 fullWidth
@@ -216,16 +210,16 @@ const CustomTripView = ({ offer }) => {
             <Box className={classes.form}>
               <TextField
                 name='departureDate'
-                value={offer.departureDate}
-                id='standard-basic'
+                id='departureDate'
+                value={getMuiDateFormat(offer.departureDate)}
                 label={t('Desired Departure')}
                 variant='standard'
                 type='date'
               />
               <TextField
                 name='desiredReturnOn'
-                value={offer.desiredReturnOn}
-                id='standard-basic'
+                id='desiredReturnOn'
+                value={getMuiDateFormat(offer.desiredReturnOn)}
                 label={t('Desired Return Date')}
                 variant='standard'
                 type='date'
@@ -235,16 +229,16 @@ const CustomTripView = ({ offer }) => {
             <Box className={classes.form}>
               <TextField
                 name='year'
+                id='year'
                 value={offer.year}
-                id='standard-basic'
                 label={t('Year')}
                 variant='standard'
                 style={{ width: '30%' }}
               />
               <TextField
                 name='month'
+                id='month'
                 value={offer.month}
-                id='standard-basic'
                 label={t('Month')}
                 variant='standard'
                 style={{ width: '30%' }}
@@ -252,8 +246,8 @@ const CustomTripView = ({ offer }) => {
               />
               <TextField
                 name='duration'
+                id='duration'
                 value={offer.duration}
-                id='standard-basic'
                 label={t('Duration')}
                 variant='standard'
                 style={{ width: '30%' }}
@@ -264,6 +258,7 @@ const CustomTripView = ({ offer }) => {
             <Box className={classes.form}>
               <TextField
                 name='tripType'
+                id='tripType'
                 value={offer.tripType}
                 id='tripType'
                 label={t('Trip Type')}
@@ -275,6 +270,7 @@ const CustomTripView = ({ offer }) => {
             <Box className={classes.form}>
               <TextField
                 name='accomodationType'
+                id='accomodationType'
                 value={offer.accomodationType}
                 id='accomodationType'
                 label={t('Type of Accommodation')}
@@ -283,6 +279,7 @@ const CustomTripView = ({ offer }) => {
               />
               <TextField
                 name='flightsType'
+                id='flightsType'
                 value={offer.flightsType}
                 id='flightsType'
                 label={t('Flight Type')}
@@ -293,6 +290,7 @@ const CustomTripView = ({ offer }) => {
             <Box className={classes.form}>
               <TextField
                 name='meals'
+                id='meals'
                 value={offer.meals}
                 id='meals'
                 label={t('meals')}
@@ -300,6 +298,7 @@ const CustomTripView = ({ offer }) => {
               />
               <TextField
                 name='transportOnSite'
+                id='transportOnSite'
                 value={offer.transportOnSite}
                 id='transportOnSite'
                 label={t('Transport Type')}
@@ -307,6 +306,7 @@ const CustomTripView = ({ offer }) => {
               />
               <TextField
                 name='guideAccompany'
+                id='guideAccompany'
                 value={offer.guideAccompany}
                 id='guideAccompany'
                 label={t('Guide Accompany')}
@@ -316,16 +316,15 @@ const CustomTripView = ({ offer }) => {
             <Box className={classes.form}>
               <TextField
                 name='budget'
-                value={
-                  offer.budgetPerPerson * offer.numOfParticipants
-                }
-                id='standard-basic'
+                id='budget'
+                value={offer.budgetPerPerson * offer.numOfParticipants}
                 label={t('Global Budget')}
                 variant='standard'
                 style={{ width: '30%' }}
               />
               <TextField
                 name='conatactClient'
+                id='conatactClient'
                 value={offer.phone}
                 id='conatactClient'
                 label={t('Contact Client')}

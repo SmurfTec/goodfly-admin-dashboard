@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
 
   const [token, setToken] = useState(tokenLocal);
   const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     getMe();
@@ -29,6 +30,7 @@ export const AuthProvider = ({ children }) => {
       // console.log(`res`, res);
 
       setUser(res.user);
+      setIsLoggedIn(true);
     } catch (err) {
       setToken(null);
       localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
@@ -64,12 +66,14 @@ export const AuthProvider = ({ children }) => {
     setTimeout(() => {
       setToken(tk);
       setUser(us);
+      setIsLoggedIn(true);
     }, 1000);
   };
 
   const logoutUser = () => {
     setToken(null);
     setUser(null);
+    setIsLoggedIn(false);
 
     localStorage.removeItem('user');
     localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);

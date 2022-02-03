@@ -46,11 +46,16 @@ export default function CommentDetails(props) {
           variant='body1'
           style={{ marginBottom: '2rem', cursor: 'pointer' }}
         >
-          {t('Visitor')} :{comment?.user?.fullName || 'Visitor maybe deleted'}
+          {t('Visitor')} :
+          {comment?.user?.fullName ||
+            comment?.visitor?.fullName ||
+            'Visitor maybe deleted'}
         </Typography>
 
         <Typography variant='subtitl2'>{t('Comment')}</Typography>
-        <Typography variant='body1'>{comment?.text}</Typography>
+        <Typography variant='body1'>
+          {comment?.text || comment?.comment}
+        </Typography>
       </DialogContent>
       <DialogActions>
         <Button variant='contained' color='info' onClick={toggleDialog}>

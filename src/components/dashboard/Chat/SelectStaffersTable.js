@@ -13,6 +13,7 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import { visuallyHidden } from '@mui/utils';
 import { StaffersContext } from 'Contexts/StaffersContext';
+import { AuthContext } from 'Contexts/AuthContext';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -103,6 +104,7 @@ EnhancedTableHead.propTypes = {
 };
 
 export default function StaffersTable({ selected, setSelected }) {
+  const { user } = useContext(AuthContext);
   const { staffers, loading } = useContext(StaffersContext);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
@@ -156,6 +158,7 @@ export default function StaffersTable({ selected, setSelected }) {
                  staffers?.slice().sort(getComparator(order, orderBy)) */}
               {stableSort(staffers || [], getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .filter((el) => el._id !== user._id)
                 .map((row, index) => {
                   const isItemSelected = row._id === selected?._id;
                   const labelId = `enhanced-table-checkbox-${index}`;

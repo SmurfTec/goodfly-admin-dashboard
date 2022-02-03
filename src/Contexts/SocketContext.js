@@ -9,7 +9,7 @@ import useArray from 'hooks/useArray';
 export const SocketContext = createContext();
 
 export const SocketProvider = (props) => {
-  const [socket, setSocket] = useState();
+  const [socket, setSocket, isLoggedIn] = useState();
   const { user, setUser, token } = useContext(AuthContext);
 
   const [
@@ -75,19 +75,15 @@ export const SocketProvider = (props) => {
     newSocket.on('connect', () => {
       console.log(`Hurrah Socket ${newSocket.id} Connected`);
     });
-  }, []);
-
-  useEffect(() => {
-    if (!socket) return;
     if (!user || user === null) return;
 
-    socket.on('newNotification', (data) => {
+    newSocket.on('newNotification', (data) => {
       if (data?.newNotification?.isVisitor) return;
       //* update notifications
       setNotifications([data.newNotification, ...notifications]);
     });
 
-    socket.on('newMessage', ({ chatId, message }) => {
+    newSocket.on('newMessage', ({ chatId, message }) => {
       console.log(`newMessage received :`, message);
       console.log(`chatId :`, chatId);
       // * Push New Message to that chat
@@ -102,7 +98,12 @@ export const SocketProvider = (props) => {
         )
       );
     });
-  }, [socket, user]);
+  }, [user]);
+
+  useEffect(() => {
+    // console.log('useEffect Called');
+    if (!socket) return;
+  }, [socket, isLoggedIn]);
 
   const sendNewMessage = (msg, chatId) => {
     console.log(`msg`, msg);
