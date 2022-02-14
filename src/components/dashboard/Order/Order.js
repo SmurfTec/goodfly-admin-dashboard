@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Box,
@@ -42,8 +42,11 @@ import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { a11yProps, TabPanel } from 'components/common/TabPanel';
 import { OrderContext } from 'Contexts/OrderContext';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import PrintOrder from './PrintOrder';
+import { useToggleInput } from 'hooks';
+import { useReactToPrint } from 'react-to-print';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -135,6 +138,7 @@ const Order = () => {
   const { id } = useParams();
 
   const [loading, setLoading] = useState(true);
+  const [isPrintOpen, togglePrintOpen] = useToggleInput(false);
 
   const [value, setValue] = useState(0);
   const [statusSwitch, setStatusSwitch] = useState(true);
@@ -145,6 +149,8 @@ const Order = () => {
   const [deliveryMethod, setDeliveryMethod] = useState('');
   const [relayPoints, setRelayPoints] = useState('');
   const [manualPayment, setManualPayment] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const order = getOrderById(id);
@@ -161,12 +167,15 @@ const Order = () => {
     modifyOrder(id, { status: orderStatus });
   };
 
+  const handleCancell = (e) => {
+    e.preventDefault();
+    modifyOrder(id, { status: 'cancelled' });
+  };
+
   const handleOrderStatus = (event) => {
     setOrderStatus(event.target.value);
   };
-  const handleDeliveryMethod = (event) => {
-    setDeliveryMethod(event.target.value);
-  };
+
   const handleRelayPoints = (event) => {
     setRelayPoints(event.target.value);
   };
@@ -184,6 +193,15 @@ const Order = () => {
   const closeManualPayment = () => {
     setManualPayment(false);
   };
+
+  const PrintPurchaseRef = useRef();
+
+  const handlePrint = useReactToPrint({
+    content: () => PrintPurchaseRef.current,
+    onAfterPrint: () => {
+      togglePrintOpen();
+    },
+  });
 
   return (
     <div>
@@ -232,6 +250,7 @@ const Order = () => {
                     <MenuItem value='inProgress'>{t('InProgress')}</MenuItem>
                     <MenuItem value='dispatched'>{t('Dispatched')}</MenuItem>
                     <MenuItem value='delivered'>{t('Delivered')}</MenuItem>
+                    <MenuItem value='cancelled'>{t('Cancelled')}</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
@@ -246,9 +265,23 @@ const Order = () => {
                 }}
               >
                 <Box>
-                  <SidebarIcon className={classes.icons} />
-                  <PrintIcon className={classes.icons} />
-                  <Trash2Icon className={classes.icons} />
+                  <SidebarIcon
+                    className={classes.icons}
+                    onClick={() => navigate('/app/products')}
+                  />
+                  <PrintIcon
+                    className={classes.icons}
+                    onClick={() => {
+                      togglePrintOpen();
+                      setTimeout(() => {
+                        handlePrint();
+                      }, 500);
+                    }}
+                  />
+                  <Trash2Icon
+                    className={classes.icons}
+                    onClick={handleCancell}
+                  />
                   <PlayIcon className={classes.icons} onClick={handleSubmit} />
                 </Box>
               </Box>
@@ -257,369 +290,375 @@ const Order = () => {
 
           {/*  map the Product */}
 
-          <Box className={classes.options}>
-            <TabPanel value={value} index={0}>
-              {singleOrder &&
-                singleOrder.orderItems?.map((order, index) => (
-                  <Box
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'left',
-                      margin: '1.5rem 1rem 1rem',
-                    }}
-                    key={order.index}
-                  >
+          {isPrintOpen ? (
+            <PrintOrder order={singleOrder} ref={PrintPurchaseRef} />
+          ) : (
+            <Box className={classes.options}>
+              <TabPanel value={value} index={0}>
+                {singleOrder &&
+                  singleOrder.orderItems?.map((order, index) => (
                     <Box
                       style={{
-                        border: '1px solid #c6c6c6',
                         display: 'flex',
+                        justifyContent: 'left',
+                        margin: '1.5rem 1rem 1rem',
                       }}
+                      key={order.index}
                     >
-                      <CardMedia
-                        style={{
-                          height: '9.5rem',
-                          width: lgDown ? '7rem' : '8rem',
-                        }}
-                        image={order.product.images[0].image}
-                        title='product'
-                      />
                       <Box
                         style={{
-                          width: lgDown ? '20rem' : '25rem',
                           border: '1px solid #c6c6c6',
+                          display: 'flex',
                         }}
                       >
+                        <CardMedia
+                          style={{
+                            height: '9.5rem',
+                            width: lgDown ? '7rem' : '8rem',
+                          }}
+                          image={order.product.images[0].image}
+                          title='product'
+                        />
                         <Box
                           style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
+                            width: lgDown ? '20rem' : '25rem',
+                            border: '1px solid #c6c6c6',
                           }}
                         >
-                          <Typography variant='h5' m={1}>
-                            {order.product.name} - {order._id}
-                          </Typography>
-
                           <Box
                             style={{
                               display: 'flex',
-                              justifyContent: 'center',
+                              justifyContent: 'space-between',
                               alignItems: 'center',
                             }}
                           >
-                            <Typography variant='text'>
-                              {order.status}
+                            <Typography variant='h5' m={1}>
+                              {order.product.name} - {order._id}
                             </Typography>
-                            <Switch
-                              checked={statusSwitch}
-                              onChange={toggle}
-                              inputProps={{
-                                'aria-label': 'controlled',
+
+                            <Box
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
                               }}
-                              className={classes.greenSwitch}
-                            />
+                            >
+                              <Typography variant='text'>
+                                {order.status}
+                              </Typography>
+                              <Switch
+                                checked={statusSwitch}
+                                onChange={toggle}
+                                inputProps={{
+                                  'aria-label': 'controlled',
+                                }}
+                                className={classes.greenSwitch}
+                              />
+                            </Box>
                           </Box>
-                        </Box>
-                        <Box style={{ backgroundColor: '#f2f2f2' }}>
-                          <Box
-                            style={{
-                              height: '7rem',
-                              display: 'inline-block',
-                              padding: '3%',
-                            }}
-                          >
-                            <Typography variant='text'>
-                              {order.product.description}
-                            </Typography>
+                          <Box style={{ backgroundColor: '#f2f2f2' }}>
+                            <Box
+                              style={{
+                                height: '7rem',
+                                display: 'inline-block',
+                                padding: '3%',
+                              }}
+                            >
+                              <Typography variant='text'>
+                                {order.product.description}
+                              </Typography>
+                            </Box>
                           </Box>
                         </Box>
                       </Box>
-                    </Box>
-                    <Box
-                      style={{
-                        border: '1px solid #c6c6c6',
-                      }}
-                      ml={5}
-                    >
-                      <Typography variant='h5' m={2}>
-                        {t('Order Quantity')}:
-                      </Typography>
-                      <Typography
-                        variant='h1'
-                        m={2}
-                        style={{ textAlign: 'center' }}
+                      <Box
+                        style={{
+                          border: '1px solid #c6c6c6',
+                        }}
+                        ml={5}
                       >
-                        {order.quantity}
-                      </Typography>
+                        <Typography variant='h5' m={2}>
+                          {t('Order Quantity')}:
+                        </Typography>
+                        <Typography
+                          variant='h1'
+                          m={2}
+                          style={{ textAlign: 'center' }}
+                        >
+                          {order.quantity}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
-                ))}
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              {singleOrder &&
-                (singleOrder.visitor ? (
-                  <>
+                  ))}
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                {singleOrder &&
+                  (singleOrder.visitor ? (
+                    <>
+                      <Typography variant='h5'>
+                        {t('Client Ref')} :{singleOrder?.visitor._id}
+                      </Typography>
+                      <Box
+                        mt={3}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-around',
+                        }}
+                      >
+                        <TextField
+                          id='standard-helperText'
+                          label={t('Name')}
+                          value={singleOrder?.visitor.firstName}
+                          variant='outlined'
+                          inputProps={{ readOnly: true }}
+                        />
+                        <TextField
+                          id='standard-helperText'
+                          label={t('First Name')}
+                          value={singleOrder?.visitor.lastName}
+                          variant='outlined'
+                          inputProps={{ readOnly: true }}
+                        />
+                        <TextField
+                          id='standard-helperText'
+                          label={t('Email')}
+                          value={singleOrder?.visitor.email}
+                          variant='outlined'
+                          inputProps={{ readOnly: true }}
+                        />
+                        <TextField
+                          id='standard-helperText'
+                          label={t('Telephone')}
+                          value={singleOrder?.visitor.telephoneNumber}
+                          variant='outlined'
+                          inputProps={{ readOnly: true }}
+                        />
+                      </Box>
+                    </>
+                  ) : (
                     <Typography variant='h5'>
-                      {t('Client Ref')} :{singleOrder?.visitor._id}
+                      {t('Visitor No Longer Exists')}
                     </Typography>
-                    <Box
-                      mt={3}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-around',
-                      }}
-                    >
-                      <TextField
-                        id='standard-helperText'
-                        label={t('Name')}
-                        value={singleOrder?.visitor.firstName}
-                        variant='outlined'
-                        inputProps={{ readOnly: true }}
-                      />
-                      <TextField
-                        id='standard-helperText'
-                        label={t('First Name')}
-                        value={singleOrder?.visitor.lastName}
-                        variant='outlined'
-                        inputProps={{ readOnly: true }}
-                      />
-                      <TextField
-                        id='standard-helperText'
-                        label={t('Email')}
-                        value={singleOrder?.visitor.email}
-                        variant='outlined'
-                        inputProps={{ readOnly: true }}
-                      />
-                      <TextField
-                        id='standard-helperText'
-                        label={t('Telephone')}
-                        value={singleOrder?.visitor.telephoneNumber}
-                        variant='outlined'
-                        inputProps={{ readOnly: true }}
-                      />
-                    </Box>
-                  </>
-                ) : (
-                  <Typography variant='h5'>
-                    {t('Visitor No Longer Exists')}
-                  </Typography>
-                ))}
-              <Box
-                m={3}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
+                  ))}
                 <Box
+                  m={3}
                   style={{
-                    backgroundColor: '#f2f2f2',
-                    width: '45%',
-                    display: 'inline-block',
-                    padding: '3%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
                   }}
                 >
-                  <Typography variant='h4' className={classes.address}>
-                    {t('Shipping Address')}
-                  </Typography>
-                  <Typography className={classes.address}>
-                    <b>{t('Address')}:</b>{' '}
-                    {singleOrder?.shippingAddress?.address}
-                  </Typography>
-                  <Typography className={classes.address}>
-                    <b>{t('Country')}:</b>
-                    {singleOrder?.shippingAddress?.country}
-                  </Typography>
-                  <Typography className={classes.address}>
-                    <b>{t('City')}:</b>
-                    {singleOrder?.shippingAddress?.city}
-                  </Typography>
-                  <Typography className={classes.address}>
-                    <b>{t('Postal Code')}:</b>
-                    {singleOrder?.shippingAddress?.postalCode}
-                  </Typography>
+                  <Box
+                    style={{
+                      backgroundColor: '#f2f2f2',
+                      width: '45%',
+                      display: 'inline-block',
+                      padding: '3%',
+                    }}
+                  >
+                    <Typography variant='h4' className={classes.address}>
+                      {t('Shipping Address')}
+                    </Typography>
+                    <Typography className={classes.address}>
+                      <b>{t('Address')}:</b>{' '}
+                      {singleOrder?.shippingAddress?.address}
+                    </Typography>
+                    <Typography className={classes.address}>
+                      <b>{t('Country')}:</b>
+                      {singleOrder?.shippingAddress?.country}
+                    </Typography>
+                    <Typography className={classes.address}>
+                      <b>{t('City')}:</b>
+                      {singleOrder?.shippingAddress?.city}
+                    </Typography>
+                    <Typography className={classes.address}>
+                      <b>{t('Postal Code')}:</b>
+                      {singleOrder?.shippingAddress?.postalCode}
+                    </Typography>
+                  </Box>
+                  <Box
+                    style={{
+                      backgroundColor: '#f2f2f2',
+                      width: '45%',
+                      display: 'inline-block',
+                      padding: '3%',
+                      // verticalAlign: 'top',
+                    }}
+                  >
+                    <Typography variant='h4' className={classes.address}>
+                      {t('Billing Address')}
+                    </Typography>
+                    <Typography className={classes.address}>
+                      <b>{t('Address')}:</b>{' '}
+                      {singleOrder?.shippingAddress?.address}
+                    </Typography>
+                    <Typography className={classes.address}>
+                      <b>{t('Country')}:</b>
+                      {singleOrder?.shippingAddress?.country}
+                    </Typography>
+                    <Typography className={classes.address}>
+                      <b>{t('City')}:</b>
+                      {singleOrder?.shippingAddress?.city}
+                    </Typography>
+                    <Typography className={classes.address}>
+                      <b>{t('Postal Code')}:</b>
+                      {singleOrder?.shippingAddress?.postalCode}
+                    </Typography>
+                  </Box>
                 </Box>
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                <Typography variant='h5'>
+                  {t('Transport Management')}
+                </Typography>
                 <Box
+                  mt={3}
                   style={{
-                    backgroundColor: '#f2f2f2',
-                    width: '45%',
-                    display: 'inline-block',
-                    padding: '3%',
-                    // verticalAlign: 'top',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-around',
                   }}
                 >
-                  <Typography variant='h4' className={classes.address}>
-                    {t('Billing Address')}
-                  </Typography>
-                  <Typography className={classes.address}>
-                    <b>{t('Address')}:</b>{' '}
-                    {singleOrder?.shippingAddress?.address}
-                  </Typography>
-                  <Typography className={classes.address}>
-                    <b>{t('Country')}:</b>
-                    {singleOrder?.shippingAddress?.country}
-                  </Typography>
-                  <Typography className={classes.address}>
-                    <b>{t('City')}:</b>
-                    {singleOrder?.shippingAddress?.city}
-                  </Typography>
-                  <Typography className={classes.address}>
-                    <b>{t('Postal Code')}:</b>
-                    {singleOrder?.shippingAddress?.postalCode}
-                  </Typography>
-                </Box>
-              </Box>
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-              <Typography variant='h5'>{t('Transport Management')}</Typography>
-              <Box
-                mt={3}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-around',
-                }}
-              >
-                <TextField
-                  id='standard-helperText'
-                  label={t('Delivery Method')}
-                  value={singleOrder?.deliveryMethod}
-                  variant='outlined'
-                  inputProps={{ readOnly: true }}
-                />
-                <TextField
-                  id='standard-helperText'
-                  label={t('Relay Point')}
-                  value={`${singleOrder?.relayPoint?.Pays}-${singleOrder?.relayPoint?.CP}`}
-                  inputProps={{ readOnly: true }}
-                />
+                  <TextField
+                    id='standard-helperText'
+                    label={t('Delivery Method')}
+                    value={singleOrder?.deliveryMethod}
+                    variant='outlined'
+                    inputProps={{ readOnly: true }}
+                  />
+                  <TextField
+                    id='standard-helperText'
+                    label={t('Relay Point')}
+                    value={`${singleOrder?.relayPoint?.Pays}-${singleOrder?.relayPoint?.CP}`}
+                    inputProps={{ readOnly: true }}
+                  />
 
-                <Button variant='contained' style={{ width: '12rem' }}>
-                  {t('ADD A CARRIER')}
-                </Button>
-              </Box>
-              <Box
-                m={3}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                {singleOrder?.deliveryMethod !== 'relay-point' && (
-                  <>
-                    <Box
-                      style={{
-                        backgroundColor: '#f2f2f2',
-                        width: '45%',
-                        display: 'inline-block',
-                        padding: '3%',
-                      }}
-                    >
-                      <Typography variant='h4' className={classes.address}>
-                        {t('Shipping Address')}
-                      </Typography>
-                      <Typography className={classes.address}>
-                        <b>{t('Address')}:</b>{' '}
-                        {singleOrder?.shippingAddress?.address}
-                      </Typography>
-                      <Typography className={classes.address}>
-                        <b>{t('Country')}:</b>
-                        {singleOrder?.shippingAddress?.country}
-                      </Typography>
-                      <Typography className={classes.address}>
-                        <b>{t('City')}:</b>
-                        {singleOrder?.shippingAddress?.city}
-                      </Typography>
-                      <Typography className={classes.address}>
-                        <b>{t('Postal Code')}:</b>
-                        {singleOrder?.shippingAddress?.postalCode}
-                      </Typography>
-                    </Box>
-                    <Box
-                      style={{
-                        backgroundColor: '#f2f2f2',
-                        width: '45%',
-                        display: 'inline-block',
-                        padding: '3%',
-                        // verticalAlign: 'top',
-                      }}
-                    >
-                      <Typography variant='h4' className={classes.address}>
-                        {t('Billing Address')}
-                      </Typography>
-                      <Typography className={classes.address}>
-                        <b>{t('Address')}:</b>{' '}
-                        {singleOrder?.shippingAddress?.address}
-                      </Typography>
-                      <Typography className={classes.address}>
-                        <b>{t('Country')}:</b>
-                        {singleOrder?.shippingAddress?.country}
-                      </Typography>
-                      <Typography className={classes.address}>
-                        <b>{t('City')}:</b>
-                        {singleOrder?.shippingAddress?.city}
-                      </Typography>
-                      <Typography className={classes.address}>
-                        <b>{t('Postal Code')}:</b>
-                        {singleOrder?.shippingAddress?.postalCode}
-                      </Typography>
-                    </Box>
-                  </>
-                )}
-              </Box>
-              <Box
-                style={{
-                  display: 'flex',
-                  justifyContent: 'right',
-                  margin: '1rem',
-                }}
-              >
-                <Button variant='contained' style={{ marginRight: '1rem' }}>
-                  {t('DOWNLOAD THE PACKAGING SLIP')}
-                </Button>
-                <Button variant='contained' onClick={handleSubmit}>
-                  {t('VALIDATE THE MODIFICATIONS')}
-                </Button>
-              </Box>
-            </TabPanel>
-            <TabPanel value={value} index={3}>
-              <TableContainer component={Paper} className={classes.table}>
-                <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>{t('Payment')}</TableCell>
-                      <TableCell align='right'>{t('Type')}</TableCell>
-                      <TableCell align='right'>
-                        {t('Transaction Date')}
-                      </TableCell>
-                      <TableCell align='right'>
-                        {t('Transaction Amount')}
-                      </TableCell>
-                      <TableCell align='right'>
-                        {t('Transaction Status')}
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {rows.map((row, index) => (
-                      <TableRow key={row.name}>
-                        <TableCell component='th' scope='row'>
-                          {row.name}
+                  <Button variant='contained' style={{ width: '12rem' }}>
+                    {t('ADD A CARRIER')}
+                  </Button>
+                </Box>
+                <Box
+                  m={3}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  {singleOrder?.deliveryMethod !== 'relay-point' && (
+                    <>
+                      <Box
+                        style={{
+                          backgroundColor: '#f2f2f2',
+                          width: '45%',
+                          display: 'inline-block',
+                          padding: '3%',
+                        }}
+                      >
+                        <Typography variant='h4' className={classes.address}>
+                          {t('Shipping Address')}
+                        </Typography>
+                        <Typography className={classes.address}>
+                          <b>{t('Address')}:</b>{' '}
+                          {singleOrder?.shippingAddress?.address}
+                        </Typography>
+                        <Typography className={classes.address}>
+                          <b>{t('Country')}:</b>
+                          {singleOrder?.shippingAddress?.country}
+                        </Typography>
+                        <Typography className={classes.address}>
+                          <b>{t('City')}:</b>
+                          {singleOrder?.shippingAddress?.city}
+                        </Typography>
+                        <Typography className={classes.address}>
+                          <b>{t('Postal Code')}:</b>
+                          {singleOrder?.shippingAddress?.postalCode}
+                        </Typography>
+                      </Box>
+                      <Box
+                        style={{
+                          backgroundColor: '#f2f2f2',
+                          width: '45%',
+                          display: 'inline-block',
+                          padding: '3%',
+                          // verticalAlign: 'top',
+                        }}
+                      >
+                        <Typography variant='h4' className={classes.address}>
+                          {t('Billing Address')}
+                        </Typography>
+                        <Typography className={classes.address}>
+                          <b>{t('Address')}:</b>{' '}
+                          {singleOrder?.shippingAddress?.address}
+                        </Typography>
+                        <Typography className={classes.address}>
+                          <b>{t('Country')}:</b>
+                          {singleOrder?.shippingAddress?.country}
+                        </Typography>
+                        <Typography className={classes.address}>
+                          <b>{t('City')}:</b>
+                          {singleOrder?.shippingAddress?.city}
+                        </Typography>
+                        <Typography className={classes.address}>
+                          <b>{t('Postal Code')}:</b>
+                          {singleOrder?.shippingAddress?.postalCode}
+                        </Typography>
+                      </Box>
+                    </>
+                  )}
+                </Box>
+                <Box
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'right',
+                    margin: '1rem',
+                  }}
+                >
+                  <Button variant='contained' style={{ marginRight: '1rem' }}>
+                    {t('DOWNLOAD THE PACKAGING SLIP')}
+                  </Button>
+                  <Button variant='contained' onClick={handleSubmit}>
+                    {t('VALIDATE THE MODIFICATIONS')}
+                  </Button>
+                </Box>
+              </TabPanel>
+              <TabPanel value={value} index={3}>
+                <TableContainer component={Paper} className={classes.table}>
+                  <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>{t('Payment')}</TableCell>
+                        <TableCell align='right'>{t('Type')}</TableCell>
+                        <TableCell align='right'>
+                          {t('Transaction Date')}
                         </TableCell>
-                        <TableCell align='right'>{row.calories}</TableCell>
-                        <TableCell align='right'>{row.fat}</TableCell>
-                        <TableCell align='right'>{row.carbs}</TableCell>
-                        <TableCell align='right'>{row.protein}</TableCell>
+                        <TableCell align='right'>
+                          {t('Transaction Amount')}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {t('Transaction Status')}
+                        </TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </TabPanel>
-          </Box>
+                    </TableHead>
+                    <TableBody>
+                      {rows.map((row, index) => (
+                        <TableRow key={row.name}>
+                          <TableCell component='th' scope='row'>
+                            {row.name}
+                          </TableCell>
+                          <TableCell align='right'>{row.calories}</TableCell>
+                          <TableCell align='right'>{row.fat}</TableCell>
+                          <TableCell align='right'>{row.carbs}</TableCell>
+                          <TableCell align='right'>{row.protein}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </TabPanel>
+            </Box>
+          )}
         </Box>
       </Box>
 
